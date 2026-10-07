@@ -1,6 +1,7 @@
 import { Search } from 'lucide-react'
 import { useId, useState } from 'react'
 
+import content from '@/content.json'
 import quizMascot from '@/assets/quiz-mascot.svg'
 import { Placeholder } from '@/components/placeholder'
 import { Button } from '@/components/ui/button'
@@ -9,24 +10,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Separator } from '@/components/ui/separator'
 
 // Only the first of the three questions is designed so far.
-const question = {
-  prompt: '如果明天就是 SITCON，你最希望自己的議程現場長什麼樣子？',
-  answers: [
-    {
-      value: 'A',
-      text: '用不長的時間，分享一個最近很想讓大家知道的新資訊、idea 或經驗',
-    },
-    { value: 'B', text: '好好把一個主題從頭到尾講清楚，讓大家完整理解' },
-    {
-      value: 'C',
-      text: '做一件平常不一定做得到的事，沒有一定要得到什麼標準答案',
-    },
-    {
-      value: 'D',
-      text: '顧著自己的攤位，讓大家走過來看看、問問題、互動或實際體驗作品',
-    },
-  ],
-}
+const question = content.session_quiz.question
 
 /** "Which session type suits you?" quiz card. */
 export function SessionQuiz() {
@@ -38,13 +22,13 @@ export function SessionQuiz() {
       <div className="flex flex-wrap items-center gap-2.5 pl-1.25">
         <Search className="mx-2.5 size-12 shrink-0" />
         <div className="grow basis-60 p-2.5">
-          <h3 className="text-h3 font-bold">不知道你適合哪一種議程？</h3>
+          <h3 className="text-h3 font-bold">{content.session_quiz.title}</h3>
           <p className="text-paragraph text-gray">
-            回答 3 個小問題，一起找找適合你的分享方式。
+            {content.session_quiz.description}
           </p>
         </div>
         {/* TODO: behavior is not designed yet (start or reveal the quiz?). */}
-        <Button variant="dark">幫我找議程類型 →</Button>
+        <Button variant="dark">{content.session_quiz.findSession}</Button>
       </div>
 
       <div className="py-2.5 pr-2.5 pl-5">
@@ -79,7 +63,7 @@ export function SessionQuiz() {
         </div>
         <div className="px-2.5 pb-3.75">
           <Placeholder
-            label="佔位"
+            label={content.session_quiz.placeholder}
             className="min-h-0 rounded-lg rounded-tl-sm"
           />
         </div>

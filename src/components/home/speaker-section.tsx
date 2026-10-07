@@ -1,3 +1,4 @@
+import content from '@/content.json'
 import bottomIcon from '@/assets/sitcon-icon-backdrop-bottom.svg'
 import { SessionQuiz } from '@/components/home/session-quiz'
 import { SessionTypeTabs } from '@/components/home/session-type-tabs'
@@ -20,7 +21,7 @@ export function SpeakerSection() {
       <div className="absolute inset-0 -z-10 bg-linear-to-b from-black/0 via-black/36 via-24% to-black/40 to-83%" />
       <div className="mx-auto flex max-w-content flex-col items-center gap-2.5 p-2.5">
         <h2 id="speakers-title" className="text-h2 font-bold">
-          想要成為舞臺上的講者？
+          {content.speaker_section.title}
         </h2>
         <div className="w-full pt-5 pb-2.5">
           <SessionTypeTabs />

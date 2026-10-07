@@ -4,9 +4,28 @@ import { tanstackRouter } from '@tanstack/router-plugin/vite'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 
+import content from './src/content.json' with { type: 'json' }
+
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
+    {
+      name: 'content-html',
+      transformIndexHtml(html) {
+        const title = content.metadata.title.replace(
+          /[&<>"']/g,
+          (character) =>
+            ({
+              '&': '&amp;',
+              '<': '&lt;',
+              '>': '&gt;',
+              '"': '&quot;',
+              "'": '&#39;',
+            })[character]!,
+        )
+        return html.replace('%CFP_TITLE%', title)
+      },
+    },
     // Must come before the React plugin.
     tanstackRouter({ target: 'react', autoCodeSplitting: true }),
     react(),

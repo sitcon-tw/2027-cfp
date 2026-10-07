@@ -1,0 +1,203 @@
+{
+  "site_header": {
+    "homeAlt": "SITCON 首頁",
+    "submission": "徵稿說明",
+    "sponsor": "贊助 SITCON",
+    "about": "關於 SITCON"
+  },
+  "site_footer": {
+    "linksTitle": "連結",
+    "home": "首頁",
+    "theme": "年會主題",
+    "submitGeneral": "一般議程投稿",
+    "submitOpen": "開放式議程投稿",
+    "submitDemo": "Demo 展投稿",
+    "supportTitle": "支持我們",
+    "sponsor": "我要贊助",
+    "prospectus": "索取贊助徵求書",
+    "pastSitesTitle": "歷年主題網站",
+    "contactTitle": "聯絡我們",
+    "email": "contact@sitcon.org",
+    "logoAlt": "SITCON",
+    "nameZh": "學生計算機年會",
+    "nameEn": "Students' Information Technology Conference",
+    "pastYears": [
+      2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2024, 2025,
+      2026
+    ]
+  },
+  "hero": {
+    "eventName": "SITCON 2027",
+    "title": "Call For Papers",
+    "date": "2027/03/13",
+    "venue": "中央研究院人文社會科學館",
+    "attend": "我要參加",
+    "submit": "我要投稿",
+    "sponsor": "我要贊助",
+    "dateTime": "2027-03-13"
+  },
+  "sponsor_section": {
+    "title": "我要贊助",
+    "description": "贊助 SITCON，能直接接觸由學生組成、對程式設計、開源軟體、資訊安全、硬體與社群經營充滿熱情的技術社群，提升品牌在年輕科技人才與開發者中的曝光與好感度，同時支持學生交流、分享作品與探索創新的平台；簡單來說，現在投資 SITCON，未來可能少一個凌晨三點才發現伺服器壞掉的人。",
+    "individual": "個人贊助",
+    "prospectus": "查看贊助募集書"
+  },
+  "session_quiz": {
+    "title": "不知道你適合哪一種議程？",
+    "description": "回答 3 個小問題，一起找找適合你的分享方式。",
+    "findSession": "幫我找議程類型 →",
+    "placeholder": "佔位",
+    "question": {
+      "prompt": "如果明天就是 SITCON，你最希望自己的議程現場長什麼樣子？",
+      "answers": [
+        {
+          "value": "A",
+          "text": "用不長的時間，分享一個最近很想讓大家知道的新資訊、idea 或經驗"
+        },
+        {
+          "value": "B",
+          "text": "好好把一個主題從頭到尾講清楚，讓大家完整理解"
+        },
+        {
+          "value": "C",
+          "text": "做一件平常不一定做得到的事，沒有一定要得到什麼標準答案"
+        },
+        {
+          "value": "D",
+          "text": "顧著自己的攤位，讓大家走過來看看、問問題、互動或實際體驗作品"
+        }
+      ]
+    }
+  },
+  "submission_deadline": {
+    "title": "投稿截止",
+    "countdown": "倒數",
+    "addCalendar": "加入行事曆",
+    "unknownDate": "2027 / ?? / ??",
+    "unknownCountdown": "XX D XX h XX min",
+    "calendarTitle": "SITCON 2027 投稿截止",
+    "units": {
+      "days": "D",
+      "hours": "h",
+      "minutes": "min"
+    }
+  },
+  "speaker_section": {
+    "title": "想要成為舞臺上的講者？"
+  },
+  "index": {
+    "placeholder": "Nathan 詠唱"
+  },
+  "playground": {
+    "title": "Playground",
+    "submission": "徵稿說明",
+    "generalSession": "一般議程",
+    "openSession": "開放式議程",
+    "demoSession": "Demo 展",
+    "sponsor": "贊助 SITCON",
+    "home": "回首頁",
+    "buttonsTitle": "Button",
+    "buttonsHint": "Every variant × size. Tab through them to check the focus ring.",
+    "clickButton": "Click me",
+    "focusableDisabled": "focusableWhenDisabled",
+    "creamButtonsTitle": "Button on cream",
+    "findSession": "幫我找議程類型 →",
+    "mutedButton": "muted",
+    "tabsTitle": "Tabs",
+    "tabsHint": "Arrow keys move focus; Enter or Space activates. 'Disable all' disables Demo 展.",
+    "tabValue": "value: {value}",
+    "radioTitle": "RadioGroup",
+    "radioHint": "Arrow keys move and select. 'Disable all' disables the group.",
+    "answerValue": "value: {value}",
+    "question": "如果明天就是 SITCON，你最希望自己的議程現場長什麼樣子？",
+    "reset": "Reset",
+    "cardsTitle": "Card",
+    "cardsHint": "Default rounded-sm; outer corners per the corner rule.",
+    "separatorTitle": "Separator",
+    "left": "left",
+    "right": "right",
+    "placeholderTitle": "Placeholder",
+    "placeholder": "Nathan 詠唱",
+    "typographyTitle": "Typography",
+    "typographyHint": "Every text-* token.",
+    "displayExample": "display",
+    "h1Example": "h1 我要贊助",
+    "eyebrowExample": "eyebrow SITCON 2027",
+    "h2Example": "h2 甚麼是 SITCON ?",
+    "h3Example": "h3 一般議程",
+    "leadExample": "lead 加入行事曆",
+    "paragraphExample": "paragraph 段落文字",
+    "subheadingExample": "subheading 連結",
+    "bodyExample": "body 首頁",
+    "captionExample": "caption 學生計算機年會",
+    "numericExample": "numeric 2027 / 03 / 13",
+    "enableAll": "Enable all",
+    "disableAll": "Disable all",
+    "linkExample": "<a> via buttonVariants",
+    "iconButton": "Icon button {number}",
+    "noAnswer": "null",
+    "clickReadout": "clicks: {clicks} · disabled: {disabled}",
+    "booleanLabels": {
+      "true": "true",
+      "false": "false"
+    },
+    "sessionIntro": "「{title}」的介紹文字。",
+    "verticalReadout": "orientation=\"vertical\"",
+    "variants": {
+      "red": "red",
+      "blue": "blue",
+      "green": "green",
+      "cream": "cream",
+      "muted": "muted",
+      "dark": "dark",
+      "outline": "outline"
+    },
+    "sizes": {
+      "md": "md",
+      "lg": "lg",
+      "icon": "icon"
+    },
+    "tones": {
+      "cream": "cream",
+      "light": "light",
+      "gray": "gray",
+      "ink": "ink"
+    },
+    "sessionValues": {
+      "general": "general",
+      "open": "open",
+      "demo": "demo"
+    }
+  },
+  "sessions": {
+    "generalTitle": "一般議程",
+    "generalSummary": "40 分鐘 / 10 分鐘深度分享",
+    "openTitle": "開放式議程",
+    "openSummary": "40 分鐘 / 90 分鐘互動",
+    "demoTitle": "Demo 展",
+    "demoSummary": "現場展示你的作品",
+    "generalDescription": "SITCON 的一般議程聚集來自學生、開發者與科技社群的分享，從軟體開發、資訊安全、開源、硬體，到社群經營與個人經驗，涵蓋各種與資訊科技相關的主題。每場演講不只是技術教學，也常包含講者實際參與專案、解決問題與探索技術的經驗，讓參與者能從不同角度認識技術與社群。",
+    "introPlaceholder": "{title}介紹"
+  },
+  "social": {
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "telegram": "Telegram",
+    "flickr": "Flickr",
+    "youtube": "YouTube"
+  },
+  "links": {
+    "placeholder": "#",
+    "contactEmail": "mailto:contact@sitcon.org",
+    "facebook": "https://www.facebook.com/SITCON.tw",
+    "instagram": "https://www.instagram.com/sitcon.tw",
+    "telegram": "https://t.me/SITCONtw",
+    "flickr": "https://www.flickr.com/photos/sitcon",
+    "youtube": "https://www.youtube.com/@SITCONtw",
+    "pastSite": "https://sitcon.org/{year}/",
+    "calendar": "https://calendar.google.com/calendar/render"
+  },
+  "metadata": {
+    "title": "2027 CFP"
+  }
+}

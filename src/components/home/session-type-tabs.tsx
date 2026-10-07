@@ -1,3 +1,4 @@
+import content from '@/content.json'
 import { Placeholder } from '@/components/placeholder'
 import { Tabs, TabsList, TabsPanel, TabsTab } from '@/components/ui/tabs'
 import { sessionTypes, type SessionType } from '@/lib/session-types'
@@ -45,7 +46,7 @@ function SessionTypeIntro({ type }: { type: SessionType }) {
   if (!type.intro) {
     return (
       <Placeholder
-        label={`${type.title}介紹`}
+        label={content.sessions.introPlaceholder.replace('{title}', type.title)}
         className="flex-1 rounded-b-xl md:rounded-tr-xl md:rounded-bl-sm"
       />
     )

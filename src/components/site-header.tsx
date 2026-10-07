@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router'
 
+import content from '@/content.json'
 import sitconWordmark from '@/assets/sitcon-wordmark.svg'
 import {
   NavigationMenu,
@@ -25,12 +26,14 @@ export function SiteHeader({ className }: { className?: string }) {
           to="/"
           className="rounded-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
         >
-          <img src={sitconWordmark} alt="SITCON 首頁" />
+          <img src={sitconWordmark} alt={content.site_header.homeAlt} />
         </Link>
         <NavigationMenu>
           <NavigationMenuList className="p-2.5">
             <NavigationMenuItem>
-              <NavigationMenuTrigger>徵稿說明</NavigationMenuTrigger>
+              <NavigationMenuTrigger>
+                {content.site_header.submission}
+              </NavigationMenuTrigger>
               <NavigationMenuContent>
                 {sessionTypes.map(({ id, title }) => (
                   <NavigationMenuLink key={id} href={links.sessions[id]}>
@@ -41,12 +44,12 @@ export function SiteHeader({ className }: { className?: string }) {
             </NavigationMenuItem>
             <NavigationMenuItem>
               <NavigationMenuLink topLevel href="/#sponsor">
-                贊助 SITCON
+                {content.site_header.sponsor}
               </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
               <NavigationMenuLink topLevel href={links.about}>
-                關於 SITCON
+                {content.site_header.about}
               </NavigationMenuLink>
             </NavigationMenuItem>
           </NavigationMenuList>

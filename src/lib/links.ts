@@ -1,7 +1,8 @@
+import content from '@/content.json'
 // Every outbound destination in one place, so pages and the shell share them.
 
 /** Stand-in for destinations whose page or URL is not decided yet. */
-export const TODO_HREF = '#'
+export const TODO_HREF = content.links.placeholder
 
 export const links = {
   tickets: TODO_HREF,
@@ -19,14 +20,15 @@ export const links = {
   },
   sponsorIndividual: TODO_HREF,
   sponsorProspectus: TODO_HREF,
-  contactEmail: 'mailto:contact@sitcon.org',
-  pastSite: (year: number) => `https://sitcon.org/${year}/`,
+  contactEmail: content.links.contactEmail,
+  pastSite: (year: number) =>
+    content.links.pastSite.replace('{year}', String(year)),
   // TODO: verify each account with the organizers.
   social: {
-    facebook: 'https://www.facebook.com/SITCON.tw',
-    instagram: 'https://www.instagram.com/sitcon.tw',
-    telegram: 'https://t.me/SITCONtw',
-    flickr: 'https://www.flickr.com/photos/sitcon',
-    youtube: 'https://www.youtube.com/@SITCONtw',
+    facebook: content.links.facebook,
+    instagram: content.links.instagram,
+    telegram: content.links.telegram,
+    flickr: content.links.flickr,
+    youtube: content.links.youtube,
   },
 } as const

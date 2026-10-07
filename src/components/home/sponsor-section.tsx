@@ -1,5 +1,6 @@
 import { Coffee } from 'lucide-react'
 
+import content from '@/content.json'
 import { buttonVariants } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
@@ -17,7 +18,7 @@ export function SponsorSection() {
       <SlantedEdge />
       <div className="relative mx-auto flex max-w-content flex-col gap-2.5 p-2.5">
         <h2 id="sponsor-title" className="text-h1 font-extrabold">
-          我要贊助
+          {content.sponsor_section.title}
         </h2>
         <Separator className="rounded-full bg-background/50 data-[orientation=horizontal]:h-0.75" />
         <div className="py-2.5">
@@ -28,22 +29,20 @@ export function SponsorSection() {
             />
             <div className="relative flex flex-col gap-2.5 p-5">
               <p className="text-paragraph">
-                贊助
-                SITCON，能直接接觸由學生組成、對程式設計、開源軟體、資訊安全、硬體與社群經營充滿熱情的技術社群，提升品牌在年輕科技人才與開發者中的曝光與好感度，同時支持學生交流、分享作品與探索創新的平台；簡單來說，現在投資
-                SITCON，未來可能少一個凌晨三點才發現伺服器壞掉的人。
+                {content.sponsor_section.description}
               </p>
               <div className="flex flex-wrap justify-end gap-5 py-2.5">
                 <a
                   href={links.sponsorIndividual}
                   className={buttonVariants({ variant: 'cream' })}
                 >
-                  個人贊助
+                  {content.sponsor_section.individual}
                 </a>
                 <a
                   href={links.sponsorProspectus}
                   className={buttonVariants({ variant: 'cream' })}
                 >
-                  查看贊助募集書
+                  {content.sponsor_section.prospectus}
                 </a>
               </div>
             </div>
