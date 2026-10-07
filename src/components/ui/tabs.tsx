@@ -19,6 +19,10 @@ export function Tabs({
   )
 }
 
+/**
+ * A row of tiles that reads as one shape: outer corners `xl`, inner corners
+ * `sm` (the corner rule in AGENTS.md).
+ */
 export function TabsList({
   className,
   ...props
@@ -26,7 +30,7 @@ export function TabsList({
   return (
     <BaseTabs.List
       className={cn(
-        'flex gap-5 data-[orientation=vertical]:flex-col',
+        'flex gap-2.5 data-[orientation=vertical]:flex-col',
         className,
       )}
       {...props}
@@ -35,8 +39,8 @@ export function TabsList({
 }
 
 /**
- * Cream tile. The active state is not in Figma yet — inactive tiles are dimmed
- * as a proposal.
+ * One tile. The active state is not in Figma yet — active is cream, inactive
+ * is gray as a proposal.
  */
 export function TabsTab({
   className,
@@ -45,7 +49,9 @@ export function TabsTab({
   return (
     <BaseTabs.Tab
       className={cn(
-        'flex w-full cursor-pointer items-center gap-2.5 rounded-sm bg-foreground px-5 py-4 text-left text-background opacity-60 transition select-none hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue data-active:opacity-100 data-disabled:cursor-not-allowed data-disabled:opacity-40',
+        'flex min-h-control flex-1 cursor-pointer items-center justify-center rounded-sm bg-gray px-5 py-2.5 text-center text-paragraph leading-normal font-bold text-foreground transition select-none hover:brightness-125 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue data-active:bg-foreground data-active:text-background data-active:hover:brightness-100 data-disabled:cursor-not-allowed data-disabled:opacity-50',
+        'data-[orientation=horizontal]:first:rounded-l-xl data-[orientation=horizontal]:last:rounded-r-xl',
+        'data-[orientation=vertical]:first:rounded-t-xl data-[orientation=vertical]:last:rounded-b-xl',
         className,
       )}
       {...props}
@@ -60,7 +66,7 @@ export function TabsPanel({
   return (
     <BaseTabs.Panel
       className={cn(
-        'flex-1 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue',
+        'outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue',
         className,
       )}
       {...props}
