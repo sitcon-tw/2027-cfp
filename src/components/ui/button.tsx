@@ -16,9 +16,9 @@ const variants = {
 }
 
 const sizes = {
-  md: 'h-[59px] px-7.5 text-paragraph leading-normal',
-  lg: 'h-[86px] px-7.5 text-lead',
-  icon: 'size-[45px] rounded-full [&_svg]:size-6',
+  md: 'h-control px-7.5 text-paragraph leading-normal',
+  lg: 'h-control-lg px-7.5 text-lead',
+  icon: 'size-control-icon rounded-full [&_svg]:size-6',
 }
 
 export type ButtonVariant = keyof typeof variants
