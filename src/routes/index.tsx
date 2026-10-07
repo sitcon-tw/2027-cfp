@@ -1,6 +1,11 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 
-import { buttonVariants } from '@/components/ui/button'
+import { Hero } from '@/components/home/hero'
+import { HomeBackdrop } from '@/components/home/home-backdrop'
+import { SpeakerSection } from '@/components/home/speaker-section'
+import { SponsorSection } from '@/components/home/sponsor-section'
+import { SubmissionDeadline } from '@/components/home/submission-deadline'
+import { Placeholder } from '@/components/placeholder'
 
 export const Route = createFileRoute('/')({
   component: Home,
@@ -8,11 +13,18 @@ export const Route = createFileRoute('/')({
 
 function Home() {
   return (
-    <main className="flex min-h-svh flex-col items-center justify-center gap-5">
-      <h1 className="text-display font-extrabold">2027 CFP</h1>
-      <Link to="/playground" className={buttonVariants({ variant: 'cream' })}>
-        Playground
-      </Link>
+    <main className="overflow-x-clip">
+      <div className="relative isolate pt-header">
+        <HomeBackdrop />
+        <Hero />
+        <SubmissionDeadline />
+        {/* 甚麼是 SITCON ? and 重要時程 */}
+        <div className="px-2.5 py-15">
+          <Placeholder label="Nathan 詠唱" className="mx-auto max-w-content" />
+        </div>
+        <SpeakerSection />
+      </div>
+      <SponsorSection />
     </main>
   )
 }
