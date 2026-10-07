@@ -76,10 +76,15 @@ colors, type scale and radii are **reset**, so `bg-white`, `text-sm`,
   `font-['…']`, `leading-[…]` — are **forbidden**, with no exceptions for
   "one-off" sizes. (Selectors like `data-[orientation=vertical]:` and Base UI
   runtime variables like `h-(--popup-height)` are not sizes and are fine.)
-- **Spacing** comes from the `--spacing` base (Tailwind's 4px scale,
-  declared explicitly in `@theme`). The design is on a 5/10px grid: 10px =
-  `2.5`, 20px = `5`, 30px = `7.5`, 50px = `12.5`. Changing `--spacing`
-  rescales all padding, gaps and spacing-based sizes at once.
+- **Spacing** comes from the `--spacing` base. Write spacing classes from
+  the **Figma px ÷ 4**, as if it were Tailwind's 4px scale. The design is on
+  a 5/10px grid: Figma 10px = `2.5`, 20px = `5`, 30px = `7.5`, 50px =
+  `12.5`. The base is actually 3px, so these render at ×0.75 (see below).
+  Changing `--spacing` rescales all padding, gaps and spacing-based sizes at
+  once.
+- **All size tokens are in `rem`** (px ÷ 16; the px value is in a comment
+  next to each one), so the site follows the browser's font-size setting.
+  Write new size tokens in rem too.
 - **Reuse before adding.** If a value is already a token, use it, even if
   the name doesn't mention your component (tabs use `h-control` and
   `text-paragraph`, just like buttons). Snap values within a few px of an
@@ -89,10 +94,13 @@ colors, type scale and radii are **reset**, so `bg-white`, `text-sm`,
   **semantically** after its role (`control`, `content`), never after its
   value (`59`, `big-2`). Never add a token that has no source in Figma — ask
   instead.
-- **Adding a token** requires all three: (1) add it to `@theme` in
-  `src/index.css`, (2) if it is a new `text-*` size or named `--spacing-*` size, register it in the
+- **Adding a token** requires all of: (1) add it to `@theme` in
+  `src/index.css`, scaled from Figma (see "Figma sizes vs. token sizes"),
+  in rem, plus a mobile override if it should shrink on small screens,
+  (2) if it is a new `text-*` size or named `--spacing-*` size, register it in the
   tailwind-merge config in `src/lib/utils.ts` (otherwise `cn()` drops it when
-  combined with a text color), (3) add it to the tables here.
+  combined with a text color), (3) add it to the tables here with its Figma,
+  desktop and mobile values.
 
 ### Colors
 
@@ -108,22 +116,49 @@ colors, type scale and radii are **reset**, so `bg-white`, `text-sm`,
 The Figma names are kept as-is, so on cream sections the text color is
 `text-background`. That is intended.
 
+### Figma sizes vs. token sizes
+
+Figma is drawn on a 1280px frame with print-scale type (24px body copy,
+80px display), which looks oversized in a browser. The tokens are therefore
+**not** the Figma values: they are scaled to about **×0.75** on desktop,
+with small text (≤ 16px) kept as-is for legibility, and shrink again on
+mobile (below `md`, 48rem) through the overrides at the bottom of
+`src/index.css`.
+
+When implementing from Figma:
+
+- **Map by role, not by number.** A 24px Figma text is `text-paragraph`, a
+  59px control is `h-control`, a 50px corner is `rounded-*-xl`, even though
+  the rendered sizes differ. Use the "Figma" column below to find the token.
+- **Spacing:** keep writing Figma px ÷ 4 (`p-5` for 20px); the 3px base does
+  the scaling.
+- **Do not "fix" a token back to its Figma value**, and do not add a token
+  just because a rendered size doesn't match Figma. Retune the scale in
+  `src/index.css` instead.
+- Responsive sizes live in the tokens. Components don't need `md:text-*`
+  just to resize text for mobile; use breakpoints only for layout.
+- Images rendered at their intrinsic size (SVG logos, backdrop icons, the
+  quiz mascot) don't follow the scale.
+
 ### Typography
 
-| Token             | Size / line height   | Figma             | Use                                        |
-| ----------------- | -------------------- | ----------------- | ------------------------------------------ |
-| `font-sans`       | LINE Seed TW → Inter | —                 | Everything (default)                       |
-| `font-numeric`    | Inter                | Inter Medium      | Dates and countdown digits                 |
-| `text-display`    | 80 / 1.25            | —                 | "Call For Papers"                          |
-| `text-h1`         | 48 / 1               | style `h2`        | Page section headings (重要時程, 我要贊助) |
-| `text-eyebrow`    | 40 / 1               | —                 | "SITCON 2027"                              |
-| `text-h2`         | 36 / 40px            | —                 | Centered section titles (甚麼是 SITCON ?)  |
-| `text-h3`         | 32 / 1.5             | style `h3`        | Card titles                                |
-| `text-lead`       | 28 / normal          | —                 | Large button                               |
-| `text-paragraph`  | 24 / 2               | style `paragraph` | Body copy, buttons, quiz                   |
-| `text-subheading` | 20 / 1.5             | —                 | Footer column titles                       |
-| `text-body`       | 16 / 1.5             | —                 | Navbar, footer links                       |
-| `text-caption`    | 12 / 1.5             | —                 | Footer fine print                          |
+Sizes in px (tokens are rem). Line heights are the same at every size
+unless a mobile value is given.
+
+| Token             | Figma                | Desktop              | Mobile    | Use                                        |
+| ----------------- | -------------------- | -------------------- | --------- | ------------------------------------------ |
+| `font-sans`       | —                    | LINE Seed TW → Inter |           | Everything (default)                       |
+| `font-numeric`    | Inter Medium         | Inter                |           | Dates and countdown digits                 |
+| `text-display`    | 80 / 1.25            | 60                   | 40        | "Call For Papers"                          |
+| `text-h1`         | 48 / 1 (`h2`)        | 36                   | 28        | Page section headings (重要時程, 我要贊助) |
+| `text-eyebrow`    | 40 / 1               | 30                   | 22        | "SITCON 2027"                              |
+| `text-h2`         | 36 / 40px            | 28 / 1.1             | 22        | Centered section titles (甚麼是 SITCON ?)  |
+| `text-h3`         | 32 / 1.5 (`h3`)      | 24                   | 20        | Card titles                                |
+| `text-lead`       | 28 / normal          | 20                   | 18        | Large button                               |
+| `text-paragraph`  | 24 / 2 (`paragraph`) | 18                   | 16 / 1.75 | Body copy, buttons, quiz                   |
+| `text-subheading` | 20 / 1.5             | 18                   | 16        | Footer column titles                       |
+| `text-body`       | 16 / 1.5             | 16                   | 14        | Navbar, footer links                       |
+| `text-caption`    | 12 / 1.5             | 12                   | 12        | Footer fine print                          |
 
 Weights: `font-normal` (400), `font-bold` (700), `font-extrabold` (800).
 `font-medium` is for Inter only.
@@ -134,25 +169,25 @@ downloaded). Do **not** use `emfont.js` or `emfont-*` classes.
 
 ### Radii and layout
 
-| Token           | Value | Use                                            |
-| --------------- | ----- | ---------------------------------------------- |
-| `rounded-*-xs`  | 5px   | The sharp corner of buttons                    |
-| `rounded-*-sm`  | 14px  | Inner corners of grouped tiles; default `Card` |
-| `rounded-*-md`  | 30px  | Button corners                                 |
-| `rounded-*-lg`  | 40px  | Quiz wells and answer pills                    |
-| `rounded-*-xl`  | 50px  | Outer corners of cards                         |
-| `rounded-full`  | —     | Navbar, icon buttons                           |
-| `max-w-content` | 970px | Content column (`mx-auto max-w-content`)       |
+| Token           | Figma | Desktop | Mobile | Use                                            |
+| --------------- | ----- | ------- | ------ | ---------------------------------------------- |
+| `rounded-*-xs`  | 5     | 4       | 4      | The sharp corner of buttons                    |
+| `rounded-*-sm`  | 14    | 10      | 8      | Inner corners of grouped tiles; default `Card` |
+| `rounded-*-md`  | 30    | 22      | 18     | Button corners                                 |
+| `rounded-*-lg`  | 40    | 30      | 24     | Quiz wells and answer pills                    |
+| `rounded-*-xl`  | 50    | 36      | 28     | Outer corners of cards                         |
+| `rounded-full`  | —     | —       | —      | Navbar, icon buttons                           |
+| `max-w-content` | 970   | 970     | 970    | Content column (`mx-auto max-w-content`)       |
 
 ### Sizes
 
-| Token               | Value         | Use                                                              |
-| ------------------- | ------------- | ---------------------------------------------------------------- |
-| `--spacing`         | 0.25rem (4px) | Base of the spacing scale (`p-5`, `gap-2.5`, `size-6`, …)        |
-| `h-control`         | 59px          | Default control height: `Button` md, tab tiles (`min-h-control`) |
-| `h-control-lg`      | 86px          | Large control height: `Button` lg                                |
-| `size-control-icon` | 45px          | Icon-only buttons                                                |
-| `pt-header`         | 126px         | Height of the overlaid site header; pages pad their top with it  |
+| Token               | Figma | Desktop | Mobile | Use                                                                                                   |
+| ------------------- | ----- | ------- | ------ | ----------------------------------------------------------------------------------------------------- |
+| `--spacing`         | 4     | 3       | 3      | Base of the spacing scale (`p-5`, `gap-2.5`, `size-6`, …)                                             |
+| `h-control`         | 59    | 44      | 40     | Default control height: `Button` md, tab tiles (`min-h-control`)                                      |
+| `h-control-lg`      | 86    | 64      | 52     | Large control height: `Button` lg, navbar                                                             |
+| `size-control-icon` | 45    | 36      | 36     | Icon-only buttons                                                                                     |
+| `pt-header`         | 126   | 94      | 82     | Height of the overlaid site header; pages pad their top with it. Derived: `spacing × 10 + control-lg` |
 
 **Corner rule.** Tiles that sit next to each other (side by side or stacked)
 read as one shape: their **outer** corners are `xl` and their **inner**
