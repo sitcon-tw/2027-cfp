@@ -1,12 +1,65 @@
+/* LINE Seed TW via emfont (unicode-range chunked). Must precede other imports. */
+@import url('https://font.emtech.cc/css/LINESeedTW/400');
+@import url('https://font.emtech.cc/css/LINESeedTW/700');
+@import url('https://font.emtech.cc/css/LINESeedTW/800');
 @import 'tailwindcss';
-@import '@fontsource-variable/geist';
+@import '@fontsource-variable/inter';
 
-@theme inline {
-  --font-sans: 'Geist Variable', sans-serif;
+/*
+ * Design tokens — source: Figma "SITCON 2027 CFP 網站".
+ * Tailwind's default colors, type scale and radii are reset so only these
+ * tokens exist. See AGENTS.md before adding or changing anything here.
+ */
+@theme {
+  --color-*: initial;
+  --color-background: #101312;
+  --color-foreground: #f9f5ef;
+  --color-gray: #2b2b2b;
+  --color-light: #e3e0dc;
+  --color-red: #ff625b;
+  --color-blue: #6a74e3;
+  --color-green: #8df280;
+  --color-black: #000000;
+
+  --font-sans: 'LINESeedTW', 'Inter Variable', sans-serif;
+  --font-numeric: 'Inter Variable', sans-serif;
+
+  --text-*: initial;
+  --text-display: 80px;
+  --text-display--line-height: 1.25;
+  --text-h1: 48px;
+  --text-h1--line-height: 1;
+  --text-eyebrow: 40px;
+  --text-eyebrow--line-height: 1;
+  --text-h2: 36px;
+  --text-h2--line-height: 40px;
+  --text-h3: 32px;
+  --text-h3--line-height: 1.5;
+  --text-lead: 28px;
+  --text-lead--line-height: normal;
+  --text-paragraph: 24px;
+  --text-paragraph--line-height: 2;
+  --text-subheading: 20px;
+  --text-subheading--line-height: 1.5;
+  --text-subheading--letter-spacing: 0.015em;
+  --text-body: 16px;
+  --text-body--line-height: 1.5;
+  --text-body--letter-spacing: 0.015em;
+  --text-caption: 12px;
+  --text-caption--line-height: 1.5;
+
+  --radius-*: initial;
+  --radius-xs: 5px;
+  --radius-sm: 14px;
+  --radius-md: 30px;
+  --radius-lg: 40px;
+  --radius-xl: 50px;
+
+  --container-content: 970px;
 }
 
 @layer base {
   html {
-    @apply font-sans;
+    @apply bg-background font-sans text-foreground antialiased;
   }
 }
