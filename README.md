@@ -1,6 +1,6 @@
 # 2027-cfp
 
-React + Vite + Tailwind CSS v4 + shadcn/ui.
+React + Vite + Tailwind CSS v4.
 
 ## Requirements
 
@@ -17,9 +17,3 @@ React + Vite + Tailwind CSS v4 + shadcn/ui.
 | `pnpm check`    | Run typecheck, lint, and format check |
 | `pnpm lint:fix` | Auto-fix lint issues (oxlint)         |
 | `pnpm format`   | Format all files (Prettier)           |
-
-## Adding shadcn/ui components
-
-```sh
-pnpm dlx shadcn@latest add <component>
-```
