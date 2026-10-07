@@ -1,10 +1,15 @@
 import { clsx, type ClassValue } from 'clsx'
 import { extendTailwindMerge } from 'tailwind-merge'
 
-// Register the custom `--text-*` sizes from `src/index.css` so tailwind-merge
-// does not treat `text-paragraph` and `text-foreground` as conflicting.
+// Register the custom tokens from `src/index.css` so tailwind-merge resolves
+// conflicts correctly: `--text-*` sizes (otherwise `text-paragraph` and
+// `text-foreground` look like a conflict) and named `--spacing-*` sizes
+// (otherwise `h-control` and `h-12` both survive).
 const twMerge = extendTailwindMerge({
   extend: {
+    theme: {
+      spacing: ['control', 'control-lg', 'control-icon'],
+    },
     classGroups: {
       'font-size': [
         {

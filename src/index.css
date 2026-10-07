@@ -55,6 +55,13 @@
   --radius-lg: 40px;
   --radius-xl: 50px;
 
+  /* Spacing scale base: p-5 = 5 × this. Changing it rescales all spacing. */
+  --spacing: 0.25rem;
+  /* Interactive control sizes (h-control, h-control-lg, size-control-icon). */
+  --spacing-control: 59px;
+  --spacing-control-lg: 86px;
+  --spacing-control-icon: 45px;
+
   --container-content: 970px;
 }
 
