@@ -231,6 +231,9 @@ design for them. Current placeholders:
 
 - "Nathan 詠唱" — the layer over 甚麼是 SITCON / 重要時程 on the homepage.
 - `佔位` — the footer row of the session-type quiz.
+- Every section of `/sessions/$type`, `/submit/$type` and `/about`. Each
+  component file exists and is wired in place; its issue replaces the
+  placeholder with the real section.
 
 ### Undesigned states
 
