@@ -13,6 +13,23 @@ Run `pnpm check` (typecheck, lint, format check) before finishing a task.
 - Design source: [Figma — SITCON 2027 CFP 網站](https://www.figma.com/design/QJqFwmJCiOPYwdj9eEpEbU/SITCON-2027-CFP-%E7%B6%B2%E7%AB%99)
   (homepage: node `122-336`).
 
+## User-facing content
+
+- **All user-facing literals must live in `src/content.json`.** This is the single
+  file organizers audit and edit: visible copy, button/link labels, image alt
+  text, accessibility labels, placeholders, dates, units, calendar event titles,
+  browser metadata, and playground examples. Outbound URLs also live there.
+- Import it with `import content from '@/content.json'`; reference descriptive
+  keys grouped by section. Reuse existing entries for shared copy.
+- Keep complete sentences in JSON. For dynamic content, use named placeholders
+  such as `{title}` and substitute values in code; do not concatenate hardcoded
+  words or punctuation. Keep markup and layout in React.
+- Technical identifiers (route paths, anchors, CSS classes, state values),
+  calculated numbers, date-format separators, and empty decorative `alt=""`
+  attributes may stay in code. Display labels for technical values belong in JSON.
+- Do not create another copy file or hardcode new copy in TS/TSX/HTML. The HTML
+  title is injected from this JSON by Vite for both development and builds.
+
 ## Where components go
 
 - `src/components/ui/` — reusable UI primitives (button, tabs, dialog, tooltip, …).
