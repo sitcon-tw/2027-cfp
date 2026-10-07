@@ -37,7 +37,7 @@ export function SessionQuiz() {
     <Card className="rounded-xl py-4 pr-7.5 pl-5">
       <div className="flex flex-wrap items-center gap-2.5 pl-1.25">
         <Search className="mx-2.5 size-12 shrink-0" />
-        <div className="flex-1 p-2.5">
+        <div className="grow basis-60 p-2.5">
           <h3 className="text-h3 font-bold">不知道你適合哪一種議程？</h3>
           <p className="text-paragraph text-gray">
             回答 3 個小問題，一起找找適合你的分享方式。
