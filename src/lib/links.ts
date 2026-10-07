@@ -6,17 +6,17 @@ export const TODO_HREF = content.links.placeholder
 
 export const links = {
   tickets: TODO_HREF,
-  about: TODO_HREF,
+  about: '/about',
   theme: TODO_HREF,
   submit: {
-    general: TODO_HREF,
-    open: TODO_HREF,
-    demo: TODO_HREF,
+    general: '/submit/general',
+    open: '/submit/open',
+    demo: '/submit/demo',
   },
   sessions: {
-    general: TODO_HREF,
-    open: TODO_HREF,
-    demo: TODO_HREF,
+    general: '/sessions/general',
+    open: '/sessions/open',
+    demo: '/sessions/demo',
   },
   sponsorIndividual: TODO_HREF,
   sponsorProspectus: TODO_HREF,

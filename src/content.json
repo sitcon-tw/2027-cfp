@@ -88,6 +88,43 @@
   "index": {
     "placeholder": "Nathan 詠唱"
   },
+  "session_page": {
+    "placeholders": {
+      "hero": "{title}頁首",
+      "tabs": "議程類型切換（目前：{title}）",
+      "intro": "{title}介紹卡片",
+      "earlyBird": "早鳥投稿倒數",
+      "presentationExamples": "Presentation 範例",
+      "espressoExamples": "Espresso 範例",
+      "openExamples": "投稿範例",
+      "demoGallery": "歷年展區圖片",
+      "demoPosters": "歷年海報展示",
+      "reviewCriteria": "審稿標準",
+      "beforeSubmission": "投稿前需確認",
+      "requirements": "投稿需要什麼？",
+      "afterSubmission": "投稿後會做什麼？",
+      "faq": "{title} Q&A",
+      "cta": "底部投稿 CTA"
+    }
+  },
+  "about_page": {
+    "placeholders": {
+      "intro": "關於 SITCON 簡介",
+      "photoStrip": "活動照片",
+      "media": "媒體報導",
+      "history": "SITCON 自 2012 年來",
+      "yearInReview": "回顧 2026 年",
+      "activities": "我們舉辦的活動"
+    }
+  },
+  "submit_page": {
+    "placeholders": {
+      "hero": "我要投稿頁首",
+      "tabs": "投稿議程類型切換（目前：{title}）",
+      "form": "{title}投稿表單",
+      "cta": "參考更多稿件"
+    }
+  },
   "playground": {
     "title": "Playground",
     "submission": "徵稿說明",

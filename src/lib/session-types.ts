@@ -3,7 +3,13 @@ import { Mic, TvMinimalPlay, Users, type LucideIcon } from 'lucide-react'
 
 import generalPhoto from '@/assets/session-general.jpg'
 
-export type SessionTypeId = 'general' | 'open' | 'demo'
+export const sessionTypeIds = ['general', 'open', 'demo'] as const
+
+export type SessionTypeId = (typeof sessionTypeIds)[number]
+
+export function isSessionTypeId(value: string): value is SessionTypeId {
+  return (sessionTypeIds as readonly string[]).includes(value)
+}
 
 export interface SessionType {
   id: SessionTypeId
@@ -39,3 +45,7 @@ export const sessionTypes: SessionType[] = [
     icon: TvMinimalPlay,
   },
 ]
+
+export function getSessionType(id: SessionTypeId): SessionType {
+  return sessionTypes.find((type) => type.id === id)!
+}
