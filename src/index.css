@@ -61,6 +61,8 @@
   --spacing-control: 59px;
   --spacing-control-lg: 86px;
   --spacing-control-icon: 45px;
+  /* Height of the site header that overlays the top of every page (pt-header). */
+  --spacing-header: 126px;
 
   --container-content: 970px;
 }

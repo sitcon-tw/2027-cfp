@@ -8,7 +8,7 @@ import { extendTailwindMerge } from 'tailwind-merge'
 const twMerge = extendTailwindMerge({
   extend: {
     theme: {
-      spacing: ['control', 'control-lg', 'control-icon'],
+      spacing: ['control', 'control-lg', 'control-icon', 'header'],
     },
     classGroups: {
       'font-size': [

@@ -152,6 +152,7 @@ downloaded). Do **not** use `emfont.js` or `emfont-*` classes.
 | `h-control`         | 59px          | Default control height: `Button` md, tab tiles (`min-h-control`) |
 | `h-control-lg`      | 86px          | Large control height: `Button` lg                                |
 | `size-control-icon` | 45px          | Icon-only buttons                                                |
+| `pt-header`         | 126px         | Height of the overlaid site header; pages pad their top with it  |
 
 **Corner rule.** Tiles that sit next to each other (side by side or stacked)
 read as one shape: their **outer** corners are `xl` and their **inner**
