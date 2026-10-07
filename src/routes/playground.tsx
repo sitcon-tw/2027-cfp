@@ -93,7 +93,7 @@ function Playground() {
   const [answer, setAnswer] = useState<string | null>(null)
 
   return (
-    <main className="pb-20">
+    <main className="pt-header pb-20">
       <div className="px-2.5 pt-7.5">
         <nav className="mx-auto flex max-w-content items-center justify-between rounded-full bg-black/35 px-10 py-5 backdrop-blur-lg">
           <span className="text-subheading font-bold">Playground</span>
