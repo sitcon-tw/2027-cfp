@@ -1,0 +1,26 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="326.165" height="481.663" viewBox="0 0 326.165 481.663" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="SITCON ICON" opacity="0.2" filter="url(#filter0_n_0_4)">
+<path id="Vector" d="M225.984 14.913C234.551 8.61229 244.294 4.16631 254.61 1.84873C264.926 -0.468834 275.599 -0.608934 285.97 1.43706C285.97 1.43706 280.548 41.2429 253.028 62.6661C225.508 84.0891 186.399 79.0444 186.399 79.0444C192.593 69.2692 198.272 59.1654 203.413 48.7754C208.563 38.824 215.815 22.8602 225.984 14.913Z" fill="#F9F5EF"/>
+<path id="Vector_2" d="M159.966 47.3929C155.961 44.4353 151.406 42.3454 146.58 41.2519C141.754 40.1584 136.759 40.0845 131.903 41.035C133.627 52.1007 139.066 62.213 147.289 69.6454C156.476 75.7992 167.473 78.5107 178.402 77.3162C175.509 72.8493 172.84 68.2363 170.403 63.4949C168.059 57.446 164.505 51.9621 159.966 47.3929Z" fill="#F9F5EF"/>
+<path id="Vector_3" d="M163.078 142.277C166.806 142.277 170.602 142.277 174.331 142.692C169.954 122.473 172.639 101.33 181.922 82.9144C163.959 97.6341 155.216 120.232 150.675 142.83C154.81 142.485 158.943 142.277 163.078 142.277Z" fill="#F9F5EF"/>
+<path id="Vector_4" d="M163.083 149.119C130.828 149.119 99.2967 158.871 72.4789 177.141C45.6593 195.411 24.7576 221.379 12.414 251.761C0.0704169 282.144 -3.15935 315.576 3.13448 347.829C9.42654 380.082 24.9589 409.709 47.7649 432.963C70.5727 456.216 99.6316 472.052 131.266 478.468C162.901 484.883 195.692 481.59 225.491 469.005C255.29 456.421 280.76 435.11 298.679 407.767C316.601 380.424 326.165 348.277 326.165 315.391C326.165 271.293 308.983 229.001 278.399 197.819C247.816 166.637 206.335 149.119 163.083 149.119ZM229.711 383.322L163.083 336.537L96.1827 383.322L142.069 315.391L96.1827 247.459L162.81 294.176L229.44 247.459L183.619 315.391L229.711 383.322Z" fill="#F9F5EF"/>
+</g>
+<defs>
+<filter id="filter0_n_0_4" x="0" y="2.00664e-05" width="326.165" height="481.663" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feTurbulence type="fractalNoise" baseFrequency="2 2" stitchTiles="stitch" numOctaves="3" result="noise" seed="9832" />
+<feColorMatrix in="noise" type="luminanceToAlpha" result="alphaNoise" />
+<feComponentTransfer in="alphaNoise" result="coloredNoise1">
+<feFuncA type="discrete" tableValues="1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 "/>
+</feComponentTransfer>
+<feComposite operator="in" in2="shape" in="coloredNoise1" result="noise1Clipped" />
+<feFlood flood-color="rgba(0, 0, 0, 0.25)" result="color1Flood" />
+<feComposite operator="in" in2="noise1Clipped" in="color1Flood" result="color1" />
+<feMerge result="effect1_noise_0_4">
+<feMergeNode in="shape" />
+<feMergeNode in="color1" />
+</feMerge>
+</filter>
+</defs>
+</svg>
