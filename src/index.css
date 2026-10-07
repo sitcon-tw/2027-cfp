@@ -9,6 +9,10 @@
  * Design tokens — source: Figma "SITCON 2027 CFP 網站".
  * Tailwind's default colors, type scale and radii are reset so only these
  * tokens exist. See AGENTS.md before adding or changing anything here.
+ *
+ * Figma is drawn at 1280px with oversized type, so sizes here are NOT the
+ * Figma values: they are scaled down (roughly ×0.75, small text kept legible)
+ * and shrink again on mobile below. AGENTS.md has the Figma → token table.
  */
 @theme {
   --color-*: initial;
@@ -25,46 +29,79 @@
   --font-numeric: 'Inter Variable', sans-serif;
 
   --text-*: initial;
-  --text-display: 80px;
+  --text-display: 3.75rem; /* 60px */
   --text-display--line-height: 1.25;
-  --text-h1: 48px;
+  --text-h1: 2.25rem; /* 36px */
   --text-h1--line-height: 1;
-  --text-eyebrow: 40px;
+  --text-eyebrow: 1.875rem; /* 30px */
   --text-eyebrow--line-height: 1;
-  --text-h2: 36px;
-  --text-h2--line-height: 40px;
-  --text-h3: 32px;
+  --text-h2: 1.75rem; /* 28px */
+  --text-h2--line-height: 1.1;
+  --text-h3: 1.5rem; /* 24px */
   --text-h3--line-height: 1.5;
-  --text-lead: 28px;
+  --text-lead: 1.25rem; /* 20px */
   --text-lead--line-height: normal;
-  --text-paragraph: 24px;
+  --text-paragraph: 1.125rem; /* 18px */
   --text-paragraph--line-height: 2;
-  --text-subheading: 20px;
+  --text-subheading: 1.125rem; /* 18px */
   --text-subheading--line-height: 1.5;
   --text-subheading--letter-spacing: 0.015em;
-  --text-body: 16px;
+  --text-body: 1rem; /* 16px */
   --text-body--line-height: 1.5;
   --text-body--letter-spacing: 0.015em;
-  --text-caption: 12px;
+  --text-caption: 0.75rem; /* 12px */
   --text-caption--line-height: 1.5;
 
   --radius-*: initial;
-  --radius-xs: 5px;
-  --radius-sm: 14px;
-  --radius-md: 30px;
-  --radius-lg: 40px;
-  --radius-xl: 50px;
+  --radius-xs: 0.25rem; /* 4px */
+  --radius-sm: 0.625rem; /* 10px */
+  --radius-md: 1.375rem; /* 22px */
+  --radius-lg: 1.875rem; /* 30px */
+  --radius-xl: 2.25rem; /* 36px */
 
-  /* Spacing scale base: p-5 = 5 × this. Changing it rescales all spacing. */
-  --spacing: 0.25rem;
+  /*
+   * Spacing scale base: p-5 = 5 × this. Classes are still written from the
+   * Figma px ÷ 4 (Figma 20px → p-5); this 3px base renders them at ×0.75.
+   */
+  --spacing: 0.1875rem;
   /* Interactive control sizes (h-control, h-control-lg, size-control-icon). */
-  --spacing-control: 59px;
-  --spacing-control-lg: 86px;
-  --spacing-control-icon: 45px;
-  /* Height of the site header that overlays the top of every page (pt-header). */
-  --spacing-header: 126px;
+  --spacing-control: 2.75rem; /* 44px */
+  --spacing-control-lg: 4rem; /* 64px */
+  --spacing-control-icon: 2.25rem; /* 36px */
+  /*
+   * Height of the site header that overlays the top of every page
+   * (pt-header): the navbar's pt-7.5 + pb-2.5 around its h-control-lg.
+   */
+  --spacing-header: calc(var(--spacing) * 10 + var(--spacing-control-lg));
 
-  --container-content: 970px;
+  --container-content: 60.625rem; /* 970px */
+}
+
+/*
+ * Mobile overrides. Utilities read the variables at runtime, so redefining
+ * them here resizes every component below `md` without touching markup.
+ */
+@media (width < 48rem) {
+  :root {
+    --text-display: 2.5rem; /* 40px */
+    --text-h1: 1.75rem; /* 28px */
+    --text-eyebrow: 1.375rem; /* 22px */
+    --text-h2: 1.375rem; /* 22px */
+    --text-h3: 1.25rem; /* 20px */
+    --text-lead: 1.125rem; /* 18px */
+    --text-paragraph: 1rem; /* 16px */
+    --text-paragraph--line-height: 1.75;
+    --text-subheading: 1rem; /* 16px */
+    --text-body: 0.875rem; /* 14px */
+
+    --radius-sm: 0.5rem; /* 8px */
+    --radius-md: 1.125rem; /* 18px */
+    --radius-lg: 1.5rem; /* 24px */
+    --radius-xl: 1.75rem; /* 28px */
+
+    --spacing-control: 2.5rem; /* 40px */
+    --spacing-control-lg: 3.25rem; /* 52px */
+  }
 }
 
 @layer base {
