@@ -13,12 +13,12 @@ export function SessionTypeTabs() {
       defaultValue={sessionTypes[0].id}
       className="w-full gap-5 max-md:flex-col"
     >
-      <TabsList className="grow basis-111.25 gap-5">
+      <TabsList className="grow gap-5 md:basis-111.25">
         {sessionTypes.map(({ id, title, summary, icon: Icon }) => (
           <TabsTab
             key={id}
             value={id}
-            className="justify-start gap-2.5 px-5 py-4 text-left data-[orientation=vertical]:first:rounded-tr-sm data-[orientation=vertical]:last:rounded-br-sm"
+            className="justify-start gap-2.5 px-5 py-4 text-left data-[orientation=vertical]:last:rounded-b-sm md:data-[orientation=vertical]:first:rounded-tr-sm md:data-[orientation=vertical]:last:rounded-bl-xl"
           >
             <Icon className="mx-2.5 size-10 shrink-0" />
             <span className="flex flex-col p-2.5">
@@ -32,7 +32,7 @@ export function SessionTypeTabs() {
         <TabsPanel
           key={type.id}
           value={type.id}
-          className="flex grow basis-121.25"
+          className="flex grow md:basis-121.25"
         >
           <SessionTypeIntro type={type} />
         </TabsPanel>
@@ -46,13 +46,13 @@ function SessionTypeIntro({ type }: { type: SessionType }) {
     return (
       <Placeholder
         label={`${type.title}介紹`}
-        className="flex-1 rounded-r-xl"
+        className="flex-1 rounded-b-xl md:rounded-tr-xl md:rounded-bl-sm"
       />
     )
   }
 
   return (
-    <div className="relative isolate flex-1 overflow-clip rounded-sm rounded-r-xl px-5 py-3.75 text-foreground">
+    <div className="relative isolate flex-1 overflow-clip rounded-sm rounded-b-xl px-5 py-3.75 text-foreground md:rounded-tr-xl md:rounded-bl-sm">
       <img
         src={type.intro.image}
         alt=""
