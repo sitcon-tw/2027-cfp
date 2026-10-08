@@ -5,7 +5,6 @@ import { buttonVariants } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { SectionHeading } from '@/components/section-heading'
 import { links } from '@/lib/links'
-import { cn } from '@/lib/utils'
 
 /** 想要支持？ — the cream section that closes the homepage. */
 export function SponsorSection() {
@@ -53,16 +52,18 @@ export function SponsorSection() {
 }
 
 /**
- * Two crossing bands straddling the section's top edge, so the dark page
- * above tears into the cream. Overflows sideways; the page clips it.
+ * A single solid wedge on the section's top edge, so the dark page above
+ * meets the cream on one clean diagonal. Stretches to any width.
  */
 function SlantedEdge() {
-  const band =
-    'absolute top-0 left-1/2 w-screen -translate-1/2 scale-x-150 bg-foreground'
   return (
-    <div aria-hidden className="pointer-events-none">
-      <div className={cn(band, 'h-22.5 rotate-3 opacity-60')} />
-      <div className={cn(band, 'h-20 -rotate-3')} />
-    </div>
+    <svg
+      aria-hidden
+      viewBox="0 0 100 10"
+      preserveAspectRatio="none"
+      className="pointer-events-none absolute bottom-full left-0 h-15 w-full fill-foreground"
+    >
+      <polygon points="0,10 100,0 100,10" />
+    </svg>
   )
 }
