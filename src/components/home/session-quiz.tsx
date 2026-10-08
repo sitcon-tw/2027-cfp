@@ -37,7 +37,8 @@ export function SessionQuiz() {
           </p>
         </div>
         <Dialog>
-          <DialogTrigger render={<Button variant="dark" />}>
+          {/* ml-auto keeps it right-aligned when it wraps onto its own row. */}
+          <DialogTrigger render={<Button variant="dark" className="ml-auto" />}>
             {content.session_quiz.findSession}
           </DialogTrigger>
           <DialogContent className="flex flex-col gap-5">
