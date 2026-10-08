@@ -1,30 +1,46 @@
 import content from '@/content.json'
 import { buttonVariants } from '@/components/ui/button'
-import { links } from '@/lib/links'
 
+/**
+ * Sized to match the 甚麼是 SITCON ? section below it: the title uses
+ * `text-mega`.
+ */
 export function Hero() {
   return (
-    <section className="px-2.5 py-25">
-      <div className="mx-auto max-w-content pb-2.5 pl-2.5">
-        <h1 className="font-extrabold">
-          <span className="block text-eyebrow">{content.hero.eventName}</span>
-          <span className="block text-display">{content.hero.title}</span>
+    <section className="px-2.5 pt-20 pb-25">
+      <div className="mx-auto flex max-w-content flex-col gap-10 p-2.5">
+        <h1 className="flex flex-col gap-5 font-extrabold">
+          <span className="text-eyebrow">{content.hero.eventName}</span>
+          <span className="text-mega tracking-tight">{content.hero.title}</span>
         </h1>
-        <p className="py-5 text-paragraph leading-none font-extrabold">
-          <time dateTime={content.hero.dateTime}>{content.hero.date}</time>{' '}
-          {content.hero.venue}
+        <p className="flex flex-wrap items-baseline gap-x-5 gap-y-2.5">
+          <time
+            dateTime={content.hero.dateTime}
+            className="font-numeric text-h1 font-bold"
+          >
+            {content.hero.date}
+          </time>
+          <span className="text-lead font-extrabold text-foreground/80">
+            {content.hero.venue}
+          </span>
         </p>
-        <div className="flex flex-wrap gap-6.25 py-2.5">
+        <div className="flex flex-wrap gap-5">
           <a
-            href={links.tickets}
-            className={buttonVariants({ variant: 'red' })}
+            href="#attend"
+            className={buttonVariants({ variant: 'red', size: 'lg' })}
           >
             {content.hero.attend}
           </a>
-          <a href="#speakers" className={buttonVariants({ variant: 'blue' })}>
+          <a
+            href="#speakers"
+            className={buttonVariants({ variant: 'blue', size: 'lg' })}
+          >
             {content.hero.submit}
           </a>
-          <a href="#sponsor" className={buttonVariants({ variant: 'green' })}>
+          <a
+            href="#sponsor"
+            className={buttonVariants({ variant: 'green', size: 'lg' })}
+          >
             {content.hero.sponsor}
           </a>
         </div>
