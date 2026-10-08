@@ -12,6 +12,14 @@ import {
 } from '@/components/ui/button'
 import { Card, type CardTone } from '@/components/ui/card'
 import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
@@ -19,6 +27,11 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsList, TabsPanel, TabsTab } from '@/components/ui/tabs'
@@ -87,6 +100,35 @@ function Playground() {
 
   return (
     <main className="pt-header pb-20">
+      <Section title={content.site_header.navigation}>
+        <Popover>
+          <PopoverTrigger className="w-fit px-5">
+            {content.site_header.openMenu}
+          </PopoverTrigger>
+          <PopoverContent aria-label={content.site_header.navigation}>
+            {content.site_header.about}
+          </PopoverContent>
+        </Popover>
+      </Section>
+      <Section
+        title={content.playground.dialogTitle}
+        hint={content.playground.dialogHint}
+      >
+        <Dialog>
+          <DialogTrigger render={<Button variant="cream" className="w-fit" />}>
+            {content.playground.openDialog}
+          </DialogTrigger>
+          <DialogContent className="flex flex-col gap-5">
+            <div className="flex items-start justify-between gap-2.5">
+              <DialogTitle>{content.playground.dialogTitle}</DialogTitle>
+              <DialogClose aria-label={content.session_quiz.close} />
+            </div>
+            <DialogDescription>
+              {content.playground.dialogBody}
+            </DialogDescription>
+          </DialogContent>
+        </Dialog>
+      </Section>
       <div className="px-2.5 pt-7.5">
         <nav className="mx-auto flex max-w-content items-center justify-between rounded-full bg-black/35 px-10 py-5 backdrop-blur-lg">
           <span className="text-subheading font-bold">
