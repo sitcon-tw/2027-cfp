@@ -12,18 +12,21 @@ export default defineConfig({
     {
       name: 'content-html',
       transformIndexHtml(html) {
-        const title = content.metadata.title.replace(
-          /[&<>"']/g,
-          (character) =>
-            ({
-              '&': '&amp;',
-              '<': '&lt;',
-              '>': '&gt;',
-              '"': '&quot;',
-              "'": '&#39;',
-            })[character]!,
-        )
-        return html.replace('%CFP_TITLE%', title)
+        const escape = (text: string) =>
+          text.replace(
+            /[&<>"']/g,
+            (character) =>
+              ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;',
+              })[character]!,
+          )
+        return html
+          .replace('%CFP_LANG%', escape(content.metadata.lang))
+          .replace('%CFP_TITLE%', escape(content.metadata.title))
       },
     },
     // Must come before the React plugin.

@@ -123,7 +123,9 @@ export function AboutSection() {
 function TopicBands({ topics }: { topics: string[] }) {
   return (
     <div className="relative my-25 py-5">
-      <p className="sr-only">{topics.join('、')}</p>
+      <p className="sr-only">
+        {topics.join(content.about_section.topicsSeparator)}
+      </p>
       <Band
         topics={topics}
         reverse

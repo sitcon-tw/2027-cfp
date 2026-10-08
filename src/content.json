@@ -80,11 +80,7 @@
     "unknownDate": "2027 / ?? / ??",
     "unknownCountdown": "XX D XX h XX min",
     "calendarTitle": "SITCON 2027 投稿截止",
-    "units": {
-      "days": "D",
-      "hours": "h",
-      "minutes": "min"
-    }
+    "countdownFormat": "{days} D {hours} h {minutes} min"
   },
   "about_section": {
     "title": "甚麼是 SITCON ?",
@@ -106,6 +102,7 @@
       "系統管理",
       "程式教育"
     ],
+    "topicsSeparator": "、",
     "statsTitle": "到現在，我們累積了……",
     "stats": [
       {
@@ -372,6 +369,7 @@
     "calendar": "https://calendar.google.com/calendar/render"
   },
   "metadata": {
+    "lang": "zh-Hant-TW",
     "title": "2027 CFP"
   },
   "schedule": {
