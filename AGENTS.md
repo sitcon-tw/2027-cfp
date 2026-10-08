@@ -30,6 +30,14 @@ Run `pnpm check` (typecheck, lint, format check) before finishing a task.
 - Do not create another copy file or hardcode new copy in TS/TSX/HTML. The HTML
   title is injected from this JSON by Vite for both development and builds.
 
+Homepage schedules live in `content.attend_section.tickets` and
+`content.speaker_section.schedule`. Each item's `start` / `end` is an ISO
+timestamp with an explicit timezone (e.g. `2027-01-05T23:59:00+08:00`), or
+`null` until announced; a single moment sets only one of them. The status
+badges (未公布 / 即將開始 / 進行中 / 已結束) are computed from the dates. The
+speaker item with id `submission` supplies the homepage submission deadline
+too, so keep that id stable.
+
 ## Where components go
 
 - `src/components/ui/` — reusable UI primitives (button, tabs, dialog, tooltip, …).
@@ -162,20 +170,23 @@ When implementing from Figma:
 Sizes in px (tokens are rem). Line heights are the same at every size
 unless a mobile value is given.
 
-| Token             | Figma                | Desktop              | Mobile    | Use                                        |
-| ----------------- | -------------------- | -------------------- | --------- | ------------------------------------------ |
-| `font-sans`       | —                    | LINE Seed TW → Inter |           | Everything (default)                       |
-| `font-numeric`    | Inter Medium         | Inter                |           | Dates and countdown digits                 |
-| `text-display`    | 80 / 1.25            | 60                   | 40        | "Call For Papers"                          |
-| `text-h1`         | 48 / 1 (`h2`)        | 36                   | 28        | Page section headings (重要時程, 我要贊助) |
-| `text-eyebrow`    | 40 / 1               | 30                   | 22        | "SITCON 2027"                              |
-| `text-h2`         | 36 / 40px            | 28 / 1.1             | 22        | Centered section titles (甚麼是 SITCON ?)  |
-| `text-h3`         | 32 / 1.5 (`h3`)      | 24                   | 20        | Card titles                                |
-| `text-lead`       | 28 / normal          | 20                   | 18        | Large button                               |
-| `text-paragraph`  | 24 / 2 (`paragraph`) | 18                   | 16 / 1.75 | Body copy, buttons, quiz                   |
-| `text-subheading` | 20 / 1.5             | 18                   | 16        | Footer column titles                       |
-| `text-body`       | 16 / 1.5             | 16                   | 14        | Navbar, footer links                       |
-| `text-caption`    | 12 / 1.5             | 12                   | 12        | Footer fine print                          |
+| Token             | Figma                | Desktop              | Mobile    | Use                                 |
+| ----------------- | -------------------- | -------------------- | --------- | ----------------------------------- |
+| `font-sans`       | —                    | LINE Seed TW → Inter |           | Everything (default)                |
+| `font-numeric`    | Inter Medium         | Inter                |           | Dates and countdown digits          |
+| `text-mega`       | — (not in Figma)     | 136 / 1.05           | 52        | Homepage "Call For Papers"          |
+| `text-headline`   | — (not in Figma)     | 96 / 1.1             | 40        | 甚麼是 SITCON ? headline            |
+| `text-stat`       | — (not in Figma)     | 96 / 1               | 56        | 甚麼是 SITCON ? numbers             |
+| `text-display`    | 80 / 1.25            | 60                   | 40        | Section titles (`SectionHeading`)   |
+| `text-h1`         | 48 / 1 (`h2`)        | 36                   | 28        | Sub-headings (到現在，我們累積了……) |
+| `text-eyebrow`    | 40 / 1               | 30                   | 22        | "SITCON 2027"                       |
+| `text-h2`         | 36 / 40px            | 28 / 1.1             | 22        | Centered titles                     |
+| `text-h3`         | 32 / 1.5 (`h3`)      | 24                   | 20        | Card titles                         |
+| `text-lead`       | 28 / normal          | 20                   | 18        | Large button                        |
+| `text-paragraph`  | 24 / 2 (`paragraph`) | 18                   | 16 / 1.75 | Body copy, buttons, quiz            |
+| `text-subheading` | 20 / 1.5             | 18                   | 16        | Footer column titles                |
+| `text-body`       | 16 / 1.5             | 16                   | 14        | Navbar, footer links                |
+| `text-caption`    | 12 / 1.5             | 12                   | 12        | Footer fine print                   |
 
 Weights: `font-normal` (400), `font-bold` (700), `font-extrabold` (800).
 `font-medium` is for Inter only.
@@ -229,7 +240,8 @@ Regions that are not designed yet, or are marked WIP in Figma, render
 `<Placeholder label="…" />` from `@/components/placeholder`. Do not invent a
 design for them. Current placeholders:
 
-- "Nathan 詠唱" — the layer over 甚麼是 SITCON / 重要時程 on the homepage.
+- `歷屆講者照片牆` — next to the event photo in the homepage 甚麼是 SITCON ?
+  section, until speaker photos are picked.
 - `佔位` — the footer row of the session-type quiz.
 - Every section of `/sessions/$type`, `/submit/$type` and `/about`. Each
   component file exists and is wired in place; its issue replaces the
