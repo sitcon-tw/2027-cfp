@@ -14,6 +14,9 @@ const twMerge = extendTailwindMerge({
       'font-size': [
         {
           text: [
+            'mega',
+            'headline',
+            'stat',
             'display',
             'h1',
             'eyebrow',
