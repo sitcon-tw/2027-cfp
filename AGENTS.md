@@ -239,5 +239,6 @@ design for them. Current placeholders:
 
 Figma has no hover, focus, selected, checked or popup designs yet. The
 primitives use proposals (dimmed inactive tabs, ink checked radios, navbar-
-glass dropdown, `brightness-95` hover). Keep them consistent and replace them
+glass dropdown, `brightness-95` hover, cream `Dialog` that becomes a
+swipe-down bottom sheet below `md`). Keep them consistent and replace them
 when the designs arrive.
