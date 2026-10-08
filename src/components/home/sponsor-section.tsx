@@ -3,7 +3,7 @@ import { Coffee } from 'lucide-react'
 import content from '@/content.json'
 import { buttonVariants } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
+import { SectionHeading } from '@/components/section-heading'
 import { links } from '@/lib/links'
 import { cn } from '@/lib/utils'
 
@@ -17,10 +17,9 @@ export function SponsorSection() {
     >
       <SlantedEdge />
       <div className="relative mx-auto flex max-w-content flex-col gap-2.5 p-2.5">
-        <h2 id="sponsor-title" className="text-h1 font-extrabold">
+        <SectionHeading id="sponsor-title">
           {content.sponsor_section.title}
-        </h2>
-        <Separator className="rounded-full bg-background/50 data-[orientation=horizontal]:h-0.75" />
+        </SectionHeading>
         <div className="py-2.5">
           <Card tone="ink" className="relative rounded-xl p-2.5">
             <Coffee
