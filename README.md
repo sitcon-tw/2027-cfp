@@ -31,25 +31,6 @@ pnpm dev
 Open the local URL printed by Vite. Local development requires no environment
 variables or backend service.
 
-## Commands
-
-| Command             | Description                                |
-| ------------------- | ------------------------------------------ |
-| `pnpm dev`          | Start Vite with hot module replacement     |
-| `pnpm build`        | Type-check and build into `dist/`          |
-| `pnpm preview`      | Serve the production build locally         |
-| `pnpm check`        | Run typecheck, lint, and formatting checks |
-| `pnpm typecheck`    | Run TypeScript checks                      |
-| `pnpm lint`         | Check code with Oxlint                     |
-| `pnpm lint:fix`     | Apply automatic lint fixes                 |
-| `pnpm format:check` | Check formatting with Prettier             |
-| `pnpm format`       | Format the repository with Prettier        |
-
-Run **`pnpm check` before submitting a change**. Review affected pages in the
-browser at desktop and mobile widths, including keyboard navigation when changing
-interactive components. `pnpm build` checks the production build; `pnpm preview`
-requires a build first.
-
 ## Editing website content
 
 [`src/content.json`](src/content.json) is the single source for all website copy
@@ -73,49 +54,6 @@ For the event date, `hero.dateTime` uses `YYYY-MM-DD`; `hero.date` is the displa
 label. The submission countdown currently has a separate, unset `DEADLINE` in
 [`submission-deadline.tsx`](src/components/home/submission-deadline.tsx), so changing
 the displayed copy alone does not enable the countdown or calendar link.
-
-## Project structure
-
-The site uses React 19, TypeScript, Vite, Tailwind CSS v4, TanStack Router, and
-Base UI. Oxlint checks code and Prettier formats it, including Tailwind classes.
-
-```text
-src/
-├── assets/              SVG artwork, brand logos, and photos
-├── components/
-│   ├── ui/              Reusable Base UI primitives
-│   ├── home/            Homepage sections
-│   ├── sessions/        Session information sections
-│   ├── submit/          Submission sections
-│   └── about/           About sections
-├── routes/              File-based routes and the shared root layout
-├── lib/                 Shared helpers, destinations, and session types
-├── content.json         Website copy and outbound URLs
-├── index.css            Design tokens, fonts, and global styles
-├── main.tsx             Application entry point
-└── routeTree.gen.ts     Generated route tree (committed)
-```
-
-Import from `src` with the `@/` alias. Routes compose site components; reusable
-primitives belong in `src/components/ui/`, one kebab-case file per primitive.
-
-### Routes
-
-| Path              | Purpose                                           |
-| ----------------- | ------------------------------------------------- |
-| `/`               | Homepage, session format chooser, and sponsorship |
-| `/sessions/$type` | Session information                               |
-| `/submit/$type`   | Submission page scaffold                          |
-| `/about`          | About SITCON page scaffold                        |
-| `/playground`     | Temporary page for manually reviewing primitives  |
-
-`$type` accepts `general`, `open`, or `demo`. Invalid types redirect to the
-corresponding `general` page. The header and footer live in `routes/__root.tsx`.
-
-TanStack Router generates `src/routeTree.gen.ts` when Vite runs through `pnpm dev`
-or `pnpm build`. **Commit this file, but never edit it by hand**: TypeScript needs
-it. After adding or renaming a route, run `pnpm dev` to regenerate it before
-running `pnpm check`. Use TanStack Router's typed `<Link>` for internal navigation.
 
 ## Design and UI conventions
 
