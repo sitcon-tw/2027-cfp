@@ -46,9 +46,13 @@ export function SiteHeader({ className }: { className?: string }) {
       >
         <Link
           to="/"
-          className="rounded-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+          className="-translate-y-1/8 rounded-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
         >
-          <img src={sitconWordmark} alt={content.site_header.homeAlt} />
+          <img
+            className="block"
+            src={sitconWordmark}
+            alt={content.site_header.homeAlt}
+          />
         </Link>
         <NavigationMenu className="hidden md:block">
           <NavigationMenuList className="p-2.5">
