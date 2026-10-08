@@ -7,7 +7,7 @@ import { SectionHeading } from '@/components/section-heading'
 import { links } from '@/lib/links'
 import { cn } from '@/lib/utils'
 
-/** 我要贊助 — the cream section that closes the homepage. */
+/** 想要支持？ — the cream section that closes the homepage. */
 export function SponsorSection() {
   return (
     <section

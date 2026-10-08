@@ -87,7 +87,7 @@ export function NavigationMenuContent({
 
 /**
  * Renders an `<a>`. By default it is a row inside `NavigationMenuContent`;
- * set `topLevel` for links in the bar itself (e.g. 贊助 SITCON).
+ * set `topLevel` for links in the bar itself (e.g. 支持 SITCON).
  */
 export function NavigationMenuLink({
   className,

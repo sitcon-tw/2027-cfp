@@ -5,7 +5,7 @@
     "closeMenu": "關閉導覽選單",
     "navigation": "主要導覽",
     "submission": "徵稿說明",
-    "sponsor": "贊助 SITCON",
+    "sponsor": "支持 SITCON",
     "about": "關於 SITCON"
   },
   "site_footer": {
@@ -16,8 +16,8 @@
     "submitOpen": "開放式議程投稿",
     "submitDemo": "Demo 展投稿",
     "supportTitle": "支持我們",
-    "sponsor": "我要贊助",
-    "prospectus": "索取贊助徵求書",
+    "sponsor": "我要支持",
+    "prospectus": "索取支持徵求書",
     "pastSitesTitle": "歷年主題網站",
     "contactTitle": "聯絡我們",
     "email": "contact@sitcon.org",
@@ -36,14 +36,14 @@
     "venue": "中央研究院人文社會科學館",
     "attend": "我要參加",
     "submit": "我要投稿",
-    "sponsor": "我要贊助",
+    "sponsor": "我要支持",
     "dateTime": "2027-03-13"
   },
   "sponsor_section": {
-    "title": "我要贊助",
-    "description": "贊助 SITCON，能直接接觸由學生組成、對程式設計、開源軟體、資訊安全、硬體與社群經營充滿熱情的技術社群，提升品牌在年輕科技人才與開發者中的曝光與好感度，同時支持學生交流、分享作品與探索創新的平台；簡單來說，現在投資 SITCON，未來可能少一個凌晨三點才發現伺服器壞掉的人。",
-    "individual": "個人贊助",
-    "prospectus": "查看贊助募集書"
+    "title": "想要支持？",
+    "description": "支持 SITCON，能直接接觸由學生組成、對程式設計、開源軟體、資訊安全、硬體與社群經營充滿熱情的技術社群，提升品牌在年輕科技人才與開發者中的曝光與好感度，同時支持學生交流、分享作品與探索創新的平台；簡單來說，現在投資 SITCON，未來可能少一個凌晨三點才發現伺服器壞掉的人。",
+    "individual": "個人支持",
+    "prospectus": "查看支持募集書"
   },
   "session_quiz": {
     "title": "不知道你適合哪一種議程？",
@@ -156,15 +156,15 @@
         "id": "dream",
         "name": "開源築夢計畫",
         "summary": "給想參加、但需要一點支持的你",
-        "description": "由社群與贊助夥伴支持，協助經濟上有需要的學生參與年會。申請資料只用於審核，不會公開。",
+        "description": "由社群與支持夥伴共同支持，協助經濟上有需要的學生參與年會。申請資料只用於審核，不會公開。",
         "start": null,
         "end": null
       },
       {
         "id": "supporter",
-        "name": "個人贊助票",
+        "name": "個人支持票",
         "summary": "給想多支持 SITCON 一點的你",
-        "description": "以購票的方式支持年會運作。除了入場資格，也會收到專屬的個人贊助紀念品。",
+        "description": "以購票的方式支持年會運作。除了入場資格，也會收到專屬的個人支持紀念品。",
         "start": null,
         "end": null
       },
@@ -261,7 +261,7 @@
     "generalSession": "一般議程",
     "openSession": "開放式議程",
     "demoSession": "Demo 展",
-    "sponsor": "贊助 SITCON",
+    "sponsor": "支持 SITCON",
     "home": "回首頁",
     "buttonsTitle": "Button",
     "buttonsHint": "Every variant × size. Tab through them to check the focus ring.",
@@ -292,7 +292,7 @@
     "typographyTitle": "Typography",
     "typographyHint": "Every text-* token.",
     "displayExample": "display",
-    "h1Example": "h1 我要贊助",
+    "h1Example": "h1 我要支持",
     "eyebrowExample": "eyebrow SITCON 2027",
     "h2Example": "h2 甚麼是 SITCON ?",
     "h3Example": "h3 一般議程",

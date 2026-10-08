@@ -11,7 +11,7 @@ export interface SectionHeadingProps {
 }
 
 /**
- * Left-aligned section title over a rule (想要參與？, 我要贊助, …). The rule
+ * Left-aligned section title over a rule (想要參與？, 想要支持？, …). The rule
  * takes the text color, so it works on the dark page and on cream.
  */
 export function SectionHeading({
