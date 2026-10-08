@@ -1,12 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import content from '@/content.json'
+import { AboutSection } from '@/components/home/about-section'
+import { AttendSection } from '@/components/home/attend-section'
 import { Hero } from '@/components/home/hero'
 import { HomeBackdrop } from '@/components/home/home-backdrop'
 import { SpeakerSection } from '@/components/home/speaker-section'
 import { SponsorSection } from '@/components/home/sponsor-section'
 import { SubmissionDeadline } from '@/components/home/submission-deadline'
-import { Placeholder } from '@/components/placeholder'
 
 export const Route = createFileRoute('/')({
   component: Home,
@@ -19,13 +19,8 @@ function Home() {
         <HomeBackdrop />
         <Hero />
         <SubmissionDeadline />
-        {/* 甚麼是 SITCON ? and 重要時程 */}
-        <div className="px-2.5 py-15">
-          <Placeholder
-            label={content.index.placeholder}
-            className="mx-auto max-w-content"
-          />
-        </div>
+        <AboutSection />
+        <AttendSection />
         <SpeakerSection />
       </div>
       <SponsorSection />
