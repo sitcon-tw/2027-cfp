@@ -1,6 +1,9 @@
 {
   "site_header": {
     "homeAlt": "SITCON 首頁",
+    "openMenu": "開啟導覽選單",
+    "closeMenu": "關閉導覽選單",
+    "navigation": "主要導覽",
     "submission": "徵稿說明",
     "sponsor": "贊助 SITCON",
     "about": "關於 SITCON"
@@ -47,6 +50,7 @@
     "description": "回答 3 個小問題，一起找找適合你的分享方式。",
     "findSession": "幫我找議程類型 →",
     "placeholder": "佔位",
+    "close": "關閉",
     "question": {
       "prompt": "如果明天就是 SITCON，你最希望自己的議程現場長什麼樣子？",
       "answers": [
@@ -148,6 +152,10 @@
     "answerValue": "value: {value}",
     "question": "如果明天就是 SITCON，你最希望自己的議程現場長什麼樣子？",
     "reset": "Reset",
+    "dialogTitle": "Dialog",
+    "dialogHint": "Centered dialog from md up, swipe-down bottom sheet below. Resize while open to swap.",
+    "openDialog": "Open dialog",
+    "dialogBody": "Escape, the backdrop, the X or (on mobile) a swipe down closes it.",
     "cardsTitle": "Card",
     "cardsHint": "Default rounded-sm; outer corners per the corner rule.",
     "separatorTitle": "Separator",
