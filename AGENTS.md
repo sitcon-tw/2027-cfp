@@ -134,6 +134,7 @@ colors, type scale and radii are **reset**, so `bg-white`, `text-sm`,
 | `gray`                   | `#2B2B2B`                         | Gray               | Dark card, secondary text on cream, rules          |
 | `light`                  | `#E3E0DC`                         | Light              | Muted button, quiz wells                           |
 | `red` / `blue` / `green` | `#FF625B` / `#6A74E3` / `#8DF280` | Red / Blue / Green | Hero accent buttons; `blue` is also the focus ring |
+| `yellow`                 | `#FCBF30`                         | Yellow             | Early Bird marquee band                            |
 | `black`                  | `#000000`                         | Grays/Black        | Overlays only (navbar glass `bg-black/35`)         |
 
 The Figma names are kept as-is, so on cream sections the text color is
@@ -176,6 +177,7 @@ unless a mobile value is given.
 | `text-headline`   | — (not in Figma)     | 96 / 1.1             | 40        | 甚麼是 SITCON ? headline            |
 | `text-stat`       | — (not in Figma)     | 96 / 1               | 56        | 甚麼是 SITCON ? numbers             |
 | `text-display`    | 80 / 1.25            | 60                   | 40        | Section titles (`SectionHeading`)   |
+| `text-title`      | 64 / 113px (`h1`)    | 48 / 1.75            | 32 / 1.5  | Page titles in `PageHero`           |
 | `text-h1`         | 48 / 1 (`h2`)        | 36                   | 28        | Sub-headings (到現在，我們累積了……) |
 | `text-eyebrow`    | 40 / 1               | 30                   | 22        | "SITCON 2027"                       |
 | `text-h2`         | 36 / 40px            | 28 / 1.1             | 22        | Centered titles                     |
@@ -255,9 +257,11 @@ Regions that are not designed yet, or are marked WIP in Figma, render
 design for them. Current placeholders:
 
 - `佔位` — the footer row of the session-type quiz.
-- Every section of `/sessions/$type`, `/submit/$type` and `/about`. Each
-  component file exists and is wired in place; its issue replaces the
-  placeholder with the real section.
+- Every section of `/submit/$type` and `/about`. Each component file exists
+  and is wired in place; its issue replaces the placeholder with the real
+  section.
+- The Demo 展 photo wall and poster strip on `/sessions/demo`, which are
+  blank frames in Figma until the photos arrive.
 
 ### Undesigned states
 

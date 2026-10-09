@@ -1,6 +1,7 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
 
 import content from '@/content.json'
+import ctaPhoto from '@/assets/session-cta.jpg'
 import { PageHero } from '@/components/page-hero'
 import { PhotoCta } from '@/components/photo-cta'
 import { CriteriaTable } from '@/components/sessions/criteria-table'
@@ -12,7 +13,9 @@ import { InfoCardStack } from '@/components/sessions/info-card-stack'
 import { PosterStrip } from '@/components/sessions/poster-strip'
 import { SessionIntroCards } from '@/components/sessions/session-intro-cards'
 import { SessionPageTabs } from '@/components/sessions/session-page-tabs'
-import { getSessionType, isSessionTypeId } from '@/lib/session-types'
+import { links } from '@/lib/links'
+import { sessionPages } from '@/lib/session-pages'
+import { isSessionTypeId } from '@/lib/session-types'
 
 export const Route = createFileRoute('/sessions/$type')({
   params: {
@@ -26,38 +29,39 @@ export const Route = createFileRoute('/sessions/$type')({
   component: SessionPage,
 })
 
-const text = content.session_page.placeholders
+const text = content.session_page
 
 /** 一般議程 / 開放式議程 / Demo 展. Sections differ per type; see Figma. */
 function SessionPage() {
   const { type } = Route.useParams()
-  const { title } = getSessionType(type)
+  const page = sessionPages[type]
   return (
     <main className="overflow-x-clip">
-      <PageHero label={text.hero.replace('{title}', title)}>
+      <PageHero {...page.hero}>
         <SessionPageTabs type={type} />
       </PageHero>
-      <SessionIntroCards type={type} />
-      <EarlyBirdBanner />
-      {type === 'general' && (
-        <>
-          <ExamplesCarousel label={text.presentationExamples} />
-          <ExamplesCarousel label={text.espressoExamples} />
-        </>
-      )}
-      {type === 'open' && <ExamplesCarousel label={text.openExamples} />}
+      <SessionIntroCards title={page.introTitle} cards={page.intro} />
+      <EarlyBirdBanner type={type} />
+      {page.examples.map((section) => (
+        // Keyed by page too, so switching type starts on the first page.
+        <ExamplesCarousel key={`${type}-${section.title}`} {...section} />
+      ))}
       {type === 'demo' && (
         <>
           <DemoGallery />
           <PosterStrip />
         </>
       )}
-      <CriteriaTable label={text.reviewCriteria} />
-      <InfoCardStack label={text.beforeSubmission} />
-      {type === 'general' && <CriteriaTable label={text.requirements} />}
-      <InfoCardStack label={text.afterSubmission} />
+      <CriteriaTable {...text.reviewCriteria} />
+      <InfoCardStack {...text.beforeSubmission} />
+      {type === 'general' && <CriteriaTable {...text.requirements} />}
+      <InfoCardStack {...text.afterSubmission} />
       <Faq type={type} />
-      <PhotoCta label={text.cta} />
+      <PhotoCta
+        title={text.cta.title}
+        actions={[{ label: text.cta.submit, href: links.submit[type] }]}
+        image={ctaPhoto}
+      />
     </main>
   )
 }

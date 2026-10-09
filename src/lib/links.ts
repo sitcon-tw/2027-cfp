@@ -18,6 +18,15 @@ export const links = {
     open: '/sessions/open',
     demo: '/sessions/demo',
   },
+  /**
+   * Policy pages, shared by the session pages and the submission form's
+   * consent checkbox. Keys are referenced from `content.json` rich text.
+   */
+  policies: {
+    codeOfConduct: content.links.codeOfConduct,
+    submissionGuidelines: content.links.submissionGuidelines,
+    license: content.links.license,
+  },
   sponsorIndividual: TODO_HREF,
   sponsorProspectus: TODO_HREF,
   contactEmail: content.links.contactEmail,
