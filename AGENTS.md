@@ -140,6 +140,10 @@ colors, type scale and radii are **reset**, so `bg-white`, `text-sm`,
 The Figma names are kept as-is, so on cream sections the text color is
 `text-background`. That is intended.
 
+The site never uses pure white. Some Figma text is still `#FFFFFF` (fills
+not yet switched to the Foreground variable); implement it as
+`text-foreground` (confirmed with the designer).
+
 ### Figma sizes vs. token sizes
 
 Figma is drawn on a 1280px frame with print-scale type (24px body copy,
