@@ -98,6 +98,15 @@ as `/sessions/general`, `/submit/demo`, and `/about` when no static file matches
 This allows direct links and page refreshes to work. `pnpm preview` is for local
 verification, not production hosting.
 
+## Preview deployments
+
+The `dev` branch deploys to <https://2027-cfp-preview.sitcon.workers.dev>
+through Cloudflare Workers Builds in the SITCON Cloudflare account, configured by
+[`wrangler.jsonc`](wrangler.jsonc). Every other branch and pull request gets its
+own preview URL, which Cloudflare posts as a comment on the pull request. Preview
+deployments send `X-Robots-Tag: noindex, nofollow`, so search engines skip them.
+They are not the production site.
+
 ## License
 
 [MIT](LICENSE), copyright © 2026 SITCON.

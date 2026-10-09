@@ -31,3 +31,6 @@ npm-shrinkwrap.json
 yarn.lock
 bun.lock
 bun.lockb
+
+# Cloudflare Wrangler
+.wrangler
