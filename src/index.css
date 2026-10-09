@@ -86,6 +86,9 @@
 
   /* Topic ticker on the homepage: content is doubled, so -50% loops it. */
   --animate-marquee: marquee 60s linear infinite;
+  /* Long ease-out (easeOutQuint) for fades that should settle gently. */
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+
   /* Homepage photo wall: slower, so people have time to spot faces. */
   --animate-photo-wall: marquee 140s linear infinite;
   @keyframes marquee {
@@ -148,6 +151,36 @@
     transparent 100%
   );
   mask-image: var(--fade);
+}
+
+/*
+ * Homepage photo wall spotlight. Script sets the hovered photo's box on
+ * the layer: --spotlight-left / -top / -width / -height.
+ *
+ * spotlight-shade dims the wall everywhere but that box. It is a rounded
+ * box --spotlight-reach larger than the photo on every side: a huge outer
+ * shadow darkens everything beyond it, and an inset shadow blurs from
+ * full dark at its edge to clear at the photo's. A blur is a true
+ * Gaussian, so the falloff has no bands or edges; the reach is two blur
+ * radii, putting both ends of the curve within ~2% of dark and clear.
+ */
+@utility spotlight-shade {
+  --spotlight-blur: --spacing(20);
+  --spotlight-reach: calc(var(--spotlight-blur) * 2);
+  --spotlight-color: color-mix(
+    in srgb,
+    var(--color-background) 70%,
+    transparent
+  );
+  position: absolute;
+  top: calc(var(--spotlight-top) - var(--spotlight-reach));
+  left: calc(var(--spotlight-left) - var(--spotlight-reach));
+  width: calc(var(--spotlight-width) + var(--spotlight-reach) * 2);
+  height: calc(var(--spotlight-height) + var(--spotlight-reach) * 2);
+  border-radius: calc(var(--radius-sm) + var(--spotlight-reach));
+  box-shadow:
+    0 0 0 100vmax var(--spotlight-color),
+    inset 0 0 var(--spotlight-blur) var(--spotlight-blur) var(--spotlight-color);
 }
 
 @layer base {

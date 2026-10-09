@@ -243,6 +243,12 @@ takes its first photo, so prefix the strongest crowd shots to sort first
 (`01-…`). Export them at about 1600px on the long side (webp). With the
 folder empty, the session photo stands in at different crops.
 
+With a mouse, hovering pauses the wall and makes the photo under the cursor
+glow: the rest dims, with light spilling past the photo's edges
+(`spotlight-shade` in `src/index.css`). The glow glides
+between photos and fades with `ease-smooth`. Touch
+devices get the plain wall.
+
 ### Placeholders
 
 Regions that are not designed yet, or are marked WIP in Figma, render
