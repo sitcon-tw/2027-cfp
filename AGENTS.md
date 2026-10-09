@@ -234,14 +234,21 @@ automatically.
   logo) are not in Lucide: export them from Figma as SVG into
   `src/assets/` and import them. Never hand-draw or paste approximate paths.
 
+### Photo wall
+
+The homepage 甚麼是 SITCON ? section scrolls a wall of past-conference
+photos (`src/components/home/photo-wall.tsx`). Its photos are every image in
+`src/assets/photo-wall/`, in filename order; each bento module's large tile
+takes its first photo, so prefix the strongest crowd shots to sort first
+(`01-…`). Export them at about 1600px on the long side (webp). With the
+folder empty, the session photo stands in at different crops.
+
 ### Placeholders
 
 Regions that are not designed yet, or are marked WIP in Figma, render
 `<Placeholder label="…" />` from `@/components/placeholder`. Do not invent a
 design for them. Current placeholders:
 
-- `歷屆講者照片牆` — next to the event photo in the homepage 甚麼是 SITCON ?
-  section, until speaker photos are picked.
 - `佔位` — the footer row of the session-type quiz.
 - Every section of `/sessions/$type`, `/submit/$type` and `/about`. Each
   component file exists and is wired in place; its issue replaces the
