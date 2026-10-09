@@ -13,7 +13,7 @@ const cycles = 2
 
 /**
  * 歷年海報展示 — a full-width row of past Demo posters drifting sideways,
- * like the homepage photo wall. Hovering pauses it; reduced motion keeps
+ * at the homepage photo wall's pace. Hovering pauses it; reduced motion keeps
  * it still.
  */
 export function PosterStrip() {
@@ -27,7 +27,7 @@ export function PosterStrip() {
           aria-label={text.label}
           className="group overflow-hidden py-2.5"
         >
-          <div className="flex w-max animate-poster-strip group-hover:[animation-play-state:paused] motion-reduce:animate-none">
+          <div className="flex w-max animate-photo-wall group-hover:[animation-play-state:paused] motion-reduce:animate-none">
             {/* Doubled so the -50% loop is seamless. */}
             {[0, 1].map((copy) => (
               <div

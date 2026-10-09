@@ -51,7 +51,7 @@ function Marquee() {
   const words = Array.from({ length: MARQUEE_REPEAT }, () => text.marquee)
   return (
     <div aria-hidden className="overflow-clip bg-yellow py-2.5 text-black">
-      <div className="flex w-max motion-safe:animate-early-bird">
+      <div className="flex w-max motion-safe:animate-marquee">
         {[0, 1].map((copy) => (
           <div key={copy} className="flex shrink-0 gap-5 pr-5">
             {words.map((word, i) => (
