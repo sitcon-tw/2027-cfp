@@ -22,7 +22,7 @@ import { sessionTypes } from '@/lib/session-types'
 import { cn } from '@/lib/utils'
 
 /**
- * The glass navbar. It is `pt-header` tall and overlays the top of the page,
+ * The glass navbar. It is `pt-header` tall and stays fixed over the page,
  * so each page paints its own background behind it.
  */
 export function SiteHeader({ className }: { className?: string }) {
@@ -39,10 +39,12 @@ export function SiteHeader({ className }: { className?: string }) {
   }, [])
 
   return (
-    <header className={cn('px-2.5 pt-7.5 pb-2.5', className)}>
+    <header
+      className={cn('pointer-events-none px-2.5 pt-7.5 pb-2.5', className)}
+    >
       <div
         ref={anchor}
-        className="mx-auto flex h-control-lg max-w-content items-center justify-between px-5 md:rounded-full md:bg-black/35 md:px-10 md:backdrop-blur-lg"
+        className="pointer-events-auto mx-auto flex h-control-lg max-w-content items-center justify-between px-5 md:rounded-full md:bg-black/35 md:px-10 md:backdrop-blur-lg"
       >
         <Link
           to="/"

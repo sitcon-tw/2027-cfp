@@ -185,6 +185,6 @@
 
 @layer base {
   html {
-    @apply bg-background font-sans text-foreground antialiased;
+    @apply scroll-pt-header bg-background font-sans text-foreground antialiased;
   }
 }
