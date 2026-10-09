@@ -1,6 +1,6 @@
 import { useId, type ReactNode } from 'react'
 
-import { Separator } from '@/components/ui/separator'
+import { SectionHeading } from '@/components/section-heading'
 
 export interface SessionSectionProps {
   title: string
@@ -12,7 +12,10 @@ export interface SessionSectionProps {
   bleed?: ReactNode
 }
 
-/** A session-page section: heading, rule, then the content column. */
+/**
+ * A session-page section: the shared `SectionHeading` (title over a rule),
+ * then the content column, laid out like the homepage sections.
+ */
 export function SessionSection({
   title,
   description,
@@ -24,10 +27,7 @@ export function SessionSection({
     <section aria-labelledby={titleId} className="py-15">
       <div className="px-2.5">
         <div className="mx-auto flex max-w-content flex-col gap-2.5 p-2.5">
-          <h2 id={titleId} className="text-h1 font-extrabold">
-            {title}
-          </h2>
-          <Separator className="rounded-full bg-foreground/50 data-[orientation=horizontal]:h-0.75" />
+          <SectionHeading id={titleId}>{title}</SectionHeading>
           {description && <p className="text-paragraph">{description}</p>}
           {children && <div className="py-2.5">{children}</div>}
         </div>
