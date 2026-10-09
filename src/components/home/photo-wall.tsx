@@ -6,11 +6,13 @@ import sessionPhoto from '@/assets/session-general.jpg'
 import { cn } from '@/lib/utils'
 
 /*
- * Photos from past conferences. Drop files into `src/assets/photo-wall/`;
- * they fill the tiles in filename order, and the large tiles take every
- * module's first photo, so name the most striking crowd shots to sort
- * first (`01-…`, `02-…`). Until the folder has photos, the one session
- * photo stands in at different crops so the layout can be judged.
+ * Photos from past conferences. Organizers only drop image files into
+ * `src/assets/photo-wall/`; every file there is put on the wall
+ * automatically, in filename order. To make some of them show large, list
+ * their file names in `about_section.photoWallLarge` in `content.json`
+ * (they take the large tiles in that order and repeat if there are more
+ * tiles than names). Until the folder has photos, the one session photo
+ * stands in at different crops so the layout can be judged.
  */
 const wallPhotos = Object.entries(
   import.meta.glob<string>('/src/assets/photo-wall/*.{jpg,jpeg,png,webp}', {
@@ -19,7 +21,12 @@ const wallPhotos = Object.entries(
   }),
 )
   .sort(([a], [b]) => a.localeCompare(b))
-  .map(([, src]) => src)
+  .map(([path, src]) => ({ name: path.split('/').pop(), src }))
+
+const largePhotos = content.about_section.photoWallLarge.flatMap((name) =>
+  wallPhotos.filter((photo) => photo.name === name),
+)
+const smallPhotos = wallPhotos.filter((photo) => !largePhotos.includes(photo))
 
 const fallbackCrops = [
   'object-center',
@@ -36,36 +43,42 @@ const fallbackCrops = [
  * (2 × 2) come by at a steady rhythm between smaller, wide and tall ones,
  * so the wall never reads as a uniform grid; they sit in the upper rows,
  * clear of the quote. `aspect` matches the module's columns to its 3 rows,
- * keeping cells near square. Each module lists its large or wide tile
- * first.
+ * keeping cells near square. `large` tiles take the photos listed in
+ * `photoWallLarge`; the others take the rest in filename order.
  */
 const modules = [
   {
     aspect: 'aspect-square grid-cols-3',
     tiles: [
-      'col-span-2 col-start-1 row-span-2 row-start-1',
-      'col-start-3 row-start-1',
-      'col-start-3 row-start-2',
-      'col-span-2 col-start-1 row-start-3',
-      'col-start-3 row-start-3',
+      {
+        large: true,
+        placement: 'col-span-2 col-start-1 row-span-2 row-start-1',
+      },
+      { placement: 'col-start-3 row-start-1' },
+      { placement: 'col-start-3 row-start-2' },
+      { placement: 'col-span-2 col-start-1 row-start-3' },
+      { placement: 'col-start-3 row-start-3' },
     ],
   },
   {
     aspect: 'aspect-2/3 grid-cols-2',
     tiles: [
-      'col-span-2 col-start-1 row-start-1',
-      'col-start-1 row-start-2',
-      'col-start-2 row-span-2 row-start-2',
-      'col-start-1 row-start-3',
+      { placement: 'col-span-2 col-start-1 row-start-1' },
+      { placement: 'col-start-1 row-start-2' },
+      { placement: 'col-start-2 row-span-2 row-start-2' },
+      { placement: 'col-start-1 row-start-3' },
     ],
   },
   {
     aspect: 'aspect-square grid-cols-3',
     tiles: [
-      'col-span-2 col-start-2 row-span-2 row-start-1',
-      'col-start-1 row-start-1',
-      'col-start-1 row-span-2 row-start-2',
-      'col-span-2 col-start-2 row-start-3',
+      {
+        large: true,
+        placement: 'col-span-2 col-start-2 row-span-2 row-start-1',
+      },
+      { placement: 'col-start-1 row-start-1' },
+      { placement: 'col-start-1 row-span-2 row-start-2' },
+      { placement: 'col-span-2 col-start-2 row-start-3' },
     ],
   },
 ]
@@ -170,19 +183,33 @@ export function PhotoWall({ children }: { children?: ReactNode }) {
   const about = content.about_section
   const { ref: spotlightRef, handlers: spotlightHandlers } = useSpotlight()
   let photoIndex = 0
+  let largeIndex = 0
+  let smallIndex = 0
+
+  // Large tiles prefer the listed photos and small ones the rest, each
+  // falling back to the whole set when its own pool is empty.
+  const pick = (pool: typeof wallPhotos, index: number) =>
+    (pool.length > 0 ? pool : wallPhotos)[
+      index % (pool.length > 0 ? pool.length : wallPhotos.length)
+    ].src
 
   const strip = Array.from({ length: cycles }, () => modules).flat()
   const layout = strip.map(({ aspect, tiles }) => ({
     aspect,
-    tiles: tiles.map((placement) => {
+    tiles: tiles.map(({ placement, ...tile }) => {
       const index = photoIndex++
-      return wallPhotos.length > 0
-        ? { placement, src: wallPhotos[index % wallPhotos.length], crop: '' }
-        : {
-            placement,
-            src: sessionPhoto,
-            crop: fallbackCrops[index % fallbackCrops.length],
-          }
+      if (wallPhotos.length === 0) {
+        return {
+          placement,
+          src: sessionPhoto,
+          crop: fallbackCrops[index % fallbackCrops.length],
+        }
+      }
+      const src =
+        'large' in tile
+          ? pick(largePhotos, largeIndex++)
+          : pick(smallPhotos, smallIndex++)
+      return { placement, src, crop: '' }
     }),
   }))
 

@@ -238,9 +238,10 @@ automatically.
 
 The homepage 甚麼是 SITCON ? section scrolls a wall of past-conference
 photos (`src/components/home/photo-wall.tsx`). Its photos are every image in
-`src/assets/photo-wall/`, in filename order; each bento module's large tile
-takes its first photo, so prefix the strongest crowd shots to sort first
-(`01-…`). Export them at about 1600px on the long side (webp). With the
+`src/assets/photo-wall/`, in filename order. To show some large, list
+their file names in `about_section.photoWallLarge` in `content.json`; they
+take the large tiles in that order. Export photos at about 1600px on the
+long side (webp). With the
 folder empty, the session photo stands in at different crops.
 
 With a mouse, hovering pauses the wall and makes the photo under the cursor
