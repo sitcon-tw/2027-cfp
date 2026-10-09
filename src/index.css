@@ -84,12 +84,11 @@
 
   --container-content: 60.625rem; /* 970px */
 
-  /* Topic ticker on the homepage: content is doubled, so -50% loops it. */
-  --animate-marquee: marquee 60s linear infinite;
   /* Long ease-out (easeOutQuint) for fades that should settle gently. */
   --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
 
-  /* Homepage photo wall: slower, so people have time to spot faces. */
+  /* Homepage photo wall: slow, so people have time to spot faces. Its
+     content is doubled, so -50% loops it. */
   --animate-photo-wall: marquee 140s linear infinite;
   @keyframes marquee {
     to {
@@ -147,6 +146,26 @@
     rgb(0 0 0 / 0.7) 74%,
     rgb(0 0 0 / 0.45) 81%,
     rgb(0 0 0 / 0.2) 88%,
+    rgb(0 0 0 / 0.05) 94%,
+    transparent 100%
+  );
+  mask-image: var(--fade);
+}
+
+/*
+ * The bottom half of mask-fade-y: solid at the top, then an eased fade to
+ * transparent, so the photo wall dissolves into the backdrop beneath it.
+ */
+@utility mask-fade-b {
+  --fade: linear-gradient(
+    to bottom,
+    black 45%,
+    rgb(0 0 0 / 0.95) 52%,
+    rgb(0 0 0 / 0.85) 59%,
+    rgb(0 0 0 / 0.7) 66%,
+    rgb(0 0 0 / 0.5) 73%,
+    rgb(0 0 0 / 0.3) 80%,
+    rgb(0 0 0 / 0.15) 87%,
     rgb(0 0 0 / 0.05) 94%,
     transparent 100%
   );
