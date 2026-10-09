@@ -17,11 +17,12 @@ export function EarlyBirdBanner({ type }: { type: SessionTypeId }) {
     <section className="px-2.5 py-15">
       <div className="mx-auto max-w-content px-2.5">
         <div className="relative isolate overflow-clip rounded-xl bg-blue text-foreground">
+          {/* Anchored to the right edge, overflowing it as in Figma. */}
           <img
             src={birdPattern}
             alt=""
             aria-hidden
-            className="pointer-events-none absolute top-29.5 left-142.75 -z-10 w-111.75 max-w-none rotate-15 max-md:hidden"
+            className="pointer-events-none absolute top-29.5 -right-17 -z-10 w-111.75 max-w-none rotate-15 max-md:hidden"
           />
           <Marquee />
           <div className="flex flex-col gap-2.5 px-7.5 pt-10 pb-8.75 md:pr-10 md:pl-12.5">
