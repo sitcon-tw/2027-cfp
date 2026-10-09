@@ -29,6 +29,14 @@
   --font-numeric: 'Inter Variable', sans-serif;
 
   --text-*: initial;
+  /* Homepage hero title (mega), 甚麼是 SITCON ? headline and stats. Not
+     in Figma: sized past the type scale on purpose for impact. */
+  --text-mega: 8.5rem; /* 136px */
+  --text-mega--line-height: 1.05;
+  --text-headline: 6rem; /* 96px */
+  --text-headline--line-height: 1.1;
+  --text-stat: 6rem; /* 96px */
+  --text-stat--line-height: 1;
   --text-display: 3.75rem; /* 60px */
   --text-display--line-height: 1.25;
   --text-h1: 2.25rem; /* 36px */
@@ -75,6 +83,19 @@
   --spacing-header: calc(var(--spacing) * 10 + var(--spacing-control-lg));
 
   --container-content: 60.625rem; /* 970px */
+
+  /* Topic ticker on the homepage: content is doubled, so -50% loops it. */
+  --animate-marquee: marquee 60s linear infinite;
+  /* Long ease-out (easeOutQuint) for fades that should settle gently. */
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Homepage photo wall: slower, so people have time to spot faces. */
+  --animate-photo-wall: marquee 140s linear infinite;
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
 }
 
 /*
@@ -83,6 +104,9 @@
  */
 @media (width < 48rem) {
   :root {
+    --text-mega: 3.25rem; /* 52px */
+    --text-headline: 2.5rem; /* 40px */
+    --text-stat: 3.5rem; /* 56px */
     --text-display: 2.5rem; /* 40px */
     --text-h1: 1.75rem; /* 28px */
     --text-eyebrow: 1.375rem; /* 22px */
@@ -102,6 +126,61 @@
     --spacing-control: 2.5rem; /* 40px */
     --spacing-control-lg: 3.25rem; /* 52px */
   }
+}
+
+/*
+ * Fades an element to transparent at its top and bottom edges with an eased
+ * curve, so full-bleed photos melt into the page without a visible seam.
+ */
+@utility mask-fade-y {
+  --fade: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgb(0 0 0 / 0.05) 6%,
+    rgb(0 0 0 / 0.2) 12%,
+    rgb(0 0 0 / 0.45) 19%,
+    rgb(0 0 0 / 0.7) 26%,
+    rgb(0 0 0 / 0.9) 33%,
+    black 40%,
+    black 60%,
+    rgb(0 0 0 / 0.9) 67%,
+    rgb(0 0 0 / 0.7) 74%,
+    rgb(0 0 0 / 0.45) 81%,
+    rgb(0 0 0 / 0.2) 88%,
+    rgb(0 0 0 / 0.05) 94%,
+    transparent 100%
+  );
+  mask-image: var(--fade);
+}
+
+/*
+ * Homepage photo wall spotlight. Script sets the hovered photo's box on
+ * the layer: --spotlight-left / -top / -width / -height.
+ *
+ * spotlight-shade dims the wall everywhere but that box. It is a rounded
+ * box --spotlight-reach larger than the photo on every side: a huge outer
+ * shadow darkens everything beyond it, and an inset shadow blurs from
+ * full dark at its edge to clear at the photo's. A blur is a true
+ * Gaussian, so the falloff has no bands or edges; the reach is two blur
+ * radii, putting both ends of the curve within ~2% of dark and clear.
+ */
+@utility spotlight-shade {
+  --spotlight-blur: --spacing(20);
+  --spotlight-reach: calc(var(--spotlight-blur) * 2);
+  --spotlight-color: color-mix(
+    in srgb,
+    var(--color-background) 70%,
+    transparent
+  );
+  position: absolute;
+  top: calc(var(--spotlight-top) - var(--spotlight-reach));
+  left: calc(var(--spotlight-left) - var(--spotlight-reach));
+  width: calc(var(--spotlight-width) + var(--spotlight-reach) * 2);
+  height: calc(var(--spotlight-height) + var(--spotlight-reach) * 2);
+  border-radius: calc(var(--radius-sm) + var(--spotlight-reach));
+  box-shadow:
+    0 0 0 100vmax var(--spotlight-color),
+    inset 0 0 var(--spotlight-blur) var(--spotlight-blur) var(--spotlight-color);
 }
 
 @layer base {

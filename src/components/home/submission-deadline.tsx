@@ -3,9 +3,13 @@ import { useEffect, useState } from 'react'
 import content from '@/content.json'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
+import { formatDate } from '@/lib/schedule'
 
-// TODO: set once the submission deadline is announced.
-const DEADLINE: Date | null = null
+// The end of the `submission` item in the speaker schedule.
+const deadline = content.speaker_section.schedule.find(
+  ({ id }) => id === 'submission',
+)?.end as string | null | undefined
+const DEADLINE = deadline ? new Date(deadline) : null
 
 const MINUTE = 60_000
 
@@ -69,12 +73,10 @@ function Countdown({ to }: { to: Date }) {
   const minutes = Math.max(0, Math.floor((to.getTime() - now) / MINUTE))
   const pad = (n: number) => String(n).padStart(2, '0')
 
-  return `${pad(Math.floor(minutes / 1440))} ${content.submission_deadline.units.days} ${pad(Math.floor(minutes / 60) % 24)} ${content.submission_deadline.units.hours} ${pad(minutes % 60)} ${content.submission_deadline.units.minutes}`
-}
-
-function formatDate(date: Date) {
-  const pad = (n: number) => String(n).padStart(2, '0')
-  return `${date.getFullYear()} / ${pad(date.getMonth() + 1)} / ${pad(date.getDate())}`
+  return content.submission_deadline.countdownFormat
+    .replace('{days}', pad(Math.floor(minutes / 1440)))
+    .replace('{hours}', pad(Math.floor(minutes / 60) % 24))
+    .replace('{minutes}', pad(minutes % 60))
 }
 
 /** Google Calendar "add event" link for the deadline. */

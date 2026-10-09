@@ -3,9 +3,9 @@ import { useId, useState } from 'react'
 
 import content from '@/content.json'
 import quizMascot from '@/assets/quiz-mascot.svg'
+import { ActionCard } from '@/components/action-card'
 import { Placeholder } from '@/components/placeholder'
 import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
 import {
   Dialog,
   DialogClose,
@@ -27,18 +27,13 @@ export function SessionQuiz() {
   const [answer, setAnswer] = useState<string | null>(null)
 
   return (
-    <Card className="rounded-xl py-4 pr-7.5 pl-5">
-      <div className="flex flex-wrap items-center gap-2.5 pl-1.25">
-        <Search className="mx-2.5 size-12 shrink-0" />
-        <div className="grow basis-60 p-2.5">
-          <h3 className="text-h3 font-bold">{content.session_quiz.title}</h3>
-          <p className="text-paragraph text-gray">
-            {content.session_quiz.description}
-          </p>
-        </div>
+    <ActionCard
+      icon={Search}
+      title={content.session_quiz.title}
+      description={content.session_quiz.description}
+      action={
         <Dialog>
-          {/* ml-auto keeps it right-aligned when it wraps onto its own row. */}
-          <DialogTrigger render={<Button variant="dark" className="ml-auto" />}>
+          <DialogTrigger render={<Button variant="dark" />}>
             {content.session_quiz.findSession}
           </DialogTrigger>
           <DialogContent className="flex flex-col gap-5">
@@ -75,7 +70,7 @@ export function SessionQuiz() {
             />
           </DialogContent>
         </Dialog>
-      </div>
-    </Card>
+      }
+    />
   )
 }

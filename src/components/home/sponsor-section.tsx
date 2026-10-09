@@ -3,11 +3,10 @@ import { Coffee } from 'lucide-react'
 import content from '@/content.json'
 import { buttonVariants } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
+import { SectionHeading } from '@/components/section-heading'
 import { links } from '@/lib/links'
-import { cn } from '@/lib/utils'
 
-/** 我要贊助 — the cream section that closes the homepage. */
+/** 想要支持？ — the cream section that closes the homepage. */
 export function SponsorSection() {
   return (
     <section
@@ -17,10 +16,9 @@ export function SponsorSection() {
     >
       <SlantedEdge />
       <div className="relative mx-auto flex max-w-content flex-col gap-2.5 p-2.5">
-        <h2 id="sponsor-title" className="text-h1 font-extrabold">
+        <SectionHeading id="sponsor-title">
           {content.sponsor_section.title}
-        </h2>
-        <Separator className="rounded-full bg-background/50 data-[orientation=horizontal]:h-0.75" />
+        </SectionHeading>
         <div className="py-2.5">
           <Card tone="ink" className="relative rounded-xl p-2.5">
             <Coffee
@@ -54,16 +52,18 @@ export function SponsorSection() {
 }
 
 /**
- * Two crossing bands straddling the section's top edge, so the dark page
- * above tears into the cream. Overflows sideways; the page clips it.
+ * A single solid wedge on the section's top edge, so the dark page above
+ * meets the cream on one clean diagonal. Stretches to any width.
  */
 function SlantedEdge() {
-  const band =
-    'absolute top-0 left-1/2 w-screen -translate-1/2 scale-x-150 bg-foreground'
   return (
-    <div aria-hidden className="pointer-events-none">
-      <div className={cn(band, 'h-22.5 rotate-3 opacity-60')} />
-      <div className={cn(band, 'h-20 -rotate-3')} />
-    </div>
+    <svg
+      aria-hidden
+      viewBox="0 0 100 10"
+      preserveAspectRatio="none"
+      className="pointer-events-none absolute bottom-full left-0 h-15 w-full fill-foreground"
+    >
+      <polygon points="0,10 100,0 100,10" />
+    </svg>
   )
 }

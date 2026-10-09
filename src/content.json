@@ -5,7 +5,7 @@
     "closeMenu": "關閉導覽選單",
     "navigation": "主要導覽",
     "submission": "徵稿說明",
-    "sponsor": "贊助 SITCON",
+    "sponsor": "支持 SITCON",
     "about": "關於 SITCON"
   },
   "site_footer": {
@@ -16,8 +16,8 @@
     "submitOpen": "開放式議程投稿",
     "submitDemo": "Demo 展投稿",
     "supportTitle": "支持我們",
-    "sponsor": "我要贊助",
-    "prospectus": "索取贊助徵求書",
+    "sponsor": "我要支持",
+    "prospectus": "索取支持徵求書",
     "pastSitesTitle": "歷年主題網站",
     "contactTitle": "聯絡我們",
     "email": "contact@sitcon.org",
@@ -36,14 +36,14 @@
     "venue": "中央研究院人文社會科學館",
     "attend": "我要參加",
     "submit": "我要投稿",
-    "sponsor": "我要贊助",
+    "sponsor": "我要支持",
     "dateTime": "2027-03-13"
   },
   "sponsor_section": {
-    "title": "我要贊助",
-    "description": "贊助 SITCON，能直接接觸由學生組成、對程式設計、開源軟體、資訊安全、硬體與社群經營充滿熱情的技術社群，提升品牌在年輕科技人才與開發者中的曝光與好感度，同時支持學生交流、分享作品與探索創新的平台；簡單來說，現在投資 SITCON，未來可能少一個凌晨三點才發現伺服器壞掉的人。",
-    "individual": "個人贊助",
-    "prospectus": "查看贊助募集書"
+    "title": "想要支持？",
+    "description": "支持 SITCON，能直接接觸由學生組成、對程式設計、開源軟體、資訊安全、硬體與社群經營充滿熱情的技術社群，提升品牌在年輕科技人才與開發者中的曝光與好感度，同時支持學生交流、分享作品與探索創新的平台；簡單來說，現在投資 SITCON，未來可能少一個凌晨三點才發現伺服器壞掉的人。",
+    "individual": "個人支持",
+    "prospectus": "查看支持募集書"
   },
   "session_quiz": {
     "title": "不知道你適合哪一種議程？",
@@ -80,17 +80,143 @@
     "unknownDate": "2027 / ?? / ??",
     "unknownCountdown": "XX D XX h XX min",
     "calendarTitle": "SITCON 2027 投稿截止",
-    "units": {
-      "days": "D",
-      "hours": "h",
-      "minutes": "min"
-    }
+    "countdownFormat": "{days} D {hours} h {minutes} min"
+  },
+  "about_section": {
+    "title": "甚麼是 SITCON ?",
+    "headline": {
+      "lead": "全東亞最大的",
+      "emphasis": "學生資訊年會"
+    },
+    "tagline": "由學生親手辦給學生。",
+    "description": "SITCON 學生計算機年會自 2013 年起，每年由來自全臺各地的學生籌備。從軟體開發、資訊安全、開源到硬體與社群，已有 500 名學生講者站上這個舞台；許多人在這裡第一次上台、第一次發 PR，也第一次發現原來有這麼多人跟自己一樣著迷於技術。",
+    "topics": [
+      "開源",
+      "資訊安全",
+      "網頁開發",
+      "硬體",
+      "人工智慧",
+      "社群經營",
+      "遊戲開發",
+      "資料科學",
+      "系統管理",
+      "程式教育"
+    ],
+    "topicsSeparator": "、",
+    "statsTitle": "到現在，我們累積了……",
+    "stats": [
+      {
+        "value": "14",
+        "label": "年來，全東亞最大的學生社群"
+      },
+      {
+        "value": "14,000",
+        "label": "名參與者"
+      },
+      {
+        "value": "500",
+        "label": "名學生講者"
+      },
+      {
+        "value": "1,400",
+        "label": "名熱愛資訊的志工"
+      }
+    ],
+    "photoQuote": "每年三月，上千名學生在這裡相遇。",
+    "photoWallLarge": [],
+    "photoWallLabel": "歷屆 SITCON 年會的現場照片",
+    "about": "認識 SITCON →",
+    "photos": "看更多活動照片 →"
+  },
+  "attend_section": {
+    "title": "想要參與？",
+    "description": "SITCON 的票不只一種：有給開源貢獻者的、給遠道而來的人的，也有給需要一點支持的同學的。先找到適合你的那一種，再對照日程，別錯過開放的時間。",
+    "viewSchedule": "查看索票日程 →",
+    "scheduleTitle": "索票日程",
+    "scheduleDescription": "每種票開放的時間不同，名額也各自獨立，看看什麼時候輪到你。",
+    "dialogDescription": "同一個人只需要選一種票。日期以正式公告為準。",
+    "tickets": [
+      {
+        "id": "contributor",
+        "name": "開源貢獻票",
+        "summary": "給已經在為開源付出的你",
+        "description": "曾經替開源專案送 PR、回報 issue、翻譯文件或維護社群？憑你的貢獻紀錄申請保留名額，不必和大家一起搶票。",
+        "start": null,
+        "end": null
+      },
+      {
+        "id": "far",
+        "name": "遠道而來票",
+        "summary": "給住得遠、來一趟不容易的你",
+        "description": "從外縣市、離島或海外前來？我們替路途遙遠的與會者保留名額，讓距離不再是錯過 SITCON 的理由。",
+        "start": null,
+        "end": null
+      },
+      {
+        "id": "dream",
+        "name": "開源築夢計畫",
+        "summary": "給想參加、但需要一點支持的你",
+        "description": "由社群與支持夥伴共同支持，協助經濟上有需要的學生參與年會。申請資料只用於審核，不會公開。",
+        "start": null,
+        "end": null
+      },
+      {
+        "id": "supporter",
+        "name": "個人支持票",
+        "summary": "給想多支持 SITCON 一點的你",
+        "description": "以購票的方式支持年會運作。除了入場資格，也會收到專屬的個人支持紀念品。",
+        "start": null,
+        "end": null
+      },
+      {
+        "id": "general",
+        "name": "一般票",
+        "summary": "給每一個對資訊有興趣的人",
+        "description": "開放所有人報名，名額有限、先搶先贏。記得設好鬧鐘！",
+        "start": null,
+        "end": null
+      }
+    ]
   },
   "speaker_section": {
-    "title": "想要成為舞臺上的講者？"
-  },
-  "index": {
-    "placeholder": "Nathan 詠唱"
+    "title": "想要成為舞臺上的講者？",
+    "scheduleTitle": "投稿日程",
+    "scheduleDescription": "從開放投稿到議程表公布，一次看完講者會經過的每一步。",
+    "viewSchedule": "查看投稿日程 →",
+    "dialogDescription": "日期以公告為準；早鳥投稿能提早收到審稿回饋，修改後再送一次。",
+    "schedule": [
+      {
+        "id": "early",
+        "name": "早鳥投稿",
+        "summary": "提早投稿，提早收到審稿回饋",
+        "description": "在早鳥期間投稿的稿件會先收到審稿委員的建議，你可以在投稿截止前修改後重新送出。",
+        "start": null,
+        "end": null
+      },
+      {
+        "id": "submission",
+        "name": "投稿期間",
+        "summary": "三種議程類型都在這段時間收件",
+        "description": "一般議程、開放式議程與 Demo 展都在這段時間收件。截止後不再受理新稿件。",
+        "start": null,
+        "end": null
+      },
+      {
+        "id": "review",
+        "name": "審稿結果公布",
+        "summary": "以 Email 通知錄取結果",
+        "description": "請留意信箱，也記得看一下垃圾郵件匣。",
+        "start": null,
+        "end": null
+      },
+      {
+        "id": "agenda",
+        "name": "議程表公布",
+        "summary": "所有議程上線，準備上台",
+        "start": null,
+        "end": null
+      }
+    ]
   },
   "session_page": {
     "placeholders": {
@@ -129,91 +255,6 @@
       "cta": "參考更多稿件"
     }
   },
-  "playground": {
-    "title": "Playground",
-    "submission": "徵稿說明",
-    "generalSession": "一般議程",
-    "openSession": "開放式議程",
-    "demoSession": "Demo 展",
-    "sponsor": "贊助 SITCON",
-    "home": "回首頁",
-    "buttonsTitle": "Button",
-    "buttonsHint": "Every variant × size. Tab through them to check the focus ring.",
-    "clickButton": "Click me",
-    "focusableDisabled": "focusableWhenDisabled",
-    "creamButtonsTitle": "Button on cream",
-    "findSession": "幫我找議程類型 →",
-    "mutedButton": "muted",
-    "tabsTitle": "Tabs",
-    "tabsHint": "Arrow keys move focus; Enter or Space activates. 'Disable all' disables Demo 展.",
-    "tabValue": "value: {value}",
-    "radioTitle": "RadioGroup",
-    "radioHint": "Arrow keys move and select. 'Disable all' disables the group.",
-    "answerValue": "value: {value}",
-    "question": "如果明天就是 SITCON，你最希望自己的議程現場長什麼樣子？",
-    "reset": "Reset",
-    "dialogTitle": "Dialog",
-    "dialogHint": "Centered dialog from md up, swipe-down bottom sheet below. Resize while open to swap.",
-    "openDialog": "Open dialog",
-    "dialogBody": "Escape, the backdrop, the X or (on mobile) a swipe down closes it.",
-    "cardsTitle": "Card",
-    "cardsHint": "Default rounded-sm; outer corners per the corner rule.",
-    "separatorTitle": "Separator",
-    "left": "left",
-    "right": "right",
-    "placeholderTitle": "Placeholder",
-    "placeholder": "Nathan 詠唱",
-    "typographyTitle": "Typography",
-    "typographyHint": "Every text-* token.",
-    "displayExample": "display",
-    "h1Example": "h1 我要贊助",
-    "eyebrowExample": "eyebrow SITCON 2027",
-    "h2Example": "h2 甚麼是 SITCON ?",
-    "h3Example": "h3 一般議程",
-    "leadExample": "lead 加入行事曆",
-    "paragraphExample": "paragraph 段落文字",
-    "subheadingExample": "subheading 連結",
-    "bodyExample": "body 首頁",
-    "captionExample": "caption 學生計算機年會",
-    "numericExample": "numeric 2027 / 03 / 13",
-    "enableAll": "Enable all",
-    "disableAll": "Disable all",
-    "linkExample": "<a> via buttonVariants",
-    "iconButton": "Icon button {number}",
-    "noAnswer": "null",
-    "clickReadout": "clicks: {clicks} · disabled: {disabled}",
-    "booleanLabels": {
-      "true": "true",
-      "false": "false"
-    },
-    "sessionIntro": "「{title}」的介紹文字。",
-    "verticalReadout": "orientation=\"vertical\"",
-    "variants": {
-      "red": "red",
-      "blue": "blue",
-      "green": "green",
-      "cream": "cream",
-      "muted": "muted",
-      "dark": "dark",
-      "outline": "outline"
-    },
-    "sizes": {
-      "md": "md",
-      "lg": "lg",
-      "icon": "icon"
-    },
-    "tones": {
-      "cream": "cream",
-      "light": "light",
-      "gray": "gray",
-      "ink": "ink"
-    },
-    "sessionValues": {
-      "general": "general",
-      "open": "open",
-      "demo": "demo"
-    }
-  },
   "sessions": {
     "generalTitle": "一般議程",
     "generalSummary": "40 分鐘 / 10 分鐘深度分享",
@@ -243,6 +284,19 @@
     "calendar": "https://calendar.google.com/calendar/render"
   },
   "metadata": {
+    "lang": "zh-Hant-TW",
     "title": "2027 CFP"
+  },
+  "schedule": {
+    "range": "{start} — {end}",
+    "unannounced": "日期未定",
+    "close": "關閉",
+    "status": {
+      "unannounced": "未公布",
+      "upcoming": "即將開始",
+      "open": "進行中",
+      "closed": "已結束"
+    },
+    "next": "下一個時段：{name}，{date}"
   }
 }
