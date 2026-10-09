@@ -86,6 +86,8 @@
 
   /* Topic ticker on the homepage: content is doubled, so -50% loops it. */
   --animate-marquee: marquee 60s linear infinite;
+  /* Homepage photo wall: slower, so people have time to spot faces. */
+  --animate-photo-wall: marquee 140s linear infinite;
   @keyframes marquee {
     to {
       transform: translateX(-50%);

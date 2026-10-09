@@ -1,8 +1,7 @@
 import { Link } from '@tanstack/react-router'
 
 import content from '@/content.json'
-import sessionPhoto from '@/assets/session-general.jpg'
-import { Placeholder } from '@/components/placeholder'
+import { PhotoWall } from '@/components/home/photo-wall'
 import { buttonVariants } from '@/components/ui/button'
 import { links } from '@/lib/links'
 import { cn } from '@/lib/utils'
@@ -13,7 +12,7 @@ const statColors = ['text-red', 'text-blue', 'text-green', 'text-foreground']
  * 甚麼是 SITCON ? — the first thing people arriving from sitcon.org see, so
  * it sells the conference before the attend and speaker sections. Sized
  * past the type scale on purpose (`text-headline`, `text-stat`), with
- * full-bleed bands and photo; the page's `overflow-x-clip` trims them.
+ * full-bleed bands and photo wall; the page's `overflow-x-clip` trims them.
  */
 export function AboutSection() {
   const about = content.about_section
@@ -72,45 +71,19 @@ export function AboutSection() {
         </div>
       </div>
 
-      <figure className="relative isolate mt-25 flex aspect-4/3 items-end md:aspect-21/9">
-        {/* The mask fades photo and tint into the page at both edges; the
-            tint darkens the photo under the quote. */}
-        <div className="absolute inset-0 -z-10 mask-fade-y">
-          <img
-            src={sessionPhoto}
-            alt={about.photoAlt}
-            className="size-full object-cover"
-          />
-          <div className="absolute inset-0 bg-linear-to-b from-background/30 via-background/40 to-background/80" />
-        </div>
-        <figcaption className="w-full px-2.5 pb-10">
-          <p className="mx-auto max-w-content p-2.5 text-display font-extrabold text-balance">
-            {about.photoQuote}
-          </p>
-        </figcaption>
-      </figure>
-
-      <div className="px-2.5">
-        <div className="mx-auto flex max-w-content flex-col gap-7.5 p-2.5">
-          <Placeholder
-            label={about.speakersPlaceholder}
-            className="rounded-xl"
-          />
-          <div className="flex flex-wrap justify-end gap-5">
-            <a
-              href={links.social.flickr}
-              target="_blank"
-              rel="noreferrer"
-              className={buttonVariants({ variant: 'muted' })}
-            >
-              {about.photos}
-            </a>
-            <Link to={links.about} className={buttonVariants()}>
-              {about.about}
-            </Link>
-          </div>
-        </div>
-      </div>
+      <PhotoWall>
+        <a
+          href={links.social.flickr}
+          target="_blank"
+          rel="noreferrer"
+          className={buttonVariants({ variant: 'muted' })}
+        >
+          {about.photos}
+        </a>
+        <Link to={links.about} className={buttonVariants()}>
+          {about.about}
+        </Link>
+      </PhotoWall>
     </section>
   )
 }
