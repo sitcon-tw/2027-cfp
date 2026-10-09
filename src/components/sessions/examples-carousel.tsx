@@ -17,7 +17,8 @@ export type ExamplesCarouselProps = ExamplesSection
 
 /**
  * Paged grid of past sessions: Presentation / Espresso / 投稿範例. The
- * arrows and the dots drive the same page; nothing advances on its own.
+ * arrows and the dots drive the same page, which slides in sideways;
+ * nothing advances on its own.
  */
 export function ExamplesCarousel({
   title,
@@ -30,7 +31,9 @@ export function ExamplesCarousel({
   const [requestedPage, setPage] = useState(0)
   // Fewer pages after a resize: stay on the last one that still exists.
   const page = Math.min(requestedPage, Math.max(0, pageCount - 1))
-  const visible = items.slice(page * pageSize, (page + 1) * pageSize)
+  const pages = Array.from({ length: pageCount }, (_, i) =>
+    items.slice(i * pageSize, (i + 1) * pageSize),
+  )
 
   if (items.length === 0) {
     return (
@@ -51,16 +54,29 @@ export function ExamplesCarousel({
           >
             <ChevronLeft />
           </ArrowButton>
-          <ul
-            aria-live="polite"
-            className="grid flex-1 grid-cols-1 gap-2.5 py-2.5 md:grid-cols-2"
-          >
-            {visible.map((item, i) => (
-              <li key={page * pageSize + i}>
-                <ExampleCard {...item} />
-              </li>
-            ))}
-          </ul>
+          <div className="min-w-0 flex-1 overflow-clip">
+            <div
+              className="flex transition-transform duration-700 ease-smooth motion-reduce:transition-none"
+              style={{ transform: `translateX(-${page * 100}%)` }}
+            >
+              {pages.map((cards, i) => (
+                // Off-screen pages are inert, so Tab and screen readers
+                // only reach the cards that are showing.
+                <ul
+                  key={i}
+                  inert={i !== page}
+                  aria-hidden={i !== page}
+                  className="grid w-full shrink-0 grid-cols-1 gap-2.5 p-1.5 md:grid-cols-2"
+                >
+                  {cards.map((item, j) => (
+                    <li key={j}>
+                      <ExampleCard {...item} />
+                    </li>
+                  ))}
+                </ul>
+              ))}
+            </div>
+          </div>
           <ArrowButton
             label={text.next}
             disabled={page === pageCount - 1}

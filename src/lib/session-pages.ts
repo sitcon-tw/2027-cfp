@@ -47,8 +47,9 @@ export interface SessionPage {
   examples: ExamplesSection[]
 }
 
-// TODO: real past sessions and links, from the program team.
-const placeholderExamples: SessionExample[] = Array.from({ length: 4 }, () => ({
+// TODO: real past sessions and links, from the program team. Two pages'
+// worth for now, so the carousel's paging can be seen.
+const placeholderExamples: SessionExample[] = Array.from({ length: 8 }, () => ({
   title: text.examples.placeholderSession,
   href: TODO_HREF,
   image: examplePlaceholder,
