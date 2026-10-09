@@ -95,6 +95,8 @@
 
   /* Early Bird band on the session pages: a short word, so a quicker loop. */
   --animate-early-bird: marquee 20s linear infinite;
+  /* Demo 展 poster strip: slow like the photo wall, so posters can be read. */
+  --animate-poster-strip: marquee 80s linear infinite;
   @keyframes marquee {
     to {
       transform: translateX(-50%);
