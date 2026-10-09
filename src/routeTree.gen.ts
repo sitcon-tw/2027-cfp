@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
-import { Route as PlaygroundRouteImport } from './routes/playground'
 import { Route as SessionsTypeRouteImport } from './routes/sessions.$type'
 import { Route as SubmitTypeRouteImport } from './routes/submit.$type'
 
@@ -23,11 +22,6 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PlaygroundRoute = PlaygroundRouteImport.update({
-  id: '/playground',
-  path: '/playground',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SessionsTypeRoute = SessionsTypeRouteImport.update({
@@ -44,14 +38,12 @@ const SubmitTypeRoute = SubmitTypeRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/playground': typeof PlaygroundRoute
   '/sessions/$type': typeof SessionsTypeRoute
   '/submit/$type': typeof SubmitTypeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/playground': typeof PlaygroundRoute
   '/sessions/$type': typeof SessionsTypeRoute
   '/submit/$type': typeof SubmitTypeRoute
 }
@@ -59,29 +51,20 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/playground': typeof PlaygroundRoute
   '/sessions/$type': typeof SessionsTypeRoute
   '/submit/$type': typeof SubmitTypeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    '/' | '/about' | '/playground' | '/sessions/$type' | '/submit/$type'
+  fullPaths: '/' | '/about' | '/sessions/$type' | '/submit/$type'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/playground' | '/sessions/$type' | '/submit/$type'
-  id:
-    | '__root__'
-    | '/'
-    | '/about'
-    | '/playground'
-    | '/sessions/$type'
-    | '/submit/$type'
+  to: '/' | '/about' | '/sessions/$type' | '/submit/$type'
+  id: '__root__' | '/' | '/about' | '/sessions/$type' | '/submit/$type'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  PlaygroundRoute: typeof PlaygroundRoute
   SessionsTypeRoute: typeof SessionsTypeRoute
   SubmitTypeRoute: typeof SubmitTypeRoute
 }
@@ -100,13 +83,6 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/playground': {
-      id: '/playground'
-      path: '/playground'
-      fullPath: '/playground'
-      preLoaderRoute: typeof PlaygroundRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sessions/$type': {
@@ -129,7 +105,6 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  PlaygroundRoute: PlaygroundRoute,
   SessionsTypeRoute: SessionsTypeRoute,
   SubmitTypeRoute: SubmitTypeRoute,
 }
