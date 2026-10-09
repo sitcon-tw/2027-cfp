@@ -169,24 +169,23 @@ When implementing from Figma:
 Sizes in px (tokens are rem). Line heights are the same at every size
 unless a mobile value is given.
 
-| Token             | Figma                | Desktop              | Mobile    | Use                                 |
-| ----------------- | -------------------- | -------------------- | --------- | ----------------------------------- |
-| `font-sans`       | —                    | LINE Seed TW → Inter |           | Everything (default)                |
-| `font-numeric`    | Inter Medium         | Inter                |           | Dates and countdown digits          |
-| `text-mega`       | — (not in Figma)     | 136 / 1.05           | 52        | Homepage "Call For Papers"          |
-| `text-headline`   | — (not in Figma)     | 96 / 1.1             | 40        | 甚麼是 SITCON ? headline            |
-| `text-stat`       | — (not in Figma)     | 96 / 1               | 56        | 甚麼是 SITCON ? numbers             |
-| `text-display`    | 80 / 1.25            | 60                   | 40        | Section titles (`SectionHeading`)   |
-| `text-title`      | 64 / 113px (`h1`)    | 48 / 1.75            | 32 / 1.5  | Page titles in `PageHero`           |
-| `text-h1`         | 48 / 1 (`h2`)        | 36                   | 28        | Sub-headings (到現在，我們累積了……) |
-| `text-eyebrow`    | 40 / 1               | 30                   | 22        | "SITCON 2027"                       |
-| `text-h2`         | 36 / 40px            | 28 / 1.1             | 22        | Centered titles                     |
-| `text-h3`         | 32 / 1.5 (`h3`)      | 24                   | 20        | Card titles                         |
-| `text-lead`       | 28 / normal          | 20                   | 18        | Large button                        |
-| `text-paragraph`  | 24 / 2 (`paragraph`) | 18                   | 16 / 1.75 | Body copy, buttons, quiz            |
-| `text-subheading` | 20 / 1.5             | 18                   | 16        | Footer column titles                |
-| `text-body`       | 16 / 1.5             | 16                   | 14        | Navbar, footer links                |
-| `text-caption`    | 12 / 1.5             | 12                   | 12        | Footer fine print                   |
+| Token             | Figma                | Desktop              | Mobile    | Use                                  |
+| ----------------- | -------------------- | -------------------- | --------- | ------------------------------------ |
+| `font-sans`       | —                    | LINE Seed TW → Inter |           | Everything (default)                 |
+| `font-numeric`    | Inter Medium         | Inter                |           | Dates and countdown digits           |
+| `text-mega`       | — (not in Figma)     | 136 / 1.05           | 52        | Homepage "Call For Papers"           |
+| `text-headline`   | — (not in Figma)     | 96 / 1.1             | 40        | 甚麼是 SITCON ? headline, `PageHero` |
+| `text-stat`       | — (not in Figma)     | 96 / 1               | 56        | 甚麼是 SITCON ? numbers              |
+| `text-display`    | 80 / 1.25            | 60                   | 40        | Section titles (`SectionHeading`)    |
+| `text-h1`         | 48 / 1 (`h2`)        | 36                   | 28        | Sub-headings (到現在，我們累積了……)  |
+| `text-eyebrow`    | 40 / 1               | 30                   | 22        | "SITCON 2027"                        |
+| `text-h2`         | 36 / 40px            | 28 / 1.1             | 22        | Centered titles                      |
+| `text-h3`         | 32 / 1.5 (`h3`)      | 24                   | 20        | Card titles                          |
+| `text-lead`       | 28 / normal          | 20                   | 18        | Large button                         |
+| `text-paragraph`  | 24 / 2 (`paragraph`) | 18                   | 16 / 1.75 | Body copy, buttons, quiz             |
+| `text-subheading` | 20 / 1.5             | 18                   | 16        | Footer column titles                 |
+| `text-body`       | 16 / 1.5             | 16                   | 14        | Navbar, footer links                 |
+| `text-caption`    | 12 / 1.5             | 12                   | 12        | Footer fine print                    |
 
 Weights: `font-normal` (400), `font-bold` (700), `font-extrabold` (800).
 `font-medium` is for Inter only.

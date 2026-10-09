@@ -33,7 +33,9 @@ export function PageHero({
         )}
         <div className="mx-auto max-w-content p-2.5 pt-25 md:pt-62.5">
           <div className="flex flex-col gap-2.5 py-2.5">
-            <h1 className="text-title font-extrabold">{title}</h1>
+            <h1 className="text-headline font-extrabold text-balance">
+              {title}
+            </h1>
             {description && <p className="text-paragraph">{description}</p>}
           </div>
         </div>
