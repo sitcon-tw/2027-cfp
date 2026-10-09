@@ -17,17 +17,18 @@ export function EarlyBirdBanner({ type }: { type: SessionTypeId }) {
     <section className="px-2.5 py-15">
       <div className="mx-auto max-w-content px-2.5">
         <div className="relative isolate overflow-clip rounded-xl bg-blue text-foreground">
-          {/* Anchored to the right edge, overflowing it as in Figma. */}
+          {/* Anchored to the right edge, overflowing it as in Figma; it sits
+              behind the text, faint enough to keep on mobile too. */}
           <img
             src={birdPattern}
             alt=""
             aria-hidden
-            className="pointer-events-none absolute top-29.5 -right-17 -z-10 w-111.75 max-w-none rotate-15 max-md:hidden"
+            className="pointer-events-none absolute top-29.5 -right-17 -z-10 w-111.75 max-w-none rotate-15"
           />
           <Marquee />
           <div className="flex flex-col gap-2.5 px-7.5 pt-10 pb-8.75 md:pr-10 md:pl-12.5">
             <h2 className="text-h3 font-bold">{text.title}</h2>
-            <p className="text-h1 font-extrabold">
+            <p className="text-h1 font-extrabold break-keep">
               <EarlyBirdCountdown />
             </p>
             <p className="text-paragraph">{text.tagline}</p>
