@@ -98,6 +98,18 @@ as `/sessions/general`, `/submit/demo`, and `/about` when no static file matches
 This allows direct links and page refreshes to work. `pnpm preview` is for local
 verification, not production hosting.
 
+## Continuous integration
+
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs on every pull
+request to `dev` and every push to `dev`. Its three jobs mirror `pnpm check`
+plus the build:
+
+- **Lint** runs `pnpm lint`.
+- **Format** runs `pnpm format:check`.
+- **Build** runs `pnpm build` (which typechecks first) and fails if the build
+  regenerated `src/routeTree.gen.ts`, meaning a route change was committed
+  without the regenerated route tree.
+
 ## Preview deployments
 
 The `dev` branch deploys to <https://2027-cfp-preview.sitcon.workers.dev>
