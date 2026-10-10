@@ -26,14 +26,14 @@ function SubmitPage() {
   const { type } = Route.useParams()
   return (
     <main className="overflow-x-clip">
-      <PageHero label={text.hero} />
+      <PageHero title={text.hero} />
       <div className="px-2.5 py-7.5">
         <div className="mx-auto max-w-content">
           <SubmissionTypeTabs type={type} />
         </div>
       </div>
       <SubmissionForm type={type} />
-      <PhotoCta label={text.cta} />
+      <PhotoCta title={text.cta} actions={[]} />
     </main>
   )
 }

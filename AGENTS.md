@@ -134,6 +134,7 @@ colors, type scale and radii are **reset**, so `bg-white`, `text-sm`,
 | `gray`                   | `#2B2B2B`                         | Gray               | Dark card, secondary text on cream, rules          |
 | `light`                  | `#E3E0DC`                         | Light              | Muted button, quiz wells                           |
 | `red` / `blue` / `green` | `#FF625B` / `#6A74E3` / `#8DF280` | Red / Blue / Green | Hero accent buttons; `blue` is also the focus ring |
+| `yellow`                 | `#FCBF30`                         | Yellow             | Early Bird marquee band                            |
 | `black`                  | `#000000`                         | Grays/Black        | Overlays only (navbar glass `bg-black/35`)         |
 
 The Figma names are kept as-is, so on cream sections the text color is
@@ -278,9 +279,11 @@ Regions that are not designed yet, or are marked WIP in Figma, render
 design for them. Current placeholders:
 
 - `佔位` — the footer row of the session-type quiz.
-- Every section of `/sessions/$type`, `/submit/$type` and `/about`. Each
-  component file exists and is wired in place; its issue replaces the
-  placeholder with the real section.
+- Every section of `/submit/$type` and `/about`. Each component file exists
+  and is wired in place; its issue replaces the placeholder with the real
+  section.
+- The Demo 展 photo wall and poster strip on `/sessions/demo`, which are
+  blank frames in Figma until the photos arrive.
 
 ### Undesigned states
 

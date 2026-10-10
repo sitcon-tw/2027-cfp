@@ -1,25 +1,50 @@
 import type { ReactNode } from 'react'
 
-import { Placeholder } from '@/components/placeholder'
-
 export interface PageHeroProps {
-  /** Placeholder label until the hero is built. */
-  label: string
-  /** Rendered under the intro, still over the photo (session-page tabs). */
+  /** Page title, rendered as the page's `<h1>`. */
+  title: string
+  /** One-line intro under the title. */
+  description?: string
+  /** Decorative background photo; it fades into the page background. */
+  image?: string
+  /** Rendered under the photo, e.g. the session-page tabs. */
   children?: ReactNode
 }
 
 /**
- * Photo and gradient header of the session and submission pages: page title
- * and intro over a photo. Pads its top with `pt-header` for the site header.
+ * Photo header of the session and submission pages: title and intro over a
+ * photo that fades into the page. Pads its top with `pt-header` for the
+ * overlaid site header.
  */
-export function PageHero({ label, children }: PageHeroProps) {
+export function PageHero({
+  title,
+  description,
+  image,
+  children,
+}: PageHeroProps) {
   return (
-    <section className="px-2.5 pt-header pb-7.5">
-      <div className="mx-auto flex max-w-content flex-col gap-5">
-        <Placeholder label={label} />
-        {children}
-      </div>
-    </section>
+    <>
+      <section className="relative isolate px-2.5 pt-header">
+        {image && (
+          <div aria-hidden className="absolute inset-0 -z-10">
+            <img src={image} alt="" className="size-full object-cover" />
+            <div className="absolute inset-0 bg-linear-to-b from-black/0 to-background" />
+          </div>
+        )}
+        <div className="mx-auto max-w-content p-2.5 pt-25 md:pt-62.5">
+          <div className="flex flex-col gap-2.5 py-2.5">
+            <h1 className="text-headline font-extrabold text-balance">
+              {title}
+            </h1>
+            {description && <p className="text-paragraph">{description}</p>}
+          </div>
+        </div>
+      </section>
+      {children && (
+        <div className="px-2.5">
+          <div className="mx-auto max-w-content p-2.5">{children}</div>
+        </div>
+      )}
+    </>
   )
 }

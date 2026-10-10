@@ -204,22 +204,224 @@
     ]
   },
   "session_page": {
-    "placeholders": {
-      "hero": "{title}頁首",
-      "tabs": "議程類型切換（目前：{title}）",
-      "intro": "{title}介紹卡片",
-      "earlyBird": "早鳥投稿倒數",
-      "presentationExamples": "Presentation 範例",
-      "espressoExamples": "Espresso 範例",
-      "openExamples": "投稿範例",
-      "demoGallery": "歷年展區圖片",
-      "demoPosters": "歷年海報展示",
-      "reviewCriteria": "審稿標準",
-      "beforeSubmission": "投稿前需確認",
-      "requirements": "投稿需要什麼？",
-      "afterSubmission": "投稿後會做什麼？",
-      "faq": "{title} Q&A",
-      "cta": "底部投稿 CTA"
+    "tabsLabel": "議程類型",
+    "general": {
+      "heroTitle": "一般議程投稿",
+      "heroDescription": "深度分享或精準傳達，系統呈現技術洞見或實務經驗，帶領會眾汲取新知與啟發。",
+      "introTitle": "議程種類",
+      "intro": [
+        {
+          "title": "40 分鐘 Presentation",
+          "description": "包含 30 分鐘的議程與 10 分鐘的問答時間，讓您可以分享您的經歷、介紹您的技術或研究、帶給與會者一場豐富完整的知識洗禮。"
+        },
+        {
+          "title": "10 分鐘 Espresso",
+          "description": "挑戰用最濃縮且輕量的新知與技術分享，快速衝擊與會者的認知，激發他們對新領域的想像與好奇。"
+        }
+      ]
+    },
+    "open": {
+      "heroTitle": "開放式議程投稿",
+      "heroDescription": "不限定進行方式，鼓勵互動討論與多元對話或實作，讓會眾共創觀點、激發思維交流。",
+      "introTitle": "議程介紹",
+      "intro": [
+        {
+          "title": "實作工作坊",
+          "description": "跟著講者一起動手做，透過實際操作探索技術、工具與各種有趣主題。"
+        },
+        {
+          "title": "議題交流",
+          "description": "圍繞一個主題自由討論、提問，從不同觀點與經驗中激發新的想法。"
+        },
+        {
+          "title": "社群分享",
+          "description": "分享社群、專案或活動經驗，也和更多志同道合的人認識、交流。"
+        }
+      ]
+    },
+    "demo": {
+      "heroTitle": "Demo 展",
+      "heroDescription": "透過專案展示與現場互動，展出成果、交流回饋，讓靈感在即時對談中誕生與延伸。",
+      "introTitle": "議程介紹",
+      "intro": [
+        {
+          "title": "專案展示",
+          "description": "把自己的作品帶到現場，向大家介紹設計想法、技術實作與開發過程。"
+        },
+        {
+          "title": "現場體驗",
+          "description": "讓參與者實際操作、試用作品，直接感受專案的功能與特色。"
+        },
+        {
+          "title": "成果交流",
+          "description": "和現場參與者分享成果、交換意見，也從回饋中獲得新的靈感。"
+        }
+      ]
+    },
+    "earlyBird": {
+      "marquee": "Early Bird",
+      "title": "早鳥投稿募集中！投稿倒數",
+      "countdown": "{days} 天 {hours} 小時 {minutes} 分鐘",
+      "unknownCountdown": "?? 天 ?? 小時 ?? 分鐘",
+      "tagline": "早投的鳥有蟲吃，啾啾啾啾啾啾",
+      "submit": "我要投稿"
+    },
+    "examples": {
+      "presentation": {
+        "title": "Presentation 範例",
+        "description": "文字文字文字"
+      },
+      "espresso": {
+        "title": "Espresso 範例",
+        "description": "文字文字文字"
+      },
+      "open": {
+        "title": "投稿範例",
+        "description": "文字文字文字"
+      },
+      "placeholderSession": "為什麼要演奏春日影？",
+      "empty": "範例整理中，敬請期待。",
+      "previous": "上一頁",
+      "next": "下一頁",
+      "page": "第 {page} 頁"
+    },
+    "demoGallery": {
+      "title": "歷年展區照片",
+      "placeholder": "展區照片"
+    },
+    "demoPosters": {
+      "title": "歷年海報展示",
+      "label": "歷年 Demo 展海報",
+      "placeholder": "海報"
+    },
+    "reviewCriteria": {
+      "title": "審稿標準",
+      "items": [
+        {
+          "term": "主題契合度",
+          "description": "投稿內容是否符合 SITCON 的精神與年會主題，並適合學生資訊社群的聽眾。"
+        },
+        {
+          "term": "內容完整性",
+          "description": "議程主題、內容規劃與預期成果是否清楚完整，能讓審稿者理解分享重點。"
+        },
+        {
+          "term": "內容深度",
+          "description": "分享是否具備足夠的技術、經驗或觀點，並能帶給聽眾實質的收穫。"
+        },
+        {
+          "term": "分享價值",
+          "description": "內容是否具有啟發性、實用性或獨特性，值得在年會中與更多人交流。"
+        }
+      ]
+    },
+    "requirements": {
+      "title": "投稿需要什麼？",
+      "items": [
+        {
+          "term": "主題契合度",
+          "description": "投稿內容是否符合 SITCON 的精神與年會主題，並適合學生資訊社群的聽眾。"
+        },
+        {
+          "term": "內容完整性",
+          "description": "議程主題、內容規劃與預期成果是否清楚完整，能讓審稿者理解分享重點。"
+        },
+        {
+          "term": "內容深度",
+          "description": "分享是否具備足夠的技術、經驗或觀點，並能帶給聽眾實質的收穫。"
+        },
+        {
+          "term": "分享價值",
+          "description": "內容是否具有啟發性、實用性或獨特性，值得在年會中與更多人交流。"
+        }
+      ]
+    },
+    "beforeSubmission": {
+      "title": "投稿前需確認",
+      "items": [
+        {
+          "title": "社群行為準則（CoC）",
+          "body": [
+            "SITCON 致力於打造友善、尊重且安心的交流環境。投稿與參與活動前，請先閱讀並遵守",
+            {
+              "text": "社群行為準則（Code of Conduct）",
+              "link": "codeOfConduct"
+            },
+            "，一起維護每位參與者的權益與活動體驗。"
+          ]
+        },
+        {
+          "title": "投稿注意事項",
+          "body": [
+            "投稿前請確認議程內容、格式與相關資訊符合",
+            {
+              "text": "徵稿規範",
+              "link": "submissionGuidelines"
+            },
+            "，也請留意投稿期限、議程長度及其他必要欄位。完整的投稿資訊能幫助審稿者更準確地理解你的分享內容。"
+          ]
+        },
+        {
+          "title": "授權",
+          "body": [
+            "為了讓議程內容能在年會現場及會後持續被分享，投稿前請確認相關的錄影、簡報與內容授權方式。實際授權範圍與使用方式皆會在",
+            {
+              "text": "說明頁",
+              "link": "license"
+            },
+            "中清楚列出。"
+          ]
+        }
+      ]
+    },
+    "afterSubmission": {
+      "title": "投稿後會做什麼？",
+      "items": [
+        {
+          "title": "形式確認",
+          "body": [
+            "投稿截止後，籌備團隊會依照投稿內容與議程需求進行確認，並可能與講者聯繫補充資訊、調整議程形式或確認相關細節，讓後續審稿與安排能夠順利進行。"
+          ]
+        },
+        {
+          "title": "試講",
+          "body": [
+            "部分議程可能會安排試講，讓講者提前實際分享內容，也讓籌備團隊了解議程節奏、內容呈現與時間掌握，並提供適當的建議與回饋。"
+          ]
+        },
+        {
+          "title": "彩排",
+          "body": [
+            "年會前會視議程需求安排彩排，協助講者熟悉場地、設備與流程，並確認簡報、麥克風、投影等相關事項，讓正式上台時可以更安心地分享內容。"
+          ]
+        }
+      ]
+    },
+    "faq": {
+      "title": "Q&A",
+      "pendingAnswer": "答案整理中，敬請期待。",
+      "items": [
+        {
+          "question": "我需要先知道自己的議程種類嗎？",
+          "answer": "不用太擔心一開始就選錯！你可以先參考各種議程形式的說明，選擇最符合分享內容與呈現方式的類型。若後續籌備團隊認為有更適合的形式，也可能再與你聯繫討論調整。"
+        },
+        {
+          "question": "早鳥投稿和一般投稿差在哪裡？",
+          "answer": ""
+        },
+        {
+          "question": "試講是什麼？",
+          "answer": ""
+        },
+        {
+          "question": "投稿之後可以修改投稿內容嗎？",
+          "answer": ""
+        }
+      ]
+    },
+    "cta": {
+      "title": "想要在舞臺發光發熱？",
+      "submit": "立即投稿"
     }
   },
   "about_page": {
@@ -266,7 +468,10 @@
     "flickr": "https://www.flickr.com/photos/sitcon",
     "youtube": "https://www.youtube.com/@SITCONtw",
     "pastSite": "https://sitcon.org/{year}/",
-    "calendar": "https://calendar.google.com/calendar/render"
+    "calendar": "https://calendar.google.com/calendar/render",
+    "codeOfConduct": "#",
+    "submissionGuidelines": "#",
+    "license": "#"
   },
   "metadata": {
     "lang": "zh-Hant-TW",
