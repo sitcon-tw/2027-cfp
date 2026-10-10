@@ -49,28 +49,111 @@
     "title": "不知道你適合哪一種議程？",
     "description": "回答 3 個小問題，一起找找適合你的分享方式。",
     "findSession": "幫我找議程類型 →",
-    "placeholder": "佔位",
     "close": "關閉",
-    "question": {
-      "prompt": "如果明天就是 SITCON，你最希望自己的議程現場長什麼樣子？",
-      "answers": [
-        {
-          "value": "A",
-          "text": "用不長的時間，分享一個最近很想讓大家知道的新資訊、idea 或經驗"
-        },
-        {
-          "value": "B",
-          "text": "好好把一個主題從頭到尾講清楚，讓大家完整理解"
-        },
-        {
-          "value": "C",
-          "text": "做一件平常不一定做得到的事，沒有一定要得到什麼標準答案"
-        },
-        {
-          "value": "D",
-          "text": "顧著自己的攤位，讓大家走過來看看、問問題、互動或實際體驗作品"
-        }
-      ]
+    "progress": "第 {current} / {total} 題",
+    "back": "上一題",
+    "next": "下一題",
+    "showResult": "看結果",
+    "resultLead": "你適合的是……",
+    "restart": "重新測驗",
+    "questions": [
+      {
+        "prompt": "如果明天就是 SITCON，你最希望自己的議程現場長什麼樣子？",
+        "answers": [
+          {
+            "value": "A",
+            "text": "用不長的時間，分享一個最近很想讓大家知道的新資訊、idea 或經驗",
+            "scores": { "espresso": 3, "presentation": 1, "open": 0, "demo": 0 }
+          },
+          {
+            "value": "B",
+            "text": "好好把一個主題從頭到尾講清楚，讓大家完整理解",
+            "scores": { "espresso": 1, "presentation": 3, "open": 0, "demo": 0 }
+          },
+          {
+            "value": "C",
+            "text": "做一件平常議程不一定做得到的事，形式自由，沒有一定要得到什麼標準答案",
+            "scores": { "espresso": 0, "presentation": 0, "open": 3, "demo": 1 }
+          },
+          {
+            "value": "D",
+            "text": "顧著自己的攤位，讓大家走過來看看、問問題、互動或實際體驗作品",
+            "scores": { "espresso": 0, "presentation": 0, "open": 1, "demo": 3 }
+          }
+        ]
+      },
+      {
+        "prompt": "散場之後，你最希望大家帶走什麼？",
+        "answers": [
+          {
+            "value": "A",
+            "text": "「這個題目有可以這麼深入且完成」",
+            "scores": { "espresso": 1, "presentation": 3, "open": 0, "demo": 0 }
+          },
+          {
+            "value": "B",
+            "text": "「剛剛真的有看到、玩到，還能直接跟作品互動！」",
+            "scores": { "espresso": 0, "presentation": 0, "open": 1, "demo": 3 }
+          },
+          {
+            "value": "C",
+            "text": "「短時間內居然可以讓我知道這個新資訊」",
+            "scores": { "espresso": 3, "presentation": 1, "open": 0, "demo": 0 }
+          },
+          {
+            "value": "D",
+            "text": "「原來 SITCON 還能這樣玩，大家都可以用自己的方式參與跟發揮！」",
+            "scores": { "espresso": 0, "presentation": 0, "open": 3, "demo": 1 }
+          }
+        ]
+      },
+      {
+        "prompt": "活動結束後，你最希望有人怎麼跟朋友介紹你的議程？",
+        "answers": [
+          {
+            "value": "A",
+            "text": "「我剛剛聽到一個以前不知道的東西／很有趣的 idea！」",
+            "scores": { "espresso": 3, "presentation": 1, "open": 0, "demo": 0 }
+          },
+          {
+            "value": "B",
+            "text": "「我現在終於比較完整地搞懂這個主題了！」",
+            "scores": { "espresso": 1, "presentation": 3, "open": 0, "demo": 0 }
+          },
+          {
+            "value": "C",
+            "text": "「剛剛那場很特別，我們做了很多平常演講不會做的事情！」",
+            "scores": { "espresso": 0, "presentation": 0, "open": 3, "demo": 1 }
+          },
+          {
+            "value": "D",
+            "text": "「那個攤位很好玩，我還有直接跟講者／作品互動！」",
+            "scores": { "espresso": 0, "presentation": 0, "open": 1, "demo": 3 }
+          }
+        ]
+      }
+    ],
+    "results": {
+      "espresso": {
+        "title": "Espresso",
+        "description": "一般議程中的 10 分鐘短講：把一個新資訊、idea 或經驗濃縮成一杯 Espresso，短短一場就讓大家帶走新東西。",
+        "learnMore": "了解 Espresso"
+      },
+      "presentation": {
+        "title": "Presentation",
+        "description": "一般議程中的 40 分鐘演講：把一個主題從頭到尾講清楚，帶大家完整而深入地理解。",
+        "learnMore": "了解 Presentation"
+      },
+      "open": {
+        "title": "開放式議程",
+        "description": "形式由你決定：討論、工作坊，或任何平常議程做不到的事，和大家一起參與、一起發揮。",
+        "learnMore": "了解開放式議程"
+      },
+      "demo": {
+        "title": "Demo 展",
+        "description": "顧一個自己的攤位展示作品，讓大家走過來看看、玩玩，直接和你互動。",
+        "learnMore": "了解 Demo 展"
+      }
     }
   },
   "submission_deadline": {
