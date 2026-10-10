@@ -38,6 +38,13 @@ badges (未公布 / 即將開始 / 進行中 / 已結束) are computed from the 
 speaker item with id `submission` supplies the homepage submission deadline
 too, so keep that id stable.
 
+The session-type quiz lives in `content.session_quiz.questions`. Each answer
+carries `scores` for the four results (`espresso`, `presentation`, `open`,
+`demo`; see `content.session_quiz.results`), and the highest total wins. On a
+tie, the result picked most recently as an answer's top score wins (Q3, then
+Q2, then Q1). Espresso and Presentation both link to the 一般議程 page; the
+mapping is in `src/lib/session-quiz.ts`.
+
 ## Where components go
 
 - `src/components/ui/` — reusable UI primitives (button, tabs, dialog, tooltip, …).
@@ -284,7 +291,6 @@ Regions that are not designed yet, or are marked WIP in Figma, render
 `<Placeholder label="…" />` from `@/components/placeholder`. Do not invent a
 design for them. Current placeholders:
 
-- `佔位` — the footer row of the session-type quiz.
 - Every section of `/sessions/$type`, `/submit/$type` and `/about`. Each
   component file exists and is wired in place; its issue replaces the
   placeholder with the real section.
@@ -294,5 +300,6 @@ design for them. Current placeholders:
 Figma has no hover, focus, selected, checked or popup designs yet. The
 primitives use proposals (dimmed inactive tabs, ink checked radios, navbar-
 glass dropdown, `brightness-95` hover, cream `Dialog` that becomes a
-swipe-down bottom sheet below `md`). Keep them consistent and replace them
-when the designs arrive.
+swipe-down bottom sheet below `md`). The session-type quiz's footer (back /
+progress / next) and its result screen are proposals too. Keep them
+consistent and replace them when the designs arrive.
