@@ -236,19 +236,11 @@
     "typePrompt": "今天想要投稿什麼議程？",
     "mockNotice": "開發用，未實際送出",
     "demoDescription": "以下為測試表單樣式與互動的示範欄位，並非正式投稿題目。請勿填寫真實個人資料。",
-    "pendingNotice": "表單控制項建置中，示範送出暫不可用。",
-    "pendingControl": "{control} 元件待接上",
     "requiredLabel": "{label}（必填）",
     "detailsTitle": "示範輸入欄位",
     "choicesTitle": "示範單選與多選",
     "submit": "送出投稿內容",
     "loading": "模擬送出中……",
-    "controls": {
-      "input": "Input",
-      "textarea": "Textarea",
-      "checkboxGroup": "CheckboxGroup",
-      "checkbox": "Checkbox"
-    },
     "fields": {
       "name": {
         "label": "示範姓名",
@@ -297,6 +289,13 @@
       "consent": "請勾選已閱讀相關資訊。"
     },
     "mock": {
+      "outcomeLabel": "模擬送出結果",
+      "outcomeDescription": "選擇要測試的模擬回應。所有結果都不會實際送出投稿。",
+      "outcomes": {
+        "success": "模擬成功",
+        "field-error": "模擬欄位錯誤",
+        "server-error": "模擬伺服器錯誤"
+      },
       "success": "模擬流程完成，未實際送出投稿。",
       "fieldError": "模擬欄位驗證失敗，未實際送出投稿。",
       "emailError": "這是模擬的電子郵件欄位錯誤，請修改示範信箱後重試。",

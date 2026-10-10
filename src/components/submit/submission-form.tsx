@@ -3,20 +3,40 @@ import { useId, useState, useSyncExternalStore } from 'react'
 import content from '@/content.json'
 import { SubmissionFieldControl } from '@/components/submit/submission-field'
 import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
+import { Fieldset, FieldsetLegend } from '@/components/ui/fieldset'
+import { Form } from '@/components/ui/form'
 import type { SessionTypeId } from '@/lib/session-types'
 import {
   createSubmissionStore,
   getSubmissionFields,
+  type MockOutcome,
   type SubmissionField,
 } from '@/lib/submission'
 
 const text = content.submit_page
 
-/** Staged form UI: working radios; Form and other controls await shared primitives. */
+const mockOutcomeField: SubmissionField = {
+  key: 'mock-outcome',
+  kind: 'radio',
+  group: 'choices',
+  required: false,
+  label: text.mock.outcomeLabel,
+  description: text.mock.outcomeDescription,
+  options: Object.entries(text.mock.outcomes).map(([value, label]) => ({
+    value,
+    label,
+  })),
+}
+
+/** Shared controls and validation, with an explicitly simulated submission. */
 export function SubmissionForm({ type }: { type: SessionTypeId }) {
   const id = useId()
   const [store] = useState(createSubmissionStore)
+  const [outcomes, setOutcomes] = useState<Record<SessionTypeId, MockOutcome>>({
+    general: 'success',
+    open: 'success',
+    demo: 'success',
+  })
   const states = useSyncExternalStore(
     store.subscribe,
     store.getSnapshot,
@@ -47,44 +67,77 @@ export function SubmissionForm({ type }: { type: SessionTypeId }) {
         >
           <p className="text-paragraph font-bold">{text.mockNotice}</p>
           <p className="text-body text-light">{text.demoDescription}</p>
-          <p className="text-body text-light">{text.pendingNotice}</p>
+          <SubmissionFieldControl
+            key={type}
+            field={mockOutcomeField}
+            value={outcomes[type]}
+            disabled={isSubmitting}
+            onValueChange={(value) => {
+              if (
+                value === 'success' ||
+                value === 'field-error' ||
+                value === 'server-error'
+              ) {
+                setOutcomes((current) => ({ ...current, [type]: value }))
+              }
+            }}
+          />
         </div>
 
-        {/* Shared Form/Field primitives are required before enabling submission. */}
-        <div key={type} aria-busy={isSubmitting}>
-          <section className="flex flex-col gap-2.5 px-2.5 py-7.5">
-            <h2 className="text-h3 font-bold">{text.detailsTitle}</h2>
-            <Separator className="bg-light" />
+        <Form
+          key={type}
+          aria-busy={isSubmitting}
+          aria-describedby={`${id}-mock`}
+          // Keep no-errors stable while awaiting a response, so Base UI focuses
+          // the first invalid control when asynchronous field errors arrive.
+          errors={Object.keys(errors).length ? errors : undefined}
+          onSubmit={(event) => {
+            event.preventDefault()
+            void store.submit(type, outcomes[type])
+          }}
+        >
+          <Fieldset disabled={isSubmitting} className="px-2.5 py-7.5">
+            <FieldsetLegend>
+              <h2>{text.detailsTitle}</h2>
+            </FieldsetLegend>
             {fields
               .filter((field) => field.group === 'details')
               .map(renderField)}
-          </section>
+          </Fieldset>
 
-          <section className="flex flex-col gap-2.5 px-2.5 py-7.5">
-            <h2 className="text-h3 font-bold">{text.choicesTitle}</h2>
-            <Separator className="bg-light" />
+          <Fieldset disabled={isSubmitting} className="px-2.5 py-7.5">
+            <FieldsetLegend>
+              <h2>{text.choicesTitle}</h2>
+            </FieldsetLegend>
             {fields
               .filter((field) => field.group === 'choices')
               .map(renderField)}
-          </section>
+          </Fieldset>
 
           <div className="flex flex-col items-start gap-5 px-2.5 pt-7.5 pb-15">
             {fields
               .filter((field) => field.group === 'consent')
               .map(renderField)}
             <Button
-              disabled
-              type="button"
+              disabled={isSubmitting}
+              type="submit"
               className="rounded-full"
               aria-describedby={`${id}-mock`}
             >
               {isSubmitting ? text.loading : text.submit}
             </Button>
-            <p role="status" className="text-body text-light">
+            <p
+              role={result && result.status !== 'success' ? 'alert' : 'status'}
+              className={
+                result && result.status !== 'success'
+                  ? 'text-body text-red'
+                  : 'text-body text-light'
+              }
+            >
               {result?.message}
             </p>
           </div>
-        </div>
+        </Form>
       </div>
     </section>
   )
