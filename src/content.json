@@ -316,10 +316,77 @@
     }
   },
   "submit_page": {
+    "typePrompt": "今天想要投稿什麼議程？",
+    "mockNotice": "開發用，未實際送出",
+    "demoDescription": "以下為測試表單樣式與互動的示範欄位，並非正式投稿題目。請勿填寫真實個人資料。",
+    "pendingNotice": "表單控制項建置中，示範送出暫不可用。",
+    "pendingControl": "{control} 元件待接上",
+    "requiredLabel": "{label}（必填）",
+    "detailsTitle": "示範輸入欄位",
+    "choicesTitle": "示範單選與多選",
+    "submit": "送出投稿內容",
+    "loading": "模擬送出中……",
+    "controls": {
+      "input": "Input",
+      "textarea": "Textarea",
+      "checkboxGroup": "CheckboxGroup",
+      "checkbox": "Checkbox"
+    },
+    "fields": {
+      "name": {
+        "label": "示範姓名",
+        "description": "使用虛構姓名，測試文字輸入與必填驗證。",
+        "placeholder": "例如：王大明、李小鹿"
+      },
+      "email": {
+        "label": "示範電子郵件",
+        "description": "使用範例信箱，測試電子郵件格式驗證。",
+        "placeholder": "例如：speaker@example.com"
+      },
+      "summary": {
+        "label": "示範分享摘要",
+        "description": "輸入一段測試文字，測試多行輸入。",
+        "placeholder": "例如：分享製作一個小工具時的練習經驗。"
+      },
+      "format": {
+        "label": "示範分享方式",
+        "description": "選擇一個選項，測試單選操作；此選擇不影響議程類型。",
+        "options": {
+          "talk": "分享練習經驗",
+          "workshop": "一起動手練習",
+          "showcase": "展示練習作品"
+        }
+      },
+      "topics": {
+        "label": "示範主題",
+        "description": "可選擇多個選項，測試多選操作。",
+        "options": {
+          "software": "軟體開發",
+          "hardware": "硬體實作",
+          "community": "社群交流"
+        }
+      },
+      "consent": {
+        "label": "我已閱讀徵稿說明、CoC、投稿注意事項與授權資訊",
+        "description": "同意欄位預設不勾選；正式條款連結待主辦單位提供。"
+      }
+    },
+    "validation": {
+      "requiredText": "請填寫{label}。",
+      "requiredChoice": "請選擇{label}。",
+      "invalidChoice": "請選擇有效的示範選項。",
+      "email": "請輸入有效的示範電子郵件。",
+      "maxLength": "{label}請勿超過 {limit} 字。",
+      "consent": "請勾選已閱讀相關資訊。"
+    },
+    "mock": {
+      "success": "模擬流程完成，未實際送出投稿。",
+      "fieldError": "模擬欄位驗證失敗，未實際送出投稿。",
+      "emailError": "這是模擬的電子郵件欄位錯誤，請修改示範信箱後重試。",
+      "serverError": "模擬服務暫時無法使用，未實際送出投稿；示範草稿仍保留。"
+    },
     "placeholders": {
       "hero": "我要投稿頁首",
-      "tabs": "投稿議程類型切換（目前：{title}）",
-      "form": "{title}投稿表單",
       "cta": "參考更多稿件"
     }
   },
