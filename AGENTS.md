@@ -224,6 +224,29 @@ corners are `sm`. Examples: deadline + countdown (`rounded-l-xl` /
 `<Card className="rounded-l-xl">`. `TabsList` applies the rule to its tabs
 automatically.
 
+**Section layout.** Sections are built so their edges line up down the
+page and spacing reads as one rhythm. Copy the shell from an existing
+section of the same kind instead of picking new numbers.
+
+- **One gutter, one column.** Every section has the same screen-edge
+  gutter and the same centered `max-w-content` column with the same inner
+  padding, so the text starts at the same x on every section, every page.
+  Never pad one section's column differently to nudge its content.
+- **Each kind of spacing has one owner.** The section owns its background,
+  full-bleed width and the space above and below it. The column owns the
+  rhythm between its children (one `gap`). A child that needs a larger
+  break adds padding on itself. Don't mix in margins or change the gap
+  per child.
+- **Same kind, same spacing.** Sections that play the same role (homepage
+  sections, sub-page sections, a page's first section under the header)
+  share the same vertical padding. Deviate only where Figma does, and say
+  why in a comment.
+- **Full-bleed pieces rejoin the column.** Elements that break out to the
+  screen edge (the photo wall, slanted edges) put any text or controls they
+  carry back inside the shared column.
+- **Stay on the grid.** All spacing comes from the 5/10px Figma grid (see
+  "Spacing" above). Snap off-grid Figma values to the nearest step.
+
 ### Icons and images
 
 - Icons: use `lucide-react` whenever an equivalent exists (the design is
