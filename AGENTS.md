@@ -266,3 +266,10 @@ primitives use proposals (dimmed inactive tabs, ink checked radios, navbar-
 glass dropdown, `brightness-95` hover, cream `Dialog` that becomes a
 swipe-down bottom sheet below `md`). Keep them consistent and replace them
 when the designs arrive.
+
+The form primitives (`Field`, `Input`, `Checkbox`, …) follow Figma's
+表單 Page for empty, filled, focus and checked. Focus on `Input` and
+`Textarea` is Figma's lighter border, not the blue ring. Proposals:
+`FieldDescription` in `text-light`, invalid as a red border with
+`FieldError` in red, disabled at half opacity, `Textarea` height, and
+checkbox hover.
