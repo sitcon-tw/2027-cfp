@@ -4,7 +4,7 @@
       "title": "基本資料",
       "description": [
         "為了與您聯繫投稿事宜，我們需要您的聯絡方式。",
-        "除暱稱 / 姓名、自我介紹與講者照片將用於年會網站與相關介紹，其餘資訊僅提供議程組聯絡使用；當稿件同時有多位講者時，僅需提供一人的聯絡資訊作為代表即可。",
+        "除暱稱 / 姓名與自我介紹將用於年會網站與相關介紹，其餘資訊僅提供議程組聯絡使用；當稿件同時有**多位講者**時，**僅需提供一人的聯絡資訊作為代表**即可。",
         "除非獲得您的同意，否則我們不會將資料提供給 SITCON 籌備團隊以外的人士。"
       ]
     },
@@ -40,14 +40,6 @@
       "required": true,
       "public": true,
       "column": "自我介紹"
-    },
-    "photo": {
-      "label": "講者照片",
-      "description": "若稿件順利錄取，此照片將會顯示於公開議程表。格式需為正方形圖片，建議像素為 640×640 以上。",
-      "kind": "file",
-      "accept": "image/*",
-      "required": true,
-      "column": "講者照片"
     },
     "contactEmail": {
       "label": "您的 Email",
@@ -280,7 +272,6 @@
             "name",
             "nickname",
             "bio",
-            "photo",
             "contactEmail",
             "phone",
             "otherContact",
@@ -321,7 +312,6 @@
             "name",
             "nickname",
             "bio",
-            "photo",
             "contactEmail",
             "phone",
             "otherContact",
@@ -366,7 +356,6 @@
             "name",
             "nickname",
             "bio",
-            "photo",
             "contactEmail",
             "phone",
             "otherContact",
