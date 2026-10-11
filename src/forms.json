@@ -62,14 +62,6 @@
       "required": true,
       "column": "其他聯絡方式"
     },
-    "shirtSize": {
-      "label": "衣服尺寸",
-      "description": "若稿件順利錄取，本次年會提供一件年會紀念短袖 T-shirt，尺寸請參照尺寸表。",
-      "kind": "select",
-      "required": true,
-      "options": ["XS", "S", "M", "L", "XL", "2XL", "3XL"],
-      "column": "衣服尺寸"
-    },
     "referral": {
       "label": "如何得知徵稿資訊",
       "kind": "radio",
@@ -275,7 +267,6 @@
             "contactEmail",
             "phone",
             "otherContact",
-            "shirtSize",
             "referral"
           ]
         },
@@ -315,7 +306,6 @@
             "contactEmail",
             "phone",
             "otherContact",
-            "shirtSize",
             "referral"
           ]
         },
@@ -359,7 +349,6 @@
             "contactEmail",
             "phone",
             "otherContact",
-            "shirtSize",
             "referral"
           ]
         },
