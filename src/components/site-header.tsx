@@ -71,7 +71,10 @@ export function SiteHeader({ className }: { className?: string }) {
               </NavigationMenuContent>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <NavigationMenuLink topLevel href="/#sponsor">
+              <NavigationMenuLink
+                topLevel
+                render={<Link to="/" hash="sponsor" />}
+              >
                 {content.site_header.sponsor}
               </NavigationMenuLink>
             </NavigationMenuItem>

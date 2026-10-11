@@ -1,12 +1,14 @@
 import type { ComponentProps, ReactNode } from 'react'
+import {
+  siFacebook,
+  siFlickr,
+  siInstagram,
+  siTelegram,
+  siYoutube,
+} from 'simple-icons'
 
 import content from '@/content.json'
-import facebookIcon from '@/assets/facebook.svg'
-import flickrIcon from '@/assets/flickr.svg'
-import instagramIcon from '@/assets/instagram.svg'
 import sitconLogo from '@/assets/sitcon-logo-full.svg'
-import telegramIcon from '@/assets/telegram.svg'
-import youtubeIcon from '@/assets/youtube.svg'
 import { buttonVariants } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { links } from '@/lib/links'
@@ -19,23 +21,23 @@ const socials = [
   {
     name: content.social.facebook,
     href: links.social.facebook,
-    icon: facebookIcon,
+    icon: siFacebook,
   },
   {
     name: content.social.instagram,
     href: links.social.instagram,
-    icon: instagramIcon,
+    icon: siInstagram,
   },
   {
     name: content.social.telegram,
     href: links.social.telegram,
-    icon: telegramIcon,
+    icon: siTelegram,
   },
-  { name: content.social.flickr, href: links.social.flickr, icon: flickrIcon },
+  { name: content.social.flickr, href: links.social.flickr, icon: siFlickr },
   {
     name: content.social.youtube,
     href: links.social.youtube,
-    icon: youtubeIcon,
+    icon: siYoutube,
   },
 ]
 
@@ -105,7 +107,13 @@ export function SiteFooter() {
                     size: 'icon',
                   })}
                 >
-                  <img src={icon} alt="" />
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                    className="size-6 fill-current"
+                  >
+                    <path d={icon.path} />
+                  </svg>
                 </a>
               </li>
             ))}

@@ -31,9 +31,7 @@ export function AboutSection() {
           <div className="flex flex-col gap-5">
             <p className="text-headline font-extrabold tracking-tight">
               <span className="block">{about.headline.lead}</span>
-              <span className="block text-green">
-                {about.headline.emphasis}
-              </span>
+              <span className="block text-blue">{about.headline.emphasis}</span>
             </p>
             <p className="text-h1 font-extrabold">{about.tagline}</p>
           </div>
