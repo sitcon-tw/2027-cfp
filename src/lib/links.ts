@@ -8,7 +8,7 @@ export const links = {
   tickets: TODO_HREF,
   about: '/about',
   theme: TODO_HREF,
-  sponsorIndividual: TODO_HREF,
+  sponsorIndividual: content.links.donate,
   sponsorProspectus: TODO_HREF,
   contactEmail: content.links.contactEmail,
   pastSite: (year: number) =>
