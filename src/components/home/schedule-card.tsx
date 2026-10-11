@@ -14,7 +14,6 @@ import {
 } from '@/components/ui/dialog'
 import {
   formatScheduleDate,
-  nextScheduleItem,
   scheduleStatus,
   type ScheduleItem,
   type ScheduleStatus,
@@ -44,8 +43,6 @@ export function ScheduleCard({
   dialogDescription,
   items,
 }: ScheduleCardProps) {
-  const next = nextScheduleItem(items)
-
   return (
     <ActionCard
       icon={icon}
@@ -68,15 +65,7 @@ export function ScheduleCard({
           </DialogContent>
         </Dialog>
       }
-    >
-      {next && (
-        <p className="text-paragraph font-bold">
-          {content.schedule.next
-            .replace('{name}', next.name)
-            .replace('{date}', formatScheduleDate(next))}
-        </p>
-      )}
-    </ActionCard>
+    />
   )
 }
 
@@ -87,8 +76,8 @@ const dotClassNames: Record<ScheduleStatus, string> = {
   closed: 'bg-gray/40',
 }
 
-const badgeTones: Record<ScheduleStatus, BadgeTone> = {
-  unannounced: 'light',
+/** Unannounced items get no badge, so a missing date stays low-key. */
+const badgeTones: Record<Exclude<ScheduleStatus, 'unannounced'>, BadgeTone> = {
   upcoming: 'blue',
   open: 'green',
   closed: 'light',
@@ -117,11 +106,12 @@ function ScheduleTimeline({ items }: { items: ScheduleItem[] }) {
             <div className="flex flex-1 flex-col gap-1.25 pb-7.5 group-last:pb-0">
               <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.25">
                 <h3 className="text-lead font-bold">{item.name}</h3>
-                <Badge tone={badgeTones[status]}>
-                  {content.schedule.status[status]}
-                </Badge>
+                {status !== 'unannounced' && (
+                  <Badge tone={badgeTones[status]}>
+                    {content.schedule.status[status]}
+                  </Badge>
+                )}
               </div>
-              {/* Unannounced items already say so in the badge. */}
               {status !== 'unannounced' && (
                 <p className="font-numeric text-body font-medium text-gray">
                   {formatScheduleDate(item)}

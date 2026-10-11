@@ -10,6 +10,7 @@ import {
 
 import content from '@/content.json'
 import sitconLogo from '@/assets/sitcon-logo-full.svg'
+import { PhotoCredits } from '@/components/photo-credits'
 import { buttonVariants } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { links } from '@/lib/links'
@@ -70,6 +71,7 @@ export function SiteFooter() {
                 {label}
               </Link>
             ))}
+            <PhotoCredits />
           </FooterColumn>
           <FooterColumn title={content.site_footer.supportTitle}>
             <Link to="/" hash="sponsor" className={footerLinkClassName}>

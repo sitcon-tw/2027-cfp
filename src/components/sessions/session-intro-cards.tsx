@@ -1,3 +1,4 @@
+import { LinkedText } from '@/components/linked-text'
 import { SessionSection } from '@/components/sessions/session-section'
 import { Card } from '@/components/ui/card'
 import type { IntroCard } from '@/lib/session-pages'
@@ -46,7 +47,9 @@ export function SessionIntroCards({
               />
               <div className="relative flex flex-col gap-2.5 p-5">
                 <h3 className="text-h3 font-bold">{title}</h3>
-                <p className="text-paragraph">{description}</p>
+                <p className="text-paragraph">
+                  <LinkedText text={description} />
+                </p>
               </div>
             </Card>
           </li>

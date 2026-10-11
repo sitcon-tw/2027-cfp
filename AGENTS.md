@@ -24,6 +24,9 @@ Run `pnpm check` (typecheck, lint, format check) before finishing a task.
 - Keep complete sentences in JSON. For dynamic content, use named placeholders
   such as `{title}` and substitute values in code; do not concatenate hardcoded
   words or punctuation. Keep markup and layout in React.
+- Body copy rendered by `LinkedText` (session pages, form descriptions) may
+  use `[label](https://…)` links and `**bold**`, the only inline markup.
+  Keep the bold of the source document; headings and titles stay plain.
 - Technical identifiers (route paths, anchors, CSS classes, state values),
   calculated numbers, date-format separators, and empty decorative `alt=""`
   attributes may stay in code. Display labels for technical values belong in JSON.
@@ -56,7 +59,8 @@ Homepage schedules live in `content.attend_section.tickets` and
 `content.speaker_section.schedule`. Each item's `start` / `end` is an ISO
 timestamp with an explicit timezone (e.g. `2027-01-05T23:59:00+08:00`), or
 `null` until announced; a single moment sets only one of them. The status
-badges (未公布 / 即將開始 / 進行中 / 已結束) are computed from the dates. The
+badges (即將開始 / 進行中 / 已結束) are computed from the dates; an
+unannounced item shows no badge and no date. The
 speaker item with id `submission` supplies the homepage submission deadline
 too, so keep that id stable.
 
@@ -328,11 +332,17 @@ Regions that are not designed yet, or are marked WIP in Figma, render
 `<Placeholder label="…" />` from `@/components/placeholder`. Do not invent a
 design for them. Current placeholders:
 
-- Every section of `/submit/$type` and `/about`. Each component file exists
+- Every section of `/about`. Each component file exists
   and is wired in place; its issue replaces the placeholder with the real
   section.
-- The Demo 展 photo wall and poster strip on `/sessions/demo`, which are
-  blank frames in Figma until the photos arrive.
+
+### Demo posters
+
+The 歷年海報展示 strip on `/sessions/demo` shows every image in
+`src/assets/demo-posters/`, newest file name first (`2026-1.webp` before
+`2025-1.webp`). They are past posters from the 2026 and 2025 sites
+(`sitcon-tw/2026` `public/img/poster/`, `sitcon-tw/2025` `public/poster/`),
+exported at 1000px tall (webp).
 
 ### Undesigned states
 

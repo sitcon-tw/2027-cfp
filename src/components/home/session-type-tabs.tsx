@@ -1,25 +1,61 @@
-import content from '@/content.json'
-import { Placeholder } from '@/components/placeholder'
+import type { ReactNode } from 'react'
+import { LinkedText } from '@/components/linked-text'
+import { Card } from '@/components/ui/card'
 import { Tabs, TabsList, TabsPanel, TabsTab } from '@/components/ui/tabs'
 import { sessionTypes, type SessionType } from '@/lib/session-types'
+import { cn } from '@/lib/utils'
 
 /**
- * Session-type stack with a detail panel that follows the selection. The
- * stack and panel read as one shape: only the outer corners are `xl`.
+ * Session types. From `md` up, a stack of tabs with a detail panel that
+ * follows the selection; below it, one card per type with everything shown,
+ * so phones don't have to tap through tabs to read the descriptions.
  */
 export function SessionTypeTabs() {
+  return (
+    <>
+      <SessionTypeCards />
+      <SessionTypeTabList />
+    </>
+  )
+}
+
+function SessionTypeCards() {
+  return (
+    <ul className="flex w-full flex-col gap-5 md:hidden">
+      {sessionTypes.map((type) => (
+        <li key={type.id} className="group flex">
+          <SessionTypeIntro
+            type={type}
+            className="group-first:rounded-t-xl group-last:rounded-b-xl"
+            heading={
+              <div className="flex items-center gap-2.5">
+                <type.icon className="size-10 shrink-0" />
+                <div className="flex flex-col">
+                  <h3 className="text-h3 font-bold">{type.title}</h3>
+                  <p className="text-paragraph">{type.summary}</p>
+                </div>
+              </div>
+            }
+          />
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+function SessionTypeTabList() {
   return (
     <Tabs
       orientation="vertical"
       defaultValue={sessionTypes[0].id}
-      className="w-full gap-5 max-md:flex-col"
+      className="w-full gap-5 max-md:hidden"
     >
-      <TabsList className="grow gap-5 md:basis-111.25">
+      <TabsList className="grow basis-111.25 gap-5">
         {sessionTypes.map(({ id, title, summary, icon: Icon }) => (
           <TabsTab
             key={id}
             value={id}
-            className="justify-start gap-2.5 px-5 py-4 text-left data-[orientation=vertical]:last:rounded-b-sm md:data-[orientation=vertical]:first:rounded-tr-sm md:data-[orientation=vertical]:last:rounded-bl-xl"
+            className="justify-start gap-2.5 px-5 py-4 text-left data-[orientation=vertical]:first:rounded-tr-sm data-[orientation=vertical]:last:rounded-br-sm"
           >
             <Icon className="mx-2.5 size-10 shrink-0" />
             <span className="flex flex-col p-2.5">
@@ -29,41 +65,58 @@ export function SessionTypeTabs() {
           </TabsTab>
         ))}
       </TabsList>
-      {sessionTypes.map((type) => (
-        <TabsPanel
-          key={type.id}
-          value={type.id}
-          className="flex grow md:basis-121.25"
-        >
-          <SessionTypeIntro type={type} />
-        </TabsPanel>
-      ))}
+      {/* Every panel stays laid out in the same grid cell (closed ones are
+          invisible and inert, not `hidden`), so the panel keeps the tallest
+          intro's height and switching tabs doesn't resize it. */}
+      <div className="grid grow basis-121.25">
+        {sessionTypes.map((type) => (
+          <TabsPanel
+            key={type.id}
+            value={type.id}
+            keepMounted
+            hidden={false}
+            className="col-start-1 row-start-1 flex data-hidden:invisible"
+          >
+            <SessionTypeIntro type={type} className="rounded-r-xl" />
+          </TabsPanel>
+        ))}
+      </div>
     </Tabs>
   )
 }
 
-function SessionTypeIntro({ type }: { type: SessionType }) {
-  if (!type.intro) {
-    return (
-      <Placeholder
-        label={content.sessions.introPlaceholder.replace('{title}', type.title)}
-        className="flex-1 rounded-b-xl md:rounded-tr-xl md:rounded-bl-sm"
-      />
-    )
-  }
-
+/**
+ * Dimmed session photo behind the type's description. Stacked tiles read as
+ * one shape: callers round only the outer corners to `xl`.
+ */
+function SessionTypeIntro({
+  type,
+  heading = <h3 className="text-h3 font-bold">{type.title}</h3>,
+  className,
+}: {
+  type: SessionType
+  heading?: ReactNode
+  className?: string
+}) {
   return (
-    <div className="relative isolate flex-1 overflow-clip rounded-sm rounded-b-xl px-5 py-3.75 text-foreground md:rounded-tr-xl md:rounded-bl-sm">
+    <Card
+      tone="ink"
+      className={cn('relative isolate flex-1 px-5 py-3.75', className)}
+    >
       <img
         src={type.intro.image}
         alt=""
+        loading="lazy"
+        decoding="async"
         className="absolute inset-0 -z-10 size-full object-cover"
       />
       <div className="absolute inset-0 -z-10 bg-black/70 bg-linear-136 from-black/40 from-18% to-foreground/5 to-91%" />
       <div className="flex flex-col gap-2.5 px-5 py-2.5">
-        <h3 className="text-h3 font-bold">{type.title}</h3>
-        <p className="text-paragraph">{type.intro.description}</p>
+        {heading}
+        <p className="text-paragraph">
+          <LinkedText text={type.intro.description} />
+        </p>
       </div>
-    </div>
+    </Card>
   )
 }

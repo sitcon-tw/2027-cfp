@@ -11,16 +11,21 @@ import { cn, type WithClassName } from '@/lib/utils'
 export function NavigationMenu({
   className,
   children,
+  positionMethod,
   ...props
-}: WithClassName<BaseNavigationMenu.Root.Props> & { children?: ReactNode }) {
+}: WithClassName<BaseNavigationMenu.Root.Props> & {
+  children?: ReactNode
+  positionMethod?: BaseNavigationMenu.Positioner.Props['positionMethod']
+}) {
   return (
     <BaseNavigationMenu.Root className={cn('relative', className)} {...props}>
       {children}
       <BaseNavigationMenu.Portal>
         <BaseNavigationMenu.Positioner
+          positionMethod={positionMethod}
           sideOffset={12}
           collisionPadding={20}
-          className="h-(--positioner-height) w-(--positioner-width) max-w-(--available-width) transition-[top,left,right,bottom] duration-300 ease-out data-instant:transition-none"
+          className="z-20 h-(--positioner-height) w-(--positioner-width) max-w-(--available-width) transition-[top,left,right,bottom] duration-300 ease-out data-instant:transition-none"
         >
           <BaseNavigationMenu.Popup className="relative h-(--popup-height) w-(--popup-width) origin-(--transform-origin) overflow-clip rounded-sm bg-black/35 text-foreground backdrop-blur-lg transition-[opacity,scale,width,height] duration-300 ease-out data-ending-style:scale-95 data-ending-style:opacity-0 data-starting-style:scale-95 data-starting-style:opacity-0">
             <BaseNavigationMenu.Viewport className="relative size-full overflow-hidden" />

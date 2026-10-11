@@ -22,15 +22,18 @@ export function PopoverTrigger({
 export function PopoverContent({
   className,
   anchor,
+  positionMethod,
   children,
   ...props
 }: WithClassName<BasePopover.Popup.Props> & {
   anchor?: BasePopover.Positioner.Props['anchor']
+  positionMethod?: BasePopover.Positioner.Props['positionMethod']
 }) {
   return (
     <BasePopover.Portal>
       <BasePopover.Positioner
         anchor={anchor}
+        positionMethod={positionMethod}
         align="center"
         collisionAvoidance={{ side: 'none', align: 'shift' }}
         className="z-20 w-(--anchor-width) max-w-(--available-width)"
