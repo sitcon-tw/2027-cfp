@@ -300,6 +300,18 @@ section of the same kind instead of picking new numbers.
 - Brand logos (Facebook, Instagram, Telegram, Flickr, YouTube, the SITCON
   logo) are not in Lucide: export them from Figma as SVG into
   `src/assets/` and import them. Never hand-draw or paste approximate paths.
+- Photos are optimized at build time by `vite-imagetools` (presets in
+  `vite.config.ts`, types in `src/images.d.ts`). Commit the photo as a
+  JPG, PNG or WebP, at least as wide as it renders on a 2× screen (up to
+  1600px); don't make your own sizes, formats or thumbnails. Import it with
+  `?responsive` (also as `query: '?responsive'` in `import.meta.glob`) and
+  render it with `ResponsiveImage` from `@/components/responsive-image`,
+  passing `sizes` for its rendered width. It makes a `<picture>` of AVIF
+  and WebP at several widths, lazy by default; the photo at the top of a
+  page takes `loading="eager"` and `fetchPriority="high"`. `?placeholder`
+  gives a tiny inlined preview (`PageHero`'s `placeholder`), and
+  `preloadImage` in `@/lib/preload-image` fetches a photo ahead of time.
+  SVGs are imported plainly and rendered with `<img>`.
 
 ### Photo wall
 
@@ -308,7 +320,7 @@ photos (`src/components/home/photo-wall.tsx`). Its photos are every image in
 `src/assets/photo-wall/`, in filename order. To show some large, list
 their file names in `about_section.photoWallLarge` in `content.json`; they
 take the large tiles in that order. Export photos at about 1600px on the
-long side (webp). With the
+long side. With the
 folder empty, the session photo stands in at different crops.
 
 With a mouse, hovering pauses the wall and makes the photo under the cursor
@@ -342,7 +354,7 @@ The 歷年海報展示 strip on `/sessions/demo` shows every image in
 `src/assets/demo-posters/`, newest file name first (`2026-1.webp` before
 `2025-1.webp`). They are past posters from the 2026 and 2025 sites
 (`sitcon-tw/2026` `public/img/poster/`, `sitcon-tw/2025` `public/poster/`),
-exported at 1000px tall (webp).
+exported at 1000px tall.
 
 ### Undesigned states
 
