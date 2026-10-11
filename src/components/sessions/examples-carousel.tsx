@@ -57,48 +57,49 @@ export function ExamplesCarousel({
 
   return (
     <SessionSection title={title} description={description}>
-      <div className="flex flex-col gap-2.5">
-        <div className="flex items-center gap-3.75">
-          <ArrowButton
-            label={text.previous}
-            disabled={page === 0}
-            onClick={() => setPage(page - 1)}
+      {/* Arrows flank the cards from `md` up; below it the cards take the
+          full width and the arrows sit under them, either side of the dots. */}
+      <div className="flex flex-wrap items-center justify-between gap-x-3.75 gap-y-2.5">
+        <ArrowButton
+          label={text.previous}
+          disabled={page === 0}
+          onClick={() => setPage(page - 1)}
+        >
+          <ChevronLeft />
+        </ArrowButton>
+        <div className="order-first min-w-0 basis-full overflow-clip md:order-none md:flex-1 md:basis-0">
+          <div
+            className="flex transition-transform duration-700 ease-smooth motion-reduce:transition-none"
+            style={{ transform: `translateX(-${page * 100}%)` }}
           >
-            <ChevronLeft />
-          </ArrowButton>
-          <div className="min-w-0 flex-1 overflow-clip">
-            <div
-              className="flex transition-transform duration-700 ease-smooth motion-reduce:transition-none"
-              style={{ transform: `translateX(-${page * 100}%)` }}
-            >
-              {pages.map((cards, i) => (
-                // Off-screen pages are inert, so Tab and screen readers
-                // only reach the cards that are showing.
-                <ul
-                  key={i}
-                  inert={i !== page}
-                  aria-hidden={i !== page}
-                  className="grid w-full shrink-0 grid-cols-1 gap-2.5 p-1.5 md:grid-cols-2"
-                >
-                  {cards.map((item, j) => (
-                    <li key={j}>
-                      <ExampleCard {...item} className={CARD_CORNERS[j]} />
-                    </li>
-                  ))}
-                </ul>
-              ))}
-            </div>
+            {pages.map((cards, i) => (
+              // Off-screen pages are inert, so Tab and screen readers
+              // only reach the cards that are showing.
+              <ul
+                key={i}
+                inert={i !== page}
+                aria-hidden={i !== page}
+                className="grid w-full shrink-0 grid-cols-1 gap-2.5 p-1.5 md:grid-cols-2"
+              >
+                {cards.map((item, j) => (
+                  <li key={j}>
+                    <ExampleCard {...item} className={CARD_CORNERS[j]} />
+                  </li>
+                ))}
+              </ul>
+            ))}
           </div>
-          <ArrowButton
-            label={text.next}
-            disabled={page === pageCount - 1}
-            onClick={() => setPage(page + 1)}
-          >
-            <ChevronRight />
-          </ArrowButton>
         </div>
+        <ArrowButton
+          label={text.next}
+          disabled={page === pageCount - 1}
+          onClick={() => setPage(page + 1)}
+          className="max-md:order-last"
+        >
+          <ChevronRight />
+        </ArrowButton>
         {pageCount > 1 && (
-          <div className="flex items-center justify-center gap-2.5 py-0.5">
+          <div className="flex items-center justify-center gap-2.5 py-0.5 md:basis-full">
             {Array.from({ length: pageCount }, (_, i) => (
               <BaseButton
                 key={i}
@@ -122,11 +123,13 @@ function ArrowButton({
   label,
   disabled,
   onClick,
+  className,
   children,
 }: {
   label: string
   disabled: boolean
   onClick: () => void
+  className?: string
   children: ReactNode
 }) {
   return (
@@ -138,7 +141,7 @@ function ArrowButton({
       // Keep focus on the arrow when it hits the first or last page.
       focusableWhenDisabled
       onClick={onClick}
-      className="bg-gray"
+      className={cn('bg-gray', className)}
     >
       {children}
     </Button>
