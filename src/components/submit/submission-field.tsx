@@ -11,7 +11,6 @@ import {
   FieldError,
   FieldLabel,
 } from '@/components/ui/field'
-import { FileInput } from '@/components/ui/file-input'
 import { Input } from '@/components/ui/input'
 import { RadioCard, RadioCardGroup } from '@/components/ui/radio-group'
 import { Select } from '@/components/ui/select'
@@ -46,9 +45,6 @@ export const SubmissionFieldControl = memo(function SubmissionFieldControl({
   const onValueChange = (value: SubmissionValue) =>
     setFieldValue(field.key, value)
   const isText = textKinds.has(field.kind)
-  const files = Array.isArray(value)
-    ? value.filter((item) => item instanceof File)
-    : []
 
   return (
     <Field name={field.key} invalid={Boolean(error)} className="max-w-183.5">
@@ -102,25 +98,6 @@ export const SubmissionFieldControl = memo(function SubmissionFieldControl({
           onValueChange={(value) => onValueChange(value ?? '')}
         />
       )}
-      {field.kind === 'file' && (
-        <FileInput
-          value={files}
-          accept={field.accept}
-          multiple={field.multiple}
-          disabled={disabled}
-          invalid={Boolean(error)}
-          chooseLabel={
-            field.multiple && files.length
-              ? text.file.chooseMore
-              : text.file.choose
-          }
-          emptyLabel={text.file.empty}
-          removeLabel={(name) => text.file.remove.replace('{name}', name)}
-          aria-labelledby={`${id}-label`}
-          aria-describedby={field.required ? `${id}-required` : undefined}
-          onValueChange={onValueChange}
-        />
-      )}
       {field.kind === 'radio' && (
         <RadioCardGroup
           name={field.key}
@@ -144,11 +121,7 @@ export const SubmissionFieldControl = memo(function SubmissionFieldControl({
       )}
       {field.kind === 'checkboxes' && (
         <CheckboxGroup
-          value={
-            Array.isArray(value)
-              ? value.filter((item) => typeof item === 'string')
-              : []
-          }
+          value={Array.isArray(value) ? value : []}
           // Toolbar's roving focus does not read the fieldset's disabled state.
           disabled={disabled}
           aria-labelledby={`${id}-label`}
