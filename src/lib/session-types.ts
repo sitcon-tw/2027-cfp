@@ -2,8 +2,7 @@ import content from '@/content.json'
 import { Mic, TvMinimalPlay, Users, type LucideIcon } from 'lucide-react'
 
 import generalPhoto from '@/assets/session-general.jpg'
-
-export const sessionTypeIds = ['general', 'open', 'demo'] as const
+import { sessionTypeIds } from '@/lib/session-type-ids'
 
 export type SessionTypeId = (typeof sessionTypeIds)[number]
 
