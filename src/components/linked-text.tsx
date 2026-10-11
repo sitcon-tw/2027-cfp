@@ -1,35 +1,39 @@
 import type { ReactNode } from 'react'
 
-import { parseInlineText } from '@/lib/inline-text'
+// `**strong**`, `[label](https://…)` or `[label](mailto:…)`, the only markup
+// copy in JSON may use. Spans are flat: no nesting.
+const markupPattern =
+  /\*\*(.+?)\*\*|\[([^\]]+)\]\(((?:https?:\/\/|mailto:)[^\s)]+)\)/g
 
 /**
- * Renders JSON copy, turning `[label](url)` into links that open in a new
- * tab. Inline link styling is not in Figma yet — a proposal.
+ * Renders JSON copy, turning `**strong**` into bold text and `[label](url)`
+ * into links that open in a new tab. Inline link styling is not in Figma
+ * yet — a proposal.
  */
 export function LinkedText({ text }: { text: string }) {
-  const tokens = parseInlineText(text)
-  const parts: ReactNode[] = tokens.map((token, index) => {
-    if (token.type === 'strong') {
-      return (
-        <strong key={index} className="font-bold text-foreground">
-          {token.value}
+  const parts: ReactNode[] = []
+  let last = 0
+  for (const match of text.matchAll(markupPattern)) {
+    parts.push(text.slice(last, match.index))
+    parts.push(
+      match[1] != null ? (
+        <strong key={match.index} className="font-bold text-foreground">
+          {match[1]}
         </strong>
-      )
-    }
-    if (token.type === 'link') {
-      return (
+      ) : (
         <a
-          key={index}
-          href={token.href}
+          key={match.index}
+          href={match[3]}
           target="_blank"
           rel="noreferrer"
           className="rounded-xs text-foreground underline underline-offset-4 transition hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
         >
-          {token.label}
+          {match[2]}
         </a>
-      )
-    }
-    return token.value
-  })
+      ),
+    )
+    last = match.index + match[0].length
+  }
+  parts.push(text.slice(last))
   return <>{parts}</>
 }
