@@ -13,6 +13,18 @@ const text = content.session_page.examples
 /** Cards per page: a 2×2 grid from `md` up, a single column of 2 below. */
 const PAGE_SIZE = { desktop: 4, mobile: 2 }
 
+/**
+ * Corner rule: a page's cards read as one shape, so each card rounds only
+ * its corners on the outside of the page with `xl`. Indexed by position in
+ * the page: one column of two below `md`, the 2×2 grid from `md` up.
+ */
+const CARD_CORNERS = [
+  'rounded-t-xl md:rounded-tr-sm',
+  'rounded-b-xl md:rounded-b-sm md:rounded-tr-xl',
+  'md:rounded-bl-xl',
+  'md:rounded-br-xl',
+]
+
 export type ExamplesCarouselProps = ExamplesSection
 
 /**
@@ -70,7 +82,7 @@ export function ExamplesCarousel({
                 >
                   {cards.map((item, j) => (
                     <li key={j}>
-                      <ExampleCard {...item} />
+                      <ExampleCard {...item} className={CARD_CORNERS[j]} />
                     </li>
                   ))}
                 </ul>
@@ -133,11 +145,19 @@ function ArrowButton({
   )
 }
 
-function ExampleCard({ title, href, image }: SessionExample) {
+function ExampleCard({
+  title,
+  href,
+  image,
+  className,
+}: SessionExample & { className?: string }) {
   return (
     <a
       href={href}
-      className="relative isolate flex h-70 flex-col justify-end overflow-clip rounded-sm rounded-tl-xl p-5 text-foreground transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+      className={cn(
+        'relative isolate flex h-70 flex-col justify-end overflow-clip rounded-sm p-5 text-foreground transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue',
+        className,
+      )}
     >
       <img
         src={image}
