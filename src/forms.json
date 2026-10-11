@@ -256,7 +256,7 @@
     },
     "demoRecording": {
       "label": "作品紀錄與徵稿宣傳",
-      "description": "若作品錄取，SITCON 可能使用您提供的完整海報與短影音，作為活動宣傳與紀錄，以及後續 Demo 展徵稿的投稿範例。素材可能因版型與發布需求進行必要的裁切、剪輯或格式調整。",
+      "description": "若作品錄取，SITCON 將使用您提供的完整海報與短影音，作為活動宣傳與紀錄，以及後續 Demo 展徵稿的投稿範例。素材可能因版型與發布需求進行必要的裁切、剪輯或格式調整。",
       "kind": "consent",
       "required": true,
       "options": ["我已閱讀並同意上述使用方式"],
@@ -384,7 +384,21 @@
         },
         {
           "id": "confirm",
-          "fields": ["license", "promotion", "codeOfConduct", "demoRecording"]
+          "fields": [
+            "demoRecording",
+            {
+              "key": "promotion",
+              "label": "作品精華與社群宣傳",
+              "description": "錄取後，SITCON 可能將您提供的作品素材或活動紀錄剪輯為 Reels、YouTube Shorts、限時動態或其他社群宣傳內容。此題僅用於錄取後的宣傳安排，您可以自由選擇偏好，**不影響審稿與錄取結果。**",
+              "options": [
+                "沒問題！",
+                "可以，但若內容以我的作品或團隊為主角，請先與我確認。",
+                "請不要將我的作品或團隊剪輯為社群宣傳內容。"
+              ],
+              "column": "作品精華與社群宣傳"
+            },
+            "codeOfConduct"
+          ]
         }
       ]
     }
