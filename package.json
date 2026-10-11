@@ -53,6 +53,7 @@
     "tailwindcss": "^4.3.3",
     "typescript": "~6.0.2",
     "vite": "^8.3.0",
+    "vite-imagetools": "^12.0.1",
     "wrangler": "4.143.0"
   }
 }

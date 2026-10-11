@@ -3,6 +3,7 @@ import tailwindcss from '@tailwindcss/vite'
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
+import { imagetools } from 'vite-imagetools'
 
 import content from './src/content.json' with { type: 'json' }
 import { sessionTypeIds } from './src/lib/session-type-ids.ts'
@@ -13,6 +14,19 @@ const routeShells = [
   'about',
   ...sessionTypeIds.flatMap((type) => [`sessions/${type}`, `submit/${type}`]),
 ]
+
+// Image presets, applied by import query (typed in `src/images.d.ts`):
+// `?responsive` makes AVIF and WebP at several widths for a `<picture>`
+// (`ResponsiveImage`), and `?placeholder` inlines a tiny blurred-in preview.
+// Widths above the original's are dropped, so images are never upscaled.
+const imagePresets: Record<string, Record<string, string>> = {
+  responsive: {
+    w: '320;640;960;1280;1600',
+    format: 'avif;webp',
+    as: 'picture',
+  },
+  placeholder: { w: '32', format: 'webp', quality: '50', inline: '' },
+}
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -55,6 +69,14 @@ export default defineConfig({
         }
       },
     },
+    imagetools({
+      defaultDirectives: (url) => {
+        const preset = Object.keys(imagePresets).find((name) =>
+          url.searchParams.has(name),
+        )
+        return new URLSearchParams(preset && imagePresets[preset])
+      },
+    }),
     // Must come before the React plugin.
     tanstackRouter({ target: 'react', autoCodeSplitting: true }),
     react(),
