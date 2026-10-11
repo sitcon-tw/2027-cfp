@@ -55,7 +55,8 @@ export default defineConfig({
           )
         return html
           .replace('%CFP_LANG%', escape(content.metadata.lang))
-          .replace('%CFP_TITLE%', escape(content.metadata.title))
+          .replaceAll('%CFP_TITLE%', escape(content.metadata.title))
+          .replaceAll('%CFP_DESCRIPTION%', escape(content.metadata.description))
       },
     },
     {
