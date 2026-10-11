@@ -1,5 +1,6 @@
 import { Fieldset as BaseFieldset } from '@base-ui/react/fieldset'
 
+import content from '@/content.json'
 import { cn, type WithClassName } from '@/lib/utils'
 
 /** A titled group of fields, e.g. 輸入欄位 or 單選與多選. */
@@ -22,8 +23,21 @@ export function Fieldset({
 export function FieldsetLegend({
   className,
   children,
+  position,
+  total,
   ...props
-}: WithClassName<BaseFieldset.Legend.Props>) {
+}: WithClassName<BaseFieldset.Legend.Props> & {
+  position?: number
+  total?: number
+}) {
+  const text = content.submit_page
+  const cue =
+    position != null && total != null
+      ? text.sectionPosition
+          .replace('{position}', String(position).padStart(2, '0'))
+          .replace('{total}', String(total).padStart(2, '0'))
+      : null
+
   return (
     <BaseFieldset.Legend
       className={cn(
@@ -32,8 +46,18 @@ export function FieldsetLegend({
       )}
       {...props}
     >
-      {children}
-      <span aria-hidden className="h-0.75 rounded-full bg-foreground/50" />
+      <div className="flex items-baseline justify-between gap-2.5">
+        {children}
+        {cue ? (
+          <span
+            aria-hidden="true"
+            className="shrink-0 font-numeric text-caption font-medium text-light"
+          >
+            {cue}
+          </span>
+        ) : null}
+      </div>
+      <span aria-hidden className="h-1 rounded-full bg-foreground/70" />
     </BaseFieldset.Legend>
   )
 }

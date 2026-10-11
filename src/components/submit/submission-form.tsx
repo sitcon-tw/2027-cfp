@@ -47,20 +47,22 @@ export function SubmissionForm({ type }: { type: SessionTypeId }) {
             void store.submit(type)
           }}
         >
-          {sections.map((section) => (
+          {sections.map((section, index) => (
             <Fieldset
               key={section.id}
               disabled={isSubmitting}
-              className="px-2.5 py-7.5"
+              className="border-t-2 border-dashed border-foreground/20 px-2.5 py-10"
             >
-              <FieldsetLegend>
+              <FieldsetLegend position={index + 1} total={sections.length}>
                 <h2>{section.title}</h2>
               </FieldsetLegend>
-              {section.description.map((paragraph) => (
-                <p key={paragraph} className="text-body text-light">
-                  <LinkedText text={paragraph} />
-                </p>
-              ))}
+              <div className="flex w-full flex-col gap-2.5 md:w-2/3">
+                {section.description.map((paragraph) => (
+                  <p key={paragraph} className="text-body text-light">
+                    <LinkedText text={paragraph} />
+                  </p>
+                ))}
+              </div>
               {section.fields
                 .filter((field) => isFieldVisible(field, values))
                 .map((field) => (
