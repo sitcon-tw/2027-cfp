@@ -58,9 +58,6 @@ export function SiteFooter() {
             <Link to="/" className={footerLinkClassName}>
               {content.site_footer.home}
             </Link>
-            <FooterLink href={links.theme}>
-              {content.site_footer.theme}
-            </FooterLink>
             {submitLinks.map(({ type, label }) => (
               <Link
                 key={type}
@@ -77,9 +74,6 @@ export function SiteFooter() {
             <Link to="/" hash="sponsor" className={footerLinkClassName}>
               {content.site_footer.sponsor}
             </Link>
-            <FooterLink href={links.sponsorProspectus}>
-              {content.site_footer.prospectus}
-            </FooterLink>
           </FooterColumn>
           <FooterColumn title={content.site_footer.pastSitesTitle}>
             <ul className="flex flex-wrap gap-x-5.5 gap-y-1.5">
