@@ -65,7 +65,11 @@ timestamp with an explicit timezone (e.g. `2027-01-05T23:59:00+08:00`), or
 badges (即將開始 / 進行中 / 已結束) are computed from the dates; an
 unannounced item shows no badge and no date. The
 speaker item with id `submission` supplies the homepage submission deadline
-too, so keep that id stable.
+too, so keep that id stable. Its `end` also closes submissions:
+`useSubmissionClosed()` (`src/lib/countdown.ts`) turns every `/submit/…`
+CTA into a disabled 投稿已截止 `Button` (footer links into dimmed text) and
+replaces the form with the `content.submit_closed` message, live when the
+deadline passes; a `null` end keeps submissions open.
 
 The session-type quiz lives in `content.session_quiz.questions`. Each answer
 carries `scores` for the four results (`espresso`, `presentation`, `open`,

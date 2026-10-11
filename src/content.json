@@ -1241,6 +1241,11 @@
       "activities": "我們舉辦的活動"
     }
   },
+  "submit_closed": {
+    "button": "投稿已截止",
+    "title": "投稿已截止",
+    "description": "SITCON 2027 議程投稿已於 {deadline} 截止，感謝您的關注！如有疑問，歡迎寄信至 [session@sitcon.org](mailto:session@sitcon.org)。"
+  },
   "submit_page": {
     "typePrompt": "今天想要投稿什麼議程？",
     "sectionPosition": "{position} / {total}",
