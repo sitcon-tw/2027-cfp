@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react'
+import type { Picture } from 'vite-imagetools'
 
 import content from '@/content.json'
+import { ResponsiveImage } from '@/components/responsive-image'
 import { SessionSection } from '@/components/sessions/session-section'
 import { ScrollArea } from '@/components/ui/scroll-area'
 
@@ -8,9 +10,10 @@ const text = content.session_page.demoPosters
 
 /** Every image in `src/assets/demo-posters/`, newest year first. */
 const posters = Object.entries(
-  import.meta.glob<string>('/src/assets/demo-posters/*.{jpg,jpeg,png,webp}', {
+  import.meta.glob<Picture>('/src/assets/demo-posters/*.{jpg,jpeg,png,webp}', {
     eager: true,
     import: 'default',
+    query: '?responsive',
   }),
 )
   .sort(([a], [b]) => b.localeCompare(a, undefined, { numeric: true }))
@@ -137,12 +140,13 @@ export function PosterStrip() {
                 aria-hidden
                 className="flex gap-12.5 pr-12.5"
               >
-                {strip.map((src, i) => (
-                  <img
+                {strip.map((poster, i) => (
+                  <ResponsiveImage
                     key={i}
-                    src={src}
+                    image={poster}
+                    // `h-148.5` tall, in A-series proportions.
+                    sizes="20rem"
                     alt=""
-                    decoding="async"
                     draggable={false}
                     className="h-148.5 w-auto shrink-0 rounded-sm"
                   />

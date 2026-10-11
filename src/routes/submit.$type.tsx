@@ -1,8 +1,8 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
 
 import content from '@/content.json'
-import heroPhotoThumb from '@/assets/submit-hero-thumb.webp'
-import heroPhoto from '@/assets/submit-hero.webp'
+import heroPhotoPlaceholder from '@/assets/submit-hero.webp?placeholder'
+import heroPhoto from '@/assets/submit-hero.webp?responsive'
 import { PageHero } from '@/components/page-hero'
 import { MoreSubmissions } from '@/components/more-submissions'
 import { SubmissionForm } from '@/components/submit/submission-form'
@@ -32,7 +32,7 @@ function SubmitPage() {
         title={text.hero.title}
         description={text.hero.description}
         image={heroPhoto}
-        placeholder={heroPhotoThumb}
+        placeholder={heroPhotoPlaceholder}
       />
       <div className="px-2.5 py-7.5">
         <div className="mx-auto max-w-content">

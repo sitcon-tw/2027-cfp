@@ -2,9 +2,9 @@ import { createFileRoute, Link, redirect } from '@tanstack/react-router'
 import { useEffect } from 'react'
 
 import content from '@/content.json'
-import ctaPhoto from '@/assets/session-cta.jpg'
+import ctaPhoto from '@/assets/session-cta.jpg?responsive'
 import { MoreSubmissions } from '@/components/more-submissions'
-import { PageHero } from '@/components/page-hero'
+import { heroSizes, PageHero } from '@/components/page-hero'
 import { PhotoCta } from '@/components/photo-cta'
 import { CriteriaTable } from '@/components/sessions/criteria-table'
 import { EarlyBirdBanner } from '@/components/sessions/early-bird-banner'
@@ -16,6 +16,7 @@ import { PosterStrip } from '@/components/sessions/poster-strip'
 import { SessionIntroCards } from '@/components/sessions/session-intro-cards'
 import { SessionPageTabs } from '@/components/sessions/session-page-tabs'
 import { buttonVariants } from '@/components/ui/button'
+import { preloadImage } from '@/lib/preload-image'
 import {
   sessionPages,
   type SessionPage as SessionPageData,
@@ -48,7 +49,7 @@ function SessionPage() {
   // usually shows its photo at once.
   useEffect(() => {
     for (const { hero } of Object.values(sessionPages)) {
-      new Image().src = hero.image
+      preloadImage(hero.image, heroSizes)
     }
   }, [])
   return (

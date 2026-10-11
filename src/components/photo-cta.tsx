@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react'
+import type { Picture } from 'vite-imagetools'
 
+import { ResponsiveImage } from '@/components/responsive-image'
 import { cn } from '@/lib/utils'
 
 export interface PhotoCtaProps {
@@ -7,7 +9,7 @@ export interface PhotoCtaProps {
   /** Link buttons under the title. */
   children: ReactNode
   /** Background photo, dimmed and faded in from the top and out at the bottom. */
-  image: string
+  image: Picture
   className?: string
 }
 
@@ -21,8 +23,9 @@ export function PhotoCta({ title, children, image, className }: PhotoCtaProps) {
     <section
       className={cn('relative isolate overflow-hidden px-2.5 py-25', className)}
     >
-      <img
-        src={image}
+      <ResponsiveImage
+        image={image}
+        sizes="100vw"
         alt=""
         className="absolute inset-0 -z-10 size-full mask-fade-b object-cover object-bottom opacity-40"
       />

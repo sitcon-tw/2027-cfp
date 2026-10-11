@@ -1,3 +1,6 @@
+import type { Picture } from 'vite-imagetools'
+
+import { ResponsiveImage } from '@/components/responsive-image'
 import { cn } from '@/lib/utils'
 
 /**
@@ -8,17 +11,17 @@ export function SessionTypePhoto({
   image,
   className,
 }: {
-  image: string
+  image: Picture
   /** Extra classes for the photo, e.g. a hover zoom. */
   className?: string
 }) {
   return (
     <>
-      <img
-        src={image}
+      <ResponsiveImage
+        image={image}
+        // At most the content column wide.
+        sizes="(min-width: 60.625rem) 60.625rem, 100vw"
         alt=""
-        loading="lazy"
-        decoding="async"
         className={cn(
           'absolute inset-0 -z-10 size-full object-cover',
           className,
