@@ -24,7 +24,7 @@ export function FieldLabel({
 }: WithClassName<BaseField.Label.Props>) {
   return (
     <BaseField.Label
-      className={cn('text-paragraph text-foreground', className)}
+      className={cn('text-paragraph font-bold text-foreground', className)}
       {...props}
     />
   )

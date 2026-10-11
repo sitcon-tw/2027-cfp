@@ -44,23 +44,32 @@ export const SubmissionFieldControl = memo(function SubmissionFieldControl({
   const id = useId()
   const onValueChange = (value: SubmissionValue) =>
     setFieldValue(field.key, value)
-  const title = field.public
-    ? text.publicLabel.replace('{label}', field.label)
-    : field.label
-  const label = field.required
-    ? text.requiredLabel.replace('{label}', title)
-    : title
   const isText = textKinds.has(field.kind)
 
   return (
     <Field name={field.key} invalid={Boolean(error)} className="max-w-183.5">
-      <FieldLabel
-        id={`${id}-label`}
-        nativeLabel={isText}
-        render={isText ? undefined : <span />}
-      >
-        {label}
-      </FieldLabel>
+      <div className="flex flex-wrap items-center gap-2.5">
+        <FieldLabel
+          id={`${id}-label`}
+          nativeLabel={isText}
+          render={isText ? undefined : <span />}
+        >
+          {field.label}
+        </FieldLabel>
+        {field.required && (
+          <span
+            id={`${id}-required`}
+            className="rounded-xs bg-red/10 px-2.5 py-1.25 text-caption font-bold text-red"
+          >
+            {text.requiredBadge}
+          </span>
+        )}
+        {field.public && (
+          <span className="rounded-xs bg-light/10 px-2.5 py-1.25 text-caption font-bold text-light">
+            {text.publicBadge}
+          </span>
+        )}
+      </div>
       {isText && field.kind !== 'textarea' && (
         <Input
           // Format validation uses the shared schema and JSON messages.
@@ -115,6 +124,7 @@ export const SubmissionFieldControl = memo(function SubmissionFieldControl({
           // Toolbar's roving focus does not read the fieldset's disabled state.
           disabled={disabled}
           aria-labelledby={`${id}-label`}
+          aria-describedby={field.required ? `${id}-required` : undefined}
           onValueChange={onValueChange}
         >
           {field.options?.map((option, index) => (
