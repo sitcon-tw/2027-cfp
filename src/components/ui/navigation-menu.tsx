@@ -11,13 +11,18 @@ import { cn, type WithClassName } from '@/lib/utils'
 export function NavigationMenu({
   className,
   children,
+  positionMethod,
   ...props
-}: WithClassName<BaseNavigationMenu.Root.Props> & { children?: ReactNode }) {
+}: WithClassName<BaseNavigationMenu.Root.Props> & {
+  children?: ReactNode
+  positionMethod?: BaseNavigationMenu.Positioner.Props['positionMethod']
+}) {
   return (
     <BaseNavigationMenu.Root className={cn('relative', className)} {...props}>
       {children}
       <BaseNavigationMenu.Portal>
         <BaseNavigationMenu.Positioner
+          positionMethod={positionMethod}
           sideOffset={12}
           collisionPadding={20}
           className="h-(--positioner-height) w-(--positioner-width) max-w-(--available-width) transition-[top,left,right,bottom] duration-300 ease-out data-instant:transition-none"
