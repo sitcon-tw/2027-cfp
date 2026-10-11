@@ -352,17 +352,142 @@
     "examples": {
       "presentation": {
         "title": "Presentation 範例",
-        "description": "文字文字文字"
+        "description": "文字文字文字",
+        "items": [
+          {
+            "title": "為什麼要演奏春日影？",
+            "href": "#",
+            "image": "placeholder.jpg"
+          },
+          {
+            "title": "為什麼要演奏春日影？",
+            "href": "#",
+            "image": "placeholder.jpg"
+          },
+          {
+            "title": "為什麼要演奏春日影？",
+            "href": "#",
+            "image": "placeholder.jpg"
+          },
+          {
+            "title": "為什麼要演奏春日影？",
+            "href": "#",
+            "image": "placeholder.jpg"
+          },
+          {
+            "title": "為什麼要演奏春日影？",
+            "href": "#",
+            "image": "placeholder.jpg"
+          },
+          {
+            "title": "為什麼要演奏春日影？",
+            "href": "#",
+            "image": "placeholder.jpg"
+          },
+          {
+            "title": "為什麼要演奏春日影？",
+            "href": "#",
+            "image": "placeholder.jpg"
+          },
+          {
+            "title": "為什麼要演奏春日影？",
+            "href": "#",
+            "image": "placeholder.jpg"
+          }
+        ]
       },
       "espresso": {
         "title": "Espresso 範例",
-        "description": "文字文字文字"
+        "description": "文字文字文字",
+        "items": [
+          {
+            "title": "為什麼要演奏春日影？",
+            "href": "#",
+            "image": "placeholder.jpg"
+          },
+          {
+            "title": "為什麼要演奏春日影？",
+            "href": "#",
+            "image": "placeholder.jpg"
+          },
+          {
+            "title": "為什麼要演奏春日影？",
+            "href": "#",
+            "image": "placeholder.jpg"
+          },
+          {
+            "title": "為什麼要演奏春日影？",
+            "href": "#",
+            "image": "placeholder.jpg"
+          },
+          {
+            "title": "為什麼要演奏春日影？",
+            "href": "#",
+            "image": "placeholder.jpg"
+          },
+          {
+            "title": "為什麼要演奏春日影？",
+            "href": "#",
+            "image": "placeholder.jpg"
+          },
+          {
+            "title": "為什麼要演奏春日影？",
+            "href": "#",
+            "image": "placeholder.jpg"
+          },
+          {
+            "title": "為什麼要演奏春日影？",
+            "href": "#",
+            "image": "placeholder.jpg"
+          }
+        ]
       },
       "open": {
         "title": "投稿範例",
-        "description": "文字文字文字"
+        "description": "文字文字文字",
+        "items": [
+          {
+            "title": "為什麼要演奏春日影？",
+            "href": "#",
+            "image": "placeholder.jpg"
+          },
+          {
+            "title": "為什麼要演奏春日影？",
+            "href": "#",
+            "image": "placeholder.jpg"
+          },
+          {
+            "title": "為什麼要演奏春日影？",
+            "href": "#",
+            "image": "placeholder.jpg"
+          },
+          {
+            "title": "為什麼要演奏春日影？",
+            "href": "#",
+            "image": "placeholder.jpg"
+          },
+          {
+            "title": "為什麼要演奏春日影？",
+            "href": "#",
+            "image": "placeholder.jpg"
+          },
+          {
+            "title": "為什麼要演奏春日影？",
+            "href": "#",
+            "image": "placeholder.jpg"
+          },
+          {
+            "title": "為什麼要演奏春日影？",
+            "href": "#",
+            "image": "placeholder.jpg"
+          },
+          {
+            "title": "為什麼要演奏春日影？",
+            "href": "#",
+            "image": "placeholder.jpg"
+          }
+        ]
       },
-      "placeholderSession": "為什麼要演奏春日影？",
       "empty": "範例整理中，敬請期待。",
       "previous": "上一頁",
       "next": "下一頁",

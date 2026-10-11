@@ -14,8 +14,6 @@ import heroGeneralThumb from '@/assets/session-hero-general-thumb.webp'
 import heroGeneral from '@/assets/session-hero-general.webp'
 import heroOpenThumb from '@/assets/session-hero-open-thumb.webp'
 import heroOpen from '@/assets/session-hero-open.webp'
-import examplePlaceholder from '@/assets/session-example-placeholder.jpg'
-import { TODO_HREF } from '@/lib/links'
 import type { SessionTypeId } from '@/lib/session-types'
 
 // Per-page data of /sessions/$type. Copy lives in `content.session_page`;
@@ -56,13 +54,32 @@ export interface SessionPage {
   examples: ExamplesSection[]
 }
 
-// TODO: real past sessions and links, from the program team. Two pages'
-// worth for now, so the carousel's paging can be seen.
-const placeholderExamples: SessionExample[] = Array.from({ length: 8 }, () => ({
-  title: text.examples.placeholderSession,
-  href: TODO_HREF,
-  image: examplePlaceholder,
-}))
+/**
+ * Example cover images: every image in `src/assets/session-examples/`,
+ * looked up by the file name each item gives as `image` in `content.json`.
+ */
+const exampleImages = Object.fromEntries(
+  Object.entries(
+    import.meta.glob<string>(
+      '/src/assets/session-examples/*.{jpg,jpeg,png,webp}',
+      { eager: true, import: 'default' },
+    ),
+  ).map(([path, src]) => [path.split('/').pop(), src]),
+)
+
+function withImages(section: {
+  title: string
+  description: string
+  items: { title: string; href: string; image: string }[]
+}): ExamplesSection {
+  return {
+    ...section,
+    items: section.items.map((item) => ({
+      ...item,
+      image: exampleImages[item.image],
+    })),
+  }
+}
 
 function withIcons(
   cards: { title: string; description: string }[],
@@ -82,8 +99,8 @@ export const sessionPages: Record<SessionTypeId, SessionPage> = {
     introTitle: text.general.introTitle,
     intro: withIcons(text.general.intro, [Presentation, Coffee]),
     examples: [
-      { ...text.examples.presentation, items: placeholderExamples },
-      { ...text.examples.espresso, items: placeholderExamples },
+      withImages(text.examples.presentation),
+      withImages(text.examples.espresso),
     ],
   },
   open: {
@@ -95,7 +112,7 @@ export const sessionPages: Record<SessionTypeId, SessionPage> = {
     },
     introTitle: text.open.introTitle,
     intro: withIcons(text.open.intro, [Toolbox, Coffee, UserRoundGroup]),
-    examples: [{ ...text.examples.open, items: placeholderExamples }],
+    examples: [withImages(text.examples.open)],
   },
   demo: {
     hero: {
