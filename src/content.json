@@ -12,13 +12,11 @@
   "site_footer": {
     "linksTitle": "連結",
     "home": "首頁",
-    "theme": "年會主題",
     "submitGeneral": "一般議程投稿",
     "submitOpen": "開放式議程投稿",
     "submitDemo": "Demo 展投稿",
     "supportTitle": "支持我們",
     "sponsor": "我要支持",
-    "prospectus": "索取支持徵求書",
     "pastSitesTitle": "歷年主題網站",
     "contactTitle": "聯絡我們",
     "email": "contact@sitcon.org",
@@ -43,8 +41,7 @@
   "sponsor_section": {
     "title": "想要支持？",
     "description": "支持 SITCON，能直接接觸由學生組成、對程式設計、開源軟體、資訊安全、硬體與社群經營充滿熱情的技術社群，提升品牌在年輕科技人才與開發者中的曝光與好感度，同時支持學生交流、分享作品與探索創新的平台；簡單來說，現在投資 SITCON，未來可能少一個凌晨三點才發現伺服器壞掉的人。",
-    "individual": "個人支持",
-    "prospectus": "查看贊助徵求書"
+    "individual": "個人支持"
   },
   "session_quiz": {
     "title": "不知道你適合哪一種議程？",
@@ -1294,7 +1291,6 @@
     "youtube": "YouTube"
   },
   "links": {
-    "placeholder": "#",
     "donate": "https://sitcon.org/donate",
     "contactEmail": "mailto:contact@sitcon.org",
     "facebook": "https://www.facebook.com/SITCON.tw",

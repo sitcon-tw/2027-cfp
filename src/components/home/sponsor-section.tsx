@@ -36,12 +36,6 @@ export function SponsorSection() {
                 >
                   {content.sponsor_section.individual}
                 </a>
-                <a
-                  href={links.sponsorProspectus}
-                  className={buttonVariants({ variant: 'cream' })}
-                >
-                  {content.sponsor_section.prospectus}
-                </a>
               </div>
             </div>
           </Card>
