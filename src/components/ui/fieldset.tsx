@@ -1,6 +1,7 @@
 import { Fieldset as BaseFieldset } from '@base-ui/react/fieldset'
 
 import content from '@/content.json'
+import { Badge } from '@/components/ui/badge'
 import { cn, type WithClassName } from '@/lib/utils'
 
 /** A titled group of fields, e.g. 輸入欄位 or 單選與多選. */
@@ -49,12 +50,9 @@ export function FieldsetLegend({
       <div className="flex items-baseline justify-between gap-2.5">
         {children}
         {cue ? (
-          <span
-            aria-hidden="true"
-            className="shrink-0 font-numeric text-caption font-medium text-light"
-          >
+          <Badge aria-hidden="true" className="font-numeric">
             {cue}
-          </span>
+          </Badge>
         ) : null}
       </div>
       <span aria-hidden className="h-0.75 rounded-full bg-foreground/50" />

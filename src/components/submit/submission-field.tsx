@@ -3,6 +3,7 @@ import { memo, useId } from 'react'
 import content from '@/content.json'
 import { LinkedText } from '@/components/linked-text'
 import { Placeholder } from '@/components/placeholder'
+import { Badge } from '@/components/ui/badge'
 import { Checkbox, CheckboxCard } from '@/components/ui/checkbox'
 import { CheckboxGroup } from '@/components/ui/checkbox-group'
 import {
@@ -57,18 +58,11 @@ export const SubmissionFieldControl = memo(function SubmissionFieldControl({
           {field.label}
         </FieldLabel>
         {field.required && (
-          <span
-            id={`${id}-required`}
-            className="rounded-xs bg-red/10 px-2.5 py-1.25 text-caption font-bold text-red"
-          >
+          <Badge id={`${id}-required`} tone="red">
             {text.requiredBadge}
-          </span>
+          </Badge>
         )}
-        {field.public && (
-          <span className="rounded-xs bg-light/10 px-2.5 py-1.25 text-caption font-bold text-light">
-            {text.publicBadge}
-          </span>
-        )}
+        {field.public && <Badge>{text.publicBadge}</Badge>}
       </div>
       {field.description && (
         <FieldDescription className="max-w-183.5">
