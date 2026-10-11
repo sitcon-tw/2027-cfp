@@ -11,6 +11,8 @@ const reduceMotion = window.matchMedia(
 
 const router = createRouter({
   routeTree,
+  // Vite's `base`: `/2027/cfp/` in production, `/` elsewhere.
+  basepath: import.meta.env.BASE_URL,
   defaultHashScrollIntoView: { behavior: reduceMotion ? 'auto' : 'smooth' },
 })
 
