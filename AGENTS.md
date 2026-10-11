@@ -39,7 +39,7 @@ the [表單文案](https://docs.google.com/document/d/16AHAPm7jvjMdqDR4sVJiNp4wh
 `fields` defines every question once: `label`, `description`, `kind`
 (`text`, `email`, `tel`, `textarea`, `radio`, `checkboxes`, `select`,
 `file`, `consent`), `required`, `options`, `public` (adds 【公開】),
-`showIf` and the Google Sheet `column` it is written to. `forms.<type>.sections`
+`accept` and `multiple` (for `file`), `showIf` and the Google Sheet `column` it is written to. `forms.<type>.sections`
 lists each session type's questions in order, as keys or as
 `{ "key": …, …overrides }` for a per-type difference. Option labels are also
 the values stored in the sheet, as in Google Forms; a `consent` question is
@@ -52,8 +52,11 @@ Markdown, and HTML are not supported. Keep labels and option labels plain,
 since option labels sit inside the control and are written to the sheet.
 `toSheetRow()` in `src/lib/submission.ts` maps
 a draft to those columns. Form chrome (button labels, validation messages)
-stays in `content.json`. `select` and `file` render a placeholder until
-their primitives exist.
+stays in `content.json`. A `file` field holds the chosen `File`s, checked
+only for presence, count and `accept`; `toSheetRow()` returns them in
+`files`, leaving their cell empty. How files reach the backend (multipart,
+encoding, Drive upload, size limits) is for whoever builds the API to
+decide (#5).
 
 Homepage schedules live in `content.attend_section.tickets` and
 `content.speaker_section.schedule`. Each item's `start` / `end` is an ISO
