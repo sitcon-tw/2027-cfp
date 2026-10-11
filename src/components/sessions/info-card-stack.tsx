@@ -1,19 +1,14 @@
+import { LinkedText } from '@/components/linked-text'
 import { SessionSection } from '@/components/sessions/session-section'
 import { Card } from '@/components/ui/card'
-import { links } from '@/lib/links'
-
-/** A key of `links.policies`, referenced from `content.json`. */
-type PolicyLink = keyof typeof links.policies
-
-/**
- * Text with inline links, kept as data instead of HTML: plain strings, and
- * `{ text, link }` pieces that link to a policy page.
- */
-export type RichText = (string | { text: string; link: string })[]
 
 export interface InfoCard {
   title: string
-  body: RichText
+  /**
+   * Blocks in order: a string is a paragraph, a list of strings a bulleted
+   * list. Both may link with `[label](url)`.
+   */
+  body: (string | string[])[]
 }
 
 export interface InfoCardStackProps {
@@ -33,28 +28,24 @@ export function InfoCardStack({ title, items }: InfoCardStackProps) {
             className="flex flex-col gap-5 rounded-xl p-7.5 md:p-10"
           >
             <h3 className="text-h3 font-bold">{item.title}</h3>
-            <p className="text-paragraph">
-              <RichTextContent value={item.body} />
-            </p>
+            {item.body.map((block, i) =>
+              typeof block === 'string' ? (
+                <p key={i} className="text-paragraph">
+                  <LinkedText text={block} />
+                </p>
+              ) : (
+                <ul key={i} className="list-disc ps-7.5 text-paragraph">
+                  {block.map((line) => (
+                    <li key={line}>
+                      <LinkedText text={line} />
+                    </li>
+                  ))}
+                </ul>
+              ),
+            )}
           </Card>
         ))}
       </div>
     </SessionSection>
-  )
-}
-
-function RichTextContent({ value }: { value: RichText }) {
-  return value.map((piece, i) =>
-    typeof piece === 'string' ? (
-      piece
-    ) : (
-      <a
-        key={i}
-        href={links.policies[piece.link as PolicyLink]}
-        className="rounded-xs font-bold underline underline-offset-4 hover:text-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
-      >
-        {piece.text}
-      </a>
-    ),
   )
 }

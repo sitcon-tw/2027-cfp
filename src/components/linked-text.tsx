@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react'
 
-// `[label](https://…)`, the only markup copy in JSON may use.
-const linkPattern = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g
+// `[label](https://…)` or `[label](mailto:…)`, the only markup copy in JSON
+// may use.
+const linkPattern = /\[([^\]]+)\]\(((?:https?:\/\/|mailto:)[^\s)]+)\)/g
 
 /**
  * Renders JSON copy, turning `[label](url)` into links that open in a new

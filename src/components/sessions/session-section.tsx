@@ -1,10 +1,11 @@
 import { useId, type ReactNode } from 'react'
 
+import { LinkedText } from '@/components/linked-text'
 import { SectionHeading } from '@/components/section-heading'
 
 export interface SessionSectionProps {
   title: string
-  /** Short text between the rule and the content. */
+  /** Short text between the rule and the content; may link with `[label](url)`. */
   description?: string
   /** Content in the column under the heading. */
   children?: ReactNode
@@ -28,7 +29,11 @@ export function SessionSection({
       <div className="px-2.5">
         <div className="mx-auto flex max-w-content flex-col gap-2.5 p-2.5">
           <SectionHeading id={titleId}>{title}</SectionHeading>
-          {description && <p className="text-paragraph">{description}</p>}
+          {description && (
+            <p className="text-paragraph">
+              <LinkedText text={description} />
+            </p>
+          )}
           {children && <div className="py-2.5">{children}</div>}
         </div>
       </div>

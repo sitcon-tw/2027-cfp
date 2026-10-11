@@ -60,13 +60,15 @@ function SessionPage() {
           <PosterStrip />
         </>
       )}
-      <CriteriaTable {...text.reviewCriteria} />
-      <InfoCardStack {...text.beforeSubmission} />
-      {type === 'general' && <CriteriaTable {...text.requirements} />}
-      <InfoCardStack {...text.afterSubmission} />
-      <Faq type={type} />
+      <CriteriaTable {...page.reviewCriteria} />
+      <InfoCardStack {...page.beforeSubmission} />
+      {page.requirements && <CriteriaTable {...page.requirements} />}
+      <InfoCardStack {...page.afterSubmission} />
+      {/* Keyed by type, so switching type reopens the first question. */}
+      <Faq key={type} items={page.faq} />
       <PhotoCta
         title={text.cta.title}
+        description={page.ctaDescription}
         align="center"
         className="pt-20 pb-15"
         image={ctaPhoto}

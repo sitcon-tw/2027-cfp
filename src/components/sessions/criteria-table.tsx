@@ -8,6 +8,8 @@ export interface Criterion {
 
 export interface CriteriaTableProps {
   title: string
+  /** Short text between the rule and the table. */
+  description?: string
   items: Criterion[]
 }
 
@@ -16,10 +18,14 @@ export interface CriteriaTableProps {
  * shape: only the outer corners of the whole table are `xl`. Below `md`
  * each label sits right above its description.
  */
-export function CriteriaTable({ title, items }: CriteriaTableProps) {
+export function CriteriaTable({
+  title,
+  description,
+  items,
+}: CriteriaTableProps) {
   const last = items.length - 1
   return (
-    <SessionSection title={title}>
+    <SessionSection title={title} description={description}>
       <dl className="flex flex-col gap-2.5">
         {items.map(({ term, description }, i) => (
           <div key={term} className="grid gap-2.5 md:grid-cols-3">

@@ -8,15 +8,6 @@ export const links = {
   tickets: TODO_HREF,
   about: '/about',
   theme: TODO_HREF,
-  /**
-   * Policy pages linked from the session pages' notes. Keys are referenced
-   * from `content.json` rich text.
-   */
-  policies: {
-    codeOfConduct: content.links.codeOfConduct,
-    submissionGuidelines: content.links.submissionGuidelines,
-    license: content.links.license,
-  },
   sponsorIndividual: TODO_HREF,
   sponsorProspectus: TODO_HREF,
   contactEmail: content.links.contactEmail,

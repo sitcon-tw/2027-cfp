@@ -6,33 +6,36 @@ import {
   AccordionPanel,
   AccordionTrigger,
 } from '@/components/ui/accordion'
-import type { SessionTypeId } from '@/lib/session-types'
 
 const text = content.session_page.faq
 
-// The same questions on every page for now; split per type once the
-// program team writes type-specific ones.
-const faqs: Record<SessionTypeId, typeof text.items> = {
-  general: text.items,
-  open: text.items,
-  demo: text.items,
+export interface FaqItem {
+  question: string
+  /** Paragraphs; empty until the program team writes the answer. */
+  answer: string[]
 }
 
 /**
  * Q&A — the session type's questions. The first one starts open, as in
  * Figma.
  */
-export function Faq({ type }: { type: SessionTypeId }) {
-  const items = faqs[type]
+export function Faq({ items }: { items: FaqItem[] }) {
   return (
     <SessionSection title={text.title}>
-      <Accordion key={type} defaultValue={[items[0]?.question]}>
+      <Accordion defaultValue={[items[0]?.question]}>
         {items.map(({ question, answer }) => (
           <AccordionItem key={question} value={question}>
             <AccordionTrigger>{question}</AccordionTrigger>
             <AccordionPanel>
-              {/* TODO: answers other than the first, from the program team. */}
-              {answer || text.pendingAnswer}
+              {answer.length > 0 ? (
+                <div className="flex flex-col gap-2.5">
+                  {answer.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </div>
+              ) : (
+                text.pendingAnswer
+              )}
             </AccordionPanel>
           </AccordionItem>
         ))}

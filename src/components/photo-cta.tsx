@@ -5,6 +5,8 @@ import { cn } from '@/lib/utils'
 
 export interface PhotoCtaProps {
   title: string
+  /** Text under the title. */
+  description?: string
   /** Link buttons under the title. */
   children: ReactNode
   /** `center` on session pages, `start` on the submission page. */
@@ -20,6 +22,7 @@ export interface PhotoCtaProps {
  */
 export function PhotoCta({
   title,
+  description,
   children,
   align = 'start',
   image = defaultPhoto,
@@ -44,6 +47,11 @@ export function PhotoCta({
         <h2 className="text-h1 font-extrabold text-balance text-foreground">
           {title}
         </h2>
+        {description && (
+          <p className="text-paragraph text-balance text-foreground">
+            {description}
+          </p>
+        )}
         <div
           className={cn(
             'flex flex-wrap gap-5',
