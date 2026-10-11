@@ -1010,8 +1010,9 @@
   },
   "submit_page": {
     "typePrompt": "今天想要投稿什麼議程？",
-    "requiredLabel": "{label}（必填）",
-    "publicLabel": "{label}【公開】",
+    "sectionPosition": "{position} / {total}",
+    "requiredBadge": "必填",
+    "publicBadge": "公開",
     "pendingControl": "{kind}尚未實作",
     "pendingKinds": {
       "select": "下拉式選單",
