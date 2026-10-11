@@ -378,6 +378,14 @@
           "href": "https://www.flickr.com/photos/sitcon/54479133132",
           "license": "CC BY-SA 2.0",
           "licenseHref": "https://creativecommons.org/licenses/by-sa/2.0/"
+        },
+        {
+          "file": "meetup.webp",
+          "label": "SITCON 2027 負一籌 × COSCUP BoF 學生圍成一圈聊天",
+          "title": "康喔_2373",
+          "href": "https://www.flickr.com/photos/sitcon/55472804455",
+          "license": "CC BY 4.0",
+          "licenseHref": "https://creativecommons.org/licenses/by/4.0/"
         }
       ]
     },
@@ -1232,13 +1240,75 @@
     }
   },
   "about_page": {
+    "intro": {
+      "title": "關於 SITCON",
+      "subtitle": "關於學生計算機年會",
+      "body": "SITCON 是由學生自主籌辦、以學生為核心的資訊科技年會，提供一個分享技術、交流想法與認識彼此的舞台。從軟體開發、資訊安全到開源文化與社群經驗，各種與資訊相關的主題都能在這裡被看見。希望透過一次次交流，讓更多學生找到夥伴，也找到繼續探索的方向。"
+    },
+    "history": {
+      "title": "SITCON 自 2012 年來……",
+      "stats": [
+        {
+          "label": "舉辦年會",
+          "value": "13",
+          "unit": "屆"
+        },
+        {
+          "label": "舉辦夏令營",
+          "value": "10",
+          "unit": "場"
+        },
+        {
+          "label": "聚會與講座",
+          "value": "530",
+          "unit": "場"
+        },
+        {
+          "label": "參與志工",
+          "value": "1,500",
+          "unit": "人次"
+        }
+      ]
+    },
+    "activities": {
+      "title": "我們舉辦的活動",
+      "items": [
+        {
+          "title": "SITCON 年會",
+          "body": "每年由學生自主籌辦的大型資訊年會，聚集來自各地的學生、社群與講者，分享技術、經驗與觀點。除了議程之外，也希望打造一個能自在交流、認識夥伴，並激發更多可能性的舞台。",
+          "image": "conference.webp",
+          "alt": "SITCON 年會參與者在「Jam the Chaos」主視覺前的舞台大合照"
+        },
+        {
+          "title": "SITCON 夏令營",
+          "body": "為學生打造的資訊營隊，結合技術課程、實作活動與團隊合作，帶領參與者從不同角度探索資訊領域。除了學習新知，也希望大家能在營隊中找到興趣、建立連結，帶著新的想法繼續前進。",
+          "image": "camp.webp",
+          "alt": "夏令營學員在校園中舉著 SITCON 旗幟大合照"
+        },
+        {
+          "title": "SITCON Hour Of Code",
+          "body": "透過容易上手、充滿互動的程式活動，陪伴更多人跨出接觸資訊與程式設計的第一步。希望降低學習門檻，讓參與者從實際操作中感受到創作、解題與探索技術的樂趣。",
+          "image": "hour-of-code.webp",
+          "alt": "Hour Of Code 的孩子與志工拿著 SITCON 旗幟合照"
+        },
+        {
+          "title": "SITCON 黑客松",
+          "body": "把交流帶到不同城市，透過短講、分享與輕鬆的聚會形式，讓各地學生都有機會認識彼此。無論是交流技術、分享近況，或單純來聽聽大家最近在做什麼，都能在這裡找到屬於自己的交流方式。",
+          "image": "hackathon.webp",
+          "alt": "參與者與工作人員在「謝謝大家的參與」投影前拿著 SITCON 旗幟合照"
+        },
+        {
+          "title": "SITCON 北中南聚會",
+          "body": "把交流帶到不同城市，透過短講、分享與輕鬆的聚會形式，讓各地學生都有機會認識彼此。無論是交流技術、分享近況，或單純來聽聽大家最近在做什麼，都能在這裡找到屬於自己的交流方式。",
+          "image": "meetup.webp",
+          "alt": "學生們在教室裡圍成一圈笑著聊天"
+        }
+      ]
+    },
     "placeholders": {
-      "intro": "關於 SITCON 簡介",
       "photoStrip": "活動照片",
       "media": "媒體報導",
-      "history": "SITCON 自 2012 年來",
-      "yearInReview": "回顧 2026 年",
-      "activities": "我們舉辦的活動"
+      "yearInReview": "回顧 2026 年"
     }
   },
   "submit_page": {

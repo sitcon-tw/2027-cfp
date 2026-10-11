@@ -1,14 +1,14 @@
 import content from '@/content.json'
-import { Placeholder } from '@/components/placeholder'
+import { PageSection } from '@/components/about/page-section'
+import { StatGrid } from '@/components/about/stat-grid'
+
+const history = content.about_page.history
 
 /** SITCON 自 2012 年來 — totals since the first conference. */
 export function HistoryStats() {
   return (
-    <section className="px-2.5 py-7.5">
-      <Placeholder
-        label={content.about_page.placeholders.history}
-        className="mx-auto max-w-content"
-      />
-    </section>
+    <PageSection id="history" title={history.title}>
+      <StatGrid stats={history.stats} className="grid-cols-2 md:grid-cols-4" />
+    </PageSection>
   )
 }
