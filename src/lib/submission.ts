@@ -1,6 +1,7 @@
 import content from '@/content.json'
 import forms from '@/forms.json'
-import { sessionTypeIds, type SessionTypeId } from '@/lib/session-types'
+import { sessionTypeIds } from '@/lib/session-type-ids'
+import type { SessionTypeId } from '@/lib/session-types'
 
 export type SubmissionValue = string | string[] | File | null
 export type SubmissionValues = Record<string, SubmissionValue>
