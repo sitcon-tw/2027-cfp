@@ -345,11 +345,7 @@ message.
 
 Regions that are not designed yet, or are marked WIP in Figma, render
 `<Placeholder label="…" />` from `@/components/placeholder`. Do not invent a
-design for them. Current placeholders:
-
-- Every section of `/about`. Each component file exists
-  and is wired in place; its issue replaces the placeholder with the real
-  section.
+design for them. There are none at the moment.
 
 ### Demo posters
 
