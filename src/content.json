@@ -847,44 +847,74 @@
             "title": "Presentation",
             "items": [
               {
-                "title": "為什麼要演奏春日影？",
-                "href": "#",
-                "image": "placeholder.jpg"
+                "title": "十倍開發！解脫雙手拋棄滑鼠的開發環境",
+                "href": "https://sitcon.org/2026/agenda/c1d927/",
+                "image": "2026-c1d927.webp"
               },
               {
-                "title": "為什麼要演奏春日影？",
-                "href": "#",
-                "image": "placeholder.jpg"
+                "title": "壓縮、偽裝、釋放：Mr. Compress 的壓縮魔術",
+                "href": "https://sitcon.org/2026/agenda/4da81a/",
+                "image": "2026-4da81a.webp"
               },
               {
-                "title": "為什麼要演奏春日影？",
-                "href": "#",
-                "image": "placeholder.jpg"
+                "title": "如何從零到千星？開源專案成功的實戰分享",
+                "href": "https://sitcon.org/2025/agenda/15512d/",
+                "image": "2025-15512d.webp"
               },
               {
-                "title": "為什麼要演奏春日影？",
-                "href": "#",
-                "image": "placeholder.jpg"
+                "title": "不只 RDP！揭密 Windows 遠端控制術",
+                "href": "https://sitcon.org/2025/agenda/ee352d/",
+                "image": "2025-ee352d.webp"
               },
               {
-                "title": "為什麼要演奏春日影？",
-                "href": "#",
-                "image": "placeholder.jpg"
+                "title": "平行程式設計：讓 GoAccess 性能提升 x3.6 倍",
+                "href": "https://sitcon.org/2024/agenda/90acce/",
+                "image": "2024-90acce.webp"
               },
               {
-                "title": "為什麼要演奏春日影？",
-                "href": "#",
-                "image": "placeholder.jpg"
+                "title": "創造真正的專家：專有領域的語言模型案例介紹",
+                "href": "https://sitcon.org/2024/agenda/819758/",
+                "image": "2024-819758.webp"
               },
               {
-                "title": "為什麼要演奏春日影？",
-                "href": "#",
-                "image": "placeholder.jpg"
+                "title": "科技藝術入門 - 淺談 p5.js",
+                "href": "https://sitcon.org/2024/agenda/f01c4f/",
+                "image": "2024-f01c4f.webp"
               },
               {
-                "title": "為什麼要演奏春日影？",
-                "href": "#",
-                "image": "placeholder.jpg"
+                "title": "PHP 是世界上最棒的語言，但我做了一個比它更棒的！",
+                "href": "https://sitcon.org/2021/agenda/bb826e6d-8544-4101-8811-13032bd9a4fd",
+                "image": "2021-bb826e.webp"
+              },
+              {
+                "title": "喜歡打街機？做一台放家裡打r",
+                "href": "https://sitcon.org/2021/agenda/2b210726-c5b0-4094-a591-fccb51f0ee55",
+                "image": "2021-2b2107.webp"
+              },
+              {
+                "title": "我也能讓 Python 幫忙操控電腦嗎？",
+                "href": "https://sitcon.org/2020/agenda/32ba951d-3cfb-4461-ae6a-5ddbab693b8b",
+                "image": "2020-32ba95.webp"
+              },
+              {
+                "title": "你所不知道的維基 - Wikidata",
+                "href": "https://sitcon.org/2019/agenda/7959ab0b-cdfa-40bc-8566-099477abb195",
+                "image": "2019-7959ab.webp"
+              },
+              {
+                "title": "淺談社會網路分析",
+                "href": "https://sitcon.org/2019/agenda/f60637a1-0ccb-4c02-b1b0-be7a6a393d87",
+                "image": "2019-f60637.webp"
+              },
+              {
+                "title": "深度學習如何深度學習",
+                "href": "https://sitcon.org/2018/#/agenda/sub/f3c6853d-2b0e-464c-8837-9411455961d8",
+                "image": "2018-f3c685.webp"
+              },
+              {
+                "title": "格鬥遊戲 AI 開發經驗談",
+                "href": "https://www.youtube.com/watch?v=ryLLzSwQ54w",
+                "image": "2017-ryLLzSwQ54w.webp"
               }
             ]
           },
@@ -892,44 +922,74 @@
             "title": "Espresso",
             "items": [
               {
-                "title": "為什麼要演奏春日影？",
-                "href": "#",
-                "image": "placeholder.jpg"
+                "title": "一封 Email 盜走全校帳號：從 N-day 開始的漏洞研究",
+                "href": "https://sitcon.org/2026/agenda/2f85f0/",
+                "image": "2026-2f85f0.webp"
               },
               {
-                "title": "為什麼要演奏春日影？",
-                "href": "#",
-                "image": "placeholder.jpg"
+                "title": "透視 AI 抓內鬼：以注意力防範提示注入",
+                "href": "https://sitcon.org/2026/agenda/e0203c/",
+                "image": "2026-e0203c.webp"
               },
               {
-                "title": "為什麼要演奏春日影？",
-                "href": "#",
-                "image": "placeholder.jpg"
+                "title": "我怎麼開發出 3 天破萬人用的 Threads 分析工具？",
+                "href": "https://sitcon.org/2025/agenda/552acd/",
+                "image": "2025-552acd.webp"
               },
               {
-                "title": "為什麼要演奏春日影？",
-                "href": "#",
-                "image": "placeholder.jpg"
+                "title": "手刻 RAG 客服！讓 AI 更聰明但不再「胡扯」",
+                "href": "https://sitcon.org/2025/agenda/a7f767/",
+                "image": "2025-a7f767.webp"
               },
               {
-                "title": "為什麼要演奏春日影？",
-                "href": "#",
-                "image": "placeholder.jpg"
+                "title": "再也不用切換輸入法了!? PolyKey 多語言輸入法",
+                "href": "https://sitcon.org/2025/agenda/ec804b/",
+                "image": "2025-ec804b.webp"
               },
               {
-                "title": "為什麼要演奏春日影？",
-                "href": "#",
-                "image": "placeholder.jpg"
+                "title": "比 Python 更人性化 - 圖形化程式語言 Grapycal",
+                "href": "https://sitcon.org/2024/agenda/fbe417/",
+                "image": "2024-fbe417.webp"
               },
               {
-                "title": "為什麼要演奏春日影？",
-                "href": "#",
-                "image": "placeholder.jpg"
+                "title": "那些在德國 37C3 的經驗談：啤酒、馬黛茶、混亂",
+                "href": "https://sitcon.org/2024/agenda/53292d/",
+                "image": "2024-53292d.webp"
               },
               {
-                "title": "為什麼要演奏春日影？",
-                "href": "#",
-                "image": "placeholder.jpg"
+                "title": "超越文字的力量：大型語言模型的能力與缺陷",
+                "href": "https://sitcon.org/2024/agenda/ecfb2c/",
+                "image": "2024-ecfb2c.webp"
+              },
+              {
+                "title": "教練我想打 Code！為甚麼要學計組和 OS？",
+                "href": "https://sitcon.org/2022/agenda/82b1c6",
+                "image": "2022-82b1c6.webp"
+              },
+              {
+                "title": "Windows 系統安全這麼複雜怎麼學",
+                "href": "https://sitcon.org/2022/agenda/6362cd",
+                "image": "2022-6362cd.webp"
+              },
+              {
+                "title": "身為學生，做研究也要拿出真本事",
+                "href": "https://sitcon.org/2022/agenda/44d2d0",
+                "image": "2022-44d2d0.webp"
+              },
+              {
+                "title": "網路維運，在台灣怎麼玩？打造全台最大家用網路！",
+                "href": "https://sitcon.org/2021/agenda/3fe74d93-2ab5-4c42-8b49-b5b92973f4aa",
+                "image": "2021-3fe74d.webp"
+              },
+              {
+                "title": "關於 CTF 的那些事",
+                "href": "https://sitcon.org/2021/agenda/7a88857e-7d50-4d9c-a656-2d99feef6198",
+                "image": "2021-7a8885.webp"
+              },
+              {
+                "title": "第一次做密室逃脫就上手",
+                "href": "https://sitcon.org/2020/agenda/bdcf60d1-4ea7-4485-bc64-a6252eabc19f",
+                "image": "2020-bdcf60.webp"
               }
             ]
           }
@@ -946,32 +1006,32 @@
           {
             "title": "RE:從零開始帶你入門 CTF 競賽",
             "href": "https://sitcon.org/2025/agenda/c47604/",
-            "image": "placeholder.jpg"
+            "image": "2025-c47604.webp"
           },
           {
             "title": "從零開始學 Kubernetes：使用 Kubernetes in Docker (Kind) 的實作入門",
             "href": "https://sitcon.org/2025/agenda/f638e4/",
-            "image": "placeholder.jpg"
+            "image": "2025-f638e4.webp"
           },
           {
             "title": "人人都會寫 Code ，但你會寫 Clean Code 嗎?",
             "href": "https://sitcon.org/2024/agenda/02dc3b/",
-            "image": "placeholder.jpg"
+            "image": "2024-02dc3b.webp"
           },
           {
             "title": "資訊學測化？特殊管道升學生態的利與弊",
             "href": "https://sitcon.org/2022/agenda/32d0ce",
-            "image": "placeholder.jpg"
+            "image": "2022-32d0ce.webp"
           },
           {
             "title": "來談談臺灣中學生的資訊學習吧！",
             "href": "https://sitcon.org/2021/agenda/2830b47b-0c4f-4e22-a506-6ff96384a8e0",
-            "image": "placeholder.jpg"
+            "image": "sitcon-2021.webp"
           },
           {
             "title": "未來 AI 是否可能有自我意識？",
             "href": "https://sitcon.org/2020/agenda/4279562a-efc9-42e7-b27c-fec45640084d",
-            "image": "placeholder.jpg"
+            "image": "sitcon-2020.webp"
           }
         ]
       },
