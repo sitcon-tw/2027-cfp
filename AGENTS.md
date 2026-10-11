@@ -326,8 +326,14 @@ design for them. Current placeholders:
 - Every section of `/submit/$type` and `/about`. Each component file exists
   and is wired in place; its issue replaces the placeholder with the real
   section.
-- The Demo 展 photo wall and poster strip on `/sessions/demo`, which are
-  blank frames in Figma until the photos arrive.
+
+### Demo posters
+
+The 歷年海報展示 strip on `/sessions/demo` shows every image in
+`src/assets/demo-posters/`, newest file name first (`2026-1.webp` before
+`2025-1.webp`). They are past posters from the 2026 and 2025 sites
+(`sitcon-tw/2026` `public/img/poster/`, `sitcon-tw/2025` `public/poster/`),
+exported at 1000px tall (webp).
 
 ### Undesigned states
 

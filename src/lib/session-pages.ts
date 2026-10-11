@@ -1,8 +1,9 @@
 import content from '@/content.json'
 import {
   Coffee,
-  PlayingCardsFan,
+  Gamepad2,
   Presentation,
+  Sprout,
   Toolbox,
   UserRoundGroup,
   type LucideIcon,
@@ -61,7 +62,7 @@ export interface SessionPage {
     placeholder: string
   }
   introTitle: string
-  /** What the session type is, above the formats; not on Demo 展. */
+  /** What the session type is, above the formats. */
   introDescription?: string
   /** The line that leads from `introDescription` into the formats. */
   introLead?: string
@@ -72,8 +73,8 @@ export interface SessionPage {
   examples?: ExamplesSection
   reviewCriteria: CriteriaTableProps
   beforeSubmission: InfoCardStackProps
-  /** 投稿格式, the submission format; not on Demo 展 yet. */
-  requirements?: CriteriaTableProps
+  /** 投稿格式, the submission format. */
+  requirements: CriteriaTableProps
   afterSubmission: InfoCardStackProps
   faq: FaqItem[]
   /** Text under the closing call to action; see `PhotoCta`. */
@@ -179,12 +180,11 @@ export const sessionPages: Record<SessionTypeId, SessionPage> = {
       placeholder: heroDemoThumb,
     },
     introTitle: text.demo.introTitle,
-    intro: withIcons(text.demo.intro, [
-      Presentation,
-      PlayingCardsFan,
-      UserRoundGroup,
-    ]),
+    introDescription: text.demo.introDescription,
+    introLead: text.demo.introLead,
+    intro: withIcons(text.demo.intro, [Gamepad2, Presentation, Sprout]),
     reviewCriteria: text.demo.reviewCriteria,
+    requirements: text.demo.requirements,
     beforeSubmission: text.demo.beforeSubmission,
     afterSubmission: text.demo.afterSubmission,
     faq: text.demo.faq,

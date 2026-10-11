@@ -6,7 +6,6 @@ import ctaPhoto from '@/assets/session-cta.jpg'
 import { PageHero } from '@/components/page-hero'
 import { PhotoCta } from '@/components/photo-cta'
 import { CriteriaTable } from '@/components/sessions/criteria-table'
-import { DemoGallery } from '@/components/sessions/demo-gallery'
 import { EarlyBirdBanner } from '@/components/sessions/early-bird-banner'
 import { ExamplesCarousel } from '@/components/sessions/examples-carousel'
 import { Faq } from '@/components/sessions/faq'
@@ -116,7 +115,7 @@ function CfpSections({
         // Keyed by type, so switching type starts on the first page.
         <ExamplesCarousel key={type} {...page.examples} />
       )}
-      {page.requirements && <CriteriaTable {...page.requirements} />}
+      <CriteriaTable {...page.requirements} />
       <EarlyBirdBanner type={type} />
       <CriteriaTable {...page.reviewCriteria} />
       <InfoCardStack {...page.beforeSubmission} />
@@ -125,14 +124,19 @@ function CfpSections({
   )
 }
 
-/** Demo 展, in the order of the Figma design. */
+/** Demo 展: what it is, past posters, 投稿格式, then the early-bird banner. */
 function DemoSections({ page }: { page: SessionPageData }) {
   return (
     <>
-      <SessionIntroCards title={page.introTitle} cards={page.intro} />
-      <EarlyBirdBanner type="demo" />
-      <DemoGallery />
+      <SessionIntroCards
+        title={page.introTitle}
+        description={page.introDescription}
+        lead={page.introLead}
+        cards={page.intro}
+      />
       <PosterStrip />
+      <CriteriaTable {...page.requirements} />
+      <EarlyBirdBanner type="demo" />
       <CriteriaTable {...page.reviewCriteria} />
       <InfoCardStack {...page.beforeSubmission} />
       <InfoCardStack {...page.afterSubmission} />
