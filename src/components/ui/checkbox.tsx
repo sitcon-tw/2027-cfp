@@ -21,16 +21,19 @@ export function confirmOnEnter(event: KeyboardEvent<HTMLElement>) {
   if (!event.repeat) event.currentTarget.click()
 }
 
-function CheckboxIcon() {
+function CheckboxIcon({ className }: { className?: string } = {}) {
   return (
     <>
       <Square
         aria-hidden
-        className="size-6 shrink-0 group-data-checked:hidden"
+        className={cn('size-6 shrink-0 group-data-checked:hidden', className)}
       />
       <SquareCheck
         aria-hidden
-        className="hidden size-6 shrink-0 group-data-checked:block"
+        className={cn(
+          'hidden size-6 shrink-0 group-data-checked:block',
+          className,
+        )}
       />
     </>
   )
@@ -49,12 +52,12 @@ export function Checkbox({
     <BaseCheckbox.Root
       onKeyDown={confirmOnEnter}
       className={cn(
-        'group inline-flex cursor-pointer items-center gap-2.5 rounded-xs text-paragraph text-foreground transition select-none hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue data-disabled:cursor-not-allowed data-disabled:opacity-50 data-invalid:text-red',
+        'group inline-flex cursor-pointer items-start gap-2.5 rounded-xs text-paragraph text-foreground transition select-none hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue data-disabled:cursor-not-allowed data-disabled:opacity-50 data-invalid:text-red',
         className,
       )}
       {...props}
     >
-      <CheckboxIcon />
+      <CheckboxIcon className="mt-1.5 md:mt-3" />
       {children}
     </BaseCheckbox.Root>
   )
