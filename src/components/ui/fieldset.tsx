@@ -57,7 +57,7 @@ export function FieldsetLegend({
           </span>
         ) : null}
       </div>
-      <span aria-hidden className="h-1 rounded-full bg-foreground/70" />
+      <span aria-hidden className="h-0.75 rounded-full bg-foreground/50" />
     </BaseFieldset.Legend>
   )
 }
