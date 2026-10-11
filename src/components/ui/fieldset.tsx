@@ -1,7 +1,6 @@
 import { Fieldset as BaseFieldset } from '@base-ui/react/fieldset'
+import type { ReactNode } from 'react'
 
-import content from '@/content.json'
-import { Badge } from '@/components/ui/badge'
 import { cn, type WithClassName } from '@/lib/utils'
 
 /** A titled group of fields, e.g. 輸入欄位 or 單選與多選. */
@@ -18,27 +17,16 @@ export function Fieldset({
 }
 
 /**
- * The group title with a half-cream rule under it. Wrapping a
- * `CheckboxGroup` or `RadioGroup` in a `Fieldset` makes this its legend.
+ * The group title with a half-cream rule under it, and optional `aside`
+ * content at the far end of the title row. Wrapping a `CheckboxGroup` or
+ * `RadioGroup` in a `Fieldset` makes this its legend.
  */
 export function FieldsetLegend({
   className,
   children,
-  position,
-  total,
+  aside,
   ...props
-}: WithClassName<BaseFieldset.Legend.Props> & {
-  position?: number
-  total?: number
-}) {
-  const text = content.submit_page
-  const cue =
-    position != null && total != null
-      ? text.sectionPosition
-          .replace('{position}', String(position).padStart(2, '0'))
-          .replace('{total}', String(total).padStart(2, '0'))
-      : null
-
+}: WithClassName<BaseFieldset.Legend.Props> & { aside?: ReactNode }) {
   return (
     <BaseFieldset.Legend
       className={cn(
@@ -49,11 +37,7 @@ export function FieldsetLegend({
     >
       <div className="flex items-baseline justify-between gap-2.5">
         {children}
-        {cue ? (
-          <Badge aria-hidden="true" className="font-numeric">
-            {cue}
-          </Badge>
-        ) : null}
+        {aside}
       </div>
       <span aria-hidden className="h-0.75 rounded-full bg-foreground/50" />
     </BaseFieldset.Legend>
