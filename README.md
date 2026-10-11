@@ -101,8 +101,8 @@ verification, not production hosting.
 ## Continuous integration
 
 [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs on every pull
-request to `dev` and every push to `dev`. Its three jobs mirror `pnpm check`
-plus the build:
+request to `dev` or `main` and every push to either branch. Its three jobs
+mirror `pnpm check` plus the build:
 
 - **Lint** runs `pnpm lint`.
 - **Format** runs `pnpm format:check`.
