@@ -47,8 +47,8 @@ export const SubmissionFieldControl = memo(function SubmissionFieldControl({
   const isText = textKinds.has(field.kind)
 
   return (
-    <Field name={field.key} invalid={Boolean(error)} className="max-w-183.5">
-      <div className="flex flex-wrap items-center gap-2.5">
+    <Field name={field.key} invalid={Boolean(error)} className="max-w-content">
+      <div className="flex max-w-183.5 flex-wrap items-center gap-2.5">
         <FieldLabel
           id={`${id}-label`}
           nativeLabel={isText}
@@ -71,7 +71,7 @@ export const SubmissionFieldControl = memo(function SubmissionFieldControl({
         )}
       </div>
       {field.description && (
-        <FieldDescription>
+        <FieldDescription className="max-w-183.5">
           <LinkedText text={field.description} />
         </FieldDescription>
       )}
@@ -83,6 +83,7 @@ export const SubmissionFieldControl = memo(function SubmissionFieldControl({
           aria-required={field.required}
           value={typeof value === 'string' ? value : ''}
           onValueChange={onValueChange}
+          className="max-w-183.5"
         />
       )}
       {field.kind === 'textarea' && (
@@ -90,6 +91,7 @@ export const SubmissionFieldControl = memo(function SubmissionFieldControl({
           aria-required={field.required}
           value={typeof value === 'string' ? value : ''}
           onValueChange={onValueChange}
+          className="max-w-183.5"
         />
       )}
       {pendingKinds.has(field.kind) && (
@@ -99,7 +101,7 @@ export const SubmissionFieldControl = memo(function SubmissionFieldControl({
             '{kind}',
             text.pendingKinds[field.kind as keyof typeof text.pendingKinds],
           )}
-          className="min-h-20 text-paragraph"
+          className="min-h-20 max-w-183.5 text-paragraph"
         />
       )}
       {field.kind === 'radio' && (
@@ -111,6 +113,7 @@ export const SubmissionFieldControl = memo(function SubmissionFieldControl({
           onValueChange={(value) => {
             if (typeof value === 'string') onValueChange(value)
           }}
+          className="max-w-183.5"
         >
           {field.options?.map((option, index) => (
             <RadioCard
@@ -131,6 +134,7 @@ export const SubmissionFieldControl = memo(function SubmissionFieldControl({
           aria-labelledby={`${id}-label`}
           aria-describedby={field.required ? `${id}-required` : undefined}
           onValueChange={onValueChange}
+          className="max-w-183.5"
         >
           {field.options?.map((option, index) => (
             <CheckboxCard
@@ -158,7 +162,11 @@ export const SubmissionFieldControl = memo(function SubmissionFieldControl({
           <span id={`${id}-0`}>{field.options?.[0]}</span>
         </Checkbox>
       )}
-      {error && <FieldError match>{error}</FieldError>}
+      {error && (
+        <FieldError match className="max-w-183.5">
+          {error}
+        </FieldError>
+      )}
     </Field>
   )
 })
