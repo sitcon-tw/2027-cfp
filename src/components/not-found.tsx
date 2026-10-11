@@ -8,11 +8,12 @@ const text = content.not_found_page
 
 /**
  * 404 page for paths no route matches and for unknown session types. Laid
- * out like the homepage hero, over the same backdrop.
+ * out like the homepage hero, over the same backdrop. Fills the screen, with
+ * the content centered, so the backdrop never ends above the fold.
  */
 export function NotFound() {
   return (
-    <main className="relative isolate overflow-x-clip pt-header">
+    <main className="relative isolate flex min-h-svh flex-col justify-center overflow-x-clip pt-header">
       <HeroBackdrop />
       <section className="px-2.5 pt-20 pb-25">
         <div className="mx-auto flex max-w-content flex-col gap-10 p-2.5">
