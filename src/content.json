@@ -1263,8 +1263,9 @@
       "fieldError": "模擬欄位驗證失敗，未實際送出投稿。",
       "serverError": "模擬服務暫時無法使用，未實際送出投稿；已填寫的內容仍保留。"
     },
-    "placeholders": {
-      "hero": "我要投稿頁首"
+    "hero": {
+      "title": "我要投稿！",
+      "description": "感謝你願意投稿 SITCON！我們期待看到來自不同背景、不同經驗與不同領域的分享。"
     },
     "moreSubmissions": "參考更多稿件"
   },
