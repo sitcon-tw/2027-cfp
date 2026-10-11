@@ -29,6 +29,23 @@ Run `pnpm check` (typecheck, lint, format check) before finishing a task.
   attributes may stay in code. Display labels for technical values belong in JSON.
 - Do not create another copy file or hardcode new copy in TS/TSX/HTML. The HTML
   title is injected from this JSON by Vite for both development and builds.
+  The one exception is the submission form's questions (below).
+
+The submission form's questions live in `src/forms.json`, transcribed from
+the [表單文案](https://docs.google.com/document/d/16AHAPm7jvjMdqDR4sVJiNp4whCUNKsihHCZMWFoR4u4/edit).
+`fields` defines every question once: `label`, `description`, `kind`
+(`text`, `email`, `tel`, `textarea`, `radio`, `checkboxes`, `select`,
+`file`, `consent`), `required`, `options`, `public` (adds 【公開】),
+`showIf` and the Google Sheet `column` it is written to. `forms.<type>.sections`
+lists each session type's questions in order, as keys or as
+`{ "key": …, …overrides }` for a per-type difference. Option labels are also
+the values stored in the sheet, as in Google Forms; a `consent` question is
+a single-option confirmation. Descriptions may link with `[label](https://…)`,
+rendered by `LinkedText`; keep option labels plain, since they sit inside
+the control and are written to the sheet. `toSheetRow()` in `src/lib/submission.ts` maps
+a draft to those columns. Form chrome (button labels, validation messages)
+stays in `content.json`. `select` and `file` render a placeholder until
+their primitives exist.
 
 Homepage schedules live in `content.attend_section.tickets` and
 `content.speaker_section.schedule`. Each item's `start` / `end` is an ISO
