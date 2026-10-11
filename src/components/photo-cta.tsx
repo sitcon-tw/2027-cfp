@@ -7,16 +7,17 @@ export interface PhotoCtaProps {
   title: string
   /** Link buttons under the title. */
   children: ReactNode
-  /** `center` on session pages, `start` on the submission page. */
+  /** `center` on session pages. */
   align?: 'start' | 'center'
-  /** Background photo, dimmed and faded in from the top. */
+  /** Background photo, dimmed and faded in from the top and out at the bottom. */
   image?: string
   className?: string
 }
 
 /**
- * Full-width photo band with a heading and link buttons, above the footer:
- * 想要在舞臺發光發熱？ on session pages, 參考更多稿件 on the submission page.
+ * Full-width photo band with a heading and link buttons: 想要在舞臺發光發熱？
+ * on session pages, above 參考更多稿件. The photo fades into the page at both
+ * edges so the band has no seam against the sections around it.
  */
 export function PhotoCta({
   title,
@@ -32,7 +33,7 @@ export function PhotoCta({
       <img
         src={image}
         alt=""
-        className="absolute inset-0 -z-10 size-full object-cover object-bottom opacity-40"
+        className="absolute inset-0 -z-10 size-full mask-fade-b object-cover object-bottom opacity-40"
       />
       <div className="absolute inset-0 -z-10 bg-linear-to-b from-background from-2% to-transparent" />
       <div

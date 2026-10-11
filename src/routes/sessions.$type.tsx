@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 
 import content from '@/content.json'
 import ctaPhoto from '@/assets/session-cta.jpg'
+import { MoreSubmissions } from '@/components/more-submissions'
 import { PageHero } from '@/components/page-hero'
 import { PhotoCta } from '@/components/photo-cta'
 import { CriteriaTable } from '@/components/sessions/criteria-table'
@@ -76,6 +77,7 @@ function SessionPage() {
           {text.cta.submit}
         </Link>
       </PhotoCta>
+      <MoreSubmissions type={type} />
     </main>
   )
 }
