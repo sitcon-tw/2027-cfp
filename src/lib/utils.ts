@@ -37,3 +37,6 @@ const twMerge = extendTailwindMerge({
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
+
+/** Props of a Base UI part, with `className` narrowed to a string for `cn()`. */
+export type WithClassName<P> = Omit<P, 'className'> & { className?: string }

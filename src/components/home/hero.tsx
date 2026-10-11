@@ -1,3 +1,5 @@
+import { Link } from '@tanstack/react-router'
+
 import content from '@/content.json'
 import { buttonVariants } from '@/components/ui/button'
 
@@ -13,36 +15,38 @@ export function Hero() {
           <span className="text-eyebrow">{content.hero.eventName}</span>
           <span className="text-mega tracking-tight">{content.hero.title}</span>
         </h1>
-        <p className="flex flex-wrap items-baseline gap-x-5 gap-y-2.5">
-          <time
-            dateTime={content.hero.dateTime}
-            className="font-numeric text-h1 font-bold"
-          >
+        <p className="flex flex-col gap-x-7.5 gap-y-5 text-h1 font-bold md:flex-row md:items-center">
+          <time dateTime={content.hero.dateTime} className="font-numeric">
             {content.hero.date}
           </time>
-          <span className="text-lead font-extrabold text-foreground/80">
-            {content.hero.venue}
-          </span>
+          <span
+            aria-hidden
+            className="hidden w-0.5 self-stretch bg-foreground/40 md:block"
+          />
+          <span>{content.hero.venue}</span>
         </p>
         <div className="flex flex-wrap gap-5">
-          <a
-            href="#attend"
+          <Link
+            to="/"
+            hash="attend"
             className={buttonVariants({ variant: 'red', size: 'lg' })}
           >
             {content.hero.attend}
-          </a>
-          <a
-            href="#speakers"
+          </Link>
+          <Link
+            to="/"
+            hash="speakers"
             className={buttonVariants({ variant: 'blue', size: 'lg' })}
           >
             {content.hero.submit}
-          </a>
-          <a
-            href="#sponsor"
+          </Link>
+          <Link
+            to="/"
+            hash="sponsor"
             className={buttonVariants({ variant: 'green', size: 'lg' })}
           >
             {content.hero.sponsor}
-          </a>
+          </Link>
         </div>
       </div>
     </section>

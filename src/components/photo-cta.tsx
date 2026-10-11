@@ -1,54 +1,57 @@
-import { buttonVariants, type ButtonVariant } from '@/components/ui/button'
+import type { ReactNode } from 'react'
 
-export interface PhotoCtaAction {
-  label: string
-  href: string
-  variant?: ButtonVariant
-}
+import defaultPhoto from '@/assets/session-general.jpg'
+import { cn } from '@/lib/utils'
 
 export interface PhotoCtaProps {
   title: string
-  /** One or more link buttons under the title. */
-  actions: PhotoCtaAction[]
-  /** Decorative background photo, dimmed and faded in from the top. */
+  /** Link buttons under the title. */
+  children: ReactNode
+  /** `center` on session pages, `start` on the submission page. */
+  align?: 'start' | 'center'
+  /** Background photo, dimmed and faded in from the top. */
   image?: string
+  className?: string
 }
 
 /**
  * Full-width photo band with a heading and link buttons, above the footer:
  * 想要在舞臺發光發熱？ on session pages, 參考更多稿件 on the submission page.
  */
-export function PhotoCta({ title, actions, image }: PhotoCtaProps) {
+export function PhotoCta({
+  title,
+  children,
+  align = 'start',
+  image = defaultPhoto,
+  className,
+}: PhotoCtaProps) {
   return (
-    <section className="relative isolate px-2.5 pt-20 pb-15">
-      {image && (
-        <div aria-hidden className="absolute inset-0 -z-10">
-          <img
-            src={image}
-            alt=""
-            className="size-full object-cover opacity-40"
-          />
-          <div className="absolute inset-0 bg-linear-to-b from-background from-2% to-black/0" />
-        </div>
-      )}
-      <div className="mx-auto flex max-w-content flex-col items-center gap-10 p-2.5 text-center">
-        <h2 className="text-h1 font-extrabold">{title}</h2>
-        {actions.length > 0 && (
-          <div className="flex flex-wrap justify-center gap-5">
-            {actions.map(({ label, href, variant = 'cream' }) => (
-              <a
-                key={href + label}
-                href={href}
-                className={buttonVariants({
-                  variant,
-                  className: 'rounded-full',
-                })}
-              >
-                {label}
-              </a>
-            ))}
-          </div>
+    <section
+      className={cn('relative isolate overflow-hidden px-2.5 py-25', className)}
+    >
+      <img
+        src={image}
+        alt=""
+        className="absolute inset-0 -z-10 size-full object-cover object-bottom opacity-40"
+      />
+      <div className="absolute inset-0 -z-10 bg-linear-to-b from-background from-2% to-transparent" />
+      <div
+        className={cn(
+          'mx-auto flex max-w-content flex-col gap-10 p-2.5',
+          align === 'center' ? 'items-center text-center' : 'items-start',
         )}
+      >
+        <h2 className="text-h1 font-extrabold text-balance text-foreground">
+          {title}
+        </h2>
+        <div
+          className={cn(
+            'flex flex-wrap gap-5',
+            align === 'center' && 'justify-center',
+          )}
+        >
+          {children}
+        </div>
       </div>
     </section>
   )

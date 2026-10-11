@@ -1,16 +1,25 @@
 import type { ComponentProps, ReactNode } from 'react'
+import { Link } from '@tanstack/react-router'
+import {
+  siFacebook,
+  siFlickr,
+  siInstagram,
+  siTelegram,
+  siYoutube,
+} from 'simple-icons'
 
 import content from '@/content.json'
-import facebookIcon from '@/assets/facebook.svg'
-import flickrIcon from '@/assets/flickr.svg'
-import instagramIcon from '@/assets/instagram.svg'
 import sitconLogo from '@/assets/sitcon-logo-full.svg'
-import telegramIcon from '@/assets/telegram.svg'
-import youtubeIcon from '@/assets/youtube.svg'
 import { buttonVariants } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { links } from '@/lib/links'
 import { cn } from '@/lib/utils'
+
+const submitLinks = [
+  { type: 'general', label: content.site_footer.submitGeneral },
+  { type: 'open', label: content.site_footer.submitOpen },
+  { type: 'demo', label: content.site_footer.submitDemo },
+] as const
 
 // SITCON skipped 2023.
 const pastYears = content.site_footer.pastYears
@@ -19,23 +28,23 @@ const socials = [
   {
     name: content.social.facebook,
     href: links.social.facebook,
-    icon: facebookIcon,
+    icon: siFacebook,
   },
   {
     name: content.social.instagram,
     href: links.social.instagram,
-    icon: instagramIcon,
+    icon: siInstagram,
   },
   {
     name: content.social.telegram,
     href: links.social.telegram,
-    icon: telegramIcon,
+    icon: siTelegram,
   },
-  { name: content.social.flickr, href: links.social.flickr, icon: flickrIcon },
+  { name: content.social.flickr, href: links.social.flickr, icon: siFlickr },
   {
     name: content.social.youtube,
     href: links.social.youtube,
-    icon: youtubeIcon,
+    icon: siYoutube,
   },
 ]
 
@@ -45,24 +54,27 @@ export function SiteFooter() {
       <div className="mx-auto flex max-w-content flex-col gap-10">
         <div className="grid grid-cols-2 gap-10 md:grid-cols-4 md:gap-0">
           <FooterColumn title={content.site_footer.linksTitle}>
-            <FooterLink href="/">{content.site_footer.home}</FooterLink>
+            <Link to="/" className={footerLinkClassName}>
+              {content.site_footer.home}
+            </Link>
             <FooterLink href={links.theme}>
               {content.site_footer.theme}
             </FooterLink>
-            <FooterLink href={links.submit.general}>
-              {content.site_footer.submitGeneral}
-            </FooterLink>
-            <FooterLink href={links.submit.open}>
-              {content.site_footer.submitOpen}
-            </FooterLink>
-            <FooterLink href={links.submit.demo}>
-              {content.site_footer.submitDemo}
-            </FooterLink>
+            {submitLinks.map(({ type, label }) => (
+              <Link
+                key={type}
+                to="/submit/$type"
+                params={{ type }}
+                className={footerLinkClassName}
+              >
+                {label}
+              </Link>
+            ))}
           </FooterColumn>
           <FooterColumn title={content.site_footer.supportTitle}>
-            <FooterLink href="/#sponsor">
+            <Link to="/" hash="sponsor" className={footerLinkClassName}>
               {content.site_footer.sponsor}
-            </FooterLink>
+            </Link>
             <FooterLink href={links.sponsorProspectus}>
               {content.site_footer.prospectus}
             </FooterLink>
@@ -105,7 +117,13 @@ export function SiteFooter() {
                     size: 'icon',
                   })}
                 >
-                  <img src={icon} alt="" />
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                    className="size-6 fill-current"
+                  >
+                    <path d={icon.path} />
+                  </svg>
                 </a>
               </li>
             ))}
@@ -131,14 +149,10 @@ function FooterColumn({
   )
 }
 
+const footerLinkClassName =
+  'self-start rounded-xs text-body hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue'
+
+/** Outbound links. Pages on this site use `<Link>` with `footerLinkClassName`. */
 function FooterLink({ className, ...props }: ComponentProps<'a'>) {
-  return (
-    <a
-      className={cn(
-        'self-start rounded-xs text-body hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue',
-        className,
-      )}
-      {...props}
-    />
-  )
+  return <a className={cn(footerLinkClassName, className)} {...props} />
 }

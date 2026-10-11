@@ -2,9 +2,7 @@ import { NavigationMenu as BaseNavigationMenu } from '@base-ui/react/navigation-
 import { ChevronDown } from 'lucide-react'
 import type { ReactNode } from 'react'
 
-import { cn } from '@/lib/utils'
-
-type WithClassName<P> = Omit<P, 'className'> & { className?: string }
+import { cn, type WithClassName } from '@/lib/utils'
 
 /**
  * Root that also renders the shared popup. The popup is not in Figma yet — it

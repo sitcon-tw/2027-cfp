@@ -8,19 +8,9 @@ export const links = {
   tickets: TODO_HREF,
   about: '/about',
   theme: TODO_HREF,
-  submit: {
-    general: '/submit/general',
-    open: '/submit/open',
-    demo: '/submit/demo',
-  },
-  sessions: {
-    general: '/sessions/general',
-    open: '/sessions/open',
-    demo: '/sessions/demo',
-  },
   /**
-   * Policy pages, shared by the session pages and the submission form's
-   * consent checkbox. Keys are referenced from `content.json` rich text.
+   * Policy pages linked from the session pages' notes. Keys are referenced
+   * from `content.json` rich text.
    */
   policies: {
     codeOfConduct: content.links.codeOfConduct,

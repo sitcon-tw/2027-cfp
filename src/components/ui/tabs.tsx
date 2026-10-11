@@ -1,8 +1,6 @@
 import { Tabs as BaseTabs } from '@base-ui/react/tabs'
 
-import { cn } from '@/lib/utils'
-
-type WithClassName<P> = Omit<P, 'className'> & { className?: string }
+import { cn, type WithClassName } from '@/lib/utils'
 
 export function Tabs({
   className,

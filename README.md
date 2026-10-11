@@ -14,7 +14,7 @@ deadline is not configured.
 Requirements:
 
 - Node.js **22.12 or newer**. [`.nvmrc`](.nvmrc) selects Node 22 for nvm users.
-- pnpm **10 or newer**. [`package.json`](package.json) pins `pnpm@10.20.0`.
+- pnpm **12 or newer**. [`package.json`](package.json) pins `pnpm@12.11.2`.
   Installation with npm, yarn, or bun is blocked.
 
 From the repository root:
@@ -84,19 +84,46 @@ The design source is
 - **Keep unfinished sections explicit.** Use the shared `Placeholder` component
   for undesigned or WIP regions, with its label in `content.json`.
 
-## Production build
+## Production deployment
+
+The site is served at <https://sitcon.org/2027/cfp/> as part of the
+[`sitcon-tw/2027`](https://github.com/sitcon-tw/2027) GitHub Pages site, the
+same way as the [sponsorship prospectus](https://github.com/sitcon-tw/2027-cfs):
+
+1. A push to `main` (or a manual run) of **Build CFP site**
+   ([`.github/workflows/build.yml`](.github/workflows/build.yml)) runs
+   `pnpm check`, builds with `BASE_PATH=/2027/cfp/`, and publishes `dist/` to
+   the `build` branch of this repository.
+2. Once it succeeds, run **Deploy website** on `main` in `sitcon-tw/2027`. It
+   copies the `build` branch into `/cfp/` of its output and deploys the whole
+   site. Every deployment there also picks up the latest CFP build.
+
+To check a production build locally:
 
 ```sh
-pnpm check
-pnpm build
-pnpm preview
+BASE_PATH=/2027/cfp/ pnpm build
+mkdir -p /tmp/site/2027 && rm -rf /tmp/site/2027/cfp && cp -r dist /tmp/site/2027/cfp
+python3 -m http.server -d /tmp/site   # open http://localhost:8000/2027/cfp/
 ```
 
-Publish the contents of `dist/` to a static host. The site uses client-side
-routing, so configure the host to serve `index.html` for application paths such
-as `/sessions/general`, `/submit/demo`, and `/about` when no static file matches.
-This allows direct links and page refreshes to work. `pnpm preview` is for local
-verification, not production hosting.
+`BASE_PATH` sets Vite's `base` and the router's `basepath`; without it the site
+builds for `/` (development, `pnpm preview` and preview deployments). GitHub
+Pages has no single-page-app fallback, so the build also writes a copy of
+`index.html` for every route (`about/`, `sessions/<type>/`, `submit/<type>/`;
+see `routeShells` in [`vite.config.ts`](vite.config.ts)). That lets direct
+links and page refreshes work.
+
+## Continuous integration
+
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs on every pull
+request to `dev` or `main` and every push to either branch. Its three jobs
+mirror `pnpm check` plus the build:
+
+- **Lint** runs `pnpm lint`.
+- **Format** runs `pnpm format:check`.
+- **Build** runs `pnpm build` (which typechecks first) and fails if the build
+  regenerated `src/routeTree.gen.ts`, meaning a route change was committed
+  without the regenerated route tree.
 
 ## Preview deployments
 

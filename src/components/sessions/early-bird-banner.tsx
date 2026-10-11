@@ -1,8 +1,9 @@
+import { Link } from '@tanstack/react-router'
+
 import content from '@/content.json'
 import birdPattern from '@/assets/early-bird-pattern.svg'
 import { buttonVariants } from '@/components/ui/button'
 import { deadlines, useCountdown } from '@/lib/countdown'
-import { links } from '@/lib/links'
 import type { SessionTypeId } from '@/lib/session-types'
 
 const text = content.session_page.earlyBird
@@ -33,12 +34,13 @@ export function EarlyBirdBanner({ type }: { type: SessionTypeId }) {
             </p>
             <p className="text-paragraph">{text.tagline}</p>
             <div className="flex justify-end">
-              <a
-                href={links.submit[type]}
+              <Link
+                to="/submit/$type"
+                params={{ type }}
                 className={buttonVariants({ variant: 'cream' })}
               >
                 {text.submit}
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -51,7 +53,7 @@ function Marquee() {
   const words = Array.from({ length: MARQUEE_REPEAT }, () => text.marquee)
   return (
     <div aria-hidden className="overflow-clip bg-yellow py-2.5 text-black">
-      <div className="flex w-max motion-safe:animate-marquee">
+      <div className="motion-safe:animate-marquee flex w-max">
         {[0, 1].map((copy) => (
           <div key={copy} className="flex shrink-0 gap-5 pr-5">
             {words.map((word, i) => (

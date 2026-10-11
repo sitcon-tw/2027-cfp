@@ -1,0 +1,6 @@
+engineStrict: true
+
+# Matches pnpm 10, which skipped these build scripts; nothing needs them.
+allowBuilds:
+  esbuild: false
+  workerd: false

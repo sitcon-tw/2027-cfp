@@ -7,11 +7,11 @@ export const Route = createRootRoute({
   component: RootLayout,
 })
 
-/** Pages start under the overlaid header and pad themselves with `pt-header`. */
+/** Pages start under the fixed header and pad themselves with `pt-header`. */
 function RootLayout() {
   return (
     <div className="relative flex min-h-svh flex-col">
-      <SiteHeader className="absolute inset-x-0 top-0 z-10" />
+      <SiteHeader className="fixed inset-x-0 top-0 z-10" />
       <div className="flex-1">
         <Outlet />
       </div>

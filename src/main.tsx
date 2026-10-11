@@ -5,7 +5,16 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import { routeTree } from './routeTree.gen'
 
-const router = createRouter({ routeTree })
+const reduceMotion = window.matchMedia(
+  '(prefers-reduced-motion: reduce)',
+).matches
+
+const router = createRouter({
+  routeTree,
+  // Vite's `base`: `/2027/cfp/` in production, `/` elsewhere.
+  basepath: import.meta.env.BASE_URL,
+  defaultHashScrollIntoView: { behavior: reduceMotion ? 'auto' : 'smooth' },
+})
 
 declare module '@tanstack/react-router' {
   interface Register {

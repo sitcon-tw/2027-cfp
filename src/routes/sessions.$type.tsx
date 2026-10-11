@@ -1,4 +1,4 @@
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import { createFileRoute, Link, redirect } from '@tanstack/react-router'
 
 import content from '@/content.json'
 import ctaPhoto from '@/assets/session-cta.jpg'
@@ -13,7 +13,7 @@ import { InfoCardStack } from '@/components/sessions/info-card-stack'
 import { PosterStrip } from '@/components/sessions/poster-strip'
 import { SessionIntroCards } from '@/components/sessions/session-intro-cards'
 import { SessionPageTabs } from '@/components/sessions/session-page-tabs'
-import { links } from '@/lib/links'
+import { buttonVariants } from '@/components/ui/button'
 import { sessionPages } from '@/lib/session-pages'
 import { isSessionTypeId } from '@/lib/session-types'
 
@@ -59,9 +59,18 @@ function SessionPage() {
       <Faq type={type} />
       <PhotoCta
         title={text.cta.title}
-        actions={[{ label: text.cta.submit, href: links.submit[type] }]}
+        align="center"
+        className="pt-20 pb-15"
         image={ctaPhoto}
-      />
+      >
+        <Link
+          to="/submit/$type"
+          params={{ type }}
+          className={buttonVariants({ shape: 'pill' })}
+        >
+          {text.cta.submit}
+        </Link>
+      </PhotoCta>
     </main>
   )
 }

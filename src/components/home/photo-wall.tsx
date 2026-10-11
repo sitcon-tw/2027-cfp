@@ -174,7 +174,7 @@ function useSpotlight() {
 
 /**
  * 每年三月 — a full-bleed wall of photos from past conferences drifting
- * sideways like the topic bands, slow enough that visitors can spot people
+ * sideways, slow enough that visitors can spot people
  * they know. Hovering pauses it and puts a spotlight on the photo under
  * the mouse. The quote and `children` (the section's links)
  * sit on the darkened bottom edge.
@@ -214,11 +214,11 @@ export function PhotoWall({ children }: { children?: ReactNode }) {
   }))
 
   return (
-    <div className="group relative mt-25" {...spotlightHandlers}>
+    <div className="group relative mt-32.5" {...spotlightHandlers}>
       <div
         role="img"
         aria-label={about.photoWallLabel}
-        className="relative h-180 overflow-hidden md:h-225"
+        className="relative h-180 overflow-hidden mask-fade-b md:h-225"
       >
         <div className="flex h-full w-max animate-photo-wall group-hover:[animation-play-state:paused] motion-reduce:animate-none">
           {/* Doubled so the -50% loop is seamless. */}

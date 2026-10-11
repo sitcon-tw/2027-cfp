@@ -23,6 +23,8 @@ const sizes = {
 
 export type ButtonVariant = keyof typeof variants
 export type ButtonSize = keyof typeof sizes
+/** `pill` rounds every corner fully instead of the variant's corner pattern. */
+export type ButtonShape = 'default' | 'pill'
 
 /**
  * Button classes, for elements that must look like a button but are not one
@@ -32,16 +34,19 @@ export type ButtonSize = keyof typeof sizes
 export function buttonVariants({
   variant = 'cream',
   size = 'md',
+  shape = 'default',
   className,
 }: {
   variant?: ButtonVariant
   size?: ButtonSize
+  shape?: ButtonShape
   className?: string
 } = {}) {
   return cn(
     'inline-flex shrink-0 cursor-pointer items-center justify-center gap-2.5 font-extrabold whitespace-nowrap transition select-none hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue data-disabled:cursor-not-allowed data-disabled:opacity-50',
     variants[variant],
     sizes[size],
+    shape === 'pill' && 'rounded-full',
     className,
   )
 }
@@ -49,13 +54,20 @@ export function buttonVariants({
 export interface ButtonProps extends Omit<BaseButton.Props, 'className'> {
   variant?: ButtonVariant
   size?: ButtonSize
+  shape?: ButtonShape
   className?: string
 }
 
-export function Button({ variant, size, className, ...props }: ButtonProps) {
+export function Button({
+  variant,
+  size,
+  shape,
+  className,
+  ...props
+}: ButtonProps) {
   return (
     <BaseButton
-      className={buttonVariants({ variant, size, className })}
+      className={buttonVariants({ variant, size, shape, className })}
       {...props}
     />
   )
