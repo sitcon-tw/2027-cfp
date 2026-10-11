@@ -6,7 +6,7 @@ import type { KeyboardEvent } from 'react'
 import { cn, type WithClassName } from '@/lib/utils'
 
 /**
- * Shared by `CheckboxCard` and `RadioCard`: a full-width option card that
+ * Shared by `Checkbox`, `CheckboxCard` and `RadioCard`: a full-width option card that
  * turns cream when checked. Hover, invalid and disabled are not in Figma
  * yet — proposals.
  */
@@ -21,27 +21,24 @@ export function confirmOnEnter(event: KeyboardEvent<HTMLElement>) {
   if (!event.repeat) event.currentTarget.click()
 }
 
-function CheckboxIcon({ className }: { className?: string } = {}) {
+function CheckboxIcon() {
   return (
     <>
       <Square
         aria-hidden
-        className={cn('size-6 shrink-0 group-data-checked:hidden', className)}
+        className="size-6 shrink-0 group-data-checked:hidden"
       />
       <SquareCheck
         aria-hidden
-        className={cn(
-          'hidden size-6 shrink-0 group-data-checked:block',
-          className,
-        )}
+        className="hidden size-6 shrink-0 group-data-checked:block"
       />
     </>
   )
 }
 
 /**
- * An inline checkbox with its label as children, e.g. the consent line. The
- * whole row toggles. Hover is not in Figma yet.
+ * A standalone checkbox card with its label as children, e.g. the consent
+ * line. Looks like `CheckboxCard` and `RadioCard`, without a group.
  */
 export function Checkbox({
   className,
@@ -51,13 +48,10 @@ export function Checkbox({
   return (
     <BaseCheckbox.Root
       onKeyDown={confirmOnEnter}
-      className={cn(
-        'group inline-flex cursor-pointer items-start gap-2.5 rounded-xs text-paragraph text-foreground transition select-none hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue data-disabled:cursor-not-allowed data-disabled:opacity-50 data-invalid:text-red',
-        className,
-      )}
+      className={cn(choiceCardClassName, className)}
       {...props}
     >
-      <CheckboxIcon className="mt-1.5 md:mt-3" />
+      <CheckboxIcon />
       {children}
     </BaseCheckbox.Root>
   )

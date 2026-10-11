@@ -151,7 +151,7 @@ export const SubmissionFieldControl = memo(function SubmissionFieldControl({
           onCheckedChange={(checked) =>
             onValueChange(checked ? field.options![0] : '')
           }
-          className="min-h-control text-left"
+          className="max-w-183.5"
         >
           <span id={`${id}-0`}>{field.options?.[0]}</span>
         </Checkbox>
