@@ -3,6 +3,7 @@ import { Link } from '@tanstack/react-router'
 import { ArrowRight } from 'lucide-react'
 
 import content from '@/content.json'
+import { SessionTypePhoto } from '@/components/session-type-photo'
 import { sessionTypes, type SessionTypeId } from '@/lib/session-types'
 import { cn } from '@/lib/utils'
 
@@ -40,14 +41,10 @@ export function MoreSubmissions({ type }: { type: SessionTypeId }) {
                     'rounded-b-xl md:rounded-r-xl md:rounded-bl-sm',
                 )}
               >
-                <img
-                  src={intro.image}
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                  className="absolute inset-0 -z-10 size-full object-cover group-hover:scale-105 motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-smooth"
+                <SessionTypePhoto
+                  image={intro.image}
+                  className="group-hover:scale-105 motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-smooth"
                 />
-                <div className="absolute inset-0 -z-10 bg-black/70 bg-linear-136 from-black/40 from-18% to-foreground/5 to-91%" />
                 <div className="flex items-center gap-2.5">
                   <Icon aria-hidden className="mx-2.5 size-10 shrink-0" />
                   <div className="flex grow flex-col p-2.5">
