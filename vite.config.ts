@@ -46,19 +46,15 @@ export default defineConfig({
       generateBundle(_, bundle) {
         const index = bundle['index.html']
         if (index?.type !== 'asset') this.error('index.html was not emitted')
-        for (const route of routeShells) {
-          this.emitFile({
-            type: 'asset',
-            fileName: `${route}/index.html`,
-            source: index.source,
-          })
+        // `404.html` is for hosts that serve one for missing paths; the
+        // router renders the 404 page.
+        const fileNames = [
+          ...routeShells.map((route) => `${route}/index.html`),
+          '404.html',
+        ]
+        for (const fileName of fileNames) {
+          this.emitFile({ type: 'asset', fileName, source: index.source })
         }
-        // Served by hosts that look for a 404 page; the router renders it.
-        this.emitFile({
-          type: 'asset',
-          fileName: '404.html',
-          source: index.source,
-        })
       },
     },
     // Must come before the React plugin.

@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router'
 
 import content from '@/content.json'
-import { HomeBackdrop } from '@/components/home/home-backdrop'
+import { HeroBackdrop } from '@/components/hero-backdrop'
 import { buttonVariants } from '@/components/ui/button'
 
 const text = content.not_found_page
@@ -13,16 +13,14 @@ const text = content.not_found_page
 export function NotFound() {
   return (
     <main className="relative isolate overflow-x-clip pt-header">
-      <HomeBackdrop />
+      <HeroBackdrop />
       <section className="px-2.5 pt-20 pb-25">
         <div className="mx-auto flex max-w-content flex-col gap-10 p-2.5">
-          <div className="flex flex-col gap-5">
-            <h1 className="flex flex-col gap-5 font-extrabold">
-              <span className="font-numeric text-eyebrow">{text.eyebrow}</span>
-              <span className="text-headline text-balance">{text.title}</span>
-            </h1>
-            <p className="text-paragraph">{text.description}</p>
-          </div>
+          <h1 className="flex flex-col gap-5 font-extrabold">
+            <span className="font-numeric text-eyebrow">{text.eyebrow}</span>
+            <span className="text-headline text-balance">{text.title}</span>
+          </h1>
+          <p className="text-paragraph">{text.description}</p>
           <div className="flex flex-wrap gap-5">
             <Link to="/" className={buttonVariants({ size: 'lg' })}>
               {text.home}
@@ -32,7 +30,7 @@ export function NotFound() {
               params={{ type: 'general' }}
               className={buttonVariants({ variant: 'blue', size: 'lg' })}
             >
-              {text.submit}
+              {content.site_header.submit}
             </Link>
           </div>
         </div>

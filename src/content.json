@@ -1303,8 +1303,7 @@
     "eyebrow": "404",
     "title": "找不到這個頁面",
     "description": "這個網址可能打錯了，或是頁面已經移到別的地方。回到首頁看看 SITCON 2027 的徵稿資訊吧！",
-    "home": "回到首頁",
-    "submit": "我要投稿"
+    "home": "回到首頁"
   },
   "metadata": {
     "lang": "zh-Hant-TW",

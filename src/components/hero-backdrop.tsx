@@ -2,10 +2,10 @@ import heroIcon from '@/assets/sitcon-icon-hero.svg'
 import topIcon from '@/assets/sitcon-icon-backdrop-top.svg'
 
 /**
- * Dark gradient and faint SITCON icons behind the top of the homepage. Fills
- * its nearest positioned ancestor, which must be `isolate`.
+ * Dark gradient and faint SITCON icons behind the top of the homepage and the
+ * 404 page. Fills its nearest positioned ancestor, which must be `isolate`.
  */
-export function HomeBackdrop() {
+export function HeroBackdrop() {
   return (
     <div
       aria-hidden
