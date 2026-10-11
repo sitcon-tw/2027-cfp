@@ -99,7 +99,7 @@ too, so keep that id stable.
   `data-popup-open:`, everything `data-disabled:`, orientation
   `data-[orientation=vertical]:`. Check the docs for the exact attribute names.
 - Primitives accept a string `className` and merge it with `cn()` from
-  `@/lib/utils`. Wrappers type it as `Omit<X.Props, 'className'> & { className?: string }`.
+  `@/lib/utils`. Wrappers type it as `WithClassName<X.Props>` from `@/lib/utils`.
 - Focus ring for every interactive element:
   `focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue`.
 

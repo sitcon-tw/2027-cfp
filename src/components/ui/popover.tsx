@@ -1,8 +1,6 @@
 import { Popover as BasePopover } from '@base-ui/react/popover'
 
-import { cn } from '@/lib/utils'
-
-type WithClassName<P> = Omit<P, 'className'> & { className?: string }
+import { cn, type WithClassName } from '@/lib/utils'
 
 export const Popover = BasePopover.Root
 

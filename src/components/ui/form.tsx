@@ -1,8 +1,6 @@
 import { Form as BaseForm } from '@base-ui/react/form'
 
-import { cn } from '@/lib/utils'
-
-type WithClassName<P> = Omit<P, 'className'> & { className?: string }
+import { cn, type WithClassName } from '@/lib/utils'
 
 /**
  * A `<form>` that hands `errors` (keyed by each field's `name`) to the

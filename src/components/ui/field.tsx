@@ -1,8 +1,6 @@
 import { Field as BaseField } from '@base-ui/react/field'
 
-import { cn } from '@/lib/utils'
-
-type WithClassName<P> = Omit<P, 'className'> & { className?: string }
+import { cn, type WithClassName } from '@/lib/utils'
 
 /**
  * One form field: label above the control, then description and error. Base

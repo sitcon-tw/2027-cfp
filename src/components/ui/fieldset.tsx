@@ -1,8 +1,6 @@
 import { Fieldset as BaseFieldset } from '@base-ui/react/fieldset'
 
-import { cn } from '@/lib/utils'
-
-type WithClassName<P> = Omit<P, 'className'> & { className?: string }
+import { cn, type WithClassName } from '@/lib/utils'
 
 /** A titled group of fields, e.g. 輸入欄位 or 單選與多選. */
 export function Fieldset({
