@@ -5,11 +5,6 @@ import { cn } from '@/lib/utils'
 
 export interface PhotoCtaProps {
   title: string
-  /**
-   * Text under the title: one paragraph, or a list of them. Line breaks
-   * inside a paragraph are kept.
-   */
-  description?: string | string[]
   /** Link buttons under the title. */
   children: ReactNode
   /** `center` on session pages, `start` on the submission page. */
@@ -25,7 +20,6 @@ export interface PhotoCtaProps {
  */
 export function PhotoCta({
   title,
-  description,
   children,
   align = 'start',
   image = defaultPhoto,
@@ -50,13 +44,6 @@ export function PhotoCta({
         <h2 className="text-h1 font-extrabold text-balance text-foreground">
           {title}
         </h2>
-        {description && (
-          <div className="flex flex-col gap-2.5 text-paragraph text-balance whitespace-pre-line text-foreground">
-            {[description].flat().map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-          </div>
-        )}
         <div
           className={cn(
             'flex flex-wrap gap-5',

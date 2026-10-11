@@ -64,7 +64,6 @@ function SessionPage() {
       <Faq key={type} items={page.faq} />
       <PhotoCta
         title={text.cta.title}
-        description={page.ctaDescription}
         align="center"
         className="pt-20 pb-15"
         image={ctaPhoto}

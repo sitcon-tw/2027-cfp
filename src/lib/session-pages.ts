@@ -77,8 +77,6 @@ export interface SessionPage {
   requirements: CriteriaTableProps
   afterSubmission: InfoCardStackProps
   faq: FaqItem[]
-  /** Text under the closing call to action; see `PhotoCta`. */
-  ctaDescription?: string | string[]
 }
 
 /**
@@ -150,7 +148,6 @@ export const sessionPages: Record<SessionTypeId, SessionPage> = {
     requirements: text.general.requirements,
     afterSubmission: text.general.afterSubmission,
     faq: text.general.faq,
-    ctaDescription: text.general.ctaDescription,
   },
   open: {
     hero: {
@@ -170,7 +167,6 @@ export const sessionPages: Record<SessionTypeId, SessionPage> = {
     requirements: text.open.requirements,
     afterSubmission: text.open.afterSubmission,
     faq: text.open.faq,
-    ctaDescription: text.open.ctaDescription,
   },
   demo: {
     hero: {
