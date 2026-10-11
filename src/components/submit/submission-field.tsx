@@ -70,6 +70,11 @@ export const SubmissionFieldControl = memo(function SubmissionFieldControl({
           </span>
         )}
       </div>
+      {field.description && (
+        <FieldDescription>
+          <LinkedText text={field.description} />
+        </FieldDescription>
+      )}
       {isText && field.kind !== 'textarea' && (
         <Input
           // Format validation uses the shared schema and JSON messages.
@@ -152,11 +157,6 @@ export const SubmissionFieldControl = memo(function SubmissionFieldControl({
         >
           <span id={`${id}-0`}>{field.options?.[0]}</span>
         </Checkbox>
-      )}
-      {field.description && (
-        <FieldDescription>
-          <LinkedText text={field.description} />
-        </FieldDescription>
       )}
       {error && <FieldError match>{error}</FieldError>}
     </Field>
