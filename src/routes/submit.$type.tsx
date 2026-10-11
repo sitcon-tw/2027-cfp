@@ -27,7 +27,7 @@ function SubmitPage() {
   const { type } = Route.useParams()
   return (
     <main className="overflow-x-clip">
-      <PageHero label={text.placeholders.hero} />
+      <PageHero title={text.placeholders.hero} />
       <div className="px-2.5 py-7.5">
         <div className="mx-auto max-w-content">
           <SubmissionTypeTabs type={type} />

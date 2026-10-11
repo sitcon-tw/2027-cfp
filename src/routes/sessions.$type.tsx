@@ -1,6 +1,8 @@
 import { createFileRoute, Link, redirect } from '@tanstack/react-router'
+import { useEffect } from 'react'
 
 import content from '@/content.json'
+import ctaPhoto from '@/assets/session-cta.jpg'
 import { PageHero } from '@/components/page-hero'
 import { PhotoCta } from '@/components/photo-cta'
 import { CriteriaTable } from '@/components/sessions/criteria-table'
@@ -13,7 +15,8 @@ import { PosterStrip } from '@/components/sessions/poster-strip'
 import { SessionIntroCards } from '@/components/sessions/session-intro-cards'
 import { SessionPageTabs } from '@/components/sessions/session-page-tabs'
 import { buttonVariants } from '@/components/ui/button'
-import { getSessionType, isSessionTypeId } from '@/lib/session-types'
+import { sessionPages } from '@/lib/session-pages'
+import { isSessionTypeId } from '@/lib/session-types'
 
 export const Route = createFileRoute('/sessions/$type')({
   params: {
@@ -27,45 +30,53 @@ export const Route = createFileRoute('/sessions/$type')({
   component: SessionPage,
 })
 
-const text = content.session_page.placeholders
-const cta = content.session_page.cta
+const text = content.session_page
 
 /** 一般議程 / 開放式議程 / Demo 展. Sections differ per type; see Figma. */
 function SessionPage() {
   const { type } = Route.useParams()
-  const { title } = getSessionType(type)
+  const page = sessionPages[type]
+  // Warm the cache with the other types' hero photos, so a tab switch
+  // usually shows its photo at once.
+  useEffect(() => {
+    for (const { hero } of Object.values(sessionPages)) {
+      new Image().src = hero.image
+    }
+  }, [])
   return (
     <main className="overflow-x-clip">
-      <PageHero label={text.hero.replace('{title}', title)}>
+      <PageHero {...page.hero}>
         <SessionPageTabs type={type} />
       </PageHero>
-      <SessionIntroCards type={type} />
-      <EarlyBirdBanner />
-      {type === 'general' && (
-        <>
-          <ExamplesCarousel label={text.presentationExamples} />
-          <ExamplesCarousel label={text.espressoExamples} />
-        </>
-      )}
-      {type === 'open' && <ExamplesCarousel label={text.openExamples} />}
+      <SessionIntroCards title={page.introTitle} cards={page.intro} />
+      <EarlyBirdBanner type={type} />
+      {page.examples.map((section) => (
+        // Keyed by page too, so switching type starts on the first page.
+        <ExamplesCarousel key={`${type}-${section.title}`} {...section} />
+      ))}
       {type === 'demo' && (
         <>
           <DemoGallery />
           <PosterStrip />
         </>
       )}
-      <CriteriaTable label={text.reviewCriteria} />
-      <InfoCardStack label={text.beforeSubmission} />
-      {type === 'general' && <CriteriaTable label={text.requirements} />}
-      <InfoCardStack label={text.afterSubmission} />
+      <CriteriaTable {...text.reviewCriteria} />
+      <InfoCardStack {...text.beforeSubmission} />
+      {type === 'general' && <CriteriaTable {...text.requirements} />}
+      <InfoCardStack {...text.afterSubmission} />
       <Faq type={type} />
-      <PhotoCta title={cta.title} align="center" className="pt-20 pb-15">
+      <PhotoCta
+        title={text.cta.title}
+        align="center"
+        className="pt-20 pb-15"
+        image={ctaPhoto}
+      >
         <Link
           to="/submit/$type"
           params={{ type }}
           className={buttonVariants({ shape: 'pill' })}
         >
-          {cta.submit}
+          {text.cta.submit}
         </Link>
       </PhotoCta>
     </main>

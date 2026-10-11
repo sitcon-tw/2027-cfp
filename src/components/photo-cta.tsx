@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-import photo from '@/assets/session-general.jpg'
+import defaultPhoto from '@/assets/session-general.jpg'
 import { cn } from '@/lib/utils'
 
 export interface PhotoCtaProps {
@@ -9,6 +9,8 @@ export interface PhotoCtaProps {
   children: ReactNode
   /** `center` on session pages, `start` on the submission page. */
   align?: 'start' | 'center'
+  /** Background photo, dimmed and faded in from the top. */
+  image?: string
   className?: string
 }
 
@@ -20,6 +22,7 @@ export function PhotoCta({
   title,
   children,
   align = 'start',
+  image = defaultPhoto,
   className,
 }: PhotoCtaProps) {
   return (
@@ -27,7 +30,7 @@ export function PhotoCta({
       className={cn('relative isolate overflow-hidden px-2.5 py-25', className)}
     >
       <img
-        src={photo}
+        src={image}
         alt=""
         className="absolute inset-0 -z-10 size-full object-cover object-bottom opacity-40"
       />

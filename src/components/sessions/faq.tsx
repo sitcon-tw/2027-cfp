@@ -1,16 +1,42 @@
 import content from '@/content.json'
-import { Placeholder } from '@/components/placeholder'
-import { getSessionType, type SessionTypeId } from '@/lib/session-types'
+import { SessionSection } from '@/components/sessions/session-section'
+import {
+  Accordion,
+  AccordionItem,
+  AccordionPanel,
+  AccordionTrigger,
+} from '@/components/ui/accordion'
+import type { SessionTypeId } from '@/lib/session-types'
 
-/** Q&A — the session type's questions as an accordion. */
+const text = content.session_page.faq
+
+// The same questions on every page for now; split per type once the
+// program team writes type-specific ones.
+const faqs: Record<SessionTypeId, typeof text.items> = {
+  general: text.items,
+  open: text.items,
+  demo: text.items,
+}
+
+/**
+ * Q&A — the session type's questions. The first one starts open, as in
+ * Figma.
+ */
 export function Faq({ type }: { type: SessionTypeId }) {
-  const { title } = getSessionType(type)
+  const items = faqs[type]
   return (
-    <section className="px-2.5 py-7.5">
-      <Placeholder
-        label={content.session_page.placeholders.faq.replace('{title}', title)}
-        className="mx-auto max-w-content"
-      />
-    </section>
+    <SessionSection title={text.title}>
+      <Accordion key={type} defaultValue={[items[0]?.question]}>
+        {items.map(({ question, answer }) => (
+          <AccordionItem key={question} value={question}>
+            <AccordionTrigger>{question}</AccordionTrigger>
+            <AccordionPanel>
+              {/* TODO: answers other than the first, from the program team. */}
+              {answer || text.pendingAnswer}
+            </AccordionPanel>
+          </AccordionItem>
+        ))}
+      </Accordion>
+    </SessionSection>
   )
 }

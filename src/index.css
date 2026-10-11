@@ -23,6 +23,7 @@
   --color-red: #ff625b;
   --color-blue: #6a74e3;
   --color-green: #8df280;
+  --color-yellow: #fcbf30;
   --color-black: #000000;
 
   --font-sans: 'LINESeedTW', 'Inter Variable', sans-serif;
@@ -90,6 +91,7 @@
   /* Homepage photo wall: slow, so people have time to spot faces. Its
      content is doubled, so -50% loops it. */
   --animate-photo-wall: marquee 140s linear infinite;
+
   @keyframes marquee {
     to {
       transform: translateX(-50%);

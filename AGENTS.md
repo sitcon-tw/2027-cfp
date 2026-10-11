@@ -170,6 +170,7 @@ colors, type scale and radii are **reset**, so `bg-white`, `text-sm`,
 | `gray`                   | `#2B2B2B`                         | Gray               | Dark card, secondary text on cream, rules          |
 | `light`                  | `#E3E0DC`                         | Light              | Muted button, quiz wells                           |
 | `red` / `blue` / `green` | `#FF625B` / `#6A74E3` / `#8DF280` | Red / Blue / Green | Hero accent buttons; `blue` is also the focus ring |
+| `yellow`                 | `#FCBF30`                         | Yellow             | Early Bird marquee band                            |
 | `black`                  | `#000000`                         | Grays/Black        | Overlays only (navbar glass `bg-black/35`)         |
 
 The Figma names are kept as-is, so on cream sections the text color is
@@ -313,18 +314,21 @@ Regions that are not designed yet, or are marked WIP in Figma, render
 `<Placeholder label="…" />` from `@/components/placeholder`. Do not invent a
 design for them. Current placeholders:
 
-- Every section of `/sessions/$type`, `/submit/$type` and `/about`. Each
-  component file exists and is wired in place; its issue replaces the
-  placeholder with the real section.
+- Every section of `/submit/$type` and `/about`. Each component file exists
+  and is wired in place; its issue replaces the placeholder with the real
+  section.
+- The Demo 展 photo wall and poster strip on `/sessions/demo`, which are
+  blank frames in Figma until the photos arrive.
 
 ### Undesigned states
 
 Figma has no hover, focus, selected, checked or popup designs yet. The
 primitives use proposals (dimmed inactive tabs, ink checked radios, navbar-
 glass dropdown, `brightness-95` hover, cream `Dialog` that becomes a
-swipe-down bottom sheet below `md`). The session-type quiz's footer (back /
-progress / next) and its result screen are proposals too. Keep them
-consistent and replace them when the designs arrive.
+swipe-down bottom sheet below `md`, `Accordion` hover and open/close
+animation). The session-type quiz's footer (back / progress / next) and its
+result screen are proposals too. Keep them consistent and replace them when
+the designs arrive.
 
 The form primitives (`Field`, `Input`, `Checkbox`, …) follow Figma's
 表單 Page for empty, filled, focus and checked. Focus on `Input` and
