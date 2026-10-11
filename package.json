@@ -19,6 +19,7 @@
   },
   "scripts": {
     "preinstall": "node scripts/only-allow-pnpm.js",
+    "postinstall": "cn-font-split i default@7.6.8",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
@@ -47,6 +48,7 @@
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
     "@vitejs/plugin-react": "^6.1.1",
+    "cn-font-split": "7.4.3",
     "oxlint": "^1.81.0",
     "prettier": "^3.9.9",
     "prettier-plugin-tailwindcss": "^0.8.1",
@@ -54,6 +56,7 @@
     "typescript": "~6.0.2",
     "vite": "^8.3.0",
     "vite-imagetools": "^12.0.1",
+    "vite-plugin-font": "^5.1.2",
     "wrangler": "4.143.0"
   }
 }

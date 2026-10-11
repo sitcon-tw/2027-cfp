@@ -3,10 +3,15 @@ import tailwindcss from '@tailwindcss/vite'
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
+import viteFont from 'vite-plugin-font'
 import { imagetools } from 'vite-imagetools'
 
 import content from './src/content.json' with { type: 'json' }
 import { sessionTypeIds } from './src/lib/session-type-ids.ts'
+
+// The package's CJS entry replaces `module.exports` with the plugin, so the
+// default import is the plugin itself rather than the module its types describe.
+const fontPlugin = viteFont as unknown as typeof viteFont.default
 
 // Client routes that get a copy of index.html, so static hosts without an SPA
 // fallback (GitHub Pages) serve them on direct visits and refreshes.
@@ -69,6 +74,31 @@ export default defineConfig({
         for (const fileName of fileNames) {
           this.emitFile({ type: 'asset', fileName, source: index.source })
         }
+      },
+    },
+    // LINE Seed TW, subset to the characters in src (imported with
+    // `?subsets` in src/main.tsx) plus what people type into the form.
+    fontPlugin.vite({
+      include: [/\/fonts\/line-seed-tw\/.+\.ttf/],
+      scanFiles: ['src/**/*.{json,ts,tsx,css}'],
+      whiteList: [
+        // Printable ASCII and common full-width punctuation.
+        String.fromCharCode(...Array.from({ length: 95 }, (_, i) => 32 + i)),
+        '，。、：；！？「」『』（）《》〈〉…—～·',
+      ],
+      // Typed as cn-font-split's protobuf class, but read as a plain object.
+      css: { fontFamily: 'LINESeedTW', fontDisplay: 'swap' } as never,
+    }),
+    {
+      // cn-font-split's native binding blocks Node from exiting after it has
+      // subset a font, so an uncached `vite build` (every CI build) hangs
+      // once the bundle is written. Exit here instead; it has to be
+      // synchronous, since the event loop never runs a deferred exit.
+      name: 'exit-after-build',
+      apply: 'build',
+      enforce: 'post',
+      closeBundle(error) {
+        if (!this.meta.watchMode) process.exit(error ? 1 : 0)
       },
     },
     imagetools({

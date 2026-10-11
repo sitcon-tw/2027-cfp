@@ -4,3 +4,8 @@ engineStrict: true
 allowBuilds:
   esbuild: false
   workerd: false
+  protobufjs: false
+  # Its own script downloads the latest binary; the root postinstall pins it.
+  cn-font-split: false
+  # vite-plugin-font: loads cn-font-split's native binary.
+  koffi: true
