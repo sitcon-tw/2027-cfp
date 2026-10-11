@@ -416,7 +416,7 @@
         ]
       },
       "requirements": {
-        "title": "投稿需要什麼？",
+        "title": "投稿格式",
         "description": "Presentation 與 Espresso 的投稿格式相同，除標示為公開之資訊會對外公布外，其餘僅供審稿委員於審稿時閱讀。",
         "items": [
           {

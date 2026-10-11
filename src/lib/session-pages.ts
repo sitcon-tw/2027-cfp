@@ -72,7 +72,7 @@ export interface SessionPage {
   examples?: ExamplesSection
   reviewCriteria: CriteriaTableProps
   beforeSubmission: InfoCardStackProps
-  /** 投稿需要什麼？, the submission format; not on Demo 展 yet. */
+  /** 投稿格式, the submission format; not on Demo 展 yet. */
   requirements?: CriteriaTableProps
   afterSubmission: InfoCardStackProps
   faq: FaqItem[]

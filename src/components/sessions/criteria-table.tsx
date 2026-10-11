@@ -14,7 +14,7 @@ export interface CriteriaTableProps {
 }
 
 /**
- * Label and description rows: 審稿標準 / 投稿需要什麼？ The tiles read as one
+ * Label and description rows: 審稿標準 / 投稿格式. The tiles read as one
  * shape: only the outer corners of the whole table are `xl`. Below `md`
  * each label sits right above its description.
  */

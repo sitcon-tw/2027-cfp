@@ -56,10 +56,10 @@ function SessionPage() {
       <PageHero {...page.hero}>
         <SessionPageTabs type={type} />
       </PageHero>
-      {type === 'open' ? (
-        <OpenSections page={page} />
+      {type === 'demo' ? (
+        <DemoSections page={page} />
       ) : (
-        <DefaultSections type={type} page={page} />
+        <CfpSections type={type} page={page} />
       )}
       {/* Keyed by type, so switching type reopens the first question. */}
       <Faq key={type} items={page.faq} />
@@ -82,8 +82,12 @@ function SessionPage() {
   )
 }
 
-/** 一般議程 and Demo 展, in the order of the Figma design. */
-function DefaultSections({
+/**
+ * 一般議程 and 開放式議程, in the order of their CFP copy: what it is,
+ * examples, 投稿格式, 早鳥投稿計劃 (the early-bird banner), 審稿方式, then
+ * the notes before and after submitting.
+ */
+function CfpSections({
   type,
   page,
 }: {
@@ -92,49 +96,43 @@ function DefaultSections({
 }) {
   return (
     <>
-      <SessionIntroCards
-        title={page.introTitle}
-        description={page.introDescription}
-        lead={page.introLead}
-        cards={page.intro}
-      />
-      <EarlyBirdBanner type={type} />
+      {type === 'open' ? (
+        <OpenSessionIntro
+          title={page.introTitle}
+          description={page.introDescription}
+          lead={page.introLead}
+          formats={page.intro}
+          more={page.introMore}
+        />
+      ) : (
+        <SessionIntroCards
+          title={page.introTitle}
+          description={page.introDescription}
+          lead={page.introLead}
+          cards={page.intro}
+        />
+      )}
       {page.examples && (
         // Keyed by type, so switching type starts on the first page.
         <ExamplesCarousel key={type} {...page.examples} />
       )}
-      {type === 'demo' && (
-        <>
-          <DemoGallery />
-          <PosterStrip />
-        </>
-      )}
+      {page.requirements && <CriteriaTable {...page.requirements} />}
+      <EarlyBirdBanner type={type} />
       <CriteriaTable {...page.reviewCriteria} />
       <InfoCardStack {...page.beforeSubmission} />
-      {page.requirements && <CriteriaTable {...page.requirements} />}
       <InfoCardStack {...page.afterSubmission} />
     </>
   )
 }
 
-/**
- * 開放式議程, in the order of its CFP copy: what it is, examples, 投稿格式,
- * 早鳥投稿計劃 (the early-bird banner), 審稿方式, then the notes before
- * and after submitting.
- */
-function OpenSections({ page }: { page: SessionPageData }) {
+/** Demo 展, in the order of the Figma design. */
+function DemoSections({ page }: { page: SessionPageData }) {
   return (
     <>
-      <OpenSessionIntro
-        title={page.introTitle}
-        description={page.introDescription}
-        lead={page.introLead}
-        formats={page.intro}
-        more={page.introMore}
-      />
-      {page.examples && <ExamplesCarousel {...page.examples} />}
-      {page.requirements && <CriteriaTable {...page.requirements} />}
-      <EarlyBirdBanner type="open" />
+      <SessionIntroCards title={page.introTitle} cards={page.intro} />
+      <EarlyBirdBanner type="demo" />
+      <DemoGallery />
+      <PosterStrip />
       <CriteriaTable {...page.reviewCriteria} />
       <InfoCardStack {...page.beforeSubmission} />
       <InfoCardStack {...page.afterSubmission} />
