@@ -8,16 +8,6 @@ export const links = {
   tickets: TODO_HREF,
   about: '/about',
   theme: TODO_HREF,
-  submit: {
-    general: '/submit/general',
-    open: '/submit/open',
-    demo: '/submit/demo',
-  },
-  sessions: {
-    general: '/sessions/general',
-    open: '/sessions/open',
-    demo: '/sessions/demo',
-  },
   sponsorIndividual: TODO_HREF,
   sponsorProspectus: TODO_HREF,
   contactEmail: content.links.contactEmail,

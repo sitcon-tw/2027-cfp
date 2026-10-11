@@ -64,7 +64,10 @@ export function SiteHeader({ className }: { className?: string }) {
               </NavigationMenuTrigger>
               <NavigationMenuContent>
                 {sessionTypes.map(({ id, title }) => (
-                  <NavigationMenuLink key={id} href={links.sessions[id]}>
+                  <NavigationMenuLink
+                    key={id}
+                    render={<Link to="/sessions/$type" params={{ type: id }} />}
+                  >
                     {title}
                   </NavigationMenuLink>
                 ))}
@@ -79,7 +82,7 @@ export function SiteHeader({ className }: { className?: string }) {
               </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <NavigationMenuLink topLevel href={links.about}>
+              <NavigationMenuLink topLevel render={<Link to={links.about} />}>
                 {content.site_header.about}
               </NavigationMenuLink>
             </NavigationMenuItem>
