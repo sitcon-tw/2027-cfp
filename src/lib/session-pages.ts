@@ -118,6 +118,7 @@ export const sessionPages: Record<SessionTypeId, SessionPage> = {
     requirements: text.general.requirements,
     afterSubmission: text.general.afterSubmission,
     faq: text.general.faq,
+    ctaDescription: text.general.ctaDescription,
   },
   open: {
     hero: {
