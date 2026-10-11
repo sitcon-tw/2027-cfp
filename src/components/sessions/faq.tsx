@@ -1,4 +1,5 @@
 import content from '@/content.json'
+import { LinkedText } from '@/components/linked-text'
 import { SessionSection } from '@/components/sessions/session-section'
 import {
   Accordion,
@@ -30,7 +31,9 @@ export function Faq({ items }: { items: FaqItem[] }) {
               {answer.length > 0 ? (
                 <div className="flex flex-col gap-2.5">
                   {answer.map((paragraph) => (
-                    <p key={paragraph}>{paragraph}</p>
+                    <p key={paragraph}>
+                      <LinkedText text={paragraph} />
+                    </p>
                   ))}
                 </div>
               ) : (

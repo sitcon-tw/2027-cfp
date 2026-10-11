@@ -1,5 +1,6 @@
 import { Sparkles, type LucideIcon } from 'lucide-react'
 
+import { LinkedText } from '@/components/linked-text'
 import { SessionSection } from '@/components/sessions/session-section'
 import { Card } from '@/components/ui/card'
 import type { IntroCard } from '@/lib/session-pages'
@@ -75,7 +76,7 @@ export function OpenSessionIntro({
                 <h3 className="text-h3 font-bold">{title}</h3>
                 {[text].flat().map((paragraph) => (
                   <p key={paragraph} className="text-paragraph">
-                    {paragraph}
+                    <LinkedText text={paragraph} />
                   </p>
                 ))}
                 {examples && (

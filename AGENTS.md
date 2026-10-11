@@ -24,6 +24,9 @@ Run `pnpm check` (typecheck, lint, format check) before finishing a task.
 - Keep complete sentences in JSON. For dynamic content, use named placeholders
   such as `{title}` and substitute values in code; do not concatenate hardcoded
   words or punctuation. Keep markup and layout in React.
+- Body copy rendered by `LinkedText` (session pages, form descriptions) may
+  use `[label](https://…)` links and `**bold**`, the only inline markup.
+  Keep the bold of the source document; headings and titles stay plain.
 - Technical identifiers (route paths, anchors, CSS classes, state values),
   calculated numbers, date-format separators, and empty decorative `alt=""`
   attributes may stay in code. Display labels for technical values belong in JSON.
@@ -40,8 +43,8 @@ the [表單文案](https://docs.google.com/document/d/16AHAPm7jvjMdqDR4sVJiNp4wh
 lists each session type's questions in order, as keys or as
 `{ "key": …, …overrides }` for a per-type difference. Option labels are also
 the values stored in the sheet, as in Google Forms; a `consent` question is
-a single-option confirmation. Descriptions may link with `[label](https://…)`,
-rendered by `LinkedText`; keep option labels plain, since they sit inside
+a single-option confirmation. Descriptions may use `[label](https://…)` and
+`**bold**`, rendered by `LinkedText`; keep option labels plain, since they sit inside
 the control and are written to the sheet. `toSheetRow()` in `src/lib/submission.ts` maps
 a draft to those columns. Form chrome (button labels, validation messages)
 stays in `content.json`. `select` and `file` render a placeholder until

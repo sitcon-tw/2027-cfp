@@ -1,3 +1,4 @@
+import { LinkedText } from '@/components/linked-text'
 import { SessionSection } from '@/components/sessions/session-section'
 import { cn } from '@/lib/utils'
 
@@ -45,7 +46,9 @@ export function CriteriaTable({
                 i === last && 'rounded-b-xl md:rounded-bl-sm',
               )}
             >
-              {description}
+              <p>
+                <LinkedText text={description} />
+              </p>
             </dd>
           </div>
         ))}
