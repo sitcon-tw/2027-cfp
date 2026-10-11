@@ -380,6 +380,110 @@
           "licenseHref": "https://creativecommons.org/licenses/by-sa/2.0/"
         },
         {
+          "file": "01-2026-main-hall.webp",
+          "label": "SITCON 2026 階梯講堂坐滿使用筆電的會眾",
+          "title": "夏川DSC_8030",
+          "href": "https://www.flickr.com/photos/sitcon/55248342255",
+          "license": "CC BY 4.0",
+          "licenseHref": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "file": "02-2024-hackathon-qr.webp",
+          "label": "SITCON 黑客松 2024 參與者笑著舉起平板",
+          "title": "小群-8465",
+          "href": "https://www.flickr.com/photos/sitcon/53899235349",
+          "license": "CC BY-SA 2.0",
+          "licenseHref": "https://creativecommons.org/licenses/by-sa/2.0/"
+        },
+        {
+          "file": "03-2026-panel.webp",
+          "label": "SITCON 2026 與談者拿著麥克風對談",
+          "title": "竺原-8168",
+          "href": "https://www.flickr.com/photos/sitcon/55249518947",
+          "license": "CC BY 4.0",
+          "licenseHref": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "file": "04-2025-booth.webp",
+          "label": "SITCON 2025 攤位前的交流",
+          "title": "月太-1081",
+          "href": "https://www.flickr.com/photos/sitcon/54477834411",
+          "license": "CC BY-SA 2.0",
+          "licenseHref": "https://creativecommons.org/licenses/by-sa/2.0/"
+        },
+        {
+          "file": "05-2026-speaker.webp",
+          "label": "SITCON 2026 講者在講台後說明",
+          "title": "月太-2098",
+          "href": "https://www.flickr.com/photos/sitcon/55247941961",
+          "license": "CC BY 4.0",
+          "licenseHref": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "file": "06-2025-hour-of-code-robot.webp",
+          "label": "SITCON Hour of Code 2025 志工陪孩子操作機器人",
+          "title": "竺原-9273",
+          "href": "https://www.flickr.com/photos/sitcon/55001532301",
+          "license": "CC BY 4.0",
+          "licenseHref": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "file": "07-2026-volunteers.webp",
+          "label": "SITCON 2026 工作人員拿著麥克風大笑",
+          "title": "pU-47",
+          "href": "https://www.flickr.com/photos/sitcon/54886384890",
+          "license": "CC BY 4.0",
+          "licenseHref": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "file": "08-2024-hackathon-crowd.webp",
+          "label": "SITCON 黑客松 2024 參與者笑著舉起食指",
+          "title": "小群-8219",
+          "href": "https://www.flickr.com/photos/sitcon/53897983352",
+          "license": "CC BY-SA 2.0",
+          "licenseHref": "https://creativecommons.org/licenses/by-sa/2.0/"
+        },
+        {
+          "file": "09-2026-camp-mentor.webp",
+          "label": "SITCON 夏令營 2026 工作人員為學員說明",
+          "title": "康喔_8801",
+          "href": "https://www.flickr.com/photos/sitcon/55383205418",
+          "license": "CC BY 4.0",
+          "licenseHref": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "file": "10-2024-hackathon-team.webp",
+          "label": "SITCON 黑客松 2024 三名參與者圍著筆電寫程式",
+          "title": "小群-8423",
+          "href": "https://www.flickr.com/photos/sitcon/53899319750",
+          "license": "CC BY-SA 2.0",
+          "licenseHref": "https://creativecommons.org/licenses/by-sa/2.0/"
+        },
+        {
+          "file": "11-2025-speaker.webp",
+          "label": "SITCON 2025 年輕講者操作筆電分享",
+          "title": "Bubble-7516",
+          "href": "https://www.flickr.com/photos/sitcon/54480282653",
+          "license": "CC BY-SA 2.0",
+          "licenseHref": "https://creativecommons.org/licenses/by-sa/2.0/"
+        },
+        {
+          "file": "12-2026-camp-presenters.webp",
+          "label": "SITCON 夏令營 2026 兩位學生上台報告",
+          "title": "康喔_9994",
+          "href": "https://www.flickr.com/photos/sitcon/55385549156",
+          "license": "CC BY 4.0",
+          "licenseHref": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "file": "13-2026-staff.webp",
+          "label": "SITCON 2026 工作人員在器材區大笑",
+          "title": "康喔_6603",
+          "href": "https://www.flickr.com/photos/sitcon/55245896763",
+          "license": "CC BY 4.0",
+          "licenseHref": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
           "file": "meetup.webp",
           "label": "SITCON 2027 負一籌 × COSCUP BoF 學生圍成一圈聊天",
           "title": "康喔_2373",
@@ -1245,6 +1349,9 @@
       "subtitle": "關於學生計算機年會",
       "body": "SITCON 是由學生自主籌辦、以學生為核心的資訊科技年會，提供一個分享技術、交流想法與認識彼此的舞台。從軟體開發、資訊安全到開源文化與社群經驗，各種與資訊相關的主題都能在這裡被看見。希望透過一次次交流，讓更多學生找到夥伴，也找到繼續探索的方向。"
     },
+    "photoStrip": {
+      "label": "SITCON 歷年活動現場照片"
+    },
     "media": {
       "title": "媒體報導",
       "action": "查看新聞",
@@ -1428,9 +1535,6 @@
           "alt": "學生們在教室裡圍成一圈笑著聊天"
         }
       ]
-    },
-    "placeholders": {
-      "photoStrip": "活動照片"
     }
   },
   "submit_page": {
