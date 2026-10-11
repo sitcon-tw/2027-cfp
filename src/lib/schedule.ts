@@ -32,14 +32,6 @@ export function scheduleStatus(
   return 'open'
 }
 
-/** The first item that is open or still ahead, for teasers. */
-export function nextScheduleItem(items: ScheduleItem[], now = Date.now()) {
-  return items.find((item) => {
-    const status = scheduleStatus(item, now)
-    return status === 'open' || status === 'upcoming'
-  })
-}
-
 const pad = (n: number) => String(n).padStart(2, '0')
 
 export function formatDate(date: Date) {

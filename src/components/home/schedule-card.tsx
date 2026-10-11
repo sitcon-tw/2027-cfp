@@ -13,7 +13,6 @@ import {
 } from '@/components/ui/dialog'
 import {
   formatScheduleDate,
-  nextScheduleItem,
   scheduleStatus,
   type ScheduleItem,
   type ScheduleStatus,
@@ -43,8 +42,6 @@ export function ScheduleCard({
   dialogDescription,
   items,
 }: ScheduleCardProps) {
-  const next = nextScheduleItem(items)
-
   return (
     <ActionCard
       icon={icon}
@@ -67,15 +64,7 @@ export function ScheduleCard({
           </DialogContent>
         </Dialog>
       }
-    >
-      {next && (
-        <p className="text-paragraph font-bold">
-          {content.schedule.next
-            .replace('{name}', next.name)
-            .replace('{date}', formatScheduleDate(next))}
-        </p>
-      )}
-    </ActionCard>
+    />
   )
 }
 
