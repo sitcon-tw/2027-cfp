@@ -1,12 +1,12 @@
 import { Checkbox as BaseCheckbox } from '@base-ui/react/checkbox'
 import { Toolbar } from '@base-ui/react/toolbar'
-import { Square, SquareCheck } from 'lucide-react'
+import { Check, Square } from 'lucide-react'
 import type { KeyboardEvent } from 'react'
 
 import { cn, type WithClassName } from '@/lib/utils'
 
 /**
- * Shared by `CheckboxCard` and `RadioCard`: a full-width option card that
+ * Shared by `Checkbox`, `CheckboxCard` and `RadioCard`: a full-width option card that
  * turns cream when checked. Hover, invalid and disabled are not in Figma
  * yet — proposals.
  */
@@ -21,24 +21,22 @@ export function confirmOnEnter(event: KeyboardEvent<HTMLElement>) {
   if (!event.repeat) event.currentTarget.click()
 }
 
+/** Fills when checked, like `RadioCard`'s circle, with a cut-out tick. */
 function CheckboxIcon() {
   return (
-    <>
-      <Square
-        aria-hidden
-        className="size-6 shrink-0 group-data-checked:hidden"
+    <span aria-hidden className="relative size-6 shrink-0">
+      <Square className="size-full group-data-checked:fill-current" />
+      <Check
+        strokeWidth={3.5}
+        className="absolute inset-0 m-auto hidden size-3.5 text-foreground group-data-checked:block"
       />
-      <SquareCheck
-        aria-hidden
-        className="hidden size-6 shrink-0 group-data-checked:block"
-      />
-    </>
+    </span>
   )
 }
 
 /**
- * An inline checkbox with its label as children, e.g. the consent line. The
- * whole row toggles. Hover is not in Figma yet.
+ * A standalone checkbox card with its label as children, e.g. the consent
+ * line. Looks like `CheckboxCard` and `RadioCard`, without a group.
  */
 export function Checkbox({
   className,
@@ -48,10 +46,7 @@ export function Checkbox({
   return (
     <BaseCheckbox.Root
       onKeyDown={confirmOnEnter}
-      className={cn(
-        'group inline-flex cursor-pointer items-center gap-2.5 rounded-xs text-paragraph text-foreground transition select-none hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue data-disabled:cursor-not-allowed data-disabled:opacity-50 data-invalid:text-red',
-        className,
-      )}
+      className={cn(choiceCardClassName, className)}
       {...props}
     >
       <CheckboxIcon />

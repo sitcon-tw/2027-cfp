@@ -40,3 +40,6 @@ export function cn(...inputs: ClassValue[]) {
 
 /** Props of a Base UI part, with `className` narrowed to a string for `cn()`. */
 export type WithClassName<P> = Omit<P, 'className'> & { className?: string }
+
+/** Zero-pads a number to two digits: `5` → `05`. */
+export const pad = (n: number) => String(n).padStart(2, '0')

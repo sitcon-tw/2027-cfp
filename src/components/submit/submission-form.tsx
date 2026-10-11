@@ -3,6 +3,7 @@ import { useCallback, useState, useSyncExternalStore } from 'react'
 import content from '@/content.json'
 import { LinkedText } from '@/components/linked-text'
 import { SubmissionFieldControl } from '@/components/submit/submission-field'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Fieldset, FieldsetLegend } from '@/components/ui/fieldset'
 import { Form } from '@/components/ui/form'
@@ -13,7 +14,7 @@ import {
   isFieldVisible,
   type SubmissionValue,
 } from '@/lib/submission'
-import { cn } from '@/lib/utils'
+import { cn, pad } from '@/lib/utils'
 
 const text = content.submit_page
 
@@ -47,20 +48,30 @@ export function SubmissionForm({ type }: { type: SessionTypeId }) {
             void store.submit(type)
           }}
         >
-          {sections.map((section) => (
+          {sections.map((section, index) => (
             <Fieldset
               key={section.id}
               disabled={isSubmitting}
-              className="px-2.5 py-7.5"
+              className="px-2.5 py-10"
             >
-              <FieldsetLegend>
+              <FieldsetLegend
+                aside={
+                  <Badge aria-hidden className="font-numeric">
+                    {text.sectionPosition
+                      .replace('{position}', pad(index + 1))
+                      .replace('{total}', pad(sections.length))}
+                  </Badge>
+                }
+              >
                 <h2>{section.title}</h2>
               </FieldsetLegend>
-              {section.description.map((paragraph) => (
-                <p key={paragraph} className="text-body text-light">
-                  <LinkedText text={paragraph} />
-                </p>
-              ))}
+              <div className="flex w-full flex-col gap-2.5 md:w-2/3">
+                {section.description.map((paragraph) => (
+                  <p key={paragraph} className="text-body text-light">
+                    <LinkedText text={paragraph} />
+                  </p>
+                ))}
+              </div>
               {section.fields
                 .filter((field) => isFieldVisible(field, values))
                 .map((field) => (

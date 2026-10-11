@@ -18,12 +18,6 @@
     }
   },
   "fields": {
-    "email": {
-      "label": "電子郵件",
-      "kind": "email",
-      "required": true,
-      "column": "電子郵件"
-    },
     "name": {
       "label": "您的姓名",
       "description": "若有多位講者請以頓號隔開，並將**聯絡負責人**之姓名放在**第一位**，如：愛麗絲、鮑柏。",
@@ -36,6 +30,7 @@
       "description": "**公開**於講者海報及網站的稱呼。若有多位講者請以頓號隔開，並將聯絡負責人之姓名放在第一位，**順序請同「您的姓名」**，如：Alice、Bob。",
       "kind": "text",
       "required": true,
+      "public": true,
       "column": "您的暱稱"
     },
     "bio": {
@@ -43,6 +38,7 @@
       "description": "**公開**於講者海報及網站，提供會眾更加了解有關您的資訊。若有多位講者，請填寫**每一位**的自我介紹，並**清楚標示每段介紹所屬成員暱稱**。",
       "kind": "textarea",
       "required": true,
+      "public": true,
       "column": "自我介紹"
     },
     "photo": {
@@ -51,6 +47,7 @@
       "kind": "file",
       "accept": "image/*",
       "required": true,
+      "public": true,
       "column": "講者照片"
     },
     "contactEmail": {
@@ -73,14 +70,6 @@
       "kind": "textarea",
       "required": true,
       "column": "其他聯絡方式"
-    },
-    "shirtSize": {
-      "label": "衣服尺寸",
-      "description": "若稿件順利錄取，本次年會提供一件年會紀念短袖 T-shirt，尺寸請參照尺寸表。",
-      "kind": "select",
-      "required": true,
-      "options": ["XS", "S", "M", "L", "XL", "2XL", "3XL"],
-      "column": "衣服尺寸"
     },
     "referral": {
       "label": "如何得知徵稿資訊",
@@ -238,7 +227,7 @@
     },
     "license": {
       "label": "授權",
-      "description": "以[創用 CC「姓名標示」4.0](https://creativecommons.org/licenses/by/4.0/deed.zh-hant) 授權釋出議程錄影。",
+      "description": "以 [創用 CC「姓名標示」4.0](https://creativecommons.org/licenses/by/4.0/deed.zh-hant) 授權釋出議程錄影。",
       "kind": "consent",
       "required": true,
       "options": ["同意"],
@@ -268,7 +257,7 @@
     },
     "demoRecording": {
       "label": "作品紀錄與徵稿宣傳",
-      "description": "若作品錄取，SITCON 可能使用您提供的完整海報與短影音，作為活動宣傳與紀錄，以及後續 Demo 展徵稿的投稿範例。素材可能因版型與發布需求進行必要的裁切、剪輯或格式調整。",
+      "description": "若作品錄取，SITCON 將使用您提供的完整海報與短影音，作為活動宣傳與紀錄，以及後續 Demo 展徵稿的投稿範例。素材可能因版型與發布需求進行必要的裁切、剪輯或格式調整。",
       "kind": "consent",
       "required": true,
       "options": ["我已閱讀並同意上述使用方式"],
@@ -281,7 +270,6 @@
         {
           "id": "basic",
           "fields": [
-            "email",
             "name",
             "nickname",
             "bio",
@@ -289,7 +277,6 @@
             "contactEmail",
             "phone",
             "otherContact",
-            "shirtSize",
             "referral"
           ]
         },
@@ -323,7 +310,6 @@
         {
           "id": "basic",
           "fields": [
-            "email",
             "name",
             "nickname",
             "bio",
@@ -331,7 +317,6 @@
             "contactEmail",
             "phone",
             "otherContact",
-            "shirtSize",
             "referral"
           ]
         },
@@ -369,7 +354,6 @@
         {
           "id": "basic",
           "fields": [
-            "email",
             "name",
             "nickname",
             "bio",
@@ -377,7 +361,6 @@
             "contactEmail",
             "phone",
             "otherContact",
-            "shirtSize",
             "referral"
           ]
         },
@@ -402,7 +385,21 @@
         },
         {
           "id": "confirm",
-          "fields": ["license", "promotion", "codeOfConduct", "demoRecording"]
+          "fields": [
+            "demoRecording",
+            {
+              "key": "promotion",
+              "label": "作品精華與社群宣傳",
+              "description": "錄取後，SITCON 可能將您提供的作品素材或活動紀錄剪輯為 Reels、YouTube Shorts、限時動態或其他社群宣傳內容。此題僅用於錄取後的宣傳安排，您可以自由選擇偏好，**不影響審稿與錄取結果。**",
+              "options": [
+                "沒問題！",
+                "可以，但若內容以我的作品或團隊為主角，請先與我確認。",
+                "請不要將我的作品或團隊剪輯為社群宣傳內容。"
+              ],
+              "column": "作品精華與社群宣傳"
+            },
+            "codeOfConduct"
+          ]
         }
       ]
     }

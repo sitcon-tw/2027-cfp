@@ -3,7 +3,7 @@ import { Field as BaseField } from '@base-ui/react/field'
 import { cn, type WithClassName } from '@/lib/utils'
 
 /**
- * One form field: label above the control, then description and error. Base
+ * One form field: label and description above the control, then error. Base
  * UI links the label, description and error to the control.
  */
 export function Field({
@@ -24,13 +24,13 @@ export function FieldLabel({
 }: WithClassName<BaseField.Label.Props>) {
   return (
     <BaseField.Label
-      className={cn('text-paragraph text-foreground', className)}
+      className={cn('text-paragraph font-bold text-foreground', className)}
       {...props}
     />
   )
 }
 
-/** Help text under the control. Not in Figma yet — a proposal. */
+/** Help text before the control. Not in Figma yet — a proposal. */
 export function FieldDescription({
   className,
   ...props

@@ -43,9 +43,14 @@ the [表單文案](https://docs.google.com/document/d/16AHAPm7jvjMdqDR4sVJiNp4wh
 lists each session type's questions in order, as keys or as
 `{ "key": …, …overrides }` for a per-type difference. Option labels are also
 the values stored in the sheet, as in Google Forms; a `consent` question is
-a single-option confirmation. Descriptions may use `[label](https://…)` and
-`**bold**`, rendered by `LinkedText`; keep option labels plain, since they sit inside
-the control and are written to the sheet. `toSheetRow()` in `src/lib/submission.ts` maps
+a single-option confirmation. Field and section descriptions support only
+`**strong**` emphasis, `[label](https://…)` links and
+`[label](mailto:…)` email links, rendered by `LinkedText`.
+Transcribe bold spans from the source document; background-color annotations
+are editorial notes, not emphasis. Keep spans flat: nested markup, general
+Markdown, and HTML are not supported. Keep labels and option labels plain,
+since option labels sit inside the control and are written to the sheet.
+`toSheetRow()` in `src/lib/submission.ts` maps
 a draft to those columns. Form chrome (button labels, validation messages)
 stays in `content.json`. `select` and `file` render a placeholder until
 their primitives exist.

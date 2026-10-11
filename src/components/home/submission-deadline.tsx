@@ -3,6 +3,7 @@ import { Button, buttonVariants } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { deadlines, useCountdown } from '@/lib/countdown'
 import { formatDate } from '@/lib/schedule'
+import { pad } from '@/lib/utils'
 
 // The end of 投稿期間 in `content.speaker_section.schedule`.
 const DEADLINE = deadlines.submission
@@ -58,7 +59,6 @@ export function SubmissionDeadline() {
 
 function Countdown({ to }: { to: Date }) {
   const { days, hours, minutes } = useCountdown(to)!
-  const pad = (n: number) => String(n).padStart(2, '0')
 
   return content.submission_deadline.countdownFormat
     .replace('{days}', pad(days))

@@ -2,6 +2,7 @@ import type { LucideIcon } from 'lucide-react'
 
 import content from '@/content.json'
 import { ActionCard } from '@/components/action-card'
+import { Badge, type BadgeTone } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -76,13 +77,10 @@ const dotClassNames: Record<ScheduleStatus, string> = {
 }
 
 /** Unannounced items get no badge, so a missing date stays low-key. */
-const badgeClassNames: Record<
-  Exclude<ScheduleStatus, 'unannounced'>,
-  string
-> = {
-  upcoming: 'bg-blue text-background',
-  open: 'bg-green text-background',
-  closed: 'bg-light text-gray',
+const badgeTones: Record<Exclude<ScheduleStatus, 'unannounced'>, BadgeTone> = {
+  upcoming: 'blue',
+  open: 'green',
+  closed: 'light',
 }
 
 function ScheduleTimeline({ items }: { items: ScheduleItem[] }) {
@@ -109,14 +107,9 @@ function ScheduleTimeline({ items }: { items: ScheduleItem[] }) {
               <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.25">
                 <h3 className="text-lead font-bold">{item.name}</h3>
                 {status !== 'unannounced' && (
-                  <span
-                    className={cn(
-                      'rounded-full px-2.5 text-body font-bold',
-                      badgeClassNames[status],
-                    )}
-                  >
+                  <Badge tone={badgeTones[status]}>
                     {content.schedule.status[status]}
-                  </span>
+                  </Badge>
                 )}
               </div>
               {status !== 'unannounced' && (

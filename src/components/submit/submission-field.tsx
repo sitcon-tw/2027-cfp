@@ -3,6 +3,7 @@ import { memo, useId } from 'react'
 import content from '@/content.json'
 import { LinkedText } from '@/components/linked-text'
 import { Placeholder } from '@/components/placeholder'
+import { Badge } from '@/components/ui/badge'
 import { Checkbox, CheckboxCard } from '@/components/ui/checkbox'
 import { CheckboxGroup } from '@/components/ui/checkbox-group'
 import {
@@ -44,23 +45,30 @@ export const SubmissionFieldControl = memo(function SubmissionFieldControl({
   const id = useId()
   const onValueChange = (value: SubmissionValue) =>
     setFieldValue(field.key, value)
-  const title = field.public
-    ? text.publicLabel.replace('{label}', field.label)
-    : field.label
-  const label = field.required
-    ? text.requiredLabel.replace('{label}', title)
-    : title
   const isText = textKinds.has(field.kind)
 
   return (
     <Field name={field.key} invalid={Boolean(error)} className="max-w-183.5">
-      <FieldLabel
-        id={`${id}-label`}
-        nativeLabel={isText}
-        render={isText ? undefined : <span />}
-      >
-        {label}
-      </FieldLabel>
+      <div className="flex flex-wrap items-center gap-2.5">
+        <FieldLabel
+          id={`${id}-label`}
+          nativeLabel={isText}
+          render={isText ? undefined : <span />}
+        >
+          {field.label}
+        </FieldLabel>
+        {field.required && (
+          <Badge id={`${id}-required`} tone="red">
+            {text.requiredBadge}
+          </Badge>
+        )}
+        {field.public && <Badge>{text.publicBadge}</Badge>}
+      </div>
+      {field.description && (
+        <FieldDescription>
+          <LinkedText text={field.description} />
+        </FieldDescription>
+      )}
       {isText && field.kind !== 'textarea' && (
         <Input
           // Format validation uses the shared schema and JSON messages.
@@ -115,6 +123,7 @@ export const SubmissionFieldControl = memo(function SubmissionFieldControl({
           // Toolbar's roving focus does not read the fieldset's disabled state.
           disabled={disabled}
           aria-labelledby={`${id}-label`}
+          aria-describedby={field.required ? `${id}-required` : undefined}
           onValueChange={onValueChange}
         >
           {field.options?.map((option, index) => (
@@ -138,15 +147,9 @@ export const SubmissionFieldControl = memo(function SubmissionFieldControl({
           onCheckedChange={(checked) =>
             onValueChange(checked ? field.options![0] : '')
           }
-          className="min-h-control text-left"
         >
           <span id={`${id}-0`}>{field.options?.[0]}</span>
         </Checkbox>
-      )}
-      {field.description && (
-        <FieldDescription>
-          <LinkedText text={field.description} />
-        </FieldDescription>
       )}
       {error && <FieldError match>{error}</FieldError>}
     </Field>

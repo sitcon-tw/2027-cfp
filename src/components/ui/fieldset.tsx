@@ -1,4 +1,5 @@
 import { Fieldset as BaseFieldset } from '@base-ui/react/fieldset'
+import type { ReactNode } from 'react'
 
 import { cn, type WithClassName } from '@/lib/utils'
 
@@ -16,14 +17,16 @@ export function Fieldset({
 }
 
 /**
- * The group title with a half-cream rule under it. Wrapping a
- * `CheckboxGroup` or `RadioGroup` in a `Fieldset` makes this its legend.
+ * The group title with a half-cream rule under it, and optional `aside`
+ * content at the far end of the title row. Wrapping a `CheckboxGroup` or
+ * `RadioGroup` in a `Fieldset` makes this its legend.
  */
 export function FieldsetLegend({
   className,
   children,
+  aside,
   ...props
-}: WithClassName<BaseFieldset.Legend.Props>) {
+}: WithClassName<BaseFieldset.Legend.Props> & { aside?: ReactNode }) {
   return (
     <BaseFieldset.Legend
       className={cn(
@@ -32,7 +35,10 @@ export function FieldsetLegend({
       )}
       {...props}
     >
-      {children}
+      <div className="flex items-baseline justify-between gap-2.5">
+        {children}
+        {aside}
+      </div>
       <span aria-hidden className="h-0.75 rounded-full bg-foreground/50" />
     </BaseFieldset.Legend>
   )
