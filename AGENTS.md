@@ -310,10 +310,12 @@ devices get the plain wall.
 
 ### Session examples
 
-The 議程範例 carousels on `/sessions/$type` read their cards from
-`content.session_page.examples.<section>.items`: `title`, `href` and
-`image`, a file name in `src/assets/session-examples/`. An empty `items`
-list shows the 範例整理中 message.
+The 投稿主題範例 section on `/sessions/$type` reads its cards from
+`content.session_page.examples.<type>`: either `items` (one carousel) or
+`groups`, each a `title` with its own `items` (一般議程's Presentation and
+Espresso). Each card has `title`, `href` and `image`, a file name in
+`src/assets/session-examples/`. An empty `items` list shows the 範例整理中
+message.
 
 ### Placeholders
 

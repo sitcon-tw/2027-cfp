@@ -5,7 +5,11 @@ import { useState, useSyncExternalStore, type ReactNode } from 'react'
 import content from '@/content.json'
 import { SessionSection } from '@/components/sessions/session-section'
 import { Button } from '@/components/ui/button'
-import type { ExamplesSection, SessionExample } from '@/lib/session-pages'
+import type {
+  ExampleGroup,
+  ExamplesSection,
+  SessionExample,
+} from '@/lib/session-pages'
 import { cn } from '@/lib/utils'
 
 const text = content.session_page.examples
@@ -28,15 +32,36 @@ const CARD_CORNERS = [
 export type ExamplesCarouselProps = ExamplesSection
 
 /**
- * Paged grid of past sessions: Presentation / Espresso / 投稿範例. The
- * arrows and the dots drive the same page, which slides in sideways;
- * nothing advances on its own.
+ * 投稿主題範例: the intro text, then one carousel per group of past
+ * sessions, each under its own title when it has one (Presentation,
+ * Espresso).
  */
 export function ExamplesCarousel({
   title,
   description,
-  items,
+  groups,
 }: ExamplesCarouselProps) {
+  return (
+    <SessionSection title={title} description={description}>
+      <div className="flex flex-col gap-10">
+        {groups.map((group, i) => (
+          <div key={group.title ?? i} className="flex flex-col gap-2.5">
+            {group.title && (
+              <h3 className="text-h3 font-bold">{group.title}</h3>
+            )}
+            <Carousel items={group.items} />
+          </div>
+        ))}
+      </div>
+    </SessionSection>
+  )
+}
+
+/**
+ * Paged grid of past sessions. The arrows and the dots drive the same
+ * page, which slides in sideways; nothing advances on its own.
+ */
+function Carousel({ items }: Pick<ExampleGroup, 'items'>) {
   const desktop = useMediaQuery('(min-width: 48rem)')
   const pageSize = desktop ? PAGE_SIZE.desktop : PAGE_SIZE.mobile
   const pageCount = Math.ceil(items.length / pageSize)
@@ -48,74 +73,68 @@ export function ExamplesCarousel({
   )
 
   if (items.length === 0) {
-    return (
-      <SessionSection title={title} description={description}>
-        <p className="text-paragraph text-foreground/70">{text.empty}</p>
-      </SessionSection>
-    )
+    return <p className="text-paragraph text-foreground/70">{text.empty}</p>
   }
 
+  // Arrows flank the cards from `md` up; below it the cards take the full
+  // width and the arrows sit under them, either side of the dots.
   return (
-    <SessionSection title={title} description={description}>
-      {/* Arrows flank the cards from `md` up; below it the cards take the
-          full width and the arrows sit under them, either side of the dots. */}
-      <div className="flex flex-wrap items-center justify-between gap-x-3.75 gap-y-2.5">
-        <ArrowButton
-          label={text.previous}
-          disabled={page === 0}
-          onClick={() => setPage(page - 1)}
+    <div className="flex flex-wrap items-center justify-between gap-x-3.75 gap-y-2.5">
+      <ArrowButton
+        label={text.previous}
+        disabled={page === 0}
+        onClick={() => setPage(page - 1)}
+      >
+        <ChevronLeft />
+      </ArrowButton>
+      <div className="order-first min-w-0 basis-full overflow-clip md:order-none md:flex-1 md:basis-0">
+        <div
+          className="flex transition-transform duration-700 ease-smooth motion-reduce:transition-none"
+          style={{ transform: `translateX(-${page * 100}%)` }}
         >
-          <ChevronLeft />
-        </ArrowButton>
-        <div className="order-first min-w-0 basis-full overflow-clip md:order-none md:flex-1 md:basis-0">
-          <div
-            className="flex transition-transform duration-700 ease-smooth motion-reduce:transition-none"
-            style={{ transform: `translateX(-${page * 100}%)` }}
-          >
-            {pages.map((cards, i) => (
-              // Off-screen pages are inert, so Tab and screen readers
-              // only reach the cards that are showing.
-              <ul
-                key={i}
-                inert={i !== page}
-                aria-hidden={i !== page}
-                className="grid w-full shrink-0 grid-cols-1 gap-2.5 p-1.5 md:grid-cols-2"
-              >
-                {cards.map((item, j) => (
-                  <li key={j}>
-                    <ExampleCard {...item} className={CARD_CORNERS[j]} />
-                  </li>
-                ))}
-              </ul>
-            ))}
-          </div>
+          {pages.map((cards, i) => (
+            // Off-screen pages are inert, so Tab and screen readers
+            // only reach the cards that are showing.
+            <ul
+              key={i}
+              inert={i !== page}
+              aria-hidden={i !== page}
+              className="grid w-full shrink-0 grid-cols-1 gap-2.5 p-1.5 md:grid-cols-2"
+            >
+              {cards.map((item, j) => (
+                <li key={j}>
+                  <ExampleCard {...item} className={CARD_CORNERS[j]} />
+                </li>
+              ))}
+            </ul>
+          ))}
         </div>
-        <ArrowButton
-          label={text.next}
-          disabled={page === pageCount - 1}
-          onClick={() => setPage(page + 1)}
-          className="max-md:order-last"
-        >
-          <ChevronRight />
-        </ArrowButton>
-        {pageCount > 1 && (
-          <div className="flex items-center justify-center gap-2.5 py-0.5 md:basis-full">
-            {Array.from({ length: pageCount }, (_, i) => (
-              <BaseButton
-                key={i}
-                aria-label={text.page.replace('{page}', String(i + 1))}
-                aria-current={i === page ? 'page' : undefined}
-                onClick={() => setPage(i)}
-                className={cn(
-                  'h-2.5 cursor-pointer rounded-full bg-light/50 transition-all hover:bg-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue',
-                  i === page ? 'w-6.25 bg-light' : 'w-2.5',
-                )}
-              />
-            ))}
-          </div>
-        )}
       </div>
-    </SessionSection>
+      <ArrowButton
+        label={text.next}
+        disabled={page === pageCount - 1}
+        onClick={() => setPage(page + 1)}
+        className="max-md:order-last"
+      >
+        <ChevronRight />
+      </ArrowButton>
+      {pageCount > 1 && (
+        <div className="flex items-center justify-center gap-2.5 py-0.5 md:basis-full">
+          {Array.from({ length: pageCount }, (_, i) => (
+            <BaseButton
+              key={i}
+              aria-label={text.page.replace('{page}', String(i + 1))}
+              aria-current={i === page ? 'page' : undefined}
+              onClick={() => setPage(i)}
+              className={cn(
+                'h-2.5 cursor-pointer rounded-full bg-light/50 transition-all hover:bg-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue',
+                i === page ? 'w-6.25 bg-light' : 'w-2.5',
+              )}
+            />
+          ))}
+        </div>
+      )}
+    </div>
   )
 }
 

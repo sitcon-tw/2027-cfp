@@ -39,11 +39,17 @@ export interface SessionExample {
   image: string
 }
 
+/** A carousel of examples, titled when a section has more than one. */
+export interface ExampleGroup {
+  title?: string
+  items: SessionExample[]
+}
+
 export interface ExamplesSection {
   title: string
   /** One paragraph, or a list of them. */
   description: string | string[]
-  items: SessionExample[]
+  groups: ExampleGroup[]
 }
 
 export interface SessionPage {
@@ -62,8 +68,8 @@ export interface SessionPage {
   intro: IntroCard[]
   /** Closing invitation after the formats; 開放式議程 only. */
   introMore?: { title: string; description: string[] }
-  /** 議程範例 carousels; empty for Demo 展, which shows its gallery instead. */
-  examples: ExamplesSection[]
+  /** 投稿主題範例; not on Demo 展, which shows its gallery instead. */
+  examples?: ExamplesSection
   reviewCriteria: CriteriaTableProps
   beforeSubmission: InfoCardStackProps
   /** 投稿需要什麼？, the submission format; not on Demo 展 yet. */
@@ -87,16 +93,33 @@ const exampleImages = Object.fromEntries(
   ).map(([path, src]) => [path.split('/').pop(), src]),
 )
 
-function withImages(section: {
+type ExampleItems = { title: string; href: string; image: string }[]
+
+/**
+ * Resolves each item's `image` file name. A section lists its `items`
+ * directly, or splits them into titled `groups` (Presentation / Espresso).
+ */
+function withImages({
+  title,
+  description,
+  ...rest
+}: {
   title: string
   description: string | string[]
-  items: { title: string; href: string; image: string }[]
-}): ExamplesSection {
+} & (
+  { items: ExampleItems } | { groups: { title: string; items: ExampleItems }[] }
+)): ExamplesSection {
+  const groups: { title?: string; items: ExampleItems }[] =
+    'groups' in rest ? rest.groups : [{ items: rest.items }]
   return {
-    ...section,
-    items: section.items.map((item) => ({
-      ...item,
-      image: exampleImages[item.image],
+    title,
+    description,
+    groups: groups.map((group) => ({
+      ...group,
+      items: group.items.map((item) => ({
+        ...item,
+        image: exampleImages[item.image],
+      })),
     })),
   }
 }
@@ -120,10 +143,7 @@ export const sessionPages: Record<SessionTypeId, SessionPage> = {
     introDescription: text.general.introDescription,
     introLead: text.general.introLead,
     intro: withIcons(text.general.intro, [Presentation, Coffee]),
-    examples: [
-      withImages(text.examples.presentation),
-      withImages(text.examples.espresso),
-    ],
+    examples: withImages(text.examples.general),
     reviewCriteria: text.general.reviewCriteria,
     beforeSubmission: text.general.beforeSubmission,
     requirements: text.general.requirements,
@@ -143,7 +163,7 @@ export const sessionPages: Record<SessionTypeId, SessionPage> = {
     introLead: text.open.introLead,
     intro: withIcons(text.open.intro, [Toolbox, Coffee, UserRoundGroup]),
     introMore: text.open.introMore,
-    examples: [withImages(text.examples.open)],
+    examples: withImages(text.examples.open),
     reviewCriteria: text.open.reviewCriteria,
     beforeSubmission: text.open.beforeSubmission,
     requirements: text.open.requirements,
@@ -164,7 +184,6 @@ export const sessionPages: Record<SessionTypeId, SessionPage> = {
       PlayingCardsFan,
       UserRoundGroup,
     ]),
-    examples: [],
     reviewCriteria: text.demo.reviewCriteria,
     beforeSubmission: text.demo.beforeSubmission,
     afterSubmission: text.demo.afterSubmission,

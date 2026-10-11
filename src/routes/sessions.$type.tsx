@@ -99,10 +99,10 @@ function DefaultSections({
         cards={page.intro}
       />
       <EarlyBirdBanner type={type} />
-      {page.examples.map((section) => (
-        // Keyed by page too, so switching type starts on the first page.
-        <ExamplesCarousel key={`${type}-${section.title}`} {...section} />
-      ))}
+      {page.examples && (
+        // Keyed by type, so switching type starts on the first page.
+        <ExamplesCarousel key={type} {...page.examples} />
+      )}
       {type === 'demo' && (
         <>
           <DemoGallery />
@@ -132,9 +132,7 @@ function OpenSections({ page }: { page: SessionPageData }) {
         formats={page.intro}
         more={page.introMore}
       />
-      {page.examples.map((section) => (
-        <ExamplesCarousel key={`open-${section.title}`} {...section} />
-      ))}
+      {page.examples && <ExamplesCarousel {...page.examples} />}
       {page.requirements && <CriteriaTable {...page.requirements} />}
       <EarlyBirdBanner type="open" />
       <CriteriaTable {...page.reviewCriteria} />
