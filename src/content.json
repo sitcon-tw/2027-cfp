@@ -256,7 +256,130 @@
       }
     ],
     "photoQuote": "每年三月，上千名學生在這裡相遇。",
-    "photoWallLarge": [],
+    "photoWallLarge": ["2026-hsiao-bi-khim.webp", "2026-main-hall.webp"],
+    "photoWallCrops": {
+      "07-2026-student-speaker.webp": "object-right"
+    },
+    "photoCredits": {
+      "trigger": "照片來源與授權",
+      "title": "照片來源與授權",
+      "description": "照片由 SITCON 發布於 Flickr，保留原作標題與各張照片的授權。本站版本已縮圖、轉為 WebP，並依版面裁切；各照片沿用所列 CC 授權。",
+      "attribution": "SITCON · {title}",
+      "items": [
+        {
+          "file": "2026-hsiao-bi-khim.webp",
+          "label": "蕭美琴於 SITCON 2026 開幕致詞",
+          "title": "pU_0128",
+          "href": "https://www.flickr.com/photos/sitcon/55246270679",
+          "license": "CC BY 4.0",
+          "licenseHref": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "file": "2026-main-hall.webp",
+          "label": "SITCON 2026 滿座的主議程廳",
+          "title": "pU_0186",
+          "href": "https://www.flickr.com/photos/sitcon/55246033179",
+          "license": "CC BY 4.0",
+          "licenseHref": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "file": "01-2026-speaker.webp",
+          "label": "SITCON 2026 舞台上的講者",
+          "title": "竺原-7877",
+          "href": "https://www.flickr.com/photos/sitcon/55250576123",
+          "license": "CC BY 4.0",
+          "licenseHref": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "file": "02-2026-audience-participation.webp",
+          "label": "SITCON 2026 會眾舉手參與議程",
+          "title": "夏川DSC_7625",
+          "href": "https://www.flickr.com/photos/sitcon/55247038787",
+          "license": "CC BY 4.0",
+          "licenseHref": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "file": "03-2026-team-selfie.webp",
+          "label": "SITCON 2026 舞台大合照與自拍",
+          "title": "月太-2513",
+          "href": "https://www.flickr.com/photos/sitcon/55245751336",
+          "license": "CC BY 4.0",
+          "licenseHref": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "file": "04-2026-hsiao-student-demo.webp",
+          "label": "蕭美琴參觀 SITCON 2026 學生作品",
+          "title": "pU0213_MT__1018",
+          "href": "https://www.flickr.com/photos/sitcon/55246181838",
+          "license": "CC BY 4.0",
+          "licenseHref": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "file": "05-2024-exhibition-crowd.webp",
+          "label": "SITCON 2024 展示區的熱絡人潮",
+          "title": "Mou-54",
+          "href": "https://www.flickr.com/photos/sitcon/53700887416",
+          "license": "CC BY-SA 2.0",
+          "licenseHref": "https://creativecommons.org/licenses/by-sa/2.0/"
+        },
+        {
+          "file": "06-2026-live-demo.webp",
+          "label": "SITCON 2026 展示現場的互動與笑容",
+          "title": "竺原-8311",
+          "href": "https://www.flickr.com/photos/sitcon/55250793090",
+          "license": "CC BY 4.0",
+          "licenseHref": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "file": "07-2026-student-speaker.webp",
+          "label": "SITCON 2026 學生講者分享技術",
+          "title": "BUN_9124",
+          "href": "https://www.flickr.com/photos/sitcon/55248165699",
+          "license": "CC BY 4.0",
+          "licenseHref": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "file": "08-2026-team.webp",
+          "label": "SITCON 2026 籌辦團隊舞台合照",
+          "title": "pU-76",
+          "href": "https://www.flickr.com/photos/sitcon/55245885083",
+          "license": "CC BY 4.0",
+          "licenseHref": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "file": "09-2024-panel.webp",
+          "label": "SITCON 2024 論壇交流",
+          "title": "月太-0414",
+          "href": "https://www.flickr.com/photos/sitcon/53700918878",
+          "license": "CC BY-SA 2.0",
+          "licenseHref": "https://creativecommons.org/licenses/by-sa/2.0/"
+        },
+        {
+          "file": "10-2026-friends.webp",
+          "label": "SITCON 2026 參與者在主題背板前合影",
+          "title": "阿智_DSC_4838",
+          "href": "https://www.flickr.com/photos/sitcon/55246207725",
+          "license": "CC BY 4.0",
+          "licenseHref": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "file": "11-2024-speaker.webp",
+          "label": "SITCON 2024 講者分享",
+          "title": "月太-0439",
+          "href": "https://www.flickr.com/photos/sitcon/53700703236",
+          "license": "CC BY-SA 2.0",
+          "licenseHref": "https://creativecommons.org/licenses/by-sa/2.0/"
+        },
+        {
+          "file": "12-2025-audience-reaction.webp",
+          "label": "SITCON 2025 會眾的笑容與回應",
+          "title": "Bubble-7904",
+          "href": "https://www.flickr.com/photos/sitcon/54479133132",
+          "license": "CC BY-SA 2.0",
+          "licenseHref": "https://creativecommons.org/licenses/by-sa/2.0/"
+        }
+      ]
+    },
     "photoWallLabel": "歷屆 SITCON 年會的現場照片",
     "about": "認識 SITCON →",
     "photos": "看更多活動照片 →"

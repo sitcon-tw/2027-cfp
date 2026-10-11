@@ -21,7 +21,11 @@ const wallPhotos = Object.entries(
   }),
 )
   .sort(([a], [b]) => a.localeCompare(b))
-  .map(([path, src]) => ({ name: path.split('/').pop(), src }))
+  .map(([path, src]) => {
+    const name = path.split('/').pop()!
+    const crops: Record<string, string> = content.about_section.photoWallCrops
+    return { name, src, crop: crops[name] ?? 'object-center' }
+  })
 
 const largePhotos = content.about_section.photoWallLarge.flatMap((name) =>
   wallPhotos.filter((photo) => photo.name === name),
@@ -191,7 +195,7 @@ export function PhotoWall({ children }: { children?: ReactNode }) {
   const pick = (pool: typeof wallPhotos, index: number) =>
     (pool.length > 0 ? pool : wallPhotos)[
       index % (pool.length > 0 ? pool.length : wallPhotos.length)
-    ].src
+    ]
 
   const strip = Array.from({ length: cycles }, () => modules).flat()
   const layout = strip.map(({ aspect, tiles }) => ({
@@ -205,11 +209,11 @@ export function PhotoWall({ children }: { children?: ReactNode }) {
           crop: fallbackCrops[index % fallbackCrops.length],
         }
       }
-      const src =
+      const photo =
         'large' in tile
           ? pick(largePhotos, largeIndex++)
           : pick(smallPhotos, smallIndex++)
-      return { placement, src, crop: '' }
+      return { placement, src: photo.src, crop: photo.crop }
     }),
   }))
 
