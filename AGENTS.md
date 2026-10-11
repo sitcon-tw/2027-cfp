@@ -235,9 +235,19 @@ unless a mobile value is given.
 Weights: `font-normal` (400), `font-bold` (700), `font-extrabold` (800).
 `font-medium` is for Inter only.
 
-LINE Seed TW is loaded from emfont with the CSS `@import`s at the top of
-`src/index.css` (unicode-range chunked, so only the glyphs a page uses get
-downloaded). Do **not** use `emfont.js` or `emfont-*` classes.
+LINE Seed TW is self-hosted. The official TTFs (from
+[seed.line.me](https://seed.line.me), OFL, `fonts/line-seed-tw/`) are
+imported with `?subsets` in `src/main.tsx`, and `vite-plugin-font`
+(`vite.config.ts`) subsets them at build time to the characters in `src/`
+plus ASCII and common full-width punctuation (`whiteList`), split into
+unicode-range chunks. New copy in `content.json` is picked up
+automatically. A character typed into the form that the subset lacks falls
+back to Inter or the system font. Do not load fonts from a CDN.
+
+The plugin's native binary is downloaded by the root `postinstall`, pinned
+to a version; `cn-font-split`'s own install script (which fetches the
+latest release) is disabled in `pnpm-workspace.yaml`. The binary also keeps
+Node from exiting, so the `exit-after-build` plugin ends `vite build`.
 
 ### Radii and layout
 

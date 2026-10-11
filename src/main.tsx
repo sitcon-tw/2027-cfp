@@ -2,6 +2,9 @@ import { createRouter, RouterProvider } from '@tanstack/react-router'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 
+import '../fonts/line-seed-tw/400.ttf?subsets'
+import '../fonts/line-seed-tw/700.ttf?subsets'
+import '../fonts/line-seed-tw/800.ttf?subsets'
 import './index.css'
 import { routeTree } from './routeTree.gen'
 
