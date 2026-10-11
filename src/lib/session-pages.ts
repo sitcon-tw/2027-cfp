@@ -8,9 +8,12 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 
-import heroDemo from '@/assets/session-hero-demo.jpg'
-import heroGeneral from '@/assets/session-hero-general.jpg'
-import heroOpen from '@/assets/session-hero-open.jpg'
+import heroDemoThumb from '@/assets/session-hero-demo-thumb.webp'
+import heroDemo from '@/assets/session-hero-demo.webp'
+import heroGeneralThumb from '@/assets/session-hero-general-thumb.webp'
+import heroGeneral from '@/assets/session-hero-general.webp'
+import heroOpenThumb from '@/assets/session-hero-open-thumb.webp'
+import heroOpen from '@/assets/session-hero-open.webp'
 import examplePlaceholder from '@/assets/session-example-placeholder.jpg'
 import { TODO_HREF } from '@/lib/links'
 import type { SessionTypeId } from '@/lib/session-types'
@@ -40,7 +43,13 @@ export interface ExamplesSection {
 }
 
 export interface SessionPage {
-  hero: { title: string; description: string; image: string }
+  hero: {
+    title: string
+    description: string
+    image: string
+    /** About 32px wide, inlined by Vite; blurred until `image` loads. */
+    placeholder: string
+  }
   introTitle: string
   intro: IntroCard[]
   /** 議程範例 carousels; empty for Demo 展, which shows its gallery instead. */
@@ -68,6 +77,7 @@ export const sessionPages: Record<SessionTypeId, SessionPage> = {
       title: text.general.heroTitle,
       description: text.general.heroDescription,
       image: heroGeneral,
+      placeholder: heroGeneralThumb,
     },
     introTitle: text.general.introTitle,
     intro: withIcons(text.general.intro, [Presentation, Coffee]),
@@ -81,6 +91,7 @@ export const sessionPages: Record<SessionTypeId, SessionPage> = {
       title: text.open.heroTitle,
       description: text.open.heroDescription,
       image: heroOpen,
+      placeholder: heroOpenThumb,
     },
     introTitle: text.open.introTitle,
     intro: withIcons(text.open.intro, [Toolbox, Coffee, UserRoundGroup]),
@@ -91,6 +102,7 @@ export const sessionPages: Record<SessionTypeId, SessionPage> = {
       title: text.demo.heroTitle,
       description: text.demo.heroDescription,
       image: heroDemo,
+      placeholder: heroDemoThumb,
     },
     introTitle: text.demo.introTitle,
     intro: withIcons(text.demo.intro, [

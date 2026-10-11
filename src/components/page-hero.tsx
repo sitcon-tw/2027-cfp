@@ -1,4 +1,6 @@
-import type { ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
+
+import { cn } from '@/lib/utils'
 
 export interface PageHeroProps {
   /** Page title, rendered as the page's `<h1>`. */
@@ -7,6 +9,11 @@ export interface PageHeroProps {
   description?: string
   /** Decorative background photo; it fades into the page background. */
   image?: string
+  /**
+   * Tiny version of `image`, shown blurred until the photo loads, so a new
+   * page never shows the previous photo or a blank band.
+   */
+  placeholder?: string
   /** Rendered under the photo, e.g. the session-page tabs. */
   children?: ReactNode
 }
@@ -20,14 +27,24 @@ export function PageHero({
   title,
   description,
   image,
+  placeholder,
   children,
 }: PageHeroProps) {
   return (
     <>
       <section className="relative isolate px-2.5 pt-header">
         {image && (
-          <div aria-hidden className="absolute inset-0 -z-10">
-            <img src={image} alt="" className="size-full object-cover" />
+          <div aria-hidden className="absolute inset-0 -z-10 overflow-clip">
+            {placeholder && (
+              <img
+                src={placeholder}
+                alt=""
+                className="absolute inset-0 size-full scale-110 object-cover blur-xl"
+              />
+            )}
+            {/* Keyed by photo: switching pages mounts a fresh image, which
+                fades in once loaded instead of swapping in late. */}
+            <HeroPhoto key={image} src={image} />
             <div className="absolute inset-0 bg-linear-to-b from-black/0 to-background" />
           </div>
         )}
@@ -46,5 +63,24 @@ export function PageHero({
         </div>
       )}
     </>
+  )
+}
+
+function HeroPhoto({ src }: { src: string }) {
+  const [loaded, setLoaded] = useState(false)
+  return (
+    <img
+      src={src}
+      alt=""
+      // A cached photo is complete before `load` can be listened for.
+      ref={(img) => {
+        if (img?.complete) setLoaded(true)
+      }}
+      onLoad={() => setLoaded(true)}
+      className={cn(
+        'absolute inset-0 size-full object-cover transition-opacity duration-500 ease-smooth motion-reduce:transition-none',
+        !loaded && 'opacity-0',
+      )}
+    />
   )
 }

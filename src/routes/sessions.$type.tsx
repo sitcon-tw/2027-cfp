@@ -1,4 +1,5 @@
 import { createFileRoute, Link, redirect } from '@tanstack/react-router'
+import { useEffect } from 'react'
 
 import content from '@/content.json'
 import ctaPhoto from '@/assets/session-cta.jpg'
@@ -35,6 +36,13 @@ const text = content.session_page
 function SessionPage() {
   const { type } = Route.useParams()
   const page = sessionPages[type]
+  // Warm the cache with the other types' hero photos, so a tab switch
+  // usually shows its photo at once.
+  useEffect(() => {
+    for (const { hero } of Object.values(sessionPages)) {
+      new Image().src = hero.image
+    }
+  }, [])
   return (
     <main className="overflow-x-clip">
       <PageHero {...page.hero}>
