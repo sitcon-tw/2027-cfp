@@ -55,6 +55,11 @@ mapping is in `src/lib/session-quiz.ts`.
   plugin (`index.tsx` → `/`, `about.tsx` → `/about`). Each exports
   `Route = createFileRoute('<path>')({ component })`; `__root.tsx` is the
   layout. Use `<Link to="…">` for internal links (type-checked paths).
+- Production lives under `/2027/cfp/` (see README, "Production
+  deployment"). Never write a root-relative `href="/…"` or `src="/…"`:
+  route through `<Link>` (or a primitive's `render={<Link … />}`) and import
+  assets, so the base path is applied. A new route must also be added to
+  `routeShells` in `vite.config.ts`, or direct visits to it 404 in production.
 - In-page jumps to a section use `<Link to="/" hash="attend">`, never a raw
   `<a href="#attend">`. The router smooth-scrolls hash links
   (`defaultHashScrollIntoView` in `src/main.tsx`, instant under
