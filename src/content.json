@@ -1245,6 +1245,37 @@
       "subtitle": "關於學生計算機年會",
       "body": "SITCON 是由學生自主籌辦、以學生為核心的資訊科技年會，提供一個分享技術、交流想法與認識彼此的舞台。從軟體開發、資訊安全到開源文化與社群經驗，各種與資訊相關的主題都能在這裡被看見。希望透過一次次交流，讓更多學生找到夥伴，也找到繼續探索的方向。"
     },
+    "media": {
+      "title": "媒體報導",
+      "action": "查看新聞",
+      "actionLabel": "查看新聞：{title}（{source}）",
+      "items": [
+        {
+          "title": "SITCON年會開幕　副總統盼讓IT成為守護國家的關鍵力量",
+          "source": "總統府",
+          "href": "https://www.president.gov.tw/News/39930",
+          "image": "president2026.webp"
+        },
+        {
+          "title": "全球局勢動盪 副總統：IT是台灣安全及發展核心",
+          "source": "中央社 CNA",
+          "href": "https://www.cna.com.tw/news/aipl/202603280032.aspx",
+          "image": "cna2026.webp"
+        },
+        {
+          "title": "#台灣新驕點#56 開放文化基金會 - 2026 SITCON 學生計算機年會",
+          "source": "年代 MUCH｜台灣新驕點",
+          "href": "https://www.youtube.com/watch?v=zplk0zALtOM",
+          "image": "muchtv2026.webp"
+        },
+        {
+          "title": "全球局勢動盪 副總統：IT是台灣安全及發展核心",
+          "source": "經濟日報",
+          "href": "https://money.udn.com/money/story/7307/9408273",
+          "image": "udn2026.webp"
+        }
+      ]
+    },
     "history": {
       "title": "SITCON 自 2012 年來……",
       "stats": [
@@ -1399,8 +1430,7 @@
       ]
     },
     "placeholders": {
-      "photoStrip": "活動照片",
-      "media": "媒體報導"
+      "photoStrip": "活動照片"
     }
   },
   "submit_page": {
