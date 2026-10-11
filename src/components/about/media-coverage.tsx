@@ -10,7 +10,9 @@ const media = content.about_page.media
 
 /*
  * Every image in `src/assets/about/media/`, by file name: screenshots of
- * the coverage, from the 2027 sponsorship prospectus (sitcon.org/2027/cfs).
+ * the articles, taken the way the 2027 sponsorship prospectus takes them
+ * (sitcon-tw/2027-cfs `scripts/capture-news.cjs`): the real article with
+ * the rest of the page hidden.
  */
 const images = Object.fromEntries(
   Object.entries(
