@@ -351,7 +351,9 @@
     "general": {
       "heroTitle": "一般議程投稿",
       "heroDescription": "Presentation 讓你完整分享知識與經驗，Espresso 則用一杯咖啡的時間，帶領會眾認識新事物、探索新領域。",
-      "introTitle": "議程種類",
+      "introTitle": "什麼是一般議程？",
+      "introDescription": "一般議程是講者在台上完整講述一個主題的演講形式。不論是鑽研已久的技術、親手打造的專案，還是一路走來的學習心得，都可以整理成一場有脈絡的分享，讓台下的與會者帶走新的知識與啟發。",
+      "introLead": "一般議程依長度分為兩種形式，您可以依內容的份量選擇最適合的一種：",
       "intro": [
         {
           "title": "40 分鐘 Presentation",

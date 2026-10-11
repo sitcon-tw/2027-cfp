@@ -5,17 +5,30 @@ import { cn } from '@/lib/utils'
 
 export interface SessionIntroCardsProps {
   title: string
+  /** What the session type is, under the heading. */
+  description?: string
+  /** The line after `description` that leads into the cards. */
+  lead?: string
   cards: IntroCard[]
 }
 
 /**
- * 議程種類 / 議程介紹 — one cream card per format of the session type. The
+ * 什麼是一般議程？ / 議程介紹 — the intro text under the heading, as on
+ * 開放式議程, then one cream card per format of the session type. The
  * cards read as one shape: only the outer corners are `xl`, side by side
  * from `md` up and stacked below.
  */
-export function SessionIntroCards({ title, cards }: SessionIntroCardsProps) {
+export function SessionIntroCards({
+  title,
+  description,
+  lead,
+  cards,
+}: SessionIntroCardsProps) {
   return (
-    <SessionSection title={title}>
+    <SessionSection
+      title={title}
+      description={[description, lead].filter((text) => text !== undefined)}
+    >
       <ul className="flex gap-2.5 max-md:flex-col">
         {cards.map(({ title, description, icon: Icon }, i) => (
           <li key={title} className="flex flex-1">

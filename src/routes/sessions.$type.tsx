@@ -92,7 +92,12 @@ function DefaultSections({
 }) {
   return (
     <>
-      <SessionIntroCards title={page.introTitle} cards={page.intro} />
+      <SessionIntroCards
+        title={page.introTitle}
+        description={page.introDescription}
+        lead={page.introLead}
+        cards={page.intro}
+      />
       <EarlyBirdBanner type={type} />
       {page.examples.map((section) => (
         // Keyed by page too, so switching type starts on the first page.

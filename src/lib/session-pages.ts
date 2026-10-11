@@ -55,7 +55,7 @@ export interface SessionPage {
     placeholder: string
   }
   introTitle: string
-  /** What the session type is, above the formats; 開放式議程 only. */
+  /** What the session type is, above the formats; not on Demo 展. */
   introDescription?: string
   /** The line that leads from `introDescription` into the formats. */
   introLead?: string
@@ -117,6 +117,8 @@ export const sessionPages: Record<SessionTypeId, SessionPage> = {
       placeholder: heroGeneralThumb,
     },
     introTitle: text.general.introTitle,
+    introDescription: text.general.introDescription,
+    introLead: text.general.introLead,
     intro: withIcons(text.general.intro, [Presentation, Coffee]),
     examples: [
       withImages(text.examples.presentation),
