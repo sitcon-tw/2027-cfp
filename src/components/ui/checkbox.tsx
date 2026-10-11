@@ -1,6 +1,6 @@
 import { Checkbox as BaseCheckbox } from '@base-ui/react/checkbox'
 import { Toolbar } from '@base-ui/react/toolbar'
-import { Square, SquareCheck } from 'lucide-react'
+import { Check, Square } from 'lucide-react'
 import type { KeyboardEvent } from 'react'
 
 import { cn, type WithClassName } from '@/lib/utils'
@@ -21,18 +21,16 @@ export function confirmOnEnter(event: KeyboardEvent<HTMLElement>) {
   if (!event.repeat) event.currentTarget.click()
 }
 
+/** Fills when checked, like `RadioCard`'s circle, with a cut-out tick. */
 function CheckboxIcon() {
   return (
-    <>
-      <Square
-        aria-hidden
-        className="size-6 shrink-0 group-data-checked:hidden"
+    <span aria-hidden className="relative size-6 shrink-0">
+      <Square className="size-full group-data-checked:fill-current" />
+      <Check
+        strokeWidth={3.5}
+        className="absolute inset-0 m-auto hidden size-3.5 text-foreground group-data-checked:block"
       />
-      <SquareCheck
-        aria-hidden
-        className="hidden size-6 shrink-0 group-data-checked:block"
-      />
-    </>
+    </span>
   )
 }
 
