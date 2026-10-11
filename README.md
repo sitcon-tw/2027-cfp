@@ -14,7 +14,7 @@ deadline is not configured.
 Requirements:
 
 - Node.js **22.12 or newer**. [`.nvmrc`](.nvmrc) selects Node 22 for nvm users.
-- pnpm **10 or newer**. [`package.json`](package.json) pins `pnpm@10.20.0`.
+- pnpm **12 or newer**. [`package.json`](package.json) pins `pnpm@12.11.2`.
   Installation with npm, yarn, or bun is blocked.
 
 From the repository root:
