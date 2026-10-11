@@ -126,6 +126,7 @@ export function PosterStrip() {
           aria-label={text.label}
           role="region"
           viewportClassName="py-2.5"
+          scrollbar={false}
         >
           <div className="flex w-max">
             {/* Doubled so wrapping around one copy is seamless. */}
