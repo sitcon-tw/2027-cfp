@@ -11,12 +11,16 @@ import { EarlyBirdBanner } from '@/components/sessions/early-bird-banner'
 import { ExamplesCarousel } from '@/components/sessions/examples-carousel'
 import { Faq } from '@/components/sessions/faq'
 import { InfoCardStack } from '@/components/sessions/info-card-stack'
+import { OpenSessionIntro } from '@/components/sessions/open-session-intro'
 import { PosterStrip } from '@/components/sessions/poster-strip'
 import { SessionIntroCards } from '@/components/sessions/session-intro-cards'
 import { SessionPageTabs } from '@/components/sessions/session-page-tabs'
 import { buttonVariants } from '@/components/ui/button'
-import { sessionPages } from '@/lib/session-pages'
-import { isSessionTypeId } from '@/lib/session-types'
+import {
+  sessionPages,
+  type SessionPage as SessionPageData,
+} from '@/lib/session-pages'
+import { isSessionTypeId, type SessionTypeId } from '@/lib/session-types'
 
 export const Route = createFileRoute('/sessions/$type')({
   params: {
@@ -32,7 +36,11 @@ export const Route = createFileRoute('/sessions/$type')({
 
 const text = content.session_page
 
-/** 一般議程 / 開放式議程 / Demo 展. Sections differ per type; see Figma. */
+/**
+ * 一般議程 / 開放式議程 / Demo 展. Sections differ per type; see Figma.
+ * Hero, Q&A and the closing call to action are shared; the sections in
+ * between come in the order of each type's CFP copy.
+ */
 function SessionPage() {
   const { type } = Route.useParams()
   const page = sessionPages[type]
@@ -48,22 +56,11 @@ function SessionPage() {
       <PageHero {...page.hero}>
         <SessionPageTabs type={type} />
       </PageHero>
-      <SessionIntroCards title={page.introTitle} cards={page.intro} />
-      <EarlyBirdBanner type={type} />
-      {page.examples.map((section) => (
-        // Keyed by page too, so switching type starts on the first page.
-        <ExamplesCarousel key={`${type}-${section.title}`} {...section} />
-      ))}
-      {type === 'demo' && (
-        <>
-          <DemoGallery />
-          <PosterStrip />
-        </>
+      {type === 'open' ? (
+        <OpenSections page={page} />
+      ) : (
+        <DefaultSections type={type} page={page} />
       )}
-      <CriteriaTable {...page.reviewCriteria} />
-      <InfoCardStack {...page.beforeSubmission} />
-      {page.requirements && <CriteriaTable {...page.requirements} />}
-      <InfoCardStack {...page.afterSubmission} />
       {/* Keyed by type, so switching type reopens the first question. */}
       <Faq key={type} items={page.faq} />
       <PhotoCta
@@ -82,5 +79,62 @@ function SessionPage() {
         </Link>
       </PhotoCta>
     </main>
+  )
+}
+
+/** 一般議程 and Demo 展, in the order of the Figma design. */
+function DefaultSections({
+  type,
+  page,
+}: {
+  type: SessionTypeId
+  page: SessionPageData
+}) {
+  return (
+    <>
+      <SessionIntroCards title={page.introTitle} cards={page.intro} />
+      <EarlyBirdBanner type={type} />
+      {page.examples.map((section) => (
+        // Keyed by page too, so switching type starts on the first page.
+        <ExamplesCarousel key={`${type}-${section.title}`} {...section} />
+      ))}
+      {type === 'demo' && (
+        <>
+          <DemoGallery />
+          <PosterStrip />
+        </>
+      )}
+      <CriteriaTable {...page.reviewCriteria} />
+      <InfoCardStack {...page.beforeSubmission} />
+      {page.requirements && <CriteriaTable {...page.requirements} />}
+      <InfoCardStack {...page.afterSubmission} />
+    </>
+  )
+}
+
+/**
+ * 開放式議程, in the order of its CFP copy: what it is, examples, 投稿格式,
+ * 早鳥投稿計劃 (the early-bird banner), 審稿方式, then the notes before
+ * and after submitting.
+ */
+function OpenSections({ page }: { page: SessionPageData }) {
+  return (
+    <>
+      <OpenSessionIntro
+        title={page.introTitle}
+        description={page.introDescription}
+        lead={page.introLead}
+        formats={page.intro}
+        more={page.introMore}
+      />
+      {page.examples.map((section) => (
+        <ExamplesCarousel key={`open-${section.title}`} {...section} />
+      ))}
+      {page.requirements && <CriteriaTable {...page.requirements} />}
+      <EarlyBirdBanner type="open" />
+      <CriteriaTable {...page.reviewCriteria} />
+      <InfoCardStack {...page.beforeSubmission} />
+      <InfoCardStack {...page.afterSubmission} />
+    </>
   )
 }

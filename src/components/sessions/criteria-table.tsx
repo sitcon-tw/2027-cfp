@@ -8,8 +8,8 @@ export interface Criterion {
 
 export interface CriteriaTableProps {
   title: string
-  /** Short text between the rule and the table. */
-  description?: string
+  /** Short text between the rule and the table: one paragraph or a list. */
+  description?: string | string[]
   items: Criterion[]
 }
 

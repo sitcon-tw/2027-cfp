@@ -27,6 +27,8 @@ const text = content.session_page
 export interface IntroCard {
   title: string
   description: string
+  /** Example topics listed under the description. */
+  examples?: string[]
   /** Faded decoration in the card's bottom-right corner. */
   icon: LucideIcon
 }
@@ -39,7 +41,8 @@ export interface SessionExample {
 
 export interface ExamplesSection {
   title: string
-  description: string
+  /** One paragraph, or a list of them. */
+  description: string | string[]
   items: SessionExample[]
 }
 
@@ -52,17 +55,23 @@ export interface SessionPage {
     placeholder: string
   }
   introTitle: string
+  /** What the session type is, above the formats; 開放式議程 only. */
+  introDescription?: string
+  /** The line that leads from `introDescription` into the formats. */
+  introLead?: string
   intro: IntroCard[]
+  /** Closing invitation after the formats; 開放式議程 only. */
+  introMore?: { title: string; description: string[] }
   /** 議程範例 carousels; empty for Demo 展, which shows its gallery instead. */
   examples: ExamplesSection[]
   reviewCriteria: CriteriaTableProps
   beforeSubmission: InfoCardStackProps
-  /** 投稿需要什麼？, 一般議程 only. */
+  /** 投稿需要什麼？, the submission format; not on Demo 展 yet. */
   requirements?: CriteriaTableProps
   afterSubmission: InfoCardStackProps
   faq: FaqItem[]
-  /** Text under the closing call to action. */
-  ctaDescription?: string
+  /** Text under the closing call to action; see `PhotoCta`. */
+  ctaDescription?: string | string[]
 }
 
 /**
@@ -80,7 +89,7 @@ const exampleImages = Object.fromEntries(
 
 function withImages(section: {
   title: string
-  description: string
+  description: string | string[]
   items: { title: string; href: string; image: string }[]
 }): ExamplesSection {
   return {
@@ -93,7 +102,7 @@ function withImages(section: {
 }
 
 function withIcons(
-  cards: { title: string; description: string }[],
+  cards: { title: string; description: string; examples?: string[] }[],
   icons: LucideIcon[],
 ): IntroCard[] {
   return cards.map((card, i) => ({ ...card, icon: icons[i] }))
@@ -128,12 +137,17 @@ export const sessionPages: Record<SessionTypeId, SessionPage> = {
       placeholder: heroOpenThumb,
     },
     introTitle: text.open.introTitle,
+    introDescription: text.open.introDescription,
+    introLead: text.open.introLead,
     intro: withIcons(text.open.intro, [Toolbox, Coffee, UserRoundGroup]),
+    introMore: text.open.introMore,
     examples: [withImages(text.examples.open)],
     reviewCriteria: text.open.reviewCriteria,
     beforeSubmission: text.open.beforeSubmission,
+    requirements: text.open.requirements,
     afterSubmission: text.open.afterSubmission,
     faq: text.open.faq,
+    ctaDescription: text.open.ctaDescription,
   },
   demo: {
     hero: {
