@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { LinkedText } from '@/components/linked-text'
+import { SessionTypePhoto } from '@/components/session-type-photo'
 import { Card } from '@/components/ui/card'
 import { Tabs, TabsList, TabsPanel, TabsTab } from '@/components/ui/tabs'
 import { sessionTypes, type SessionType } from '@/lib/session-types'
@@ -103,14 +104,7 @@ function SessionTypeIntro({
       tone="ink"
       className={cn('relative isolate flex-1 px-5 py-3.75', className)}
     >
-      <img
-        src={type.intro.image}
-        alt=""
-        loading="lazy"
-        decoding="async"
-        className="absolute inset-0 -z-10 size-full object-cover"
-      />
-      <div className="absolute inset-0 -z-10 bg-black/70 bg-linear-136 from-black/40 from-18% to-foreground/5 to-91%" />
+      <SessionTypePhoto image={type.intro.image} />
       <div className="flex flex-col gap-2.5 px-5 py-2.5">
         {heading}
         <p className="text-paragraph">

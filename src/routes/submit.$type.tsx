@@ -1,14 +1,13 @@
-import { createFileRoute, Link, redirect } from '@tanstack/react-router'
+import { createFileRoute, redirect } from '@tanstack/react-router'
 
 import content from '@/content.json'
 import heroPhotoThumb from '@/assets/submit-hero-thumb.webp'
 import heroPhoto from '@/assets/submit-hero.webp'
 import { PageHero } from '@/components/page-hero'
-import { PhotoCta } from '@/components/photo-cta'
+import { MoreSubmissions } from '@/components/more-submissions'
 import { SubmissionForm } from '@/components/submit/submission-form'
 import { SubmissionTypeTabs } from '@/components/submit/submission-type-tabs'
-import { buttonVariants } from '@/components/ui/button'
-import { isSessionTypeId, sessionTypes } from '@/lib/session-types'
+import { isSessionTypeId } from '@/lib/session-types'
 
 export const Route = createFileRoute('/submit/$type')({
   params: {
@@ -41,20 +40,7 @@ function SubmitPage() {
         </div>
       </div>
       <SubmissionForm type={type} />
-      <PhotoCta title={text.moreSubmissions}>
-        {sessionTypes
-          .filter((other) => other.id !== type)
-          .map((other) => (
-            <Link
-              key={other.id}
-              to="/sessions/$type"
-              params={{ type: other.id }}
-              className={buttonVariants({ shape: 'pill' })}
-            >
-              {other.title}
-            </Link>
-          ))}
-      </PhotoCta>
+      <MoreSubmissions type={type} />
     </main>
   )
 }

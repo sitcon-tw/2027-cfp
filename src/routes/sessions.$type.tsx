@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 
 import content from '@/content.json'
 import ctaPhoto from '@/assets/session-cta.jpg'
+import { MoreSubmissions } from '@/components/more-submissions'
 import { PageHero } from '@/components/page-hero'
 import { PhotoCta } from '@/components/photo-cta'
 import { CriteriaTable } from '@/components/sessions/criteria-table'
@@ -62,12 +63,7 @@ function SessionPage() {
       )}
       {/* Keyed by type, so switching type reopens the first question. */}
       <Faq key={type} items={page.faq} />
-      <PhotoCta
-        title={text.cta.title}
-        align="center"
-        className="pt-20 pb-15"
-        image={ctaPhoto}
-      >
+      <PhotoCta title={text.cta.title} className="pt-20 pb-15" image={ctaPhoto}>
         <Link
           to="/submit/$type"
           params={{ type }}
@@ -76,6 +72,7 @@ function SessionPage() {
           {text.cta.submit}
         </Link>
       </PhotoCta>
+      <MoreSubmissions type={type} />
     </main>
   )
 }
