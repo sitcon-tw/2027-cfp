@@ -28,7 +28,7 @@ const noAnswers = quizQuestions.map(() => null)
  * "Which session type suits you?" card. The quiz itself opens in a dialog
  * (a bottom sheet on mobile) so the answers can't be tapped while scrolling.
  * Answers survive closing the dialog; 重新測驗 starts over. The footer and
- * result screen are not in Figma yet — this layout is a proposal.
+ * result screen are not in Figma; this layout is our own.
  */
 export function SessionQuiz() {
   const promptId = useId()

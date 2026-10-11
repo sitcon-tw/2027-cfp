@@ -5,8 +5,8 @@ import type { ReactNode } from 'react'
 import { cn, type WithClassName } from '@/lib/utils'
 
 /**
- * Root that also renders the shared popup. The popup is not in Figma yet — it
- * reuses the navbar glass as a proposal.
+ * Root that also renders the shared popup. The popup is not in Figma; it
+ * reuses the navbar glass.
  */
 export function NavigationMenu({
   className,

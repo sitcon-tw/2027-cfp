@@ -17,7 +17,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import { buttonVariants } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
+import { useSubmissionClosed } from '@/lib/countdown'
 import { links } from '@/lib/links'
 import { sessionTypes } from '@/lib/session-types'
 import { cn } from '@/lib/utils'
@@ -29,6 +30,7 @@ import { cn } from '@/lib/utils'
 export function SiteHeader({ className }: { className?: string }) {
   const anchor = useRef<HTMLDivElement>(null)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const submissionClosed = useSubmissionClosed()
 
   useEffect(() => {
     const desktop = window.matchMedia('(min-width: 48rem)')
@@ -93,17 +95,28 @@ export function SiteHeader({ className }: { className?: string }) {
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
-          <Link
-            to="/submit/$type"
-            params={{ type: 'general' }}
-            className={buttonVariants({
-              variant: 'cream',
-              shape: 'pill',
-              className: 'hidden md:inline-flex',
-            })}
-          >
-            {content.site_header.submit}
-          </Link>
+          {submissionClosed ? (
+            <Button
+              variant="cream"
+              shape="pill"
+              className="hidden md:inline-flex"
+              disabled
+            >
+              {content.submit_closed.button}
+            </Button>
+          ) : (
+            <Link
+              to="/submit/$type"
+              params={{ type: 'general' }}
+              className={buttonVariants({
+                variant: 'cream',
+                shape: 'pill',
+                className: 'hidden md:inline-flex',
+              })}
+            >
+              {content.site_header.submit}
+            </Link>
+          )}
           <Popover open={mobileOpen} onOpenChange={setMobileOpen}>
             <PopoverTrigger
               className="md:hidden"
@@ -163,19 +176,31 @@ export function SiteHeader({ className }: { className?: string }) {
                     </li>
                   ))}
                 </ul>
-                <Link
-                  to="/submit/$type"
-                  params={{ type: 'general' }}
-                  onClick={() => setMobileOpen(false)}
-                  className={buttonVariants({
-                    variant: 'cream',
-                    size: 'lg',
-                    shape: 'pill',
-                    className: 'mt-5 w-full',
-                  })}
-                >
-                  {content.site_header.submit}
-                </Link>
+                {submissionClosed ? (
+                  <Button
+                    variant="cream"
+                    size="lg"
+                    shape="pill"
+                    className="mt-5 w-full"
+                    disabled
+                  >
+                    {content.submit_closed.button}
+                  </Button>
+                ) : (
+                  <Link
+                    to="/submit/$type"
+                    params={{ type: 'general' }}
+                    onClick={() => setMobileOpen(false)}
+                    className={buttonVariants({
+                      variant: 'cream',
+                      size: 'lg',
+                      shape: 'pill',
+                      className: 'mt-5 w-full',
+                    })}
+                  >
+                    {content.site_header.submit}
+                  </Link>
+                )}
               </nav>
             </PopoverContent>
           </Popover>

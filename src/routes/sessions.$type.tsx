@@ -1,10 +1,10 @@
-import { createFileRoute, Link, redirect } from '@tanstack/react-router'
+import { createFileRoute, Link, notFound } from '@tanstack/react-router'
 import { useEffect } from 'react'
 
 import content from '@/content.json'
-import ctaPhoto from '@/assets/session-cta.jpg'
+import ctaPhoto from '@/assets/session-cta.jpg?responsive'
 import { MoreSubmissions } from '@/components/more-submissions'
-import { PageHero } from '@/components/page-hero'
+import { heroSizes, PageHero } from '@/components/page-hero'
 import { PhotoCta } from '@/components/photo-cta'
 import { CriteriaTable } from '@/components/sessions/criteria-table'
 import { EarlyBirdBanner } from '@/components/sessions/early-bird-banner'
@@ -15,7 +15,9 @@ import { OpenSessionIntro } from '@/components/sessions/open-session-intro'
 import { PosterStrip } from '@/components/sessions/poster-strip'
 import { SessionIntroCards } from '@/components/sessions/session-intro-cards'
 import { SessionPageTabs } from '@/components/sessions/session-page-tabs'
-import { buttonVariants } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
+import { useSubmissionClosed } from '@/lib/countdown'
+import { preloadImage } from '@/lib/preload-image'
 import {
   sessionPages,
   type SessionPage as SessionPageData,
@@ -26,7 +28,7 @@ export const Route = createFileRoute('/sessions/$type')({
   params: {
     parse: ({ type }) => {
       if (!isSessionTypeId(type)) {
-        throw redirect({ to: '/sessions/$type', params: { type: 'general' } })
+        throw notFound()
       }
       return { type }
     },
@@ -44,11 +46,12 @@ const text = content.session_page
 function SessionPage() {
   const { type } = Route.useParams()
   const page = sessionPages[type]
+  const submissionClosed = useSubmissionClosed()
   // Warm the cache with the other types' hero photos, so a tab switch
   // usually shows its photo at once.
   useEffect(() => {
     for (const { hero } of Object.values(sessionPages)) {
-      new Image().src = hero.image
+      preloadImage(hero.image, heroSizes)
     }
   }, [])
   return (
@@ -64,13 +67,19 @@ function SessionPage() {
       {/* Keyed by type, so switching type reopens the first question. */}
       <Faq key={type} items={page.faq} />
       <PhotoCta title={text.cta.title} className="pt-20 pb-15" image={ctaPhoto}>
-        <Link
-          to="/submit/$type"
-          params={{ type }}
-          className={buttonVariants({ shape: 'pill' })}
-        >
-          {text.cta.submit}
-        </Link>
+        {submissionClosed ? (
+          <Button shape="pill" disabled>
+            {content.submit_closed.button}
+          </Button>
+        ) : (
+          <Link
+            to="/submit/$type"
+            params={{ type }}
+            className={buttonVariants({ shape: 'pill' })}
+          >
+            {text.cta.submit}
+          </Link>
+        )}
       </PhotoCta>
       <MoreSubmissions type={type} />
     </main>

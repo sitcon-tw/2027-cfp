@@ -9,12 +9,14 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 
-import heroDemoThumb from '@/assets/session-hero-demo-thumb.webp'
-import heroDemo from '@/assets/session-hero-demo.webp'
-import heroGeneralThumb from '@/assets/session-hero-general-thumb.webp'
-import heroGeneral from '@/assets/session-hero-general.webp'
-import heroOpenThumb from '@/assets/session-hero-open-thumb.webp'
-import heroOpen from '@/assets/session-hero-open.webp'
+import type { Picture } from 'vite-imagetools'
+
+import heroDemoPlaceholder from '@/assets/session-hero-demo.webp?placeholder'
+import heroDemo from '@/assets/session-hero-demo.webp?responsive'
+import heroGeneralPlaceholder from '@/assets/session-hero-general.webp?placeholder'
+import heroGeneral from '@/assets/session-hero-general.webp?responsive'
+import heroOpenPlaceholder from '@/assets/session-hero-open.webp?placeholder'
+import heroOpen from '@/assets/session-hero-open.webp?responsive'
 import type { CriteriaTableProps } from '@/components/sessions/criteria-table'
 import type { FaqItem } from '@/components/sessions/faq'
 import type { InfoCardStackProps } from '@/components/sessions/info-card-stack'
@@ -37,7 +39,7 @@ export interface IntroCard {
 export interface SessionExample {
   title: string
   href: string
-  image: string
+  image: Picture
 }
 
 /** A carousel of examples, titled when a section has more than one. */
@@ -57,8 +59,8 @@ export interface SessionPage {
   hero: {
     title: string
     description: string
-    image: string
-    /** About 32px wide, inlined by Vite; blurred until `image` loads. */
+    image: Picture
+    /** Blurred until `image` loads. */
     placeholder: string
   }
   introTitle: string
@@ -85,9 +87,9 @@ export interface SessionPage {
  */
 const exampleImages = Object.fromEntries(
   Object.entries(
-    import.meta.glob<string>(
+    import.meta.glob<Picture>(
       '/src/assets/session-examples/*.{jpg,jpeg,png,webp}',
-      { eager: true, import: 'default' },
+      { eager: true, import: 'default', query: '?responsive' },
     ),
   ).map(([path, src]) => [path.split('/').pop(), src]),
 )
@@ -136,7 +138,7 @@ export const sessionPages: Record<SessionTypeId, SessionPage> = {
       title: text.general.heroTitle,
       description: text.general.heroDescription,
       image: heroGeneral,
-      placeholder: heroGeneralThumb,
+      placeholder: heroGeneralPlaceholder,
     },
     introTitle: text.general.introTitle,
     introDescription: text.general.introDescription,
@@ -154,7 +156,7 @@ export const sessionPages: Record<SessionTypeId, SessionPage> = {
       title: text.open.heroTitle,
       description: text.open.heroDescription,
       image: heroOpen,
-      placeholder: heroOpenThumb,
+      placeholder: heroOpenPlaceholder,
     },
     introTitle: text.open.introTitle,
     introDescription: text.open.introDescription,
@@ -173,7 +175,7 @@ export const sessionPages: Record<SessionTypeId, SessionPage> = {
       title: text.demo.heroTitle,
       description: text.demo.heroDescription,
       image: heroDemo,
-      placeholder: heroDemoThumb,
+      placeholder: heroDemoPlaceholder,
     },
     introTitle: text.demo.introTitle,
     introDescription: text.demo.introDescription,

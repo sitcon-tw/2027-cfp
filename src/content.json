@@ -12,13 +12,11 @@
   "site_footer": {
     "linksTitle": "連結",
     "home": "首頁",
-    "theme": "年會主題",
     "submitGeneral": "一般議程投稿",
     "submitOpen": "開放式議程投稿",
     "submitDemo": "Demo 展投稿",
     "supportTitle": "支持我們",
     "sponsor": "我要支持",
-    "prospectus": "索取支持徵求書",
     "pastSitesTitle": "歷年主題網站",
     "contactTitle": "聯絡我們",
     "email": "contact@sitcon.org",
@@ -26,8 +24,8 @@
     "nameZh": "學生計算機年會",
     "nameEn": "Students' Information Technology Conference",
     "pastYears": [
-      2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2024, 2025,
-      2026
+      2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024,
+      2025, 2026
     ]
   },
   "hero": {
@@ -43,8 +41,7 @@
   "sponsor_section": {
     "title": "想要支持？",
     "description": "支持 SITCON，能直接接觸由學生組成、對程式設計、開源軟體、資訊安全、硬體與社群經營充滿熱情的技術社群，提升品牌在年輕科技人才與開發者中的曝光與好感度，同時支持學生交流、分享作品與探索創新的平台；簡單來說，現在投資 SITCON，未來可能少一個凌晨三點才發現伺服器壞掉的人。",
-    "individual": "個人支持",
-    "prospectus": "查看贊助徵求書"
+    "individual": "個人支持"
   },
   "session_quiz": {
     "title": "不知道你適合哪一種議程？",
@@ -1241,16 +1238,17 @@
       "activities": "我們舉辦的活動"
     }
   },
+  "submit_closed": {
+    "button": "投稿已截止",
+    "title": "投稿已截止",
+    "description": "SITCON 2027 議程投稿已於 {deadline} 截止，感謝您的關注！如有疑問，歡迎寄信至 [session@sitcon.org](mailto:session@sitcon.org)。"
+  },
   "submit_page": {
     "typePrompt": "今天想要投稿什麼議程？",
     "sectionPosition": "{position} / {total}",
     "requiredBadge": "必填",
     "publicBadge": "公開",
-    "pendingControl": "{kind}尚未實作",
-    "pendingKinds": {
-      "select": "下拉式選單",
-      "file": "檔案上傳"
-    },
+    "selectPlaceholder": "請選擇",
     "submit": "送出投稿內容",
     "loading": "模擬送出中……",
     "validation": {
@@ -1289,15 +1287,21 @@
     "youtube": "YouTube"
   },
   "links": {
-    "placeholder": "#",
+    "donate": "https://sitcon.org/donate",
     "contactEmail": "mailto:contact@sitcon.org",
-    "facebook": "https://www.facebook.com/SITCON.tw",
+    "facebook": "https://www.facebook.com/SITCONtw/",
     "instagram": "https://www.instagram.com/sitcon.tw",
     "telegram": "https://t.me/SITCONtw",
     "flickr": "https://www.flickr.com/photos/sitcon",
     "youtube": "https://www.youtube.com/@SITCONtw",
     "pastSite": "https://sitcon.org/{year}/",
     "calendar": "https://calendar.google.com/calendar/render"
+  },
+  "not_found_page": {
+    "eyebrow": "404",
+    "title": "找不到這個頁面",
+    "description": "這個網址可能打錯了，或是頁面已經移到別的地方。回到首頁看看 SITCON 2027 的徵稿資訊吧！",
+    "home": "回到首頁"
   },
   "metadata": {
     "lang": "zh-Hant-TW",

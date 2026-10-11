@@ -2,7 +2,6 @@ import { memo, useId } from 'react'
 
 import content from '@/content.json'
 import { LinkedText } from '@/components/linked-text'
-import { Placeholder } from '@/components/placeholder'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox, CheckboxCard } from '@/components/ui/checkbox'
 import { CheckboxGroup } from '@/components/ui/checkbox-group'
@@ -14,9 +13,9 @@ import {
 } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { RadioCard, RadioCardGroup } from '@/components/ui/radio-group'
+import { Select } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import {
-  pendingKinds,
   textKinds,
   type SubmissionField,
   type SubmissionValue,
@@ -86,14 +85,17 @@ export const SubmissionFieldControl = memo(function SubmissionFieldControl({
           onValueChange={onValueChange}
         />
       )}
-      {pendingKinds.has(field.kind) && (
-        // TODO(#5): replace with the Select and file upload primitives.
-        <Placeholder
-          label={text.pendingControl.replace(
-            '{kind}',
-            text.pendingKinds[field.kind as keyof typeof text.pendingKinds],
-          )}
-          className="min-h-20 text-paragraph"
+      {field.kind === 'select' && (
+        <Select
+          value={typeof value === 'string' && value ? value : null}
+          options={(field.options ?? []).map((option) => ({
+            label: option,
+            value: option,
+          }))}
+          placeholder={text.selectPlaceholder}
+          aria-labelledby={`${id}-label`}
+          aria-required={field.required}
+          onValueChange={(value) => onValueChange(value ?? '')}
         />
       )}
       {field.kind === 'radio' && (

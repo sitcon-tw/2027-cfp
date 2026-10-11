@@ -13,6 +13,7 @@ import sitconLogo from '@/assets/sitcon-logo-full.svg'
 import { PhotoCredits } from '@/components/photo-credits'
 import { buttonVariants } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
+import { useSubmissionClosed } from '@/lib/countdown'
 import { links } from '@/lib/links'
 import { cn } from '@/lib/utils'
 
@@ -22,7 +23,6 @@ const submitLinks = [
   { type: 'demo', label: content.site_footer.submitDemo },
 ] as const
 
-// SITCON skipped 2023.
 const pastYears = content.site_footer.pastYears
 
 const socials = [
@@ -50,6 +50,7 @@ const socials = [
 ]
 
 export function SiteFooter() {
+  const submissionClosed = useSubmissionClosed()
   return (
     <footer className="border-t border-gray bg-foreground px-2.5 py-16.25 text-background">
       <div className="mx-auto flex max-w-content flex-col gap-10">
@@ -58,28 +59,30 @@ export function SiteFooter() {
             <Link to="/" className={footerLinkClassName}>
               {content.site_footer.home}
             </Link>
-            <FooterLink href={links.theme}>
-              {content.site_footer.theme}
-            </FooterLink>
-            {submitLinks.map(({ type, label }) => (
-              <Link
-                key={type}
-                to="/submit/$type"
-                params={{ type }}
-                className={footerLinkClassName}
-              >
-                {label}
-              </Link>
-            ))}
+            {submitLinks.map(({ type, label }) =>
+              // Once submissions close, the forms are gone: keep the labels
+              // as plain, dimmed text rather than dead links.
+              submissionClosed ? (
+                <span key={type} className="self-start text-body opacity-50">
+                  {label}
+                </span>
+              ) : (
+                <Link
+                  key={type}
+                  to="/submit/$type"
+                  params={{ type }}
+                  className={footerLinkClassName}
+                >
+                  {label}
+                </Link>
+              ),
+            )}
             <PhotoCredits />
           </FooterColumn>
           <FooterColumn title={content.site_footer.supportTitle}>
             <Link to="/" hash="sponsor" className={footerLinkClassName}>
               {content.site_footer.sponsor}
             </Link>
-            <FooterLink href={links.sponsorProspectus}>
-              {content.site_footer.prospectus}
-            </FooterLink>
           </FooterColumn>
           <FooterColumn title={content.site_footer.pastSitesTitle}>
             <ul className="flex flex-wrap gap-x-5.5 gap-y-1.5">

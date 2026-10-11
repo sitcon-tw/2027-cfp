@@ -113,6 +113,12 @@ Pages has no single-page-app fallback, so the build also writes a copy of
 see `routeShells` in [`vite.config.ts`](vite.config.ts)). That lets direct
 links and page refreshes work.
 
+Paths that match no route render the site's 404 page. The build writes
+`404.html` as another copy of `index.html` for hosts that look for one, but
+GitHub Pages only serves the `404.html` at the root of the `sitcon-tw/2027`
+site, so on production a missing path under `/2027/cfp/` shows GitHub's own
+404 until that site falls back to `cfp/404.html` for those paths.
+
 ## Continuous integration
 
 [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs on every pull

@@ -37,8 +37,8 @@ export function TabsList({
 }
 
 /**
- * One tile. The active state is not in Figma yet — active is cream, inactive
- * is gray as a proposal.
+ * One tile. The active state is not in Figma: active is cream, inactive
+ * is gray.
  */
 export function TabsTab({
   className,

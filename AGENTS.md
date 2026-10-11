@@ -38,7 +38,7 @@ The submission form's questions live in `src/forms.json`, transcribed from
 the [表單文案](https://docs.google.com/document/d/16AHAPm7jvjMdqDR4sVJiNp4whCUNKsihHCZMWFoR4u4/edit).
 `fields` defines every question once: `label`, `description`, `kind`
 (`text`, `email`, `tel`, `textarea`, `radio`, `checkboxes`, `select`,
-`file`, `consent`), `required`, `options`, `public` (adds 【公開】),
+`consent`), `required`, `options`, `public` (adds 【公開】),
 `showIf` and the Google Sheet `column` it is written to. `forms.<type>.sections`
 lists each session type's questions in order, as keys or as
 `{ "key": …, …overrides }` for a per-type difference. Option labels are also
@@ -52,8 +52,9 @@ Markdown, and HTML are not supported. Keep labels and option labels plain,
 since option labels sit inside the control and are written to the sheet.
 `toSheetRow()` in `src/lib/submission.ts` maps
 a draft to those columns. Form chrome (button labels, validation messages)
-stays in `content.json`. `select` and `file` render a placeholder until
-their primitives exist.
+stays in `content.json`. The form has no file uploads: photos, documents
+and attachments are collected as links in `text` or `textarea` fields, and
+their descriptions ask submitters to grant the 議程組 access.
 
 Homepage schedules live in `content.attend_section.tickets` and
 `content.speaker_section.schedule`. Each item's `start` / `end` is an ISO
@@ -62,7 +63,11 @@ timestamp with an explicit timezone (e.g. `2027-01-05T23:59:00+08:00`), or
 badges (即將開始 / 進行中 / 已結束) are computed from the dates; an
 unannounced item shows no badge and no date. The
 speaker item with id `submission` supplies the homepage submission deadline
-too, so keep that id stable.
+too, so keep that id stable. Its `end` also closes submissions:
+`useSubmissionClosed()` (`src/lib/countdown.ts`) turns every `/submit/…`
+CTA into a disabled 投稿已截止 `Button` (footer links into dimmed text) and
+replaces the form with the `content.submit_closed` message, live when the
+deadline passes; a `null` end keeps submissions open.
 
 The session-type quiz lives in `content.session_quiz.questions`. Each answer
 carries `scores` for the four results (`espresso`, `presentation`, `open`,
@@ -130,6 +135,8 @@ mapping is in `src/lib/session-quiz.ts`.
   `@/lib/utils`. Wrappers type it as `WithClassName<X.Props>` from `@/lib/utils`.
 - Focus ring for every interactive element:
   `focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue`.
+  The exception is `Input` and `Textarea`, which follow Figma's 表單 Page:
+  focus lightens the border instead of showing the blue ring.
 
 ## Design tokens (mandatory)
 
@@ -310,6 +317,18 @@ section of the same kind instead of picking new numbers.
 - Brand logos (Facebook, Instagram, Telegram, Flickr, YouTube, the SITCON
   logo) are not in Lucide: export them from Figma as SVG into
   `src/assets/` and import them. Never hand-draw or paste approximate paths.
+- Photos are optimized at build time by `vite-imagetools` (presets in
+  `vite.config.ts`, types in `src/images.d.ts`). Commit the photo as a
+  JPG, PNG or WebP, at least as wide as it renders on a 2× screen (up to
+  1600px); don't make your own sizes, formats or thumbnails. Import it with
+  `?responsive` (also as `query: '?responsive'` in `import.meta.glob`) and
+  render it with `ResponsiveImage` from `@/components/responsive-image`,
+  passing `sizes` for its rendered width. It makes a `<picture>` of AVIF
+  and WebP at several widths, lazy by default; the photo at the top of a
+  page takes `loading="eager"` and `fetchPriority="high"`. `?placeholder`
+  gives a tiny inlined preview (`PageHero`'s `placeholder`), and
+  `preloadImage` in `@/lib/preload-image` fetches a photo ahead of time.
+  SVGs are imported plainly and rendered with `<img>`.
 
 ### Photo wall
 
@@ -318,7 +337,7 @@ photos (`src/components/home/photo-wall.tsx`). Its photos are every image in
 `src/assets/photo-wall/`, in filename order. To show some large, list
 their file names in `about_section.photoWallLarge` in `content.json`; they
 take the large tiles in that order. Export photos at about 1600px on the
-long side (webp). With the
+long side. With the
 folder empty, the session photo stands in at different crops.
 
 With a mouse, hovering pauses the wall and makes the photo under the cursor
@@ -352,21 +371,4 @@ The 歷年海報展示 strip on `/sessions/demo` shows every image in
 `src/assets/demo-posters/`, newest file name first (`2026-1.webp` before
 `2025-1.webp`). They are past posters from the 2026 and 2025 sites
 (`sitcon-tw/2026` `public/img/poster/`, `sitcon-tw/2025` `public/poster/`),
-exported at 1000px tall (webp).
-
-### Undesigned states
-
-Figma has no hover, focus, selected, checked or popup designs yet. The
-primitives use proposals (dimmed inactive tabs, ink checked radios, navbar-
-glass dropdown, `brightness-95` hover, cream `Dialog` that becomes a
-swipe-down bottom sheet below `md`, `Accordion` hover and open/close
-animation). The session-type quiz's footer (back / progress / next) and its
-result screen are proposals too. Keep them consistent and replace them when
-the designs arrive.
-
-The form primitives (`Field`, `Input`, `Checkbox`, …) follow Figma's
-表單 Page for empty, filled, focus and checked. Focus on `Input` and
-`Textarea` is Figma's lighter border, not the blue ring. Proposals:
-`FieldDescription` in `text-light`, invalid as a red border with
-`FieldError` in red, disabled at half opacity, `Textarea` height, and
-checkbox hover.
+exported at 1000px tall.

@@ -4,6 +4,7 @@ import { tanstackRouter } from '@tanstack/router-plugin/vite'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import viteFont from 'vite-plugin-font'
+import { imagetools } from 'vite-imagetools'
 
 import content from './src/content.json' with { type: 'json' }
 import { sessionTypeIds } from './src/lib/session-type-ids.ts'
@@ -18,6 +19,19 @@ const routeShells = [
   'about',
   ...sessionTypeIds.flatMap((type) => [`sessions/${type}`, `submit/${type}`]),
 ]
+
+// Image presets, applied by import query (typed in `src/images.d.ts`):
+// `?responsive` makes AVIF and WebP at several widths for a `<picture>`
+// (`ResponsiveImage`), and `?placeholder` inlines a tiny blurred-in preview.
+// Widths above the original's are dropped, so images are never upscaled.
+const imagePresets: Record<string, Record<string, string>> = {
+  responsive: {
+    w: '320;640;960;1280;1600',
+    format: 'avif;webp',
+    as: 'picture',
+  },
+  placeholder: { w: '32', format: 'webp', quality: '50', inline: '' },
+}
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -51,12 +65,14 @@ export default defineConfig({
       generateBundle(_, bundle) {
         const index = bundle['index.html']
         if (index?.type !== 'asset') this.error('index.html was not emitted')
-        for (const route of routeShells) {
-          this.emitFile({
-            type: 'asset',
-            fileName: `${route}/index.html`,
-            source: index.source,
-          })
+        // `404.html` is for hosts that serve one for missing paths; the
+        // router renders the 404 page.
+        const fileNames = [
+          ...routeShells.map((route) => `${route}/index.html`),
+          '404.html',
+        ]
+        for (const fileName of fileNames) {
+          this.emitFile({ type: 'asset', fileName, source: index.source })
         }
       },
     },
@@ -85,6 +101,14 @@ export default defineConfig({
         if (!this.meta.watchMode) process.exit(error ? 1 : 0)
       },
     },
+    imagetools({
+      defaultDirectives: (url) => {
+        const preset = Object.keys(imagePresets).find((name) =>
+          url.searchParams.has(name),
+        )
+        return new URLSearchParams(preset && imagePresets[preset])
+      },
+    }),
     // Must come before the React plugin.
     tanstackRouter({ target: 'react', autoCodeSplitting: true }),
     react(),
