@@ -218,8 +218,11 @@
       "beforeSubmission": "投稿前需確認",
       "requirements": "投稿需要什麼？",
       "afterSubmission": "投稿後會做什麼？",
-      "faq": "{title} Q&A",
-      "cta": "底部投稿 CTA"
+      "faq": "{title} Q&A"
+    },
+    "cta": {
+      "title": "想要在舞臺發光發熱？",
+      "submit": "立即投稿"
     }
   },
   "about_page": {
@@ -302,9 +305,9 @@
       "serverError": "模擬服務暫時無法使用，未實際送出投稿；示範草稿仍保留。"
     },
     "placeholders": {
-      "hero": "我要投稿頁首",
-      "cta": "參考更多稿件"
-    }
+      "hero": "我要投稿頁首"
+    },
+    "moreSubmissions": "參考更多稿件"
   },
   "sessions": {
     "generalTitle": "一般議程",

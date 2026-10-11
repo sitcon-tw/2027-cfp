@@ -1,4 +1,4 @@
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import { createFileRoute, Link, redirect } from '@tanstack/react-router'
 
 import content from '@/content.json'
 import { PageHero } from '@/components/page-hero'
@@ -12,6 +12,7 @@ import { InfoCardStack } from '@/components/sessions/info-card-stack'
 import { PosterStrip } from '@/components/sessions/poster-strip'
 import { SessionIntroCards } from '@/components/sessions/session-intro-cards'
 import { SessionPageTabs } from '@/components/sessions/session-page-tabs'
+import { buttonVariants } from '@/components/ui/button'
 import { getSessionType, isSessionTypeId } from '@/lib/session-types'
 
 export const Route = createFileRoute('/sessions/$type')({
@@ -27,6 +28,7 @@ export const Route = createFileRoute('/sessions/$type')({
 })
 
 const text = content.session_page.placeholders
+const cta = content.session_page.cta
 
 /** 一般議程 / 開放式議程 / Demo 展. Sections differ per type; see Figma. */
 function SessionPage() {
@@ -57,7 +59,15 @@ function SessionPage() {
       {type === 'general' && <CriteriaTable label={text.requirements} />}
       <InfoCardStack label={text.afterSubmission} />
       <Faq type={type} />
-      <PhotoCta label={text.cta} />
+      <PhotoCta title={cta.title} align="center" className="pt-20 pb-15">
+        <Link
+          to="/submit/$type"
+          params={{ type }}
+          className={buttonVariants({ className: 'rounded-full' })}
+        >
+          {cta.submit}
+        </Link>
+      </PhotoCta>
     </main>
   )
 }
