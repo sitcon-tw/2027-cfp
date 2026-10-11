@@ -63,7 +63,7 @@ function SessionPage() {
         <Link
           to="/submit/$type"
           params={{ type }}
-          className={buttonVariants({ className: 'rounded-full' })}
+          className={buttonVariants({ shape: 'pill' })}
         >
           {cta.submit}
         </Link>

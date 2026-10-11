@@ -42,7 +42,7 @@ function SubmitPage() {
               key={other.id}
               to="/sessions/$type"
               params={{ type: other.id }}
-              className={buttonVariants({ className: 'rounded-full' })}
+              className={buttonVariants({ shape: 'pill' })}
             >
               {other.title}
             </Link>
