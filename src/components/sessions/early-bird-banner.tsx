@@ -2,8 +2,8 @@ import { Link } from '@tanstack/react-router'
 
 import content from '@/content.json'
 import birdPattern from '@/assets/early-bird-pattern.svg'
-import { buttonVariants } from '@/components/ui/button'
-import { deadlines, useCountdown } from '@/lib/countdown'
+import { Button, buttonVariants } from '@/components/ui/button'
+import { deadlines, useCountdown, useSubmissionClosed } from '@/lib/countdown'
 import type { SessionTypeId } from '@/lib/session-types'
 
 const text = content.session_page.earlyBird
@@ -14,6 +14,7 @@ const MARQUEE_REPEAT = 8
 
 /** Early Bird marquee and the early-bird submission countdown. */
 export function EarlyBirdBanner({ type }: { type: SessionTypeId }) {
+  const submissionClosed = useSubmissionClosed()
   return (
     <section className="px-2.5 py-15">
       <div className="mx-auto max-w-content px-2.5">
@@ -34,13 +35,19 @@ export function EarlyBirdBanner({ type }: { type: SessionTypeId }) {
             </p>
             <p className="text-paragraph">{text.tagline}</p>
             <div className="flex justify-end">
-              <Link
-                to="/submit/$type"
-                params={{ type }}
-                className={buttonVariants({ variant: 'cream' })}
-              >
-                {text.submit}
-              </Link>
+              {submissionClosed ? (
+                <Button variant="cream" disabled>
+                  {content.submit_closed.button}
+                </Button>
+              ) : (
+                <Link
+                  to="/submit/$type"
+                  params={{ type }}
+                  className={buttonVariants({ variant: 'cream' })}
+                >
+                  {text.submit}
+                </Link>
+              )}
             </div>
           </div>
         </div>

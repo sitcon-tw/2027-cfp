@@ -2,7 +2,8 @@ import { Link } from '@tanstack/react-router'
 
 import content from '@/content.json'
 import { HeroBackdrop } from '@/components/hero-backdrop'
-import { buttonVariants } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
+import { useSubmissionClosed } from '@/lib/countdown'
 
 const text = content.not_found_page
 
@@ -12,6 +13,7 @@ const text = content.not_found_page
  * the content centered, so the backdrop never ends above the fold.
  */
 export function NotFound() {
+  const submissionClosed = useSubmissionClosed()
   return (
     <main className="relative isolate flex min-h-svh flex-col justify-center overflow-x-clip pt-header">
       <HeroBackdrop />
@@ -26,13 +28,19 @@ export function NotFound() {
             <Link to="/" className={buttonVariants({ size: 'lg' })}>
               {text.home}
             </Link>
-            <Link
-              to="/submit/$type"
-              params={{ type: 'general' }}
-              className={buttonVariants({ variant: 'blue', size: 'lg' })}
-            >
-              {content.site_header.submit}
-            </Link>
+            {submissionClosed ? (
+              <Button variant="blue" size="lg" disabled>
+                {content.submit_closed.button}
+              </Button>
+            ) : (
+              <Link
+                to="/submit/$type"
+                params={{ type: 'general' }}
+                className={buttonVariants({ variant: 'blue', size: 'lg' })}
+              >
+                {content.site_header.submit}
+              </Link>
+            )}
           </div>
         </div>
       </section>

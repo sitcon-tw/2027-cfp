@@ -75,3 +75,12 @@ export function useCountdown(deadline: Date | null): Countdown | null {
     expired: minutes === 0,
   }
 }
+
+/**
+ * Whether the submission deadline (the end of 投稿期間) has passed. Flips to
+ * `true` on its own when the deadline passes while the page is open. An
+ * unannounced deadline keeps submissions open.
+ */
+export function useSubmissionClosed(): boolean {
+  return useCountdown(deadlines.submission)?.expired ?? false
+}

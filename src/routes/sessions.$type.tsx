@@ -15,7 +15,8 @@ import { OpenSessionIntro } from '@/components/sessions/open-session-intro'
 import { PosterStrip } from '@/components/sessions/poster-strip'
 import { SessionIntroCards } from '@/components/sessions/session-intro-cards'
 import { SessionPageTabs } from '@/components/sessions/session-page-tabs'
-import { buttonVariants } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
+import { useSubmissionClosed } from '@/lib/countdown'
 import { preloadImage } from '@/lib/preload-image'
 import {
   sessionPages,
@@ -45,6 +46,7 @@ const text = content.session_page
 function SessionPage() {
   const { type } = Route.useParams()
   const page = sessionPages[type]
+  const submissionClosed = useSubmissionClosed()
   // Warm the cache with the other types' hero photos, so a tab switch
   // usually shows its photo at once.
   useEffect(() => {
@@ -65,13 +67,19 @@ function SessionPage() {
       {/* Keyed by type, so switching type reopens the first question. */}
       <Faq key={type} items={page.faq} />
       <PhotoCta title={text.cta.title} className="pt-20 pb-15" image={ctaPhoto}>
-        <Link
-          to="/submit/$type"
-          params={{ type }}
-          className={buttonVariants({ shape: 'pill' })}
-        >
-          {text.cta.submit}
-        </Link>
+        {submissionClosed ? (
+          <Button shape="pill" disabled>
+            {content.submit_closed.button}
+          </Button>
+        ) : (
+          <Link
+            to="/submit/$type"
+            params={{ type }}
+            className={buttonVariants({ shape: 'pill' })}
+          >
+            {text.cta.submit}
+          </Link>
+        )}
       </PhotoCta>
       <MoreSubmissions type={type} />
     </main>
