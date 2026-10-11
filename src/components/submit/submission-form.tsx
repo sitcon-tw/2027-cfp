@@ -51,7 +51,7 @@ export function SubmissionForm({ type }: { type: SessionTypeId }) {
             <Fieldset
               key={section.id}
               disabled={isSubmitting}
-              className="border-t-2 border-dashed border-foreground/20 px-2.5 py-10"
+              className="px-2.5 py-10"
             >
               <FieldsetLegend position={index + 1} total={sections.length}>
                 <h2>{section.title}</h2>
