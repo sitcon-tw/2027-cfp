@@ -91,6 +91,8 @@
   /* Homepage photo wall: slow, so people have time to spot faces. Its
      content is doubled, so -50% loops it. */
   --animate-photo-wall: marquee 140s linear infinite;
+  /* Early Bird band on session pages; also doubled. */
+  --animate-early-bird: marquee 30s linear infinite;
 
   @keyframes marquee {
     to {
