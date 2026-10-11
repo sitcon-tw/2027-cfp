@@ -1270,6 +1270,99 @@
         }
       ]
     },
+    "review": {
+      "title": "回顧 2026 年",
+      "stats": [
+        {
+          "label": "會眾人數",
+          "value": "1,286",
+          "unit": "人"
+        },
+        {
+          "label": "學生報名者",
+          "value": "92.1",
+          "unit": "%"
+        },
+        {
+          "label": "攤位夥伴",
+          "value": "25",
+          "unit": "個"
+        }
+      ],
+      "note": "數據僅供參考，可能因統計時間與口徑而有差異；人數統計誤差範圍為 ±50 人。",
+      "charts": [
+        {
+          "title": "與會者身分分析",
+          "items": [
+            {
+              "label": "大學生",
+              "count": 749,
+              "percent": 57.0
+            },
+            {
+              "label": "高中 / 職生",
+              "count": 317,
+              "percent": 24.1
+            },
+            {
+              "label": "研究生",
+              "count": 109,
+              "percent": 8.3
+            },
+            {
+              "label": "社會人士",
+              "count": 90,
+              "percent": 6.8
+            },
+            {
+              "label": "其他（國中生、五專生、老師 / 教授等）",
+              "count": 50,
+              "percent": 3.8
+            }
+          ],
+          "scale": "categorical"
+        },
+        {
+          "title": "軟體開發經驗分析",
+          "items": [
+            {
+              "label": "我沒有接觸過程式",
+              "count": 50,
+              "percent": 3.8
+            },
+            {
+              "label": "入門",
+              "count": 234,
+              "percent": 17.8
+            },
+            {
+              "label": "初學",
+              "count": 303,
+              "percent": 23.0
+            },
+            {
+              "label": "中等",
+              "count": 472,
+              "percent": 35.9
+            },
+            {
+              "label": "熟練",
+              "count": 191,
+              "percent": 14.5
+            },
+            {
+              "label": "進階",
+              "count": 65,
+              "percent": 4.9
+            }
+          ],
+          "scale": "ordinal"
+        }
+      ],
+      "count": "{count} 人",
+      "source": "資料來源：SITCON 2026 報名資料，2026/03/03 第二波索票後統計，n=1,315。",
+      "chartLabel": "{title}圓餅圖，數值列於圖例"
+    },
     "activities": {
       "title": "我們舉辦的活動",
       "items": [
@@ -1307,8 +1400,7 @@
     },
     "placeholders": {
       "photoStrip": "活動照片",
-      "media": "媒體報導",
-      "yearInReview": "回顧 2026 年"
+      "media": "媒體報導"
     }
   },
   "submit_page": {
