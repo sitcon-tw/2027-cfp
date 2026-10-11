@@ -3,7 +3,7 @@ import forms from '@/forms.json'
 import { sessionTypeIds } from '@/lib/session-type-ids'
 import type { SessionTypeId } from '@/lib/session-types'
 
-export type SubmissionValue = string | string[] | File | null
+export type SubmissionValue = string | string[] | File[]
 export type SubmissionValues = Record<string, SubmissionValue>
 export type SubmissionErrors = Record<string, string>
 
@@ -21,8 +21,6 @@ const fieldKinds = [
 
 export type FieldKind = (typeof fieldKinds)[number]
 
-/** Kinds whose primitive does not exist yet; they render a placeholder. */
-export const pendingKinds: ReadonlySet<FieldKind> = new Set(['select', 'file'])
 /** Kinds typed into a native input, labelled by a native `<label>`. */
 export const textKinds: ReadonlySet<FieldKind> = new Set([
   'text',
@@ -48,8 +46,10 @@ export interface SubmissionField {
   public?: boolean
   /** Choice labels. They are also the values written to the sheet. */
   options?: readonly string[]
-  /** File input `accept`. */
+  /** File input `accept`: MIME types, `type/*` or `.ext`, comma-separated. */
   accept?: string
+  /** A `file` field that takes more than one file. */
+  multiple?: boolean
   /** Only shown (and validated and sent) when another field has a value. */
   showIf?: { field: string; equals: string }
   /** Google Sheet column header this field is written to. */
@@ -120,8 +120,7 @@ export function isFieldVisible(
 }
 
 function emptyValue(field: SubmissionField): SubmissionValue {
-  if (field.kind === 'checkboxes') return []
-  if (field.kind === 'file') return null
+  if (field.kind === 'checkboxes' || field.kind === 'file') return []
   return ''
 }
 
@@ -129,6 +128,23 @@ function createEmptyValues(type: SessionTypeId): SubmissionValues {
   return Object.fromEntries(
     fieldsByType[type].map((field) => [field.key, emptyValue(field)]),
   )
+}
+
+/** Whether `file` matches a native `accept` list; no list accepts all. */
+function acceptsFile(accept: string | undefined, file: File) {
+  if (!accept) return true
+  const name = file.name.toLowerCase()
+  const type = file.type.toLowerCase()
+  return accept
+    .split(',')
+    .map((rule) => rule.trim().toLowerCase())
+    .some((rule) =>
+      rule.startsWith('.')
+        ? name.endsWith(rule)
+        : rule.endsWith('/*')
+          ? type.startsWith(rule.slice(0, -1))
+          : type === rule,
+    )
 }
 
 /** Validation driven by the field definitions in forms.json. */
@@ -140,12 +156,24 @@ export function validateSubmission(
   const messages = content.submit_page.validation
 
   for (const field of fieldsByType[type]) {
-    // TODO(#5): validate select and file once their primitives exist.
-    if (!isFieldVisible(field, values) || pendingKinds.has(field.kind)) continue
+    if (!isFieldVisible(field, values)) continue
     const value = values[field.key]
     let error: string | undefined
 
-    if (choiceKinds.has(field.kind)) {
+    if (field.kind === 'file') {
+      // Size limits depend on how the backend receives files (#5).
+      const files = Array.isArray(value)
+        ? value.filter((file) => file instanceof File)
+        : []
+      const rejected = files.find((file) => !acceptsFile(field.accept, file))
+      if (!files.length) {
+        if (field.required) error = messages.requiredFile
+      } else if (!field.multiple && files.length > 1) {
+        error = messages.tooManyFiles
+      } else if (rejected) {
+        error = messages.fileType.replace('{name}', rejected.name)
+      }
+    } else if (choiceKinds.has(field.kind)) {
       const choices = Array.isArray(value) ? value : value ? [value] : []
       if (!choices.length) {
         if (field.required) {
@@ -182,8 +210,11 @@ export function validateSubmission(
 export interface SheetRow {
   /** Column header → cell text. Hidden fields are written as empty cells. */
   cells: Record<string, string>
-  /** Column header → file, for the backend to upload and link in the cell. */
-  files: Record<string, File>
+  /**
+   * Column header → chosen files, left empty in `cells`. How they reach the
+   * backend (upload, encoding, size limits) is up to the API (#5).
+   */
+  files: Record<string, File[]>
 }
 
 /** Maps a draft to the Google Sheet columns declared in forms.json. */
@@ -194,8 +225,10 @@ export function toSheetRow(
   const row: SheetRow = { cells: {}, files: {} }
   for (const field of fieldsByType[type]) {
     const value = isFieldVisible(field, values) ? values[field.key] : null
-    if (value instanceof File) {
-      row.files[field.column] = value
+    if (field.kind === 'file') {
+      row.files[field.column] = Array.isArray(value)
+        ? value.filter((file) => file instanceof File)
+        : []
       row.cells[field.column] = ''
     } else if (Array.isArray(value)) {
       row.cells[field.column] = value.join(', ')

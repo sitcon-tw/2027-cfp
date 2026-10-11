@@ -2,7 +2,6 @@ import { memo, useId } from 'react'
 
 import content from '@/content.json'
 import { LinkedText } from '@/components/linked-text'
-import { Placeholder } from '@/components/placeholder'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox, CheckboxCard } from '@/components/ui/checkbox'
 import { CheckboxGroup } from '@/components/ui/checkbox-group'
@@ -12,11 +11,12 @@ import {
   FieldError,
   FieldLabel,
 } from '@/components/ui/field'
+import { FileInput } from '@/components/ui/file-input'
 import { Input } from '@/components/ui/input'
 import { RadioCard, RadioCardGroup } from '@/components/ui/radio-group'
+import { Select } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import {
-  pendingKinds,
   textKinds,
   type SubmissionField,
   type SubmissionValue,
@@ -46,6 +46,9 @@ export const SubmissionFieldControl = memo(function SubmissionFieldControl({
   const onValueChange = (value: SubmissionValue) =>
     setFieldValue(field.key, value)
   const isText = textKinds.has(field.kind)
+  const files = Array.isArray(value)
+    ? value.filter((item) => item instanceof File)
+    : []
 
   return (
     <Field name={field.key} invalid={Boolean(error)} className="max-w-183.5">
@@ -86,14 +89,36 @@ export const SubmissionFieldControl = memo(function SubmissionFieldControl({
           onValueChange={onValueChange}
         />
       )}
-      {pendingKinds.has(field.kind) && (
-        // TODO(#5): replace with the Select and file upload primitives.
-        <Placeholder
-          label={text.pendingControl.replace(
-            '{kind}',
-            text.pendingKinds[field.kind as keyof typeof text.pendingKinds],
-          )}
-          className="min-h-20 text-paragraph"
+      {field.kind === 'select' && (
+        <Select
+          value={typeof value === 'string' && value ? value : null}
+          options={(field.options ?? []).map((option) => ({
+            label: option,
+            value: option,
+          }))}
+          placeholder={text.selectPlaceholder}
+          aria-labelledby={`${id}-label`}
+          aria-required={field.required}
+          onValueChange={(value) => onValueChange(value ?? '')}
+        />
+      )}
+      {field.kind === 'file' && (
+        <FileInput
+          value={files}
+          accept={field.accept}
+          multiple={field.multiple}
+          disabled={disabled}
+          invalid={Boolean(error)}
+          chooseLabel={
+            field.multiple && files.length
+              ? text.file.chooseMore
+              : text.file.choose
+          }
+          emptyLabel={text.file.empty}
+          removeLabel={(name) => text.file.remove.replace('{name}', name)}
+          aria-labelledby={`${id}-label`}
+          aria-describedby={field.required ? `${id}-required` : undefined}
+          onValueChange={onValueChange}
         />
       )}
       {field.kind === 'radio' && (
@@ -119,7 +144,11 @@ export const SubmissionFieldControl = memo(function SubmissionFieldControl({
       )}
       {field.kind === 'checkboxes' && (
         <CheckboxGroup
-          value={Array.isArray(value) ? value : []}
+          value={
+            Array.isArray(value)
+              ? value.filter((item) => typeof item === 'string')
+              : []
+          }
           // Toolbar's roving focus does not read the fieldset's disabled state.
           disabled={disabled}
           aria-labelledby={`${id}-label`}

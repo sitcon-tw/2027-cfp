@@ -378,6 +378,7 @@
             {
               "key": "attachments",
               "kind": "file",
+              "multiple": true,
               "description": "可以提供程式碼、作品頁面、操作影片、海報草稿或任何您認為有助於我們瞭解您作品的附件，請再三確認是否有開啟共用權限。請貼上附件連結（如 Google Drive、GitHub 等）。若有多個附件，可分行填寫；並請確認議程組具有存取權限。"
             },
             "notes"
