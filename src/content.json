@@ -56,6 +56,7 @@
     "showResult": "看結果",
     "resultLead": "你適合的是……",
     "restart": "重新測驗",
+    "othersLead": "你也可以考慮這些選擇：",
     "questions": [
       {
         "prompt": "如果明天就是 SITCON，你最希望自己的議程現場長什麼樣子？",
@@ -196,21 +197,25 @@
     "results": {
       "espresso": {
         "title": "Espresso",
+        "summary": "一般議程・10 分鐘短講",
         "description": "一般議程中的 10 分鐘短講：把一個新資訊、idea 或經驗濃縮成一杯 Espresso，短短一場就讓大家帶走新東西。",
         "learnMore": "了解 Espresso"
       },
       "presentation": {
         "title": "Presentation",
+        "summary": "一般議程・40 分鐘演講",
         "description": "一般議程中的 40 分鐘演講：把一個主題從頭到尾講清楚，帶大家完整而深入地理解。",
         "learnMore": "了解 Presentation"
       },
       "open": {
         "title": "開放式議程",
+        "summary": "討論、工作坊等互動形式",
         "description": "形式由你決定：討論、工作坊，或任何平常議程做不到的事，和大家一起參與、一起發揮。",
         "learnMore": "了解開放式議程"
       },
       "demo": {
         "title": "Demo 展",
+        "summary": "顧攤位展示你的作品",
         "description": "顧一個自己的攤位展示作品，讓大家走過來看看、玩玩，直接和你互動。",
         "learnMore": "了解 Demo 展"
       }

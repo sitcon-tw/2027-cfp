@@ -32,10 +32,11 @@ function primaryOf(scores: Scores): QuizResultId {
 
 /**
  * Sums the chosen answers' scores (one answer `value` per question, in
- * order). On a tie, the outcome picked most recently as an answer's primary
- * wins (Q3, then Q2, then Q1).
+ * order) and ranks every outcome, best first. On a tie for the top, the
+ * outcome picked most recently as an answer's primary wins (Q3, then Q2,
+ * then Q1); the rest follow by total, then in `quizResultIds` order.
  */
-export function scoreQuiz(answers: readonly string[]): QuizResultId {
+export function rankQuiz(answers: readonly string[]): QuizResultId[] {
   const picked = answers.map(
     (value, i) =>
       quizQuestions[i].answers.find((answer) => answer.value === value)!.scores,
@@ -50,9 +51,13 @@ export function scoreQuiz(answers: readonly string[]): QuizResultId {
   const top = Math.max(...quizResultIds.map((id) => totals[id]))
   const tied = quizResultIds.filter((id) => totals[id] === top)
 
-  const latestPrimary = picked
-    .map(primaryOf)
-    .reverse()
-    .find((id) => tied.includes(id))
-  return latestPrimary ?? tied[0]
+  const winner =
+    picked
+      .map(primaryOf)
+      .reverse()
+      .find((id) => tied.includes(id)) ?? tied[0]
+  const rest = quizResultIds
+    .filter((id) => id !== winner)
+    .sort((a, b) => totals[b] - totals[a])
+  return [winner, ...rest]
 }

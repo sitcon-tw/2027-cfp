@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { Search } from 'lucide-react'
+import { ArrowRight, Search } from 'lucide-react'
 import { useId, useRef, useState, type ReactNode } from 'react'
 
 import content from '@/content.json'
@@ -14,7 +14,12 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { quizQuestions, resultSessionType, scoreQuiz } from '@/lib/session-quiz'
+import {
+  quizQuestions,
+  rankQuiz,
+  resultSessionType,
+  type QuizResultId,
+} from '@/lib/session-quiz'
 
 const text = content.session_quiz
 const noAnswers = quizQuestions.map(() => null)
@@ -34,8 +39,9 @@ export function SessionQuiz() {
 
   const question = quizQuestions[step]
   const answer = answers[step]
-  const result =
-    step === quizQuestions.length ? scoreQuiz(answers as string[]) : null
+  const ranking =
+    step === quizQuestions.length ? rankQuiz(answers as string[]) : null
+  const [result, ...others] = ranking ?? []
 
   const choose = (value: string) =>
     setAnswers((prev) => prev.map((a, i) => (i === step ? value : a)))
@@ -97,6 +103,7 @@ export function SessionQuiz() {
                 <p className="px-8.25 text-paragraph">
                   {text.results[result].description}
                 </p>
+                <OtherResults ids={others} onNavigate={() => setOpen(false)} />
                 <QuizFooter>
                   <Button variant="muted" onClick={restart}>
                     {text.restart}
@@ -159,6 +166,46 @@ export function SessionQuiz() {
         </Dialog>
       }
     />
+  )
+}
+
+/**
+ * The outcomes the quiz did not pick, best score first, so the result reads
+ * as a suggestion rather than the only option. Not in Figma — a proposal.
+ */
+function OtherResults({
+  ids,
+  onNavigate,
+}: {
+  ids: QuizResultId[]
+  onNavigate: () => void
+}) {
+  return (
+    <div className="flex flex-col px-8.25">
+      <p className="text-paragraph font-bold text-gray">{text.othersLead}</p>
+      <ul className="divide-y divide-light">
+        {ids.map((id) => (
+          <li key={id}>
+            <Link
+              to="/sessions/$type"
+              params={{ type: resultSessionType[id] }}
+              onClick={onNavigate}
+              className="group flex items-center gap-2.5 py-2.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+            >
+              <span className="flex grow flex-wrap items-baseline gap-x-2.5">
+                <span className="text-paragraph font-bold">
+                  {text.results[id].title}
+                </span>
+                <span className="text-body text-gray">
+                  {text.results[id].summary}
+                </span>
+              </span>
+              <ArrowRight className="size-5 shrink-0 transition-transform duration-300 ease-smooth group-hover:translate-x-1" />
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 }
 
