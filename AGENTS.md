@@ -308,6 +308,13 @@ glow: the rest dims, with light spilling past the photo's edges
 between photos and fades with `ease-smooth`. Touch
 devices get the plain wall.
 
+### Session examples
+
+The 議程範例 carousels on `/sessions/$type` read their cards from
+`content.session_page.examples.<section>.items`: `title`, `href` and
+`image`, a file name in `src/assets/session-examples/`. An empty `items`
+list shows the 範例整理中 message.
+
 ### Placeholders
 
 Regions that are not designed yet, or are marked WIP in Figma, render
