@@ -36,6 +36,7 @@
       "description": "**公開**於講者海報及網站的稱呼。若有多位講者請以頓號隔開，並將聯絡負責人之姓名放在第一位，**順序請同「您的姓名」**，如：Alice、Bob。",
       "kind": "text",
       "required": true,
+      "public": true,
       "column": "您的暱稱"
     },
     "bio": {
@@ -43,6 +44,7 @@
       "description": "**公開**於講者海報及網站，提供會眾更加了解有關您的資訊。若有多位講者，請填寫**每一位**的自我介紹，並**清楚標示每段介紹所屬成員暱稱**。",
       "kind": "textarea",
       "required": true,
+      "public": true,
       "column": "自我介紹"
     },
     "photo": {
