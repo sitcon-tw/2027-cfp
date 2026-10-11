@@ -1,11 +1,10 @@
 import content from '@/content.json'
 import forms from '@/forms.json'
-import type { SessionTypeId } from '@/lib/session-types'
+import { sessionTypeIds, type SessionTypeId } from '@/lib/session-types'
 
-export type SubmissionValue = string | string[] | boolean | File | null
+export type SubmissionValue = string | string[] | File | null
 export type SubmissionValues = Record<string, SubmissionValue>
 export type SubmissionErrors = Record<string, string>
-export type SubmissionDrafts = Record<SessionTypeId, SubmissionValues>
 
 const fieldKinds = [
   'text',
@@ -23,6 +22,20 @@ export type FieldKind = (typeof fieldKinds)[number]
 
 /** Kinds whose primitive does not exist yet; they render a placeholder. */
 export const pendingKinds: ReadonlySet<FieldKind> = new Set(['select', 'file'])
+/** Kinds typed into a native input, labelled by a native `<label>`. */
+export const textKinds: ReadonlySet<FieldKind> = new Set([
+  'text',
+  'email',
+  'tel',
+  'textarea',
+])
+/** Kinds whose value is one or more of `options`. */
+export const choiceKinds: ReadonlySet<FieldKind> = new Set([
+  'radio',
+  'checkboxes',
+  'select',
+  'consent',
+])
 
 export interface SubmissionField {
   key: string
@@ -62,13 +75,7 @@ function resolveField(entry: FieldEntry): SubmissionField {
   if (!fieldKinds.includes(field.kind)) {
     throw new Error(`forms.json: "${key}" has unknown kind "${field.kind}"`)
   }
-  if (
-    (field.kind === 'radio' ||
-      field.kind === 'checkboxes' ||
-      field.kind === 'select' ||
-      field.kind === 'consent') &&
-    !field.options?.length
-  ) {
+  if (choiceKinds.has(field.kind) && !field.options?.length) {
     throw new Error(`forms.json: "${key}" needs options`)
   }
   return field
@@ -88,19 +95,20 @@ function resolveForm(type: SessionTypeId): SubmissionSection[] {
   })
 }
 
-// Resolved once, so a typo in forms.json fails on load rather than on submit.
-const sectionsByType: Record<SessionTypeId, readonly SubmissionSection[]> = {
-  general: resolveForm('general'),
-  open: resolveForm('open'),
-  demo: resolveForm('demo'),
+function byType<T>(build: (type: SessionTypeId) => T) {
+  return Object.fromEntries(
+    sessionTypeIds.map((type) => [type, build(type)]),
+  ) as Record<SessionTypeId, T>
 }
+
+// Resolved once, so a typo in forms.json fails on load rather than on submit.
+const sectionsByType = byType(resolveForm)
+const fieldsByType = byType((type) =>
+  sectionsByType[type].flatMap((section) => section.fields),
+)
 
 export function getSubmissionSections(type: SessionTypeId) {
   return sectionsByType[type]
-}
-
-export function getSubmissionFields(type: SessionTypeId) {
-  return sectionsByType[type].flatMap((section) => section.fields)
 }
 
 export function isFieldVisible(
@@ -111,7 +119,6 @@ export function isFieldVisible(
 }
 
 function emptyValue(field: SubmissionField): SubmissionValue {
-  if (field.kind === 'consent') return false
   if (field.kind === 'checkboxes') return []
   if (field.kind === 'file') return null
   return ''
@@ -119,17 +126,8 @@ function emptyValue(field: SubmissionField): SubmissionValue {
 
 function createEmptyValues(type: SessionTypeId): SubmissionValues {
   return Object.fromEntries(
-    getSubmissionFields(type).map((field) => [field.key, emptyValue(field)]),
+    fieldsByType[type].map((field) => [field.key, emptyValue(field)]),
   )
-}
-
-/** Fresh, independent drafts for the lifetime of a mounted submission page. */
-export function createSubmissionDrafts(): SubmissionDrafts {
-  return {
-    general: createEmptyValues('general'),
-    open: createEmptyValues('open'),
-    demo: createEmptyValues('demo'),
-  }
 }
 
 /** Validation driven by the field definitions in forms.json. */
@@ -140,18 +138,21 @@ export function validateSubmission(
   const errors: SubmissionErrors = {}
   const messages = content.submit_page.validation
 
-  for (const field of getSubmissionFields(type)) {
+  for (const field of fieldsByType[type]) {
     // TODO(#5): validate select and file once their primitives exist.
     if (!isFieldVisible(field, values) || pendingKinds.has(field.kind)) continue
     const value = values[field.key]
     let error: string | undefined
 
-    if (field.kind === 'consent') {
-      if (field.required && value !== true) error = messages.consent
-    } else if (field.kind === 'radio' || field.kind === 'checkboxes') {
+    if (choiceKinds.has(field.kind)) {
       const choices = Array.isArray(value) ? value : value ? [value] : []
       if (!choices.length) {
-        if (field.required) error = messages.requiredChoice
+        if (field.required) {
+          error =
+            field.kind === 'consent'
+              ? messages.consent
+              : messages.requiredChoice
+        }
       } else if (
         choices.some(
           (choice) =>
@@ -190,14 +191,11 @@ export function toSheetRow(
   values: SubmissionValues,
 ): SheetRow {
   const row: SheetRow = { cells: {}, files: {} }
-  for (const field of getSubmissionFields(type)) {
+  for (const field of fieldsByType[type]) {
     const value = isFieldVisible(field, values) ? values[field.key] : null
     if (value instanceof File) {
       row.files[field.column] = value
       row.cells[field.column] = ''
-    } else if (field.kind === 'consent') {
-      // Like Google Forms, a confirmation stores its single option's text.
-      row.cells[field.column] = value === true ? field.options![0] : ''
     } else if (Array.isArray(value)) {
       row.cells[field.column] = value.join(', ')
     } else {
@@ -207,11 +205,7 @@ export function toSheetRow(
   return row
 }
 
-export type SubmissionResult = {
-  mock: true
-  type: SessionTypeId
-  message: string
-} & (
+export type SubmissionResult = { message: string } & (
   | { status: 'success' }
   | { status: 'field-error'; errors: SubmissionErrors }
   | { status: 'server-error' }
@@ -227,14 +221,13 @@ export async function submit(
 ): Promise<SubmissionResult> {
   const errors = validateSubmission(type, values)
   const text = content.submit_page.mock
-  const base = { mock: true as const, type }
 
   if (Object.keys(errors).length) {
-    return { ...base, status: 'field-error', errors, message: text.fieldError }
+    return { status: 'field-error', errors, message: text.fieldError }
   }
 
   await new Promise<void>((resolve) => setTimeout(resolve, 600))
-  return { ...base, status: 'success', message: text.success }
+  return { status: 'success', message: text.success }
 }
 
 export interface SubmissionState {
@@ -244,22 +237,17 @@ export interface SubmissionState {
   result: SubmissionResult | null
 }
 
-type SubmissionStates = Record<SessionTypeId, SubmissionState>
-
-/** One store per mounted form; responses always update the sending type. */
-export function createSubmissionStore(adapter: typeof submit = submit) {
-  const drafts = createSubmissionDrafts()
-  const initial = (values: SubmissionValues): SubmissionState => ({
-    values,
+/**
+ * One store per mounted form, holding a fresh draft of each type; responses
+ * always update the sending type.
+ */
+export function createSubmissionStore() {
+  let state = byType((type): SubmissionState => ({
+    values: createEmptyValues(type),
     errors: {},
     isSubmitting: false,
     result: null,
-  })
-  let state: SubmissionStates = {
-    general: initial(drafts.general),
-    open: initial(drafts.open),
-    demo: initial(drafts.demo),
-  }
+  }))
   const listeners = new Set<() => void>()
 
   function update(type: SessionTypeId, patch: Partial<SubmissionState>) {
@@ -276,28 +264,32 @@ export function createSubmissionStore(adapter: typeof submit = submit) {
       }
     },
     setValue(type: SessionTypeId, key: string, value: SubmissionValue) {
-      if (state[type].isSubmitting) return
-      const errors = { ...state[type].errors }
-      delete errors[key]
+      const current = state[type]
+      if (current.isSubmitting) return
+      // Keep `errors` unchanged unless this field had one, so Base UI's `Form`
+      // does not re-render every field on each keystroke.
+      let errors = current.errors
+      if (key in errors) {
+        errors = { ...errors }
+        delete errors[key]
+      }
       update(type, {
-        values: { ...state[type].values, [key]: value },
+        values: { ...current.values, [key]: value },
         errors,
         result: null,
       })
     },
-    async submit(type: SessionTypeId): Promise<SubmissionResult | null> {
+    async submit(type: SessionTypeId) {
       // Synchronous guard also covers a second send before React rerenders.
-      if (state[type].isSubmitting) return null
+      if (state[type].isSubmitting) return
       const values = state[type].values
       update(type, { isSubmitting: true, errors: {}, result: null })
 
       let result: SubmissionResult
       try {
-        result = await adapter(type, values)
+        result = await submit(type, values)
       } catch {
         result = {
-          mock: true,
-          type,
           status: 'server-error',
           message: content.submit_page.mock.serverError,
         }
@@ -307,7 +299,6 @@ export function createSubmissionStore(adapter: typeof submit = submit) {
         errors: result.status === 'field-error' ? result.errors : {},
         result,
       })
-      return result
     },
   }
 }

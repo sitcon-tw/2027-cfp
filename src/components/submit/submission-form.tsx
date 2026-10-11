@@ -1,4 +1,4 @@
-import { useState, useSyncExternalStore } from 'react'
+import { useCallback, useState, useSyncExternalStore } from 'react'
 
 import content from '@/content.json'
 import { LinkedText } from '@/components/linked-text'
@@ -11,7 +11,9 @@ import {
   createSubmissionStore,
   getSubmissionSections,
   isFieldVisible,
+  type SubmissionValue,
 } from '@/lib/submission'
+import { cn } from '@/lib/utils'
 
 const text = content.submit_page
 
@@ -25,6 +27,11 @@ export function SubmissionForm({ type }: { type: SessionTypeId }) {
   )
   const { values, errors, isSubmitting, result } = states[type]
   const sections = getSubmissionSections(type)
+  const setValue = useCallback(
+    (key: string, value: SubmissionValue) => store.setValue(type, key, value),
+    [store, type],
+  )
+  const failed = result != null && result.status !== 'success'
 
   return (
     <section className="px-2.5">
@@ -58,34 +65,24 @@ export function SubmissionForm({ type }: { type: SessionTypeId }) {
                 .filter((field) => isFieldVisible(field, values))
                 .map((field) => (
                   <SubmissionFieldControl
-                    key={`${type}-${field.key}`}
+                    key={field.key}
                     field={field}
                     value={values[field.key]}
                     error={errors[field.key]}
                     disabled={isSubmitting}
-                    onValueChange={(value) =>
-                      store.setValue(type, field.key, value)
-                    }
+                    onValueChange={setValue}
                   />
                 ))}
             </Fieldset>
           ))}
 
           <div className="flex flex-col items-start gap-5 px-2.5 pt-7.5 pb-15">
-            <Button
-              disabled={isSubmitting}
-              type="submit"
-              className="rounded-full"
-            >
+            <Button disabled={isSubmitting} type="submit" shape="pill">
               {isSubmitting ? text.loading : text.submit}
             </Button>
             <p
-              role={result && result.status !== 'success' ? 'alert' : 'status'}
-              className={
-                result && result.status !== 'success'
-                  ? 'text-body text-red'
-                  : 'text-body text-light'
-              }
+              role={failed ? 'alert' : 'status'}
+              className={cn('text-body', failed ? 'text-red' : 'text-light')}
             >
               {result?.message}
             </p>
