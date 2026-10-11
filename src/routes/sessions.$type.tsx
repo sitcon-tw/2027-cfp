@@ -1,4 +1,4 @@
-import { createFileRoute, Link, redirect } from '@tanstack/react-router'
+import { createFileRoute, Link, notFound } from '@tanstack/react-router'
 import { useEffect } from 'react'
 
 import content from '@/content.json'
@@ -26,7 +26,7 @@ export const Route = createFileRoute('/sessions/$type')({
   params: {
     parse: ({ type }) => {
       if (!isSessionTypeId(type)) {
-        throw redirect({ to: '/sessions/$type', params: { type: 'general' } })
+        throw notFound()
       }
       return { type }
     },

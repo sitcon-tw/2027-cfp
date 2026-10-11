@@ -1,10 +1,12 @@
 import { createRootRoute, Outlet } from '@tanstack/react-router'
 
+import { NotFound } from '@/components/not-found'
 import { SiteFooter } from '@/components/site-footer'
 import { SiteHeader } from '@/components/site-header'
 
 export const Route = createRootRoute({
   component: RootLayout,
+  notFoundComponent: NotFound,
 })
 
 /** Pages start under the fixed header and pad themselves with `pt-header`. */

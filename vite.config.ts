@@ -53,6 +53,12 @@ export default defineConfig({
             source: index.source,
           })
         }
+        // Served by hosts that look for a 404 page; the router renders it.
+        this.emitFile({
+          type: 'asset',
+          fileName: '404.html',
+          source: index.source,
+        })
       },
     },
     // Must come before the React plugin.
