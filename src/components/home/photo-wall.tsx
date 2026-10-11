@@ -1,8 +1,10 @@
 import { useEffect, useRef } from 'react'
 import type { PointerEvent, ReactNode } from 'react'
+import type { Picture } from 'vite-imagetools'
 
 import content from '@/content.json'
-import sessionPhoto from '@/assets/session-general.jpg'
+import sessionPhoto from '@/assets/session-general.jpg?responsive'
+import { ResponsiveImage } from '@/components/responsive-image'
 import { cn } from '@/lib/utils'
 
 /*
@@ -15,16 +17,17 @@ import { cn } from '@/lib/utils'
  * stands in at different crops so the layout can be judged.
  */
 const wallPhotos = Object.entries(
-  import.meta.glob<string>('/src/assets/photo-wall/*.{jpg,jpeg,png,webp}', {
+  import.meta.glob<Picture>('/src/assets/photo-wall/*.{jpg,jpeg,png,webp}', {
     eager: true,
     import: 'default',
+    query: '?responsive',
   }),
 )
   .sort(([a], [b]) => a.localeCompare(b))
-  .map(([path, src]) => {
+  .map(([path, image]) => {
     const name = path.split('/').pop()!
     const crops: Record<string, string> = content.about_section.photoWallCrops
-    return { name, src, crop: crops[name] ?? 'object-center' }
+    return { name, image, crop: crops[name] ?? 'object-center' }
   })
 
 const largePhotos = content.about_section.photoWallLarge.flatMap((name) =>
@@ -86,6 +89,16 @@ const modules = [
     ],
   },
 ]
+
+/**
+ * Rendered width of a tile's photo, for picking an image width: a tile
+ * spanning two rows or columns is about 2/3 of the wall's height in its
+ * longer side, a single cell 1/3. Landscape photos cover tall tiles, so
+ * either span takes the wide size.
+ */
+function tileSizes(placement: string) {
+  return placement.includes('span-2') ? '42rem' : '21rem'
+}
 
 /** How many times the module sequence repeats in one copy of the strip,
  *  so a copy outruns even a very wide screen. */
@@ -205,7 +218,7 @@ export function PhotoWall({ children }: { children?: ReactNode }) {
       if (wallPhotos.length === 0) {
         return {
           placement,
-          src: sessionPhoto,
+          image: sessionPhoto,
           crop: fallbackCrops[index % fallbackCrops.length],
         }
       }
@@ -213,7 +226,7 @@ export function PhotoWall({ children }: { children?: ReactNode }) {
         'large' in tile
           ? pick(largePhotos, largeIndex++)
           : pick(smallPhotos, smallIndex++)
-      return { placement, src: photo.src, crop: photo.crop }
+      return { placement, image: photo.image, crop: photo.crop }
     }),
   }))
 
@@ -233,13 +246,12 @@ export function PhotoWall({ children }: { children?: ReactNode }) {
                   key={moduleIndex}
                   className={cn('grid h-full grid-rows-3 gap-2.5', aspect)}
                 >
-                  {tiles.map(({ placement, src, crop }, tileIndex) => (
-                    <img
+                  {tiles.map(({ placement, image, crop }, tileIndex) => (
+                    <ResponsiveImage
                       key={tileIndex}
-                      src={src}
+                      image={image}
+                      sizes={tileSizes(placement)}
                       alt=""
-                      loading="lazy"
-                      decoding="async"
                       className={cn(
                         'size-full rounded-sm object-cover',
                         placement,

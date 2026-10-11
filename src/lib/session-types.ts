@@ -1,7 +1,8 @@
 import content from '@/content.json'
 import { Mic, TvMinimalPlay, Users, type LucideIcon } from 'lucide-react'
+import type { Picture } from 'vite-imagetools'
 
-import generalPhoto from '@/assets/session-general.jpg'
+import generalPhoto from '@/assets/session-general.jpg?responsive'
 import { sessionPages } from '@/lib/session-pages'
 import { sessionTypeIds } from '@/lib/session-type-ids'
 
@@ -18,7 +19,7 @@ export interface SessionType {
   summary: string
   icon: LucideIcon
   /** Homepage detail panel and mobile card. */
-  intro: { description: string; image: string }
+  intro: { description: string; image: Picture }
 }
 
 export const sessionTypes: SessionType[] = [

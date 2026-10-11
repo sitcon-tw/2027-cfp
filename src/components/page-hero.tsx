@@ -1,6 +1,11 @@
 import { useState, type ReactNode } from 'react'
+import type { Picture } from 'vite-imagetools'
 
+import { ResponsiveImage } from '@/components/responsive-image'
 import { cn } from '@/lib/utils'
+
+/** The hero photo spans the screen. */
+export const heroSizes = '100vw'
 
 export interface PageHeroProps {
   /** Page title, rendered as the page's `<h1>`. */
@@ -8,9 +13,9 @@ export interface PageHeroProps {
   /** One-line intro under the title. */
   description?: string
   /** Decorative background photo; it fades into the page background. */
-  image?: string
+  image?: Picture
   /**
-   * Tiny version of `image`, shown blurred until the photo loads, so a new
+   * Tiny version of `image` (`?placeholder`), shown blurred until the photo loads, so a new
    * page never shows the previous photo or a blank band.
    */
   placeholder?: string
@@ -44,7 +49,7 @@ export function PageHero({
             )}
             {/* Keyed by photo: switching pages mounts a fresh image, which
                 fades in once loaded instead of swapping in late. */}
-            <HeroPhoto key={image} src={image} />
+            <HeroPhoto key={image.img.src} image={image} />
             <div className="absolute inset-0 bg-linear-to-b from-black/0 to-background" />
           </div>
         )}
@@ -66,12 +71,15 @@ export function PageHero({
   )
 }
 
-function HeroPhoto({ src }: { src: string }) {
+function HeroPhoto({ image }: { image: Picture }) {
   const [loaded, setLoaded] = useState(false)
   return (
-    <img
-      src={src}
+    <ResponsiveImage
+      image={image}
+      sizes={heroSizes}
       alt=""
+      loading="eager"
+      fetchPriority="high"
       // A cached photo is complete before `load` can be listened for.
       ref={(img) => {
         if (img?.complete) setLoaded(true)

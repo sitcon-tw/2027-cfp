@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useState, useSyncExternalStore, type ReactNode } from 'react'
 
 import content from '@/content.json'
+import { ResponsiveImage } from '@/components/responsive-image'
 import { SessionSection } from '@/components/sessions/session-section'
 import { Button } from '@/components/ui/button'
 import type {
@@ -181,8 +182,10 @@ function ExampleCard({
         className,
       )}
     >
-      <img
-        src={image}
+      <ResponsiveImage
+        image={image}
+        // Two to a page from `md` up, in the content column.
+        sizes="(min-width: 48rem) 30rem, 100vw"
         alt=""
         className="absolute inset-0 -z-10 size-full object-cover"
       />
