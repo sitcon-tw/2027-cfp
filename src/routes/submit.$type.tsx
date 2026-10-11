@@ -1,4 +1,4 @@
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import { createFileRoute, notFound } from '@tanstack/react-router'
 
 import content from '@/content.json'
 import heroPhotoThumb from '@/assets/submit-hero-thumb.webp'
@@ -13,7 +13,7 @@ export const Route = createFileRoute('/submit/$type')({
   params: {
     parse: ({ type }) => {
       if (!isSessionTypeId(type)) {
-        throw redirect({ to: '/submit/$type', params: { type: 'general' } })
+        throw notFound()
       }
       return { type }
     },
