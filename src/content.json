@@ -24,8 +24,8 @@
     "nameZh": "學生計算機年會",
     "nameEn": "Students' Information Technology Conference",
     "pastYears": [
-      2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2024, 2025,
-      2026
+      2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024,
+      2025, 2026
     ]
   },
   "hero": {
@@ -1284,7 +1284,7 @@
   "links": {
     "donate": "https://sitcon.org/donate",
     "contactEmail": "mailto:contact@sitcon.org",
-    "facebook": "https://www.facebook.com/SITCON.tw",
+    "facebook": "https://www.facebook.com/SITCONtw/",
     "instagram": "https://www.instagram.com/sitcon.tw",
     "telegram": "https://t.me/SITCONtw",
     "flickr": "https://www.flickr.com/photos/sitcon",

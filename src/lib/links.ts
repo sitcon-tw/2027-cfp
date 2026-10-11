@@ -7,7 +7,6 @@ export const links = {
   contactEmail: content.links.contactEmail,
   pastSite: (year: number) =>
     content.links.pastSite.replace('{year}', String(year)),
-  // TODO: verify each account with the organizers.
   social: {
     facebook: content.links.facebook,
     instagram: content.links.instagram,

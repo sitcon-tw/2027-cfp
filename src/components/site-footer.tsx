@@ -22,7 +22,6 @@ const submitLinks = [
   { type: 'demo', label: content.site_footer.submitDemo },
 ] as const
 
-// SITCON skipped 2023.
 const pastYears = content.site_footer.pastYears
 
 const socials = [
