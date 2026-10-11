@@ -56,7 +56,8 @@ export function SiteHeader({ className }: { className?: string }) {
             alt={content.site_header.homeAlt}
           />
         </Link>
-        <NavigationMenu className="hidden md:block">
+        {/* Portaled menus use the fixed header's viewport coordinate system. */}
+        <NavigationMenu positionMethod="fixed" className="hidden md:block">
           <NavigationMenuList className="p-2.5">
             <NavigationMenuItem>
               <NavigationMenuTrigger>
@@ -101,6 +102,7 @@ export function SiteHeader({ className }: { className?: string }) {
           </PopoverTrigger>
           <PopoverContent
             anchor={anchor}
+            positionMethod="fixed"
             aria-label={content.site_header.navigation}
             className="md:hidden"
           >
