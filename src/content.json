@@ -1312,7 +1312,6 @@
     "unannounced": "日期未定",
     "close": "關閉",
     "status": {
-      "unannounced": "未公布",
       "upcoming": "即將開始",
       "open": "進行中",
       "closed": "已結束"
