@@ -4,8 +4,8 @@ import { inputClassName } from '@/components/ui/input'
 import { cn, type WithClassName } from '@/lib/utils'
 
 /**
- * A multi-line `Input`. Not in Figma yet: the height and vertical padding are
- * proposals.
+ * A multi-line `Input`. Not in Figma: the height and vertical padding are
+ * our own.
  */
 export function Textarea({
   className,

@@ -7,8 +7,8 @@ const markupPattern =
 
 /**
  * Renders JSON copy, turning `**strong**` into bold text and `[label](url)`
- * into links that open in a new tab. Inline link styling is not in Figma
- * yet — a proposal.
+ * into links that open in a new tab. Inline link styling is our own; Figma
+ * has none.
  */
 export function LinkedText({ text }: { text: string }) {
   const parts: ReactNode[] = []

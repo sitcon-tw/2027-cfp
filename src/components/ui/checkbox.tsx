@@ -7,8 +7,8 @@ import { cn, type WithClassName } from '@/lib/utils'
 
 /**
  * Shared by `Checkbox`, `CheckboxCard` and `RadioCard`: a full-width option card that
- * turns cream when checked. Hover, invalid and disabled are not in Figma
- * yet — proposals.
+ * turns cream when checked. Hover, invalid and disabled are our own; Figma
+ * has none.
  */
 export const choiceCardClassName =
   'group flex min-h-20 w-full cursor-pointer items-center gap-2.5 rounded-sm border-2 border-gray px-5 py-2.5 text-left text-paragraph text-foreground transition select-none hover:brightness-125 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue data-checked:bg-foreground data-checked:text-background data-checked:hover:brightness-95 data-disabled:cursor-not-allowed data-disabled:opacity-50 data-invalid:border-red'

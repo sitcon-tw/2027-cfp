@@ -135,6 +135,8 @@ mapping is in `src/lib/session-quiz.ts`.
   `@/lib/utils`. Wrappers type it as `WithClassName<X.Props>` from `@/lib/utils`.
 - Focus ring for every interactive element:
   `focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue`.
+  The exception is `Input` and `Textarea`, which follow Figma's 表單 Page:
+  focus lightens the border instead of showing the blue ring.
 
 ## Design tokens (mandatory)
 
@@ -360,20 +362,3 @@ The 歷年海報展示 strip on `/sessions/demo` shows every image in
 `2025-1.webp`). They are past posters from the 2026 and 2025 sites
 (`sitcon-tw/2026` `public/img/poster/`, `sitcon-tw/2025` `public/poster/`),
 exported at 1000px tall.
-
-### Undesigned states
-
-Figma has no hover, focus, selected, checked or popup designs yet. The
-primitives use proposals (dimmed inactive tabs, ink checked radios, navbar-
-glass dropdown, `brightness-95` hover, cream `Dialog` that becomes a
-swipe-down bottom sheet below `md`, `Accordion` hover and open/close
-animation). The session-type quiz's footer (back / progress / next) and its
-result screen are proposals too. Keep them consistent and replace them when
-the designs arrive.
-
-The form primitives (`Field`, `Input`, `Checkbox`, …) follow Figma's
-表單 Page for empty, filled, focus and checked. Focus on `Input` and
-`Textarea` is Figma's lighter border, not the blue ring. Proposals:
-`FieldDescription` in `text-light`, invalid as a red border with
-`FieldError` in red, disabled at half opacity, `Textarea` height, and
-checkbox hover.

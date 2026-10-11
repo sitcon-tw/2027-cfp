@@ -8,7 +8,7 @@ const text = content.submit_closed
 
 /**
  * 投稿已截止: replaces the submission form once the deadline has passed.
- * Not in Figma yet — a proposal, titled like the 參考更多稿件 sub-heading.
+ * Not in Figma; titled like the 參考更多稿件 sub-heading.
  */
 export function SubmissionClosed({ deadline }: { deadline: Date }) {
   const titleId = useId()
