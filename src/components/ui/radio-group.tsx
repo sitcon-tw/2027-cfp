@@ -1,9 +1,9 @@
 import { Radio } from '@base-ui/react/radio'
 import { RadioGroup as BaseRadioGroup } from '@base-ui/react/radio-group'
+import { Circle } from 'lucide-react'
 
-import { cn } from '@/lib/utils'
-
-type WithClassName<P> = Omit<P, 'className'> & { className?: string }
+import { choiceCardClassName, confirmOnEnter } from '@/components/ui/checkbox'
+import { cn, type WithClassName } from '@/lib/utils'
 
 /** The light well that holds the answer pills. */
 export function RadioGroup({
@@ -37,5 +37,46 @@ export function RadioGroupItem({
       )}
       {...props}
     />
+  )
+}
+
+/** A column of `RadioCard`s, the radio counterpart of `CheckboxGroup`. */
+export function RadioCardGroup({
+  className,
+  ...props
+}: WithClassName<BaseRadioGroup.Props>) {
+  return (
+    <BaseRadioGroup
+      className={cn('flex w-full flex-col gap-2.5', className)}
+      {...props}
+    />
+  )
+}
+
+/**
+ * A full-width option card with its label as children, styled like
+ * `CheckboxCard`. The arrow keys move focus without selecting; Enter or Space
+ * selects.
+ */
+export function RadioCard({
+  className,
+  children,
+  ...props
+}: WithClassName<Radio.Root.Props>) {
+  return (
+    <Radio.Root
+      // Base UI selects a radio on focus; keep its arrow navigation but
+      // require explicit activation.
+      onFocus={(event) => event.preventDefault()}
+      onKeyDown={confirmOnEnter}
+      className={cn(choiceCardClassName, className)}
+      {...props}
+    >
+      <Circle
+        aria-hidden
+        className="size-6 shrink-0 group-data-checked:fill-current"
+      />
+      {children}
+    </Radio.Root>
   )
 }

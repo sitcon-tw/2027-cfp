@@ -29,6 +29,23 @@ Run `pnpm check` (typecheck, lint, format check) before finishing a task.
   attributes may stay in code. Display labels for technical values belong in JSON.
 - Do not create another copy file or hardcode new copy in TS/TSX/HTML. The HTML
   title is injected from this JSON by Vite for both development and builds.
+  The one exception is the submission form's questions (below).
+
+The submission form's questions live in `src/forms.json`, transcribed from
+the [表單文案](https://docs.google.com/document/d/16AHAPm7jvjMdqDR4sVJiNp4whCUNKsihHCZMWFoR4u4/edit).
+`fields` defines every question once: `label`, `description`, `kind`
+(`text`, `email`, `tel`, `textarea`, `radio`, `checkboxes`, `select`,
+`file`, `consent`), `required`, `options`, `public` (adds 【公開】),
+`showIf` and the Google Sheet `column` it is written to. `forms.<type>.sections`
+lists each session type's questions in order, as keys or as
+`{ "key": …, …overrides }` for a per-type difference. Option labels are also
+the values stored in the sheet, as in Google Forms; a `consent` question is
+a single-option confirmation. Descriptions may link with `[label](https://…)`,
+rendered by `LinkedText`; keep option labels plain, since they sit inside
+the control and are written to the sheet. `toSheetRow()` in `src/lib/submission.ts` maps
+a draft to those columns. Form chrome (button labels, validation messages)
+stays in `content.json`. `select` and `file` render a placeholder until
+their primitives exist.
 
 Homepage schedules live in `content.attend_section.tickets` and
 `content.speaker_section.schedule`. Each item's `start` / `end` is an ISO
@@ -101,7 +118,7 @@ mapping is in `src/lib/session-quiz.ts`.
   `data-popup-open:`, everything `data-disabled:`, orientation
   `data-[orientation=vertical]:`. Check the docs for the exact attribute names.
 - Primitives accept a string `className` and merge it with `cn()` from
-  `@/lib/utils`. Wrappers type it as `Omit<X.Props, 'className'> & { className?: string }`.
+  `@/lib/utils`. Wrappers type it as `WithClassName<X.Props>` from `@/lib/utils`.
 - Focus ring for every interactive element:
   `focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue`.
 
@@ -308,3 +325,10 @@ glass dropdown, `brightness-95` hover, cream `Dialog` that becomes a
 swipe-down bottom sheet below `md`). The session-type quiz's footer (back /
 progress / next) and its result screen are proposals too. Keep them
 consistent and replace them when the designs arrive.
+
+The form primitives (`Field`, `Input`, `Checkbox`, …) follow Figma's
+表單 Page for empty, filled, focus and checked. Focus on `Input` and
+`Textarea` is Figma's lighter border, not the blue ring. Proposals:
+`FieldDescription` in `text-light`, invalid as a red border with
+`FieldError` in red, disabled at half opacity, `Textarea` height, and
+checkbox hover.

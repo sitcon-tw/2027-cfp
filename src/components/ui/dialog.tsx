@@ -10,9 +10,7 @@ import {
 } from 'react'
 
 import { buttonVariants } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
-
-type WithClassName<P> = Omit<P, 'className'> & { className?: string }
+import { cn, type WithClassName } from '@/lib/utils'
 
 // Matches Tailwind's `md` breakpoint and the mobile overrides in index.css.
 const desktopQuery = '(min-width: 48rem)'
