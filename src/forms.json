@@ -18,12 +18,6 @@
     }
   },
   "fields": {
-    "email": {
-      "label": "電子郵件",
-      "kind": "email",
-      "required": true,
-      "column": "電子郵件"
-    },
     "name": {
       "label": "您的姓名",
       "description": "若有多位講者請以頓號隔開，並將**聯絡負責人**之姓名放在**第一位**，如：愛麗絲、鮑柏。",
@@ -283,7 +277,6 @@
         {
           "id": "basic",
           "fields": [
-            "email",
             "name",
             "nickname",
             "bio",
@@ -325,7 +318,6 @@
         {
           "id": "basic",
           "fields": [
-            "email",
             "name",
             "nickname",
             "bio",
@@ -371,7 +363,6 @@
         {
           "id": "basic",
           "fields": [
-            "email",
             "name",
             "nickname",
             "bio",
