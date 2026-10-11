@@ -163,6 +163,19 @@ export function SiteHeader({ className }: { className?: string }) {
                     </li>
                   ))}
                 </ul>
+                <Link
+                  to="/submit/$type"
+                  params={{ type: 'general' }}
+                  onClick={() => setMobileOpen(false)}
+                  className={buttonVariants({
+                    variant: 'cream',
+                    size: 'lg',
+                    shape: 'pill',
+                    className: 'mt-5 w-full',
+                  })}
+                >
+                  {content.site_header.submit}
+                </Link>
               </nav>
             </PopoverContent>
           </Popover>
