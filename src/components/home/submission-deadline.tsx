@@ -9,27 +9,42 @@ import {
   MenuLinkItem,
   MenuTrigger,
 } from '@/components/ui/menu'
-import { deadlines, useCountdown, type Countdown } from '@/lib/countdown'
+import {
+  deadlines,
+  useCountdown,
+  useUpcomingDeadline,
+  type Countdown,
+} from '@/lib/countdown'
 import { formatDate } from '@/lib/schedule'
 import { fillPlaceholders, pad } from '@/lib/utils'
 
-// The end of 投稿期間 in `content.speaker_section.schedule`.
-const DEADLINE = deadlines.submission
+// The ends of 早鳥投稿 and 投稿期間 in `content.speaker_section.schedule`,
+// in date order. The card shows the first that has not passed, then stays
+// on the submission deadline once both have.
+const DEADLINES = [
+  {
+    title: content.submission_deadline.titles.early,
+    date: deadlines.earlyBird,
+  },
+  {
+    title: content.submission_deadline.titles.submission,
+    date: deadlines.submission,
+  },
+] as const
 
 type CountdownPart = Exclude<keyof Countdown, 'expired'>
 
 export function SubmissionDeadline() {
+  const { title, date } = useUpcomingDeadline(DEADLINES)
   return (
     <section className="px-2.5 pt-10 pb-2.5">
       <div className="mx-auto grid max-w-content gap-2.5 md:grid-cols-5">
         <Card className="rounded-t-xl px-5 py-4 md:col-span-2 md:rounded-l-xl md:rounded-tr-sm">
           <div className="px-5 py-3.75">
-            <h2 className="text-h3 font-bold">
-              {content.submission_deadline.title}
-            </h2>
+            <h2 className="text-h3 font-bold">{title}</h2>
             <p className="font-numeric text-paragraph font-medium">
-              {DEADLINE
-                ? formatDate(DEADLINE)
+              {date
+                ? formatDate(date)
                 : content.submission_deadline.unknownDate}
             </p>
           </div>
@@ -40,7 +55,7 @@ export function SubmissionDeadline() {
               {content.submission_deadline.countdown}
             </h2>
             <p className="text-paragraph">
-              {DEADLINE ? <LiveCountdown to={DEADLINE} /> : <CountdownText />}
+              {date ? <LiveCountdown to={date} /> : <CountdownText />}
             </p>
           </div>
           <CalendarMenu />

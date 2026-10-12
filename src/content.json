@@ -225,14 +225,17 @@
     }
   },
   "submission_deadline": {
-    "title": "投稿截止",
+    "titles": {
+      "early": "早鳥投稿截止",
+      "submission": "投稿及稿件修改截止"
+    },
     "countdown": "倒數",
     "addCalendar": "加入行事曆",
     "unknownDate": "2027 / ?? / ??",
     "calendarGoogle": "Google Calendar",
     "calendarApple": "Apple Calendar",
     "calendarDownload": "下載 .ics 檔",
-    "countdownFormat": "{days} 天 {hours} 小時 {minutes} 分鐘",
+    "countdownFormat": "{days} 天 {hours} 小時 {minutes} 分鐘 {seconds} 秒",
     "unknownCountdownValue": "??"
   },
   "about_section": {
@@ -1152,8 +1155,10 @@
     "earlyBird": {
       "marquee": "Early Bird",
       "title": "早鳥投稿募集中！投稿倒數",
-      "countdown": "{days} 天 {hours} 小時 {minutes} 分鐘",
-      "unknownCountdown": "?? 天 ?? 小時 ?? 分鐘",
+      "countdownEarly": "距離早鳥投稿截止還有 {days} 天 {hours} 時 {minutes} 分 {seconds} 秒",
+      "countdownSubmission": "距離投稿截止還有 {days} 天 {hours} 時 {minutes} 分 {seconds} 秒",
+      "unknownCountdownValue": "??",
+      "deadline": "截止日期：即日起至 2027 年 1 月 15 日（五）23:59",
       "tagline": "11/29（日）前送出稿件，議程組將於十二月中旬提供初步回饋；早鳥期間送出且成功錄取，還能獲得年會當天使用的紀念品抵用券！",
       "submit": "我要投稿"
     },

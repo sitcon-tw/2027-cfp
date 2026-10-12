@@ -3,8 +3,15 @@ import { Link } from '@tanstack/react-router'
 import content from '@/content.json'
 import birdPattern from '@/assets/early-bird-pattern.svg'
 import { Button, buttonVariants } from '@/components/ui/button'
-import { deadlines, useCountdown, useSubmissionClosed } from '@/lib/countdown'
+import {
+  deadlines,
+  useCountdown,
+  useSubmissionClosed,
+  useUpcomingDeadline,
+  type Countdown,
+} from '@/lib/countdown'
 import type { SessionTypeId } from '@/lib/session-types'
+import { fillPlaceholders, pad } from '@/lib/utils'
 
 const text = content.session_page.earlyBird
 
@@ -33,6 +40,7 @@ export function EarlyBirdBanner({ type }: { type: SessionTypeId }) {
             <p className="text-h1 font-extrabold break-keep">
               <EarlyBirdCountdown />
             </p>
+            <p className="text-paragraph font-bold">{text.deadline}</p>
             <p className="text-paragraph">{text.tagline}</p>
             <div className="flex justify-end">
               {submissionClosed ? (
@@ -78,12 +86,28 @@ function Marquee() {
   )
 }
 
-/** Time left until the early-bird deadline; a placeholder until it is set. */
+type CountdownPart = Exclude<keyof Countdown, 'expired'>
+
+// Counts down to the end of 早鳥投稿, then to the end of 投稿期間, as the
+// homepage does.
+const DEADLINES = [
+  { format: text.countdownEarly, date: deadlines.earlyBird },
+  { format: text.countdownSubmission, date: deadlines.submission },
+] as const
+
+/**
+ * Time left until the nearest submission deadline, every number `??` until
+ * it is set. The numbers are in Inter with tabular figures, so the line
+ * keeps its width as the seconds tick.
+ */
 function EarlyBirdCountdown() {
-  const countdown = useCountdown(deadlines.earlyBird)
-  if (!countdown) return text.unknownCountdown
-  return text.countdown
-    .replace('{days}', String(countdown.days))
-    .replace('{hours}', String(countdown.hours))
-    .replace('{minutes}', String(countdown.minutes))
+  const { format, date } = useUpcomingDeadline(DEADLINES)
+  const countdown = useCountdown(date)
+  return fillPlaceholders(format, (name) => (
+    <span key={name} className="font-numeric tabular-nums">
+      {countdown
+        ? pad(countdown[name as CountdownPart])
+        : text.unknownCountdownValue}
+    </span>
+  ))
 }

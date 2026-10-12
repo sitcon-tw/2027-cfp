@@ -78,8 +78,10 @@ timestamp with an explicit timezone (e.g. `2027-01-05T23:59:00+08:00`), or
 `null` until announced; a single moment sets only one of them. The status
 badges (即將開始 / 進行中 / 已結束) are computed from the dates; an
 unannounced item shows no badge and no date. The
-speaker item with id `submission` supplies the homepage submission deadline
-too, so keep that id stable. Its `end` also closes submissions:
+speaker items with ids `early` and `submission` also supply the countdowns
+(homepage card and session pages), so keep those ids stable: they show the
+nearest one not yet passed, ticking every second, and stay on `submission`
+once both have. Only `submission`'s `end` closes submissions:
 `useSubmissionClosed()` (`src/lib/countdown.ts`) turns every `/submit/…`
 CTA into a disabled 投稿已截止 `Button` (footer links into dimmed text) and
 replaces the form with the `content.submit_closed` message, live when the

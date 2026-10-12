@@ -17,9 +17,9 @@ function scheduleEnd(id: string) {
 }
 
 /**
- * Deadlines from `content.speaker_section.schedule`: the homepage counts down
- * to the end of 投稿期間, the session pages to the end of 早鳥投稿. React-free,
- * so the submission API enforces the same submission deadline.
+ * Deadlines from `content.speaker_section.schedule`: the countdowns show the
+ * end of 早鳥投稿, then the end of 投稿期間, which also closes submissions.
+ * React-free, so the submission API enforces the same submission deadline.
  */
 export const deadlines = {
   submission: scheduleEnd('submission'),
