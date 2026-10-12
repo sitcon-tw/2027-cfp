@@ -27,6 +27,11 @@ const apiBase = import.meta.env.VITE_SUBMISSION_API?.replace(/\/+$/, '')
 
 export const isMockSubmission = !apiBase
 
+/** The Turnstile site key; the API rejects sends without its check. */
+export const turnstileSiteKey = apiBase
+  ? import.meta.env.VITE_TURNSTILE_SITE_KEY
+  : undefined
+
 const text = content.submit_page
 
 export type SubmissionResult = { message: string } & (
@@ -85,13 +90,17 @@ async function mockSubmit(
 }
 
 /**
- * Sends a new submission, or a new version of the one behind `editToken`.
- * Validates first, so only drafts the API would accept leave the browser.
+ * Sends a new submission, or a new version of the one behind `editToken`,
+ * with the Turnstile token. Validates first, so only drafts the API would
+ * accept leave the browser.
  */
 export async function sendSubmission(
   type: SessionTypeId,
   values: SubmissionValues,
-  editToken?: string,
+  {
+    editToken,
+    turnstileToken,
+  }: { editToken?: string; turnstileToken: string | null },
 ): Promise<SubmissionResult> {
   if (isMockSubmission) return mockSubmit(type, values)
 
@@ -100,14 +109,17 @@ export async function sendSubmission(
   if (Object.keys(errors).length) {
     return { status: 'field-error', errors, message: results.fieldError }
   }
+  if (turnstileSiteKey && !turnstileToken) {
+    return { status: 'server-error', message: results.captchaRequired }
+  }
 
   const response = editToken
     ? await request<SubmitPending | SubmitUpdated>('PUT', '/edit', {
-        body: { values },
+        body: { values, turnstileToken },
         token: editToken,
       })
     : await request<SubmitPending>('POST', '/submissions', {
-        body: { type, values },
+        body: { type, values, turnstileToken },
       })
 
   if (response.ok) {
@@ -130,8 +142,12 @@ export async function sendSubmission(
       }
     case 'closed':
       return { status: 'server-error', message: results.closed }
+    case 'captcha':
+      return { status: 'server-error', message: results.captcha }
     case 'rate-limited':
       return { status: 'server-error', message: results.rateLimited }
+    case 'mail-limit':
+      return { status: 'server-error', message: results.mailLimit }
     default:
       return { status: 'server-error', message: results.serverError }
   }
@@ -265,7 +281,8 @@ export function createSubmissionStore(edit?: {
         result: null,
       })
     },
-    async submit(type: SessionTypeId) {
+    /** Sends the type's draft; `turnstileToken` is spent either way. */
+    async submit(type: SessionTypeId, turnstileToken: string | null) {
       // Synchronous guard also covers a second send before React rerenders.
       const current = state[type]
       if (current.isSubmitting || isSubmitted(current)) return
@@ -273,11 +290,10 @@ export function createSubmissionStore(edit?: {
 
       let result: SubmissionResult
       try {
-        result = await sendSubmission(
-          type,
-          current.values,
-          edit?.draft.type === type ? edit.token : undefined,
-        )
+        result = await sendSubmission(type, current.values, {
+          editToken: edit?.draft.type === type ? edit.token : undefined,
+          turnstileToken,
+        })
       } catch {
         result = {
           status: 'server-error',

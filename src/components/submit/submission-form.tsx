@@ -3,6 +3,7 @@ import { useCallback, useState, useSyncExternalStore } from 'react'
 import content from '@/content.json'
 import { LinkedText } from '@/components/linked-text'
 import { SubmissionFieldControl } from '@/components/submit/submission-field'
+import { Turnstile } from '@/components/submit/turnstile'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Fieldset, FieldsetLegend } from '@/components/ui/fieldset'
@@ -18,6 +19,7 @@ import {
   createSubmissionStore,
   isMockSubmission,
   isSubmitted,
+  turnstileSiteKey,
 } from '@/lib/submission-client'
 import { cn, pad } from '@/lib/utils'
 
@@ -35,6 +37,9 @@ export function SubmissionForm({
   edit?: { token: string; draft: EditDraft }
 }) {
   const [store] = useState(() => createSubmissionStore(edit))
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+  // A token is spent on every send, so each send gets a fresh widget.
+  const [turnstileRound, setTurnstileRound] = useState(0)
   const states = useSyncExternalStore(
     store.subscribe,
     store.getSnapshot,
@@ -62,7 +67,10 @@ export function SubmissionForm({
           errors={Object.keys(errors).length ? errors : undefined}
           onSubmit={(event) => {
             event.preventDefault()
-            void store.submit(type)
+            void store.submit(type, turnstileToken).then(() => {
+              setTurnstileToken(null)
+              setTurnstileRound((round) => round + 1)
+            })
           }}
         >
           {sections.map((section, index) => (
@@ -105,6 +113,13 @@ export function SubmissionForm({
           ))}
 
           <div className="flex flex-col items-start gap-5 px-2.5 pt-7.5 pb-15">
+            {turnstileSiteKey && !isSubmitted(state) && (
+              <Turnstile
+                key={turnstileRound}
+                siteKey={turnstileSiteKey}
+                onToken={setTurnstileToken}
+              />
+            )}
             <Button disabled={locked} type="submit" shape="pill">
               {isSubmitting ? loading : edit ? text.edit.submit : text.submit}
             </Button>

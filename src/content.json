@@ -1589,7 +1589,10 @@
       "pending": "投稿已暫存！請至 {email} 收取驗證信並點擊信中的連結，完成驗證後才算投稿成功。若沒有看到信件，請檢查垃圾郵件匣。",
       "updated": "修改已送出！新版本的投稿副本已寄至 {email}。",
       "closed": "投稿已截止，無法再送出或修改稿件。",
+      "captchaRequired": "請先完成送出按鈕上方的人機驗證，再送出投稿。",
+      "captcha": "人機驗證未通過或已過期，請重新完成送出按鈕上方的驗證後再送出；已填寫的內容仍保留。",
       "rateLimited": "送出次數過多，請稍候一分鐘再試；已填寫的內容仍保留。",
+      "mailLimit": "這個信箱今天已收到太多封驗證信，請明天再試；已填寫的內容仍保留。如需協助，請寄信至 [session@sitcon.org](mailto:session@sitcon.org)。",
       "networkError": "無法連線至投稿系統，請確認網路連線後再試一次；已填寫的內容仍保留。",
       "serverError": "投稿系統暫時無法使用，請稍後再試；已填寫的內容仍保留。若問題持續發生，請寄信至 [session@sitcon.org](mailto:session@sitcon.org)。",
       "fieldError": "部分欄位需要修正，請檢查標示的欄位。"
