@@ -62,7 +62,7 @@ function SessionPage() {
         <SessionPageTabs type={type} />
       </PageHero>
       <EarlyBirdBanner type={type} />
-      <ScheduleSection {...page.schedule} />
+      <ScheduleSection items={page.schedule} />
       {type === 'demo' ? (
         <DemoSections page={page} />
       ) : (

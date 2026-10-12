@@ -20,8 +20,7 @@ import heroOpen from '@/assets/session-hero-open.webp?responsive'
 import type { CriteriaTableProps } from '@/components/sessions/criteria-table'
 import type { FaqItem } from '@/components/sessions/faq'
 import type { InfoCardStackProps } from '@/components/sessions/info-card-stack'
-import type { ScheduleSectionProps } from '@/components/sessions/schedule-section'
-import { milestoneItems } from '@/lib/schedule'
+import { milestoneItems, type ScheduleItem } from '@/lib/schedule'
 import type { SessionTypeId } from '@/lib/session-types'
 
 // Per-page data of /sessions/$type. Copy lives in `content.session_page`;
@@ -73,8 +72,8 @@ export interface SessionPage {
   intro: IntroCard[]
   /** Closing invitation after the formats; 開放式議程 only. */
   introMore?: { title: string; description: string[] }
-  /** 重要時程, as a timeline. */
-  schedule: ScheduleSectionProps
+  /** 重要時程, shown in the schedule dialog. */
+  schedule: ScheduleItem[]
   /** 投稿主題範例; not on Demo 展, which shows its gallery instead. */
   examples?: ExamplesSection
   reviewCriteria: CriteriaTableProps
@@ -148,10 +147,7 @@ export const sessionPages: Record<SessionTypeId, SessionPage> = {
     introDescription: text.general.introDescription,
     introLead: text.general.introLead,
     intro: withIcons(text.general.intro, [Presentation, Coffee]),
-    schedule: {
-      title: text.general.schedule.title,
-      items: milestoneItems(text.general.schedule.items),
-    },
+    schedule: milestoneItems(text.general.schedule),
     examples: withImages(text.examples.general),
     reviewCriteria: text.general.reviewCriteria,
     beforeSubmission: text.general.beforeSubmission,
@@ -170,10 +166,7 @@ export const sessionPages: Record<SessionTypeId, SessionPage> = {
     introDescription: text.open.introDescription,
     introLead: text.open.introLead,
     intro: withIcons(text.open.intro, [Toolbox, Coffee, UserRoundGroup]),
-    schedule: {
-      title: text.open.schedule.title,
-      items: milestoneItems(text.open.schedule.items),
-    },
+    schedule: milestoneItems(text.open.schedule),
     introMore: text.open.introMore,
     examples: withImages(text.examples.open),
     reviewCriteria: text.open.reviewCriteria,
@@ -193,10 +186,7 @@ export const sessionPages: Record<SessionTypeId, SessionPage> = {
     introDescription: text.demo.introDescription,
     introLead: text.demo.introLead,
     intro: withIcons(text.demo.intro, [Gamepad2, Presentation, Sprout]),
-    schedule: {
-      title: text.demo.schedule.title,
-      items: milestoneItems(text.demo.schedule.items),
-    },
+    schedule: milestoneItems(text.demo.schedule),
     reviewCriteria: text.demo.reviewCriteria,
     requirements: text.demo.requirements,
     beforeSubmission: text.demo.beforeSubmission,

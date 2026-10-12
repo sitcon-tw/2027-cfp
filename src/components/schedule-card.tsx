@@ -1,5 +1,17 @@
+import type { LucideIcon } from 'lucide-react'
+
 import content from '@/content.json'
+import { ActionCard } from '@/components/action-card'
 import { Badge, type BadgeTone } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 import {
   formatScheduleDate,
   scheduleStatus,
@@ -7,6 +19,56 @@ import {
   type ScheduleStatus,
 } from '@/lib/schedule'
 import { cn } from '@/lib/utils'
+
+export interface ScheduleCardProps {
+  icon: LucideIcon
+  title: string
+  description: string
+  /** Trigger label, e.g. 查看索票日程. */
+  action: string
+  /** Shown under the title inside the dialog. */
+  dialogDescription: string
+  items: ScheduleItem[]
+}
+
+/**
+ * Teaser card for a schedule (ticketing, submission, a session type's
+ * 重要時程). The full timeline
+ * opens in a dialog (a bottom sheet on mobile), like the session quiz.
+ */
+export function ScheduleCard({
+  icon,
+  title,
+  description,
+  action,
+  dialogDescription,
+  items,
+}: ScheduleCardProps) {
+  return (
+    <ActionCard
+      icon={icon}
+      title={title}
+      description={description}
+      action={
+        <Dialog>
+          <DialogTrigger render={<Button variant="dark" />}>
+            {action}
+          </DialogTrigger>
+          <DialogContent className="flex flex-col gap-7.5">
+            <div className="flex items-start justify-between gap-2.5">
+              <div className="flex flex-col gap-1.25">
+                <DialogTitle>{title}</DialogTitle>
+                <DialogDescription>{dialogDescription}</DialogDescription>
+              </div>
+              <DialogClose aria-label={content.schedule.close} />
+            </div>
+            <ScheduleTimeline items={items} />
+          </DialogContent>
+        </Dialog>
+      }
+    />
+  )
+}
 
 const dotClassNames: Record<ScheduleStatus, string> = {
   unannounced: 'border-2 border-gray/40 bg-foreground',
@@ -22,12 +84,7 @@ const badgeTones: Record<Exclude<ScheduleStatus, 'unannounced'>, BadgeTone> = {
   closed: 'light',
 }
 
-/**
- * A schedule as a timeline: a dot and rail per item, its status badge and
- * date, and past items dimmed. Drawn for a cream surface (the homepage
- * schedule dialog, the session pages' 重要時程 card).
- */
-export function ScheduleTimeline({ items }: { items: ScheduleItem[] }) {
+function ScheduleTimeline({ items }: { items: ScheduleItem[] }) {
   return (
     <ol className="flex flex-col">
       {items.map((item) => {
