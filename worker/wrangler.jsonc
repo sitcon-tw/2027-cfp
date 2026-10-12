@@ -1,0 +1,82 @@
+// The submission API: a standalone, API-only Worker. The site itself is
+// static on GitHub Pages and calls it cross-origin. See the README,
+// "Submission API".
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "2027-cfp-api",
+  "account_id": "f5b0b9cb8ccf6b85f44d31473a478387",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-01",
+  // Resolves the `@/` imports of the code shared with the site. Relative to
+  // the working directory, so run Wrangler from `worker/`.
+  "tsconfig": "tsconfig.json",
+  "workers_dev": true,
+  "preview_urls": false,
+  "observability": { "enabled": true },
+  // Secrets, set with `wrangler secret put`: SHEET_ID,
+  // GOOGLE_SERVICE_ACCOUNT_KEY, TOKEN_SECRET, TURNSTILE_SECRET.
+  "vars": {
+    "MAIL_SENDER": "noreply@sitcon.org",
+    "MAIL_REPLY_TO": "session@sitcon.org",
+    "SITE_URL": "https://sitcon.org/2027/cfp/",
+    "ALLOWED_ORIGINS": "https://sitcon.org",
+    // Verification emails one address can receive per 24 hours.
+    "MAIL_DAILY_LIMIT": "3",
+  },
+  "ratelimits": [
+    {
+      "name": "REQUEST_LIMITER",
+      "namespace_id": "2027001",
+      "simple": { "limit": 20, "period": 60 },
+    },
+    {
+      "name": "SUBMIT_LIMITER",
+      "namespace_id": "2027003",
+      "simple": { "limit": 5, "period": 60 },
+    },
+    {
+      "name": "MAIL_LIMITER",
+      "namespace_id": "2027002",
+      "simple": { "limit": 3, "period": 60 },
+    },
+  ],
+  // Daily verification-email counts, keyed by a hash of the address.
+  "kv_namespaces": [
+    { "binding": "MAIL_COUNTS", "id": "10c35e1404c24f219205e3d8df2388f1" },
+  ],
+  "env": {
+    // Local development (`pnpm api:dev`) against a test sheet, with secrets
+    // in `worker/.dev.vars`. Links in its emails open the local site.
+    "staging": {
+      "name": "2027-cfp-api-staging",
+      "vars": {
+        "MAIL_SENDER": "noreply@sitcon.org",
+        "MAIL_REPLY_TO": "session@sitcon.org",
+        "SITE_URL": "http://localhost:5173/",
+        "ALLOWED_ORIGINS": "http://localhost:5173",
+        "MAIL_DAILY_LIMIT": "3",
+      },
+      "ratelimits": [
+        {
+          "name": "REQUEST_LIMITER",
+          "namespace_id": "2027101",
+          "simple": { "limit": 20, "period": 60 },
+        },
+        {
+          "name": "SUBMIT_LIMITER",
+          "namespace_id": "2027103",
+          "simple": { "limit": 5, "period": 60 },
+        },
+        {
+          "name": "MAIL_LIMITER",
+          "namespace_id": "2027102",
+          "simple": { "limit": 3, "period": 60 },
+        },
+      ],
+      // Simulated locally by `wrangler dev`.
+      "kv_namespaces": [
+        { "binding": "MAIL_COUNTS", "id": "10c35e1404c24f219205e3d8df2388f1" },
+      ],
+    },
+  },
+}

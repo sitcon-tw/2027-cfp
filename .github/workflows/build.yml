@@ -45,6 +45,11 @@ jobs:
         run: pnpm build
         env:
           BASE_PATH: /2027/cfp/
+          # Repository variables (Settings → Secrets and variables →
+          # Actions → Variables). Without the API URL the form is a mock.
+          VITE_SUBMISSION_API: ${{ vars.SUBMISSION_API }}
+          # Public site key of the Turnstile widget the API checks.
+          VITE_TURNSTILE_SITE_KEY: ${{ vars.TURNSTILE_SITE_KEY }}
 
       - name: Publish to build branch
         uses: peaceiris/actions-gh-pages@v4
