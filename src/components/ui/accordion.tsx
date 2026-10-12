@@ -30,7 +30,8 @@ export function AccordionItem({
  * The question bar, wrapped in its heading (`h3` by default; pass
  * `headingLevel` to change it). Closed it is a gray pill; open it turns cream
  * and its bottom corners become the inner `sm` corners joining the panel (the
- * corner rule in AGENTS.md). Hover is not in Figma yet.
+ * corner rule in AGENTS.md), easing at the panel's pace. Hover is not in
+ * Figma yet.
  */
 export function AccordionTrigger({
   className,
@@ -44,7 +45,7 @@ export function AccordionTrigger({
     <BaseAccordion.Header render={<Heading />}>
       <BaseAccordion.Trigger
         className={cn(
-          'group flex w-full cursor-pointer items-center gap-2.5 rounded-xl bg-gray px-7.5 py-5 text-left text-h3 font-bold text-foreground transition select-none hover:brightness-125 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue data-disabled:cursor-not-allowed data-disabled:opacity-50 data-panel-open:rounded-b-sm data-panel-open:bg-foreground data-panel-open:text-background data-panel-open:hover:brightness-95 md:px-12.5',
+          'group flex w-full cursor-pointer items-center gap-2.5 rounded-xl bg-gray px-7.5 py-5 text-left text-h3 font-bold text-foreground transition-[color,background-color,border-radius,filter] duration-300 ease-smooth select-none hover:brightness-125 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue data-disabled:cursor-not-allowed data-disabled:opacity-50 data-panel-open:rounded-b-sm data-panel-open:bg-foreground data-panel-open:text-background data-panel-open:hover:brightness-95 motion-reduce:transition-none md:px-12.5',
           className,
         )}
         {...props}
