@@ -37,8 +37,8 @@ Run `pnpm check` (typecheck, lint, format check) before finishing a task.
 The submission form's questions live in `src/forms.json`, transcribed from
 the [表單文案](https://docs.google.com/document/d/16AHAPm7jvjMdqDR4sVJiNp4whCUNKsihHCZMWFoR4u4/edit).
 `fields` defines every question once: `label`, `description`, `kind`
-(`text`, `email`, `tel`, `textarea`, `radio`, `checkboxes`, `select`,
-`consent`), `required`, `options`, `public` (adds 【公開】),
+(`text`, `email`, `tel`, `url` for a single link, `textarea`, `radio`,
+`checkboxes`, `select`, `consent`), `required`, `options`, `public` (adds 【公開】),
 `showIf` and the Google Sheet `column` it is written to. `forms.<type>.sections`
 lists each session type's questions in order, as keys or as
 `{ "key": …, …overrides }` for a per-type difference. Option labels are also
@@ -51,11 +51,13 @@ are editorial notes, not emphasis. Keep spans flat: nested markup, general
 Markdown, and HTML are not supported. Keep labels and option labels plain,
 since option labels sit inside the control and are written to the sheet.
 `toSheetRow()` in `src/lib/submission.ts` maps
-a draft to those columns. `forms.<type>.sheet` names the sheet tab, and the
+a draft to those columns, and its `validateField()` checks each answer
+(required, email, tel, url, length) for both the form (on blur and submit)
+and the API. `forms.<type>.sheet` names the sheet tab, and the
 top-level `sheet` holds the metadata columns written before the answers
 (投稿編號, 版本, 狀態, …) and the status labels. Form chrome (button labels, validation messages)
 stays in `content.json`. The form has no file uploads: photos, documents
-and attachments are collected as links in `text` or `textarea` fields, and
+and attachments are collected as links in `url` or `textarea` fields, and
 their descriptions ask submitters to grant the 議程組 access.
 
 Submissions go to the API Worker in `worker/` (README, "Submission API"):

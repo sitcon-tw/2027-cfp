@@ -1594,6 +1594,8 @@
       "requiredChoice": "請選擇{label}。",
       "invalidChoice": "請選擇有效的選項。",
       "email": "請輸入有效的電子郵件。",
+      "tel": "請輸入有效的電話號碼，例如 0912-345-678。",
+      "url": "請輸入以 https:// 開頭的完整連結。",
       "consent": "請勾選「{label}」。",
       "tooLong": "{label}的內容過長，請精簡至 {max} 字以內。"
     },
