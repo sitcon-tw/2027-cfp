@@ -1361,7 +1361,8 @@
       "empty": "範例整理中，敬請期待。",
       "previous": "上一頁",
       "next": "下一頁",
-      "page": "第 {page} 頁"
+      "page": "第 {page} 頁",
+      "pages": "範例頁面"
     },
     "demoPosters": {
       "title": "歷年海報展示",

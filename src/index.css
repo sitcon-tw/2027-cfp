@@ -173,6 +173,17 @@
 }
 
 /*
+ * Hides an overflow container's scrollbar; it still scrolls by wheel,
+ * trackpad, touch and keyboard.
+ */
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/*
  * Homepage photo wall spotlight. Script sets the hovered photo's box on
  * the layer: --spotlight-left / -top / -width / -height.
  *

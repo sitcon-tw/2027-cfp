@@ -369,7 +369,10 @@ The 投稿主題範例 section on `/sessions/$type` reads its cards from
 `groups`, each a `title` with its own `items` (一般議程's Presentation and
 Espresso). Each card has `title`, `href` and `image`, a file name in
 `src/assets/session-examples/`. An empty `items` list shows the 範例整理中
-message.
+message. The carousel is a scroll-snap row (wheel, trackpad and touch
+scroll it a page at a time), and it turns the page every few seconds until
+someone scrolls or clicks it; it waits while hovered, focused or off screen,
+and never moves under `prefers-reduced-motion`.
 
 ### Placeholders
 
