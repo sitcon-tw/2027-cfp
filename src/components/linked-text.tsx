@@ -10,8 +10,6 @@ const markupPattern =
  * into links that open in a new tab. Both inherit the surrounding text color,
  * so they read on cream and dark surfaces alike; a muted paragraph that wants
  * them brighter sets `[&_strong]:text-foreground [&_a]:text-foreground`.
- * Bold text also sits on a translucent yellow marker along its lower part,
- * which shows on both surfaces without an underline that reads as a link.
  * Inline link and emphasis styling is our own; Figma has none.
  */
 export function LinkedText({ text }: { text: string }) {
@@ -21,10 +19,7 @@ export function LinkedText({ text }: { text: string }) {
     parts.push(text.slice(last, match.index))
     parts.push(
       match[1] != null ? (
-        <strong
-          key={match.index}
-          className="bg-linear-to-t from-yellow/40 from-40% to-transparent to-40% box-decoration-clone font-extrabold"
-        >
+        <strong key={match.index} className="font-extrabold">
           {match[1]}
         </strong>
       ) : (
