@@ -95,9 +95,15 @@ same way as the [sponsorship prospectus](https://github.com/sitcon-tw/2027-cfs):
    ([`.github/workflows/build.yml`](.github/workflows/build.yml)) runs
    `pnpm check`, builds with `BASE_PATH=/2027/cfp/`, and publishes `dist/` to
    the `build` branch of this repository.
-2. Once it succeeds, run **Deploy website** on `main` in `sitcon-tw/2027`. It
+2. It then triggers **Deploy website** on `main` in `sitcon-tw/2027`, which
    copies the `build` branch into `/cfp/` of its output and deploys the whole
-   site. Every deployment there also picks up the latest CFP build.
+   site. Every deployment there also picks up the latest CFP build. The
+   trigger uses the `DEPLOY_DISPATCH_TOKEN` repository secret, a fine-grained
+   personal access token (or GitHub App token) with **Actions: Read and
+   write** on `sitcon-tw/2027`; the default `GITHUB_TOKEN` can't start
+   workflows in another repository. If the token is missing or expired, the
+   build still lands on the `build` branch but the job fails at this step:
+   renew the secret, or run **Deploy website** by hand.
 
 To check a production build locally:
 
