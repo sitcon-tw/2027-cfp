@@ -13,6 +13,7 @@ import { Faq } from '@/components/sessions/faq'
 import { InfoCardStack } from '@/components/sessions/info-card-stack'
 import { OpenSessionIntro } from '@/components/sessions/open-session-intro'
 import { PosterStrip } from '@/components/sessions/poster-strip'
+import { ScheduleSection } from '@/components/sessions/schedule-section'
 import { SessionIntroCards } from '@/components/sessions/session-intro-cards'
 import { SessionPageTabs } from '@/components/sessions/session-page-tabs'
 import { Button, buttonVariants } from '@/components/ui/button'
@@ -40,8 +41,9 @@ const text = content.session_page
 
 /**
  * 一般議程 / 開放式議程 / Demo 展. Sections differ per type; see Figma.
- * Hero, 重要時程, Q&A and the closing call to action are shared; the
- * sections in between come in the order of each type's CFP copy.
+ * Hero, the early-bird countdown, 重要時程, Q&A and the closing call to
+ * action are shared; the sections in between come in the order of each
+ * type's CFP copy.
  */
 function SessionPage() {
   const { type } = Route.useParams()
@@ -59,7 +61,8 @@ function SessionPage() {
       <PageHero {...page.hero}>
         <SessionPageTabs type={type} />
       </PageHero>
-      <CriteriaTable {...page.schedule} />
+      <EarlyBirdBanner type={type} />
+      <ScheduleSection {...page.schedule} />
       {type === 'demo' ? (
         <DemoSections page={page} />
       ) : (
@@ -89,8 +92,7 @@ function SessionPage() {
 
 /**
  * 一般議程 and 開放式議程, in the order of their CFP copy: what it is,
- * examples, 投稿格式, 早鳥投稿計劃 (the early-bird banner), 審稿方式, then
- * the notes before and after submitting.
+ * examples, 投稿格式, 審稿方式, then the notes before and after submitting.
  */
 function CfpSections({
   type,
@@ -122,7 +124,6 @@ function CfpSections({
         <ExamplesCarousel key={type} {...page.examples} />
       )}
       <CriteriaTable {...page.requirements} />
-      <EarlyBirdBanner type={type} />
       <CriteriaTable {...page.reviewCriteria} />
       <InfoCardStack {...page.beforeSubmission} />
       <InfoCardStack {...page.afterSubmission} />
@@ -130,7 +131,10 @@ function CfpSections({
   )
 }
 
-/** Demo 展: what it is, past posters, 投稿格式, then the early-bird banner. */
+/**
+ * Demo 展: what it is, past posters, 投稿格式, 審稿方式, then the notes
+ * before and after submitting.
+ */
 function DemoSections({ page }: { page: SessionPageData }) {
   return (
     <>
@@ -142,7 +146,6 @@ function DemoSections({ page }: { page: SessionPageData }) {
       />
       <PosterStrip />
       <CriteriaTable {...page.requirements} />
-      <EarlyBirdBanner type="demo" />
       <CriteriaTable {...page.reviewCriteria} />
       <InfoCardStack {...page.beforeSubmission} />
       <InfoCardStack {...page.afterSubmission} />

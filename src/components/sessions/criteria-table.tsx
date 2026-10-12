@@ -15,7 +15,7 @@ export interface CriteriaTableProps {
 }
 
 /**
- * Label and description rows: 審稿標準 / 投稿格式 / 重要時程. The tiles read as one
+ * Label and description rows: 審稿標準 / 投稿格式. The tiles read as one
  * shape: only the outer corners of the whole table are `xl`. Below `md`
  * each label sits right above its description.
  */
@@ -29,10 +29,7 @@ export function CriteriaTable({
     <SessionSection title={title} description={description}>
       <dl className="flex flex-col gap-2.5">
         {items.map(({ term, description }, i) => (
-          <div
-            key={`${term} ${description}`}
-            className="grid gap-2.5 md:grid-cols-3"
-          >
+          <div key={term} className="grid gap-2.5 md:grid-cols-3">
             <dt
               className={cn(
                 'flex items-center justify-center rounded-sm bg-gray p-5 text-center text-h3 font-bold',
