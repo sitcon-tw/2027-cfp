@@ -240,7 +240,8 @@ Secrets survive deployments. Variables set in the dashboard do not: each
 deployment resets them to `worker/wrangler.jsonc`, so change them there.
 
 [`build.yml`](.github/workflows/build.yml) builds the site with
-`VITE_SUBMISSION_API` pointing at the Worker.
+`VITE_SUBMISSION_API` set from the repository variable `SUBMISSION_API`
+(`https://2027-cfp-api.sitcon.workers.dev`), next to `TURNSTILE_SITE_KEY`.
 
 ### Local development
 
