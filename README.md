@@ -172,6 +172,20 @@ In the sheet, filter 狀態 = `已驗證` for the current version of every
 submission (投稿編號). Links are HMAC-signed with `TOKEN_SECRET`, so the sheet
 holds no secrets; changing that secret voids every link already sent.
 
+### Abuse protection
+
+The verification email goes to whatever address is typed in, so the API
+keeps anyone from using it to flood someone else's inbox:
+
+- **Turnstile.** New submissions and edits need a passed
+  [Cloudflare Turnstile](https://developers.cloudflare.com/turnstile/) check,
+  shown above the submit button. Each token is single use.
+- **Per address:** at most 3 verification emails a minute and
+  `MAIL_DAILY_LIMIT` (3) per 24 hours, counted in the `MAIL_COUNTS` KV
+  namespace under a hash of the address. The quota is checked before
+  anything is written to the sheet.
+- **Per IP:** 5 submissions or edits and 20 requests in all, a minute.
+
 ### Google setup
 
 The Worker uses the SITCON Workspace service account (ask Denny Huang):
@@ -199,7 +213,15 @@ cd worker
 pnpm exec wrangler secret put SHEET_ID --env=""
 pnpm exec wrangler secret put GOOGLE_SERVICE_ACCOUNT_KEY --env=""  # the JSON key
 pnpm exec wrangler secret put TOKEN_SECRET --env=""  # e.g. `openssl rand -base64 32`
+pnpm exec wrangler secret put TURNSTILE_SECRET --env=""  # the widget's secret key
 ```
+
+Create the Turnstile widget in the SITCON Cloudflare account (Turnstile → Add
+widget, mode **Managed**, hostnames `sitcon.org` and `localhost`). Its secret
+key is `TURNSTILE_SECRET`; its site key is public and goes in the repository
+variable `TURNSTILE_SITE_KEY` (Settings → Secrets and variables → Actions →
+Variables), which [`build.yml`](.github/workflows/build.yml) passes to the
+site as `VITE_TURNSTILE_SITE_KEY`.
 
 The Worker deploys through **Cloudflare Workers Builds** in the SITCON
 Cloudflare account, like the preview site. It is configured in the dashboard,
@@ -226,10 +248,13 @@ shared with the service account. Then:
 
 ```sh
 pnpm api:dev                                       # API on http://localhost:8787
-VITE_SUBMISSION_API=http://localhost:8787 pnpm dev  # site on http://localhost:5173
+VITE_SUBMISSION_API=http://localhost:8787 \
+  VITE_TURNSTILE_SITE_KEY=1x00000000000000000000AA pnpm dev  # site on :5173
 ```
 
-The `staging` environment allows `http://localhost:5173` and links its
+`1x00000000000000000000AA` and the `TURNSTILE_SECRET` in the example file
+are Cloudflare's always-pass test keys. The `staging` environment allows
+`http://localhost:5173` and links its
 emails there. Real emails are sent, so use your own address. `pnpm test` runs
 the flow against an in-memory sheet, with no Google access.
 

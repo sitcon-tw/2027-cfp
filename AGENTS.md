@@ -67,7 +67,9 @@ goes in `src/lib/submission-client.ts`. The API contract is in
 `src/lib/submission-api.ts`. Email copy lives in `content.submission_email`,
 the verify page's in `content.submit_verify`. `/submit/verify` confirms an
 address, and `/submit/$type?edit=…` opens an edit link. Without
-`VITE_SUBMISSION_API`, the form stays a labelled mock. Run `pnpm test` after
+`VITE_SUBMISSION_API`, the form stays a labelled mock; with it, sends also
+need the Turnstile widget (`VITE_TURNSTILE_SITE_KEY`, `turnstile.tsx`), a
+Cloudflare iframe that is the one control not built on Base UI. Run `pnpm test` after
 changing the flow.
 
 Homepage schedules live in `content.attend_section.tickets` and

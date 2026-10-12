@@ -47,6 +47,8 @@ jobs:
           BASE_PATH: /2027/cfp/
           # The submission API (worker/). Without it the form is a mock.
           VITE_SUBMISSION_API: https://2027-cfp-api.sitcon.workers.dev
+          # Public site key of the Turnstile widget the API checks.
+          VITE_TURNSTILE_SITE_KEY: ${{ vars.TURNSTILE_SITE_KEY }}
 
       - name: Publish to build branch
         uses: peaceiris/actions-gh-pages@v4
