@@ -97,7 +97,10 @@ export type DialogContentProps = WithClassName<
   backdropClassName?: string
 }
 
-/** The cream surface: a centered card on desktop, a bottom sheet on mobile. */
+/**
+ * The cream surface: a centered card on desktop, a bottom sheet on mobile.
+ * `className` styles the content (flex, gap, …) on both.
+ */
 export function DialogContent({
   className,
   backdropClassName: backdropClass,
@@ -114,12 +117,20 @@ export function DialogContent({
           <BaseDialog.Popup
             className={cn(
               popupClassName,
-              'max-h-full max-w-content rounded-xl p-7.5 transition duration-300 data-ending-style:scale-95 data-ending-style:opacity-0 data-starting-style:scale-95 data-starting-style:opacity-0',
-              className,
+              // Clipped here, scrolled inside: the scrollbar stays within the
+              // rounded corners instead of running past them.
+              'flex max-h-full max-w-content flex-col overflow-hidden rounded-xl transition duration-300 data-ending-style:scale-95 data-ending-style:opacity-0 data-starting-style:scale-95 data-starting-style:opacity-0',
             )}
             {...props}
           >
-            {children}
+            <div
+              className={cn(
+                'min-h-0 overflow-y-auto overscroll-contain p-7.5',
+                className,
+              )}
+            >
+              {children}
+            </div>
           </BaseDialog.Popup>
         </BaseDialog.Viewport>
       </BaseDialog.Portal>
