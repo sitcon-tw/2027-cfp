@@ -17,6 +17,7 @@ const fontPlugin = viteFont as unknown as typeof viteFont.default
 // fallback (GitHub Pages) serve them on direct visits and refreshes.
 const routeShells = [
   'about',
+  'submit/verify',
   ...sessionTypeIds.flatMap((type) => [`sessions/${type}`, `submit/${type}`]),
 ]
 

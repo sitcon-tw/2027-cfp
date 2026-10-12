@@ -1,7 +1,10 @@
 import content from '@/content.json'
 import forms from '@/forms.json'
-import { sessionTypeIds } from '@/lib/session-type-ids'
-import type { SessionTypeId } from '@/lib/session-types'
+import { sessionTypeIds, type SessionTypeId } from '@/lib/session-type-ids'
+
+// Shared by the form and the submission API (`worker/`), so it stays free of
+// React, the DOM and Vite-only APIs. The browser side is in
+// `submission-client.ts`.
 
 export type SubmissionValue = string | string[]
 export type SubmissionValues = Record<string, SubmissionValue>
@@ -107,6 +110,10 @@ export function getSubmissionSections(type: SessionTypeId) {
   return sectionsByType[type]
 }
 
+export function getSubmissionFields(type: SessionTypeId) {
+  return fieldsByType[type]
+}
+
 export function isFieldVisible(
   field: SubmissionField,
   values: SubmissionValues,
@@ -119,11 +126,24 @@ function emptyValue(field: SubmissionField): SubmissionValue {
   return ''
 }
 
-function createEmptyValues(type: SessionTypeId): SubmissionValues {
+export function createEmptyValues(type: SessionTypeId): SubmissionValues {
   return Object.fromEntries(
     fieldsByType[type].map((field) => [field.key, emptyValue(field)]),
   )
 }
+
+// The address pattern browsers use for `type="email"`, requiring a dot in the
+// domain. Stricter than "anything with an @": the address goes into an email
+// header, where commas or angle brackets would add recipients.
+const emailPattern =
+  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/
+
+export function isEmailAddress(value: string) {
+  return emailPattern.test(value)
+}
+
+/** Google Sheets holds at most 50,000 characters in a cell. */
+const maxTextLength = 50_000
 
 /** Validation driven by the field definitions in forms.json. */
 export function validateSubmission(
@@ -159,11 +179,10 @@ export function validateSubmission(
       const input = typeof value === 'string' ? value.trim() : ''
       if (!input) {
         if (field.required) error = messages.requiredText
-      } else if (
-        field.kind === 'email' &&
-        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input)
-      ) {
+      } else if (field.kind === 'email' && !isEmailAddress(input)) {
         error = messages.email
+      } else if (input.length > maxTextLength) {
+        error = messages.tooLong.replace('{max}', String(maxTextLength))
       }
     }
 
@@ -194,100 +213,106 @@ export function toSheetRow(
   return row
 }
 
-export type SubmissionResult = { message: string } & (
-  | { status: 'success' }
-  | { status: 'field-error'; errors: SubmissionErrors }
-  | { status: 'server-error' }
-)
-
 /**
- * Development-only adapter: no network requests, persistence or logging.
- * TODO(#5): send `toSheetRow(type, values)` to the real API when configured.
+ * The submission's contact address: its first `email` field, which receives
+ * the verification link, the copy and the edit link.
  */
-export async function submit(
+export function getContactEmail(
   type: SessionTypeId,
   values: SubmissionValues,
-): Promise<SubmissionResult> {
-  const errors = validateSubmission(type, values)
-  const text = content.submit_page.mock
-
-  if (Object.keys(errors).length) {
-    return { status: 'field-error', errors, message: text.fieldError }
-  }
-
-  await new Promise<void>((resolve) => setTimeout(resolve, 600))
-  return { status: 'success', message: text.success }
-}
-
-export interface SubmissionState {
-  values: SubmissionValues
-  errors: SubmissionErrors
-  isSubmitting: boolean
-  result: SubmissionResult | null
+): string {
+  const field = fieldsByType[type].find((field) => field.kind === 'email')
+  const value = field && values[field.key]
+  return typeof value === 'string' ? value.trim() : ''
 }
 
 /**
- * One store per mounted form, holding a fresh draft of each type; responses
- * always update the sending type.
+ * Keeps only this type's fields, each as a string or (for checkboxes) a
+ * string list; anything else becomes the field's empty value. Used on input
+ * that was not built by the form, such as an API request body.
  */
-export function createSubmissionStore() {
-  let state = byType((type): SubmissionState => ({
-    values: createEmptyValues(type),
-    errors: {},
-    isSubmitting: false,
-    result: null,
-  }))
-  const listeners = new Set<() => void>()
-
-  function update(type: SessionTypeId, patch: Partial<SubmissionState>) {
-    state = { ...state, [type]: { ...state[type], ...patch } }
-    listeners.forEach((listener) => listener())
+export function normalizeValues(
+  type: SessionTypeId,
+  input: unknown,
+): SubmissionValues {
+  const source = (
+    typeof input === 'object' && input !== null ? input : {}
+  ) as Record<string, unknown>
+  const values = createEmptyValues(type)
+  for (const field of fieldsByType[type]) {
+    const value = source[field.key]
+    if (field.kind === 'checkboxes') {
+      if (Array.isArray(value)) {
+        values[field.key] = value.filter(
+          (item): item is string => typeof item === 'string',
+        )
+      }
+    } else if (typeof value === 'string') {
+      values[field.key] = value
+    }
   }
+  return values
+}
 
-  return {
-    getSnapshot: () => state,
-    subscribe(listener: () => void) {
-      listeners.add(listener)
-      return () => {
-        listeners.delete(listener)
-      }
-    },
-    setValue(type: SessionTypeId, key: string, value: SubmissionValue) {
-      const current = state[type]
-      if (current.isSubmitting) return
-      // Keep `errors` unchanged unless this field had one, so Base UI's `Form`
-      // does not re-render every field on each keystroke.
-      let errors = current.errors
-      if (key in errors) {
-        errors = { ...errors }
-        delete errors[key]
-      }
-      update(type, {
-        values: { ...current.values, [key]: value },
-        errors,
-        result: null,
-      })
-    },
-    async submit(type: SessionTypeId) {
-      // Synchronous guard also covers a second send before React rerenders.
-      if (state[type].isSubmitting) return
-      const values = state[type].values
-      update(type, { isSubmitting: true, errors: {}, result: null })
+/** Metadata the API writes before the answers on every sheet row. */
+export type SheetMetaKey = keyof typeof forms.sheet.columns
+export type SheetStatus = keyof typeof forms.sheet.status
 
-      let result: SubmissionResult
-      try {
-        result = await submit(type, values)
-      } catch {
-        result = {
-          status: 'server-error',
-          message: content.submit_page.mock.serverError,
-        }
-      }
-      update(type, {
-        isSubmitting: false,
-        errors: result.status === 'field-error' ? result.errors : {},
-        result,
-      })
-    },
+export const sheetMetaKeys = Object.keys(
+  forms.sheet.columns,
+) as readonly SheetMetaKey[]
+
+/** The sheet tab a session type is written to. */
+export function getSheetTitle(type: SessionTypeId) {
+  return forms.forms[type].sheet
+}
+
+/** The header row of a session type's tab: metadata, then every field. */
+export function getSheetColumns(type: SessionTypeId): string[] {
+  const columns = [
+    ...sheetMetaKeys.map((key) => forms.sheet.columns[key]),
+    ...fieldsByType[type].map((field) => field.column),
+  ]
+  const duplicate = columns.find(
+    (column, index) => columns.indexOf(column) !== index,
+  )
+  if (duplicate) {
+    throw new Error(`forms.json: column "${duplicate}" is used twice`)
   }
+  return columns
+}
+
+export function getSheetMetaColumn(key: SheetMetaKey) {
+  return forms.sheet.columns[key]
+}
+
+export function getSheetStatusLabel(status: SheetStatus) {
+  return forms.sheet.status[status]
+}
+
+/** The status a sheet cell names, or `null` for an unknown label. */
+export function parseSheetStatus(label: string): SheetStatus | null {
+  const entry = Object.entries(forms.sheet.status).find(
+    ([, text]) => text === label,
+  )
+  return entry ? (entry[0] as SheetStatus) : null
+}
+
+/** The reverse of `toSheetRow`: cells by column header back to a draft. */
+export function fromSheetRow(
+  type: SessionTypeId,
+  cells: Record<string, string>,
+): SubmissionValues {
+  const values = createEmptyValues(type)
+  for (const field of fieldsByType[type]) {
+    const cell = cells[field.column] ?? ''
+    // Matched whole, so an option that itself contains ", " survives.
+    values[field.key] =
+      field.kind === 'checkboxes'
+        ? (field.options ?? []).filter((option) =>
+            `, ${cell}, `.includes(`, ${option}, `),
+          )
+        : cell
+  }
+  return values
 }

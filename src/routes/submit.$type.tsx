@@ -5,6 +5,7 @@ import heroPhotoPlaceholder from '@/assets/submit-hero.webp?placeholder'
 import heroPhoto from '@/assets/submit-hero.webp?responsive'
 import { PageHero } from '@/components/page-hero'
 import { MoreSubmissions } from '@/components/more-submissions'
+import { EditSubmission } from '@/components/submit/edit-submission'
 import { SubmissionClosed } from '@/components/submit/submission-closed'
 import { SubmissionForm } from '@/components/submit/submission-form'
 import { SubmissionTypeTabs } from '@/components/submit/submission-type-tabs'
@@ -20,17 +21,22 @@ export const Route = createFileRoute('/submit/$type')({
       return { type }
     },
   },
+  // `edit`: the token from an emailed edit link.
+  validateSearch: (search: Record<string, unknown>): { edit?: string } =>
+    typeof search.edit === 'string' && search.edit ? { edit: search.edit } : {},
   component: SubmitPage,
 })
 
 const text = content.submit_page
 
 /**
- * 我要投稿 — one form per session type. After the deadline, the type tabs
- * and the form give way to the 投稿已截止 message.
+ * 我要投稿 — one form per session type. An edit link opens the submission's
+ * latest version instead of the type tabs and a blank form. After the
+ * deadline, both give way to the 投稿已截止 message.
  */
 function SubmitPage() {
   const { type } = Route.useParams()
+  const { edit } = Route.useSearch()
   const submissionClosed = useSubmissionClosed()
   return (
     <main className="overflow-x-clip">
@@ -42,6 +48,8 @@ function SubmitPage() {
       />
       {submissionClosed && deadlines.submission ? (
         <SubmissionClosed deadline={deadlines.submission} />
+      ) : edit ? (
+        <EditSubmission key={edit} type={type} token={edit} />
       ) : (
         <>
           <div className="px-2.5 py-7.5">

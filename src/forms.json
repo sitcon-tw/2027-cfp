@@ -1,4 +1,18 @@
 {
+  "sheet": {
+    "columns": {
+      "id": "投稿編號",
+      "version": "版本",
+      "status": "狀態",
+      "submittedAt": "送出時間",
+      "verifiedAt": "驗證時間"
+    },
+    "status": {
+      "unverified": "未驗證",
+      "verified": "已驗證",
+      "superseded": "已取代"
+    }
+  },
   "sections": {
     "basic": {
       "title": "基本資料",
@@ -104,7 +118,10 @@
       "description": "＊此題回應將納入審核，作為是否安排 90 分鐘場次的評估依據。",
       "kind": "textarea",
       "required": false,
-      "showIf": { "field": "duration", "equals": "90分鐘" },
+      "showIf": {
+        "field": "duration",
+        "equals": "90分鐘"
+      },
       "column": "（選 90 分鐘者填選）為何您更想以 90 分鐘展現？為何您認為您的內容更適合以 90 分鐘呈現？"
     },
     "shorterSessionOk": {
@@ -117,7 +134,10 @@
         "強烈希望以 90 分鐘進行，但可調整成 40 分鐘",
         "只願意以 90 分鐘的模式參加"
       ],
-      "showIf": { "field": "duration", "equals": "90分鐘" },
+      "showIf": {
+        "field": "duration",
+        "equals": "90分鐘"
+      },
       "column": "（選 90 分鐘者填選）若最終經討論希望您以 40 分鐘呈現，您是否願意？"
     },
     "title": {
@@ -264,6 +284,7 @@
   },
   "forms": {
     "general": {
+      "sheet": "一般議程",
       "sections": [
         {
           "id": "basic",
@@ -304,6 +325,7 @@
       ]
     },
     "open": {
+      "sheet": "開放式議程",
       "sections": [
         {
           "id": "basic",
@@ -348,6 +370,7 @@
       ]
     },
     "demo": {
+      "sheet": "Demo 展",
       "sections": [
         {
           "id": "basic",
@@ -371,7 +394,10 @@
           "fields": [
             "title",
             "abstract",
-            { "key": "tags", "required": false },
+            {
+              "key": "tags",
+              "required": false
+            },
             "projectDocument",
             {
               "key": "attachments",
