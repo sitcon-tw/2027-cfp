@@ -37,8 +37,8 @@ Run `pnpm check` (typecheck, lint, format check) before finishing a task.
 The submission form's questions live in `src/forms.json`, transcribed from
 the [表單文案](https://docs.google.com/document/d/16AHAPm7jvjMdqDR4sVJiNp4whCUNKsihHCZMWFoR4u4/edit).
 `fields` defines every question once: `label`, `description`, `kind`
-(`text`, `email`, `tel`, `textarea`, `radio`, `checkboxes`, `select`,
-`consent`), `required`, `options`, `public` (adds 【公開】),
+(`text`, `email`, `tel`, `url` for a single link, `textarea`, `radio`,
+`checkboxes`, `select`, `consent`), `required`, `options`, `public` (adds 【公開】),
 `showIf` and the Google Sheet `column` it is written to. `forms.<type>.sections`
 lists each session type's questions in order, as keys or as
 `{ "key": …, …overrides }` for a per-type difference. Option labels are also
@@ -51,11 +51,13 @@ are editorial notes, not emphasis. Keep spans flat: nested markup, general
 Markdown, and HTML are not supported. Keep labels and option labels plain,
 since option labels sit inside the control and are written to the sheet.
 `toSheetRow()` in `src/lib/submission.ts` maps
-a draft to those columns. `forms.<type>.sheet` names the sheet tab, and the
+a draft to those columns, and its `validateField()` checks each answer
+(required, email, tel, url, length) for both the form (on blur and submit)
+and the API. `forms.<type>.sheet` names the sheet tab, and the
 top-level `sheet` holds the metadata columns written before the answers
 (投稿編號, 版本, 狀態, …) and the status labels. Form chrome (button labels, validation messages)
 stays in `content.json`. The form has no file uploads: photos, documents
-and attachments are collected as links in `text` or `textarea` fields, and
+and attachments are collected as links in `url` or `textarea` fields, and
 their descriptions ask submitters to grant the 議程組 access.
 
 Submissions go to the API Worker in `worker/` (README, "Submission API"):
@@ -369,7 +371,10 @@ The 投稿主題範例 section on `/sessions/$type` reads its cards from
 `groups`, each a `title` with its own `items` (一般議程's Presentation and
 Espresso). Each card has `title`, `href` and `image`, a file name in
 `src/assets/session-examples/`. An empty `items` list shows the 範例整理中
-message.
+message. The carousel is a scroll-snap row (wheel, trackpad and touch
+scroll it a page at a time), and it turns the page every few seconds until
+someone scrolls or clicks it; it waits while hovered, focused or off screen,
+and never moves under `prefers-reduced-motion`.
 
 ### Placeholders
 
@@ -383,4 +388,7 @@ The 歷年海報展示 strip on `/sessions/demo` shows every image in
 `src/assets/demo-posters/`, newest file name first (`2026-1.webp` before
 `2025-1.webp`). They are past posters from the 2026 and 2025 sites
 (`sitcon-tw/2026` `public/img/poster/`, `sitcon-tw/2025` `public/poster/`),
-exported at 1000px tall.
+exported at 1000px tall. Clicking a poster opens it in a lightbox
+(`Dialog`) that steps through the others; its alt text is
+`demoPosters.poster`, filled with the year and number from the file name,
+so keep the `<year>-<n>` naming.

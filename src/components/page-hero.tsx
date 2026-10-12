@@ -21,6 +21,12 @@ export interface PageHeroProps {
   placeholder?: string
   /** Rendered under the photo, e.g. the session-page tabs. */
   children?: ReactNode
+  /**
+   * Titles and intros of the sibling pages that share this hero (the session
+   * types). The text block reserves the height of the tallest one, so
+   * switching between them keeps the photo's size and `children` in place.
+   */
+  reserve?: { title: string; description?: string }[]
 }
 
 /**
@@ -34,6 +40,7 @@ export function PageHero({
   image,
   placeholder,
   children,
+  reserve = [],
 }: PageHeroProps) {
   return (
     <>
@@ -54,11 +61,24 @@ export function PageHero({
           </div>
         )}
         <div className="mx-auto max-w-content p-2.5 pt-25 md:pt-62.5">
-          <div className="flex flex-col gap-2.5 py-2.5">
-            <h1 className="text-headline font-extrabold text-balance">
-              {title}
-            </h1>
-            {description && <p className="text-paragraph">{description}</p>}
+          {/* The reserved texts are stacked invisibly in the same cell. */}
+          <div className="grid py-2.5">
+            <div className="col-start-1 row-start-1 flex flex-col gap-2.5">
+              <h1 className={titleClass}>{title}</h1>
+              {description && <p className="text-paragraph">{description}</p>}
+            </div>
+            {reserve.map((text) => (
+              <div
+                key={text.title}
+                aria-hidden
+                className="invisible col-start-1 row-start-1 flex flex-col gap-2.5"
+              >
+                <p className={titleClass}>{text.title}</p>
+                {text.description && (
+                  <p className="text-paragraph">{text.description}</p>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -70,6 +90,8 @@ export function PageHero({
     </>
   )
 }
+
+const titleClass = 'text-headline font-extrabold text-balance'
 
 function HeroPhoto({ image }: { image: Picture }) {
   const [loaded, setLoaded] = useState(false)

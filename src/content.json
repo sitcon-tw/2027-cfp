@@ -1361,12 +1361,19 @@
       "empty": "範例整理中，敬請期待。",
       "previous": "上一頁",
       "next": "下一頁",
-      "page": "第 {page} 頁"
+      "page": "第 {page} 頁",
+      "pages": "範例頁面"
     },
     "demoPosters": {
       "title": "歷年海報展示",
       "description": "您可以從 SITCON [2026](https://sitcon.org/2026/agenda/#gallery)、[2025](https://sitcon.org/2025/poster/) 網站瀏覽過往的海報範例，了解格式與內容的呈現方式。",
-      "label": "歷年 Demo 展海報"
+      "label": "歷年 Demo 展海報",
+      "poster": "SITCON {year} Demo 展海報 {number}",
+      "enlarge": "放大檢視 {poster}",
+      "previous": "上一張海報",
+      "next": "下一張海報",
+      "position": "{index} / {count}",
+      "close": "關閉"
     },
     "faq": {
       "title": "Q&A",
@@ -1594,6 +1601,8 @@
       "requiredChoice": "請選擇{label}。",
       "invalidChoice": "請選擇有效的選項。",
       "email": "請輸入有效的電子郵件。",
+      "tel": "請輸入有效的電話號碼，例如 0912-345-678。",
+      "url": "請輸入以 https:// 開頭的完整連結。",
       "consent": "請勾選「{label}」。",
       "tooLong": "{label}的內容過長，請精簡至 {max} 字以內。"
     },
