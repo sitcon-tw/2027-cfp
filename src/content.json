@@ -1655,10 +1655,22 @@
     "moreSubmissions": "參考更多稿件"
   },
   "submit_verify": {
-    "verifyingTitle": "正在驗證……",
-    "verifyingDescription": "請稍候，我們正在確認您的電子信箱。",
-    "successTitle": "投稿完成！",
-    "successDescription": "您的信箱已通過驗證，我們也寄了一份投稿副本到您的信箱，信中附有修改連結。在 {deadline} 投稿截止前，您都可以透過該連結修改稿件。感謝您投稿 SITCON 2027！",
+    "hero": {
+      "verifying": {
+        "title": "正在驗證投稿",
+        "description": "確認您的電子信箱後，投稿就完成了。"
+      },
+      "success": {
+        "title": "投稿完成！",
+        "description": "感謝您投稿 SITCON 2027！"
+      },
+      "failure": {
+        "title": "投稿尚未完成",
+        "description": "信箱驗證沒有成功，請依下方說明處理。"
+      }
+    },
+    "successTitle": "信箱已通過驗證",
+    "successDescription": "我們已寄了一份投稿副本到您的信箱，信中附有修改連結。在 {deadline} 投稿截止前，您都可以透過該連結修改稿件。",
     "expiredTitle": "驗證連結已過期",
     "expiredDescription": "驗證連結的有效期限為 {hours} 小時，請重新送出投稿以取得新的驗證信。",
     "invalidTitle": "驗證連結無效",
