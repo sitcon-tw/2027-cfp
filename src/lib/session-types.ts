@@ -20,7 +20,7 @@ export interface SessionType {
 
 export const sessionTypes: SessionType[] = [
   {
-    id: 'general',
+    id: 'normal',
     title: content.sessions.generalTitle,
     summary: content.sessions.generalSummary,
     icon: Mic,
@@ -29,12 +29,12 @@ export const sessionTypes: SessionType[] = [
     },
   },
   {
-    id: 'open',
+    id: 'undefined',
     title: content.sessions.openTitle,
     summary: content.sessions.openSummary,
     icon: Users,
     intro: {
-      image: sessionPages.open.hero.image,
+      image: sessionPages.undefined.hero.image,
     },
   },
   {

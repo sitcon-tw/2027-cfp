@@ -12,8 +12,8 @@ import type { EmailMessage } from './gmail'
 const text = content.submission_email
 
 const sessionTitles: Record<SessionTypeId, string> = {
-  general: content.sessions.generalTitle,
-  open: content.sessions.openTitle,
+  normal: content.sessions.generalTitle,
+  undefined: content.sessions.openTitle,
   demo: content.sessions.demoTitle,
 }
 

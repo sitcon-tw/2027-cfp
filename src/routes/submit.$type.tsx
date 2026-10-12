@@ -1,4 +1,4 @@
-import { createFileRoute, notFound } from '@tanstack/react-router'
+import { createFileRoute, notFound, redirect } from '@tanstack/react-router'
 
 import content from '@/content.json'
 import heroPhotoPlaceholder from '@/assets/submit-hero.webp?placeholder'
@@ -10,12 +10,14 @@ import { SubmissionClosed } from '@/components/submit/submission-closed'
 import { SubmissionForm } from '@/components/submit/submission-form'
 import { SubmissionTypeTabs } from '@/components/submit/submission-type-tabs'
 import { deadlines, useSubmissionClosed } from '@/lib/countdown'
-import { isSessionTypeId } from '@/lib/session-types'
+import { resolveSessionTypeId } from '@/lib/session-type-ids'
 
 export const Route = createFileRoute('/submit/$type')({
   params: {
-    parse: ({ type }) => {
-      if (!isSessionTypeId(type)) {
+    // Previous ids (`general`) resolve too, then redirect below.
+    parse: ({ type: id }) => {
+      const type = resolveSessionTypeId(id)
+      if (!type) {
         throw notFound()
       }
       return { type }
@@ -24,6 +26,17 @@ export const Route = createFileRoute('/submit/$type')({
   // `edit`: the token from an emailed edit link.
   validateSearch: (search: Record<string, unknown>): { edit?: string } =>
     typeof search.edit === 'string' && search.edit ? { edit: search.edit } : {},
+  // Edit links in emails sent before #53 name the previous id.
+  beforeLoad: ({ params: { type }, search, location }) => {
+    if (!location.pathname.replace(/\/$/, '').endsWith(`/${type}`)) {
+      throw redirect({
+        to: '/submit/$type',
+        params: { type },
+        search,
+        replace: true,
+      })
+    }
+  },
   component: SubmitPage,
 })
 

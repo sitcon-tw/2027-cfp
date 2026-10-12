@@ -119,12 +119,13 @@ mapping is in `src/lib/session-quiz.ts`.
   route through `<Link>` (or a primitive's `render={<Link … />}`) and import
   assets, so the base path is applied. A new route must also be added to
   `routeShells` in `vite.config.ts`, or direct visits to it 404 in production.
-- The session pages are `/normal` (一般議程), `/undefined` (開放議程) and
-  `/demo` (`src/routes/$type.tsx`). The route maps these slugs to the type
-  ids (`sessionPageSlugs` in `src/lib/session-type-ids.ts`), so links pass
-  the id: `<Link to="/$type" params={{ type: 'general' }}>`. The ids stay
-  the same elsewhere (`/submit/$type`, the API, the sheet), and the old
-  `/sessions/<id>` paths redirect to the new ones.
+- The session type ids are `normal` (一般議程), `undefined` (開放議程) and
+  `demo` (`src/lib/session-type-ids.ts`), and each is also its pages' path:
+  `/normal` (`src/routes/$type.tsx`) and `/submit/normal`. The ids before
+  #53 (`general`, `open`) live on in `previousSessionTypeIds`: their old
+  paths (`/sessions/general`, `/submit/general?edit=…` in emails already
+  sent) redirect, saved drafts move over, and 投稿編號 keeps the `G` / `O`
+  letters.
 - In-page jumps to a section use `<Link to="/" hash="attend">`, never a raw
   `<a href="#attend">`. The router smooth-scrolls hash links
   (`defaultHashScrollIntoView` in `src/main.tsx`, instant under

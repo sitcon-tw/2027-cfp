@@ -294,7 +294,7 @@
     }
   },
   "forms": {
-    "general": {
+    "normal": {
       "sheet": "一般議程",
       "sections": [
         {
@@ -336,7 +336,7 @@
         }
       ]
     },
-    "open": {
+    "undefined": {
       "sheet": "開放式議程",
       "sections": [
         {

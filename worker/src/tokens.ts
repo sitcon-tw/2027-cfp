@@ -54,9 +54,11 @@ async function open(secret: string, token: string): Promise<string[] | null> {
 
 // Crockford base32: no I, L, O or U, so IDs read back unambiguously.
 const idAlphabet = '0123456789ABCDEFGHJKMNPQRSTVWXYZ'
+// The letters predate the ids (一般 / 開放) and stay, so 投稿編號 and
+// tokens already issued keep resolving.
 const idPrefixes: Record<SessionTypeId, string> = {
-  general: 'G',
-  open: 'O',
+  normal: 'G',
+  undefined: 'O',
   demo: 'D',
 }
 const idPattern = /^([GOD])-[0-9A-HJKMNP-TV-Z]{8}$/

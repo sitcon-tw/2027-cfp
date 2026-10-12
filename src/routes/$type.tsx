@@ -23,21 +23,16 @@ import {
   sessionPages,
   type SessionPage as SessionPageData,
 } from '@/lib/session-pages'
-import { sessionPageSlugs, sessionTypeFromSlug } from '@/lib/session-type-ids'
-import type { SessionTypeId } from '@/lib/session-types'
+import { isSessionTypeId, type SessionTypeId } from '@/lib/session-types'
 
-// The path segment is the page's slug (`/normal`); links and
-// `useParams()` work with the type id (`general`).
 export const Route = createFileRoute('/$type')({
   params: {
-    parse: ({ type: slug }) => {
-      const type = sessionTypeFromSlug(slug)
-      if (!type) {
+    parse: ({ type }) => {
+      if (!isSessionTypeId(type)) {
         throw notFound()
       }
       return { type }
     },
-    stringify: ({ type }) => ({ type: sessionPageSlugs[type] }),
   },
   component: SessionPage,
 })
@@ -111,7 +106,7 @@ function CfpSections({
 }) {
   return (
     <>
-      {type === 'open' ? (
+      {type === 'undefined' ? (
         <OpenSessionIntro
           title={page.introTitle}
           description={page.introDescription}

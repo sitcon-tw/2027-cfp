@@ -15,9 +15,9 @@ export type QuizResultId = (typeof quizResultIds)[number]
 
 /** The session page each result links to. */
 export const resultSessionType: Record<QuizResultId, SessionTypeId> = {
-  espresso: 'general',
-  presentation: 'general',
-  open: 'open',
+  espresso: 'normal',
+  presentation: 'normal',
+  open: 'undefined',
   demo: 'demo',
 }
 

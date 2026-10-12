@@ -1,5 +1,7 @@
 // Dependency-free so vite.config.ts and the submission API can import it.
-export const sessionTypeIds = ['general', 'open', 'demo'] as const
+// Each id is also its session page's path (`/normal`) and its form's
+// (`/submit/normal`).
+export const sessionTypeIds = ['normal', 'undefined', 'demo'] as const
 
 export type SessionTypeId = (typeof sessionTypeIds)[number]
 
@@ -8,15 +10,19 @@ export function isSessionTypeId(value: unknown): value is SessionTypeId {
 }
 
 /**
- * URL path of each type's session page (`/normal`, …). The ids stay the
- * same everywhere else: `/submit/$type`, the API and the sheet.
+ * The ids before #53, still in links already shared and in the edit links
+ * of emails already sent. Their routes redirect to the current id.
  */
-export const sessionPageSlugs = {
+export const previousSessionTypeIds = {
   general: 'normal',
   open: 'undefined',
   demo: 'demo',
-} as const satisfies Record<SessionTypeId, string>
+} as const satisfies Record<string, SessionTypeId>
 
-export function sessionTypeFromSlug(slug: string): SessionTypeId | undefined {
-  return sessionTypeIds.find((id) => sessionPageSlugs[id] === slug)
+/** A current or previous id as the current one. */
+export function resolveSessionTypeId(value: string): SessionTypeId | undefined {
+  if (isSessionTypeId(value)) return value
+  return Object.hasOwn(previousSessionTypeIds, value)
+    ? previousSessionTypeIds[value as keyof typeof previousSessionTypeIds]
+    : undefined
 }

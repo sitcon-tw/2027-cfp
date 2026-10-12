@@ -620,7 +620,7 @@
   },
   "session_page": {
     "tabsLabel": "議程類型",
-    "general": {
+    "normal": {
       "heroTitle": "一般議程投稿",
       "heroDescription": "Presentation 讓你完整分享知識與經驗，Espresso 則用一杯咖啡的時間，帶領會眾認識新事物、探索新領域。",
       "introTitle": "什麼是一般議程？",
@@ -831,7 +831,7 @@
         }
       ]
     },
-    "open": {
+    "undefined": {
       "heroTitle": "開放式議程投稿",
       "heroDescription": "跳脫單向分享，讓講者與會眾透過討論、實作、互動，共同創造一場不一樣的交流體驗。沒有標準答案，只有更多可能，也讓每場議程留下屬於自己的記憶點！",
       "introTitle": "什麼是開放式議程？",
@@ -1275,7 +1275,7 @@
       "viewSchedule": "查看重要時程 →"
     },
     "examples": {
-      "general": {
+      "normal": {
         "title": "投稿主題範例",
         "description": [
           "SITCON 作為學生展現自己的舞台，我們特別期待以學生為主體的稿件，不論是探討技術或輕鬆的分享，任何與資訊科技、電腦技術相關的講題，我們都非常歡迎！",
@@ -1435,7 +1435,7 @@
           }
         ]
       },
-      "open": {
+      "undefined": {
         "title": "投稿主題範例",
         "description": [
           "SITCON 作為學生展現自己的舞台，我們特別期待以學生為主體的稿件，不論是探討技術或輕鬆的分享，任何與資訊科技、電腦技術相關的講題，我們都非常歡迎！",

@@ -105,7 +105,7 @@ export function SiteHeader({ className }: { className?: string }) {
           ) : (
             <Link
               to="/submit/$type"
-              params={{ type: 'general' }}
+              params={{ type: 'normal' }}
               className={buttonVariants({
                 variant: 'cream',
                 shape: 'pill',
@@ -138,12 +138,12 @@ export function SiteHeader({ className }: { className?: string }) {
                     [
                       {
                         to: '/$type',
-                        params: { type: 'general' },
+                        params: { type: 'normal' },
                         label: content.sessions.generalTitle,
                       },
                       {
                         to: '/$type',
-                        params: { type: 'open' },
+                        params: { type: 'undefined' },
                         label: content.sessions.openTitle,
                       },
                       {
@@ -187,7 +187,7 @@ export function SiteHeader({ className }: { className?: string }) {
                 ) : (
                   <Link
                     to="/submit/$type"
-                    params={{ type: 'general' }}
+                    params={{ type: 'normal' }}
                     onClick={() => setMobileOpen(false)}
                     className={buttonVariants({
                       variant: 'cream',

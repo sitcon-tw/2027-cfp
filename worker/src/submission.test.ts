@@ -88,8 +88,8 @@ describe('validation', () => {
 
   it('reports format errors of email, tel and url fields', () => {
     const errors = validateSubmission(
-      'general',
-      validValues('general', {
+      'normal',
+      validValues('normal', {
         contactEmail: 'speaker@',
         phone: 'call me',
         photo: 'my photo',
@@ -102,8 +102,8 @@ describe('validation', () => {
 
   it('rejects text longer than a sheet cell holds', () => {
     const errors = validateSubmission(
-      'general',
-      validValues('general', { bio: 'x'.repeat(50_001) }),
+      'normal',
+      validValues('normal', { bio: 'x'.repeat(50_001) }),
     )
     expect(Object.keys(errors)).toEqual(['bio'])
   })

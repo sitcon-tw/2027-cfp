@@ -18,8 +18,8 @@ import { links } from '@/lib/links'
 import { cn } from '@/lib/utils'
 
 const submitLinks = [
-  { type: 'general', label: content.site_footer.submitGeneral },
-  { type: 'open', label: content.site_footer.submitOpen },
+  { type: 'normal', label: content.site_footer.submitGeneral },
+  { type: 'undefined', label: content.site_footer.submitOpen },
   { type: 'demo', label: content.site_footer.submitDemo },
 ] as const
 

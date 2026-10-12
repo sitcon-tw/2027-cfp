@@ -1,6 +1,7 @@
 import content from '@/content.json'
 import {
   isSessionTypeId,
+  previousSessionTypeIds,
   sessionTypeIds,
   type SessionTypeId,
 } from '@/lib/session-type-ids'
@@ -245,6 +246,22 @@ const draftKey = 'sitcon-2027-cfp-drafts'
 const draftVersion = 1
 
 /**
+ * Drafts saved before #53 keep their types under the previous ids
+ * (`general`); move them to the current ones.
+ */
+export function upgradeDrafts(drafts: StoredDrafts): StoredDrafts {
+  const types: Record<string, SubmissionValues | undefined> = {
+    ...drafts.types,
+  }
+  for (const [previous, current] of Object.entries(previousSessionTypeIds)) {
+    if (previous === current || !(previous in types)) continue
+    types[current] ??= types[previous]
+    delete types[previous]
+  }
+  return { ...drafts, types }
+}
+
+/**
  * Drafts in this browser's localStorage, so a reload or a closed tab keeps
  * them. Where storage is unavailable (blocked site data, some private
  * windows), drafts last only while the page is open.
@@ -263,7 +280,7 @@ export const localDraftStorage: DraftStorage = {
         stored.drafts &&
         typeof stored.drafts === 'object'
       ) {
-        return stored.drafts as StoredDrafts
+        return upgradeDrafts(stored.drafts as StoredDrafts)
       }
     } catch {
       // Unreadable or unavailable: start blank.

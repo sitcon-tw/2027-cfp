@@ -35,7 +35,7 @@ export function NotFound() {
             ) : (
               <Link
                 to="/submit/$type"
-                params={{ type: 'general' }}
+                params={{ type: 'normal' }}
                 className={buttonVariants({ variant: 'blue', size: 'lg' })}
               >
                 {content.site_header.submit}

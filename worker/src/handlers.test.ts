@@ -71,9 +71,9 @@ async function rejects(promise: Promise<unknown>, status: number) {
 async function submitAndVerify(
   deps: Deps,
   sent: EmailMessage[],
-  values: SubmissionValues = validValues('general'),
+  values: SubmissionValues = validValues('normal'),
 ) {
-  await createSubmission({ type: 'general', values }, deps)
+  await createSubmission({ type: 'normal', values }, deps)
   await verify({ token: lastToken(sent, 'token') }, deps)
   return `Bearer ${lastToken(sent, 'edit')}`
 }
@@ -81,12 +81,12 @@ async function submitAndVerify(
 describe('submitting', () => {
   it('saves an unverified row and emails only a link', async () => {
     const { deps, sent, store } = setup()
-    const values = validValues('general', { title: 'SECRET TITLE' })
-    expect(await createSubmission({ type: 'general', values }, deps)).toEqual({
+    const values = validValues('normal', { title: 'SECRET TITLE' })
+    expect(await createSubmission({ type: 'normal', values }, deps)).toEqual({
       status: 'pending',
       email: 'speaker@example.com',
     })
-    expect(store('general').summary()).toEqual([[1, '未驗證']])
+    expect(store('normal').summary()).toEqual([[1, '未驗證']])
     expect(sent).toHaveLength(1)
     expect(sent[0].to).toBe('speaker@example.com')
     expect(sent[0].text).toContain(
@@ -100,7 +100,7 @@ describe('submitting', () => {
     const { deps } = setup()
     const error = await rejects(
       createSubmission(
-        { type: 'general', values: validValues('general', { title: '' }) },
+        { type: 'normal', values: validValues('normal', { title: '' }) },
         deps,
       ),
       422,
@@ -115,7 +115,7 @@ describe('submitting', () => {
     )
     await rejects(
       createSubmission(
-        { type: 'general', values: validValues('general') },
+        { type: 'normal', values: validValues('normal') },
         setup(closed).deps,
       ),
       403,
@@ -124,29 +124,29 @@ describe('submitting', () => {
 
   it('limits verification emails per address, before saving', async () => {
     const { deps, sent, store } = setup()
-    const body = { type: 'general', values: validValues('general') }
+    const body = { type: 'normal', values: validValues('normal') }
     for (let i = 0; i < 3; i++) await createSubmission(body, deps)
     const error = await rejects(createSubmission(body, deps), 429)
     expect(error.body.error).toBe('mail-limit')
-    expect(store('general').rows).toHaveLength(3)
+    expect(store('normal').rows).toHaveLength(3)
     expect(sent).toHaveLength(3)
   })
 
   it('needs a passed Turnstile check, before saving or mailing', async () => {
     const { deps, sent, store, tokens } = setup()
-    const values = validValues('general')
+    const values = validValues('normal')
     await createSubmission(
-      { type: 'general', values, turnstileToken: 't' },
+      { type: 'normal', values, turnstileToken: 't' },
       deps,
     )
     expect(tokens).toEqual(['t'])
 
     const error = await rejects(
-      createSubmission({ type: 'general', values }, { ...deps, ...robot }),
+      createSubmission({ type: 'normal', values }, { ...deps, ...robot }),
       403,
     )
     expect(error.body.error).toBe('captcha')
-    expect(store('general').rows).toHaveLength(1)
+    expect(store('normal').rows).toHaveLength(1)
     expect(sent).toHaveLength(1)
   })
 })
@@ -154,19 +154,19 @@ describe('submitting', () => {
 describe('verifying', () => {
   it('verifies once and emails the copy with an edit link', async () => {
     const { deps, sent, store } = setup()
-    const values = validValues('general', { title: 'My <talk>' })
-    await createSubmission({ type: 'general', values }, deps)
+    const values = validValues('normal', { title: 'My <talk>' })
+    await createSubmission({ type: 'normal', values }, deps)
     const token = lastToken(sent, 'token')
 
     const result = await verify({ token }, deps)
-    expect(result).toMatchObject({ status: 'verified', type: 'general' })
-    expect(store('general').summary()).toEqual([[1, '已驗證']])
+    expect(result).toMatchObject({ status: 'verified', type: 'normal' })
+    expect(store('normal').summary()).toEqual([[1, '已驗證']])
     expect(sent).toHaveLength(2)
     expect(sent[1].subject).toContain('My <talk>')
     expect(sent[1].html).toContain('My &lt;talk&gt;')
     expect(sent[1].html).not.toContain('My <talk>')
     expect(sent[1].text).toContain(
-      'https://sitcon.org/2027/cfp/submit/general?edit=',
+      'https://sitcon.org/2027/cfp/submit/normal?edit=',
     )
 
     // Opening the link again (or a mail scanner) sends nothing more.
@@ -177,7 +177,7 @@ describe('verifying', () => {
   it('rejects tampered and expired links', async () => {
     const { deps, sent } = setup()
     await createSubmission(
-      { type: 'general', values: validValues('general') },
+      { type: 'normal', values: validValues('normal') },
       deps,
     )
     const token = lastToken(sent, 'token')
@@ -191,7 +191,7 @@ describe('verifying', () => {
   it('still verifies after the deadline, for submissions sent before it', async () => {
     const { deps, sent } = setup(Date.parse('2027-01-15T23:00:00+08:00'))
     await createSubmission(
-      { type: 'general', values: validValues('general') },
+      { type: 'normal', values: validValues('normal') },
       deps,
     )
     const late = { ...deps, now: Date.parse('2027-01-16T01:00:00+08:00') }
@@ -204,10 +204,10 @@ describe('verifying', () => {
 describe('editing', () => {
   it('loads the current version', async () => {
     const { deps, sent } = setup()
-    const values = validValues('general', { title: 'First' })
+    const values = validValues('normal', { title: 'First' })
     const auth = await submitAndVerify(deps, sent, values)
     const draft = await loadEdit(auth, deps)
-    expect(draft.type).toBe('general')
+    expect(draft.type).toBe('normal')
     expect(draft.id).toMatch(/^G-/)
     expect(draft.values.title).toBe('First')
   })
@@ -218,7 +218,7 @@ describe('editing', () => {
     const result = await saveEdit(
       auth,
       {
-        values: validValues('general', {
+        values: validValues('normal', {
           title: 'Second',
           contactEmail: 'SPEAKER@example.com',
         }),
@@ -226,7 +226,7 @@ describe('editing', () => {
       deps,
     )
     expect(result.status).toBe('updated')
-    expect(store('general').summary()).toEqual([
+    expect(store('normal').summary()).toEqual([
       [1, '已取代'],
       [2, '已驗證'],
     ])
@@ -237,7 +237,7 @@ describe('editing', () => {
   it('verifies a new address before the version counts', async () => {
     const { deps, sent, store } = setup()
     const auth = await submitAndVerify(deps, sent)
-    const values = validValues('general', {
+    const values = validValues('normal', {
       title: 'Moved',
       contactEmail: 'new@example.com',
     })
@@ -246,7 +246,7 @@ describe('editing', () => {
       email: 'new@example.com',
     })
     expect(sent.at(-1)!.to).toBe('new@example.com')
-    expect(store('general').summary()).toEqual([
+    expect(store('normal').summary()).toEqual([
       [1, '已驗證'],
       [2, '未驗證'],
     ])
@@ -254,7 +254,7 @@ describe('editing', () => {
     expect((await loadEdit(auth, deps)).values.title).not.toBe('Moved')
 
     await verify({ token: lastToken(sent, 'token') }, deps)
-    expect(store('general').summary()).toEqual([
+    expect(store('normal').summary()).toEqual([
       [1, '已取代'],
       [2, '已驗證'],
     ])
@@ -266,19 +266,19 @@ describe('editing', () => {
     const auth = await submitAndVerify(deps, sent)
     await saveEdit(
       auth,
-      { values: validValues('general', { contactEmail: 'b@example.com' }) },
+      { values: validValues('normal', { contactEmail: 'b@example.com' }) },
       deps,
     )
     const stale = lastToken(sent, 'token')
-    await saveEdit(auth, { values: validValues('general') }, deps)
-    expect(store('general').summary()).toEqual([
+    await saveEdit(auth, { values: validValues('normal') }, deps)
+    expect(store('normal').summary()).toEqual([
       [1, '已取代'],
       [2, '未驗證'],
       [3, '已驗證'],
     ])
     const before = sent.length
     await verify({ token: stale }, deps)
-    expect(store('general').summary()).toEqual([
+    expect(store('normal').summary()).toEqual([
       [1, '已取代'],
       [2, '已取代'],
       [3, '已驗證'],
@@ -289,13 +289,13 @@ describe('editing', () => {
   it('needs a passed Turnstile check to save an edit', async () => {
     const { deps, sent, store } = setup()
     const auth = await submitAndVerify(deps, sent)
-    const values = validValues('general', { contactEmail: 'other@example.com' })
+    const values = validValues('normal', { contactEmail: 'other@example.com' })
     const error = await rejects(
       saveEdit(auth, { values }, { ...deps, ...robot }),
       403,
     )
     expect(error.body.error).toBe('captcha')
-    expect(store('general').rows).toHaveLength(1)
+    expect(store('normal').rows).toHaveLength(1)
     // Loading the draft needs no check: it sends nothing.
     await expect(loadEdit(auth, { ...deps, ...robot })).resolves.toBeTruthy()
   })
@@ -309,7 +309,7 @@ describe('editing', () => {
     await rejects(
       saveEdit(
         auth,
-        { values: validValues('general') },
+        { values: validValues('normal') },
         { ...deps, now: closed },
       ),
       403,
@@ -319,10 +319,10 @@ describe('editing', () => {
   it('has nothing to open before the first verification', async () => {
     const { deps, sent, store } = setup()
     await createSubmission(
-      { type: 'general', values: validValues('general') },
+      { type: 'normal', values: validValues('normal') },
       deps,
     )
-    const [{ id }] = await store('general').index()
+    const [{ id }] = await store('normal').index()
     const auth = `Bearer ${await createEditToken(deps.secret, id)}`
     await rejects(loadEdit(auth, deps), 404)
     expect(sent).toHaveLength(1)

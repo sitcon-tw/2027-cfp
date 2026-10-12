@@ -14,7 +14,7 @@ const now = Date.parse('2026-11-01T00:00:00Z')
 
 describe('submission IDs', () => {
   it('carry their session type', () => {
-    for (const type of ['general', 'open', 'demo'] as const) {
+    for (const type of ['normal', 'undefined', 'demo'] as const) {
       const id = newSubmissionId(type)
       expect(id).toMatch(/^[GOD]-[0-9A-HJKMNP-TV-Z]{8}$/)
       expect(submissionType(id)).toBe(type)
