@@ -37,7 +37,10 @@ export function FieldDescription({
 }: WithClassName<BaseField.Description.Props>) {
   return (
     <BaseField.Description
-      className={cn('text-body text-light', className)}
+      className={cn(
+        'text-body text-light [&_a]:text-foreground [&_strong]:text-foreground',
+        className,
+      )}
       {...props}
     />
   )

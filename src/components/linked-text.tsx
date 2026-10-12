@@ -7,8 +7,10 @@ const markupPattern =
 
 /**
  * Renders JSON copy, turning `**strong**` into bold text and `[label](url)`
- * into links that open in a new tab. Inline link styling is our own; Figma
- * has none.
+ * into links that open in a new tab. Both inherit the surrounding text color,
+ * so they read on cream and dark surfaces alike; a muted paragraph that wants
+ * them brighter sets `[&_strong]:text-foreground [&_a]:text-foreground`.
+ * Inline link styling is our own; Figma has none.
  */
 export function LinkedText({ text }: { text: string }) {
   const parts: ReactNode[] = []
@@ -17,7 +19,7 @@ export function LinkedText({ text }: { text: string }) {
     parts.push(text.slice(last, match.index))
     parts.push(
       match[1] != null ? (
-        <strong key={match.index} className="font-bold text-foreground">
+        <strong key={match.index} className="font-bold">
           {match[1]}
         </strong>
       ) : (
@@ -26,7 +28,7 @@ export function LinkedText({ text }: { text: string }) {
           href={match[3]}
           target="_blank"
           rel="noreferrer"
-          className="rounded-xs text-foreground underline underline-offset-4 transition hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+          className="rounded-xs underline underline-offset-4 transition hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
         >
           {match[2]}
         </a>
