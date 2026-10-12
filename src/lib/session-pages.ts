@@ -72,8 +72,8 @@ export interface SessionPage {
   intro: IntroCard[]
   /** Closing invitation after the formats; 開放式議程 only. */
   introMore?: { title: string; description: string[] }
-  /** 重要時程, shown in the schedule dialog. */
-  schedule: ScheduleItem[]
+  /** 更多重要時程: what the dialog lists, and its timeline. */
+  schedule: { description: string; items: ScheduleItem[] }
   /** 投稿主題範例; not on Demo 展, which shows its gallery instead. */
   examples?: ExamplesSection
   reviewCriteria: CriteriaTableProps
@@ -147,7 +147,10 @@ export const sessionPages: Record<SessionTypeId, SessionPage> = {
     introDescription: text.general.introDescription,
     introLead: text.general.introLead,
     intro: withIcons(text.general.intro, [Presentation, Coffee]),
-    schedule: milestoneItems(text.general.schedule),
+    schedule: {
+      description: text.general.schedule.description,
+      items: milestoneItems(text.general.schedule.items),
+    },
     examples: withImages(text.examples.general),
     reviewCriteria: text.general.reviewCriteria,
     beforeSubmission: text.general.beforeSubmission,
@@ -166,7 +169,10 @@ export const sessionPages: Record<SessionTypeId, SessionPage> = {
     introDescription: text.open.introDescription,
     introLead: text.open.introLead,
     intro: withIcons(text.open.intro, [Toolbox, Coffee, UserRoundGroup]),
-    schedule: milestoneItems(text.open.schedule),
+    schedule: {
+      description: text.open.schedule.description,
+      items: milestoneItems(text.open.schedule.items),
+    },
     introMore: text.open.introMore,
     examples: withImages(text.examples.open),
     reviewCriteria: text.open.reviewCriteria,
@@ -186,7 +192,10 @@ export const sessionPages: Record<SessionTypeId, SessionPage> = {
     introDescription: text.demo.introDescription,
     introLead: text.demo.introLead,
     intro: withIcons(text.demo.intro, [Gamepad2, Presentation, Sprout]),
-    schedule: milestoneItems(text.demo.schedule),
+    schedule: {
+      description: text.demo.schedule.description,
+      items: milestoneItems(text.demo.schedule.items),
+    },
     reviewCriteria: text.demo.reviewCriteria,
     requirements: text.demo.requirements,
     beforeSubmission: text.demo.beforeSubmission,
