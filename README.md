@@ -225,17 +225,19 @@ site as `VITE_TURNSTILE_SITE_KEY`.
 
 The Worker deploys through **Cloudflare Workers Builds** in the SITCON
 Cloudflare account, like the preview site. It is configured in the dashboard,
-not in this repository. Connect a second Worker, `2027-cfp-api`, to this repo
-with:
+not in this repository: open the `2027-cfp-api` Worker → Settings → Build →
+Connect, pick `sitcon-tw/2027-cfp`, and set:
 
 - **Production branch:** `main`.
 - **Non-production branch builds:** off. Every deployment uses the real sheet
   and sends real email.
-- **Root directory:** the repository root, so pnpm installs from the root
-  lockfile.
-- **Deploy command:** `pnpm api:deploy`.
-- **Build watch paths:** `worker/*`, `src/forms.json`, `src/content.json`,
-  `src/lib/*`.
+- **Root directory:** `worker`, so Workers Builds finds this Worker's
+  `wrangler.jsonc` rather than the preview site's one at the root.
+- **Build command:** `cd .. && pnpm install --frozen-lockfile`.
+- **Deploy command:** `cd .. && pnpm api:deploy`.
+
+Secrets survive deployments. Variables set in the dashboard do not: each
+deployment resets them to `worker/wrangler.jsonc`, so change them there.
 
 [`build.yml`](.github/workflows/build.yml) builds the site with
 `VITE_SUBMISSION_API` pointing at the Worker.
