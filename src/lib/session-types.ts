@@ -4,13 +4,9 @@ import type { Picture } from 'vite-imagetools'
 
 import generalPhoto from '@/assets/session-general.jpg?responsive'
 import { sessionPages } from '@/lib/session-pages'
-import { sessionTypeIds } from '@/lib/session-type-ids'
+import type { SessionTypeId } from '@/lib/session-type-ids'
 
-export type SessionTypeId = (typeof sessionTypeIds)[number]
-
-export function isSessionTypeId(value: string): value is SessionTypeId {
-  return (sessionTypeIds as readonly string[]).includes(value)
-}
+export { isSessionTypeId, type SessionTypeId } from '@/lib/session-type-ids'
 
 export interface SessionType {
   id: SessionTypeId
