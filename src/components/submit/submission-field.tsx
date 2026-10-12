@@ -1,4 +1,4 @@
-import { memo, useId } from 'react'
+import { memo, useId, useRef } from 'react'
 
 import content from '@/content.json'
 import { LinkedText } from '@/components/linked-text'
@@ -25,8 +25,8 @@ const text = content.submit_page
 
 /**
  * Field kinds determine controls; groups only determine their placement.
- * Memoized with a stable `onValueChange`, so a keystroke re-renders only the
- * edited field.
+ * Memoized with stable `onValueChange` and `onValidate`, so a keystroke
+ * re-renders only the edited field.
  */
 export const SubmissionFieldControl = memo(function SubmissionFieldControl({
   field,
@@ -34,16 +34,27 @@ export const SubmissionFieldControl = memo(function SubmissionFieldControl({
   error,
   disabled,
   onValueChange: setFieldValue,
+  onValidate,
 }: {
   field: SubmissionField
   value: SubmissionValue | undefined
   error?: string
   disabled: boolean
   onValueChange: (key: string, value: SubmissionValue) => void
+  /** Shows or clears this field's error. */
+  onValidate: (key: string) => void
 }) {
   const id = useId()
-  const onValueChange = (value: SubmissionValue) =>
+  // Typed answers are checked when they lose focus, but only once edited, so
+  // tabbing past an empty field does not flag it before the first submit.
+  const edited = useRef(false)
+  const onValueChange = (value: SubmissionValue) => {
+    edited.current = true
     setFieldValue(field.key, value)
+  }
+  const onBlur = () => {
+    if (edited.current) onValidate(field.key)
+  }
   const isText = textKinds.has(field.kind)
 
   return (
@@ -71,11 +82,12 @@ export const SubmissionFieldControl = memo(function SubmissionFieldControl({
       {isText && field.kind !== 'textarea' && (
         <Input
           // Format validation uses the shared schema and JSON messages.
-          inputMode={field.kind as 'text' | 'email' | 'tel'}
+          inputMode={field.kind as 'text' | 'email' | 'tel' | 'url'}
           autoComplete="off"
           aria-required={field.required}
           value={typeof value === 'string' ? value : ''}
           onValueChange={onValueChange}
+          onBlur={onBlur}
         />
       )}
       {field.kind === 'textarea' && (
@@ -83,6 +95,7 @@ export const SubmissionFieldControl = memo(function SubmissionFieldControl({
           aria-required={field.required}
           value={typeof value === 'string' ? value : ''}
           onValueChange={onValueChange}
+          onBlur={onBlur}
         />
       )}
       {field.kind === 'select' && (
