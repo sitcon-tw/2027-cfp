@@ -96,6 +96,16 @@
       ],
       "column": "如何得知徵稿資訊"
     },
+    "referralOther": {
+      "label": "請說明您如何得知徵稿資訊",
+      "kind": "text",
+      "required": true,
+      "showIf": {
+        "field": "referral",
+        "equals": "其他"
+      },
+      "column": "如何得知徵稿資訊（其他）"
+    },
     "sessionFormat": {
       "label": "投稿類型",
       "kind": "radio",
@@ -296,7 +306,8 @@
             "contactEmail",
             "phone",
             "otherContact",
-            "referral"
+            "referral",
+            "referralOther"
           ]
         },
         {
@@ -337,7 +348,8 @@
             "contactEmail",
             "phone",
             "otherContact",
-            "referral"
+            "referral",
+            "referralOther"
           ]
         },
         {
@@ -382,7 +394,8 @@
             "contactEmail",
             "phone",
             "otherContact",
-            "referral"
+            "referral",
+            "referralOther"
           ]
         },
         {
