@@ -4,10 +4,9 @@ The CFP website for SITCON 2027 (Students' Information Technology Conference / �
 It introduces the conference and its session formats, helps prospective speakers
 choose how to participate, and provides routes for submission information.
 
-**Work in progress:** the homepage is partially implemented. Session details,
-submission forms, and About sections are scaffolded with placeholders; submissions
-cannot be sent yet. Some destinations are still undecided, and the submission
-deadline is not configured.
+Submissions are sent to the submission API in [`worker/`](worker/), which
+stores them in a Google Sheet and emails the submitter a verification link,
+then a copy with an edit link. See [Submission API](#submission-api).
 
 ## Getting started
 
@@ -29,7 +28,9 @@ pnpm dev
 ```
 
 Open the local URL printed by Vite. Local development requires no environment
-variables or backend service.
+variables or backend service: without `VITE_SUBMISSION_API`, the submission
+form is a labelled mock that sends nothing. To run it against the API, see
+[Submission API](#submission-api).
 
 ## Editing website content
 
@@ -122,7 +123,7 @@ site, so on production a missing path under `/2027/cfp/` shows GitHub's own
 ## Continuous integration
 
 [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs on every pull
-request to `dev` or `main` and every push to either branch. Its three jobs
+request to `dev` or `main` and every push to either branch. Its jobs
 mirror `pnpm check` plus the build:
 
 - **Lint** runs `pnpm lint`.
@@ -130,6 +131,8 @@ mirror `pnpm check` plus the build:
 - **Build** runs `pnpm build` (which typechecks first) and fails if the build
   regenerated `src/routeTree.gen.ts`, meaning a route change was committed
   without the regenerated route tree.
+- **Test** runs `pnpm test` (Vitest) and bundles the API Worker without
+  deploying it.
 
 ## Preview deployments
 
@@ -139,6 +142,96 @@ through Cloudflare Workers Builds in the SITCON Cloudflare account, configured b
 own preview URL, which Cloudflare posts as a comment on the pull request. Preview
 deployments send `X-Robots-Tag: noindex, nofollow`, so search engines skip them.
 They are not the production site.
+
+## Submission API
+
+The site is static, so submissions go to a separate, API-only Cloudflare
+Worker in [`worker/`](worker/) (`2027-cfp-api`), which the site calls
+cross-origin. It shares `src/forms.json`, `src/content.json` and
+[`src/lib/submission.ts`](src/lib/submission.ts) with the form, so validation
+and sheet columns can't drift. The request and response shapes are in
+[`src/lib/submission-api.ts`](src/lib/submission-api.ts).
+
+### Flow
+
+1. **Submit.** The Worker validates the draft, appends it to the session
+   type's tab as version 1, 狀態 `未驗證`, and emails a verification link
+   (`/submit/verify?token=…`, valid for 48 hours). That email carries no
+   submitted text, so the form can't be used to mail anyone else's words.
+2. **Verify.** The verify page confirms the token. The row becomes `已驗證`
+   and the submitter gets a copy of every answer and an edit link
+   (`/submit/<type>?edit=…`).
+3. **Edit.** The edit link opens the form with the current version. Each send
+   **appends** the next version; nothing is overwritten. From the same address
+   it is `已驗證` at once and older verified versions become `已取代`; a new
+   address has to verify first. Edits close at the submission deadline
+   (`content.speaker_section.schedule`, id `submission`), enforced by the
+   Worker as well.
+
+In the sheet, filter 狀態 = `已驗證` for the current version of every
+submission (投稿編號). Links are HMAC-signed with `TOKEN_SECRET`, so the sheet
+holds no secrets; changing that secret voids every link already sent.
+
+### Google setup
+
+The Worker uses the SITCON Workspace service account (ask Denny Huang):
+
+- **Mail** goes out through the Gmail API as `noreply@sitcon.org`, using
+  domain-wide delegation, with replies going to `session@sitcon.org`. The
+  service account's client ID must be granted
+  `https://www.googleapis.com/auth/gmail.send` in the Admin console (Security
+  → API controls → Domain-wide delegation). Google sends and DKIM-signs the
+  mail, so SPF, DKIM and DMARC pass for sitcon.org.
+- **Sheet:** share the Google Sheet with the service account's
+  `…@….iam.gserviceaccount.com` address as an Editor. No delegation is used for
+  it. The Worker creates a missing tab (`forms.<type>.sheet` in
+  `src/forms.json`) and writes its header row. If a tab's header row no longer
+  matches `forms.json`, writes stop with an error, so changing a question mid-CFP
+  needs a new tab or a matching header edit.
+
+### Configuration
+
+Vars are in [`worker/wrangler.jsonc`](worker/wrangler.jsonc). Set the secrets
+once per environment:
+
+```sh
+cd worker
+pnpm exec wrangler secret put SHEET_ID --env=""
+pnpm exec wrangler secret put GOOGLE_SERVICE_ACCOUNT_KEY --env=""  # the JSON key
+pnpm exec wrangler secret put TOKEN_SECRET --env=""  # e.g. `openssl rand -base64 32`
+```
+
+The Worker deploys through **Cloudflare Workers Builds** in the SITCON
+Cloudflare account, like the preview site. It is configured in the dashboard,
+not in this repository. Connect a second Worker, `2027-cfp-api`, to this repo
+with:
+
+- **Production branch:** `main`.
+- **Non-production branch builds:** off. Every deployment uses the real sheet
+  and sends real email.
+- **Root directory:** the repository root, so pnpm installs from the root
+  lockfile.
+- **Deploy command:** `pnpm api:deploy`.
+- **Build watch paths:** `worker/*`, `src/forms.json`, `src/content.json`,
+  `src/lib/*`.
+
+[`build.yml`](.github/workflows/build.yml) builds the site with
+`VITE_SUBMISSION_API` pointing at the Worker.
+
+### Local development
+
+Copy [`worker/.dev.vars.example`](worker/.dev.vars.example) to
+`worker/.dev.vars` (git-ignored), pointing `SHEET_ID` at a **test** sheet
+shared with the service account. Then:
+
+```sh
+pnpm api:dev                                       # API on http://localhost:8787
+VITE_SUBMISSION_API=http://localhost:8787 pnpm dev  # site on http://localhost:5173
+```
+
+The `staging` environment allows `http://localhost:5173` and links its
+emails there. Real emails are sent, so use your own address. `pnpm test` runs
+the flow against an in-memory sheet, with no Google access.
 
 ## License
 

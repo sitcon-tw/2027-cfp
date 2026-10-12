@@ -51,10 +51,24 @@ are editorial notes, not emphasis. Keep spans flat: nested markup, general
 Markdown, and HTML are not supported. Keep labels and option labels plain,
 since option labels sit inside the control and are written to the sheet.
 `toSheetRow()` in `src/lib/submission.ts` maps
-a draft to those columns. Form chrome (button labels, validation messages)
+a draft to those columns. `forms.<type>.sheet` names the sheet tab, and the
+top-level `sheet` holds the metadata columns written before the answers
+(投稿編號, 版本, 狀態, …) and the status labels. Form chrome (button labels, validation messages)
 stays in `content.json`. The form has no file uploads: photos, documents
 and attachments are collected as links in `text` or `textarea` fields, and
 their descriptions ask submitters to grant the 議程組 access.
+
+Submissions go to the API Worker in `worker/` (README, "Submission API"):
+a standalone Cloudflare Worker that writes to the Google Sheet and sends
+mail through the Gmail API. It imports `src/lib/submission.ts`,
+`src/lib/deadlines.ts`, `src/lib/session-type-ids.ts` and the JSON files, so
+keep those free of React, the DOM and `import.meta.env`; browser-only code
+goes in `src/lib/submission-client.ts`. The API contract is in
+`src/lib/submission-api.ts`. Email copy lives in `content.submission_email`,
+the verify page's in `content.submit_verify`. `/submit/verify` confirms an
+address, and `/submit/$type?edit=…` opens an edit link. Without
+`VITE_SUBMISSION_API`, the form stays a labelled mock. Run `pnpm test` after
+changing the flow.
 
 Homepage schedules live in `content.attend_section.tickets` and
 `content.speaker_section.schedule`. Each item's `start` / `end` is an ISO
