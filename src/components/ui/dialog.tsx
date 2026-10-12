@@ -1,5 +1,6 @@
 import { Dialog as BaseDialog } from '@base-ui/react/dialog'
 import { Drawer } from '@base-ui/react/drawer'
+import { ScrollArea } from '@base-ui/react/scroll-area'
 import { X } from 'lucide-react'
 import {
   createContext,
@@ -117,20 +118,19 @@ export function DialogContent({
           <BaseDialog.Popup
             className={cn(
               popupClassName,
-              // Clipped here, scrolled inside: the scrollbar stays within the
-              // rounded corners instead of running past them.
+              // Clipped here and scrolled inside, with no scrollbar: a
+              // native one would run past the rounded corners.
               'flex max-h-full max-w-content flex-col overflow-hidden rounded-xl transition duration-300 data-ending-style:scale-95 data-ending-style:opacity-0 data-starting-style:scale-95 data-starting-style:opacity-0',
             )}
             {...props}
           >
-            <div
-              className={cn(
-                'min-h-0 overflow-y-auto overscroll-contain p-7.5',
-                className,
-              )}
-            >
-              {children}
-            </div>
+            <ScrollArea.Root className="flex min-h-0 flex-col">
+              <ScrollArea.Viewport className="min-h-0 overscroll-contain">
+                <ScrollArea.Content className={cn('p-7.5', className)}>
+                  {children}
+                </ScrollArea.Content>
+              </ScrollArea.Viewport>
+            </ScrollArea.Root>
           </BaseDialog.Popup>
         </BaseDialog.Viewport>
       </BaseDialog.Portal>
