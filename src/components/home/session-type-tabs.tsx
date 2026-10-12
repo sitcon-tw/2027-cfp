@@ -1,6 +1,10 @@
 import type { ReactNode } from 'react'
+import { Link } from '@tanstack/react-router'
+import { ArrowRight } from 'lucide-react'
+
 import { LinkedText } from '@/components/linked-text'
 import { SessionTypePhoto } from '@/components/session-type-photo'
+import { buttonVariants } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Tabs, TabsList, TabsPanel, TabsTab } from '@/components/ui/tabs'
 import { sessionTypes, type SessionType } from '@/lib/session-types'
@@ -87,8 +91,11 @@ function SessionTypeTabList() {
 }
 
 /**
- * Dimmed session photo behind the type's description. Stacked tiles read as
- * one shape: callers round only the outer corners to `xl`.
+ * Dimmed session photo behind the type's description, ending in a link to
+ * the type's session page, so a visitor sent here by 我要投稿 can go on to
+ * submit. The link sits at the bottom, so it lines up across the
+ * equal-height panels. Stacked tiles read as one shape: callers round only
+ * the outer corners to `xl`.
  */
 function SessionTypeIntro({
   type,
@@ -102,14 +109,33 @@ function SessionTypeIntro({
   return (
     <Card
       tone="ink"
-      className={cn('relative isolate flex-1 px-5 py-3.75', className)}
+      className={cn(
+        'relative isolate flex flex-1 flex-col px-5 py-3.75',
+        className,
+      )}
     >
       <SessionTypePhoto image={type.intro.image} />
-      <div className="flex flex-col gap-2.5 px-5 py-2.5">
+      <div className="flex grow flex-col gap-2.5 px-5 py-2.5">
         {heading}
         <p className="text-paragraph">
           <LinkedText text={type.intro.description} />
         </p>
+        <div className="mt-auto pt-2.5">
+          <Link
+            to="/sessions/$type"
+            params={{ type: type.id }}
+            className={buttonVariants({
+              variant: 'cream',
+              className: 'group',
+            })}
+          >
+            {type.link}
+            <ArrowRight
+              aria-hidden
+              className="size-5 shrink-0 transition-transform duration-300 ease-smooth group-hover:translate-x-1"
+            />
+          </Link>
+        </div>
       </div>
     </Card>
   )
