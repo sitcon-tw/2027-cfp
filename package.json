@@ -28,7 +28,10 @@
     "lint:fix": "oxlint --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "check": "pnpm typecheck && pnpm lint && pnpm format:check"
+    "check": "pnpm typecheck && pnpm lint && pnpm format:check",
+    "test": "vitest run",
+    "api:dev": "cd worker && wrangler dev --env staging",
+    "api:deploy": "cd worker && wrangler deploy --env=\"\""
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
@@ -42,6 +45,7 @@
     "tailwind-merge": "^3.7.0"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261011.1",
     "@tailwindcss/vite": "^4.3.3",
     "@tanstack/router-plugin": "^1.168.42",
     "@types/node": "^24.13.3",
@@ -57,6 +61,7 @@
     "vite": "^8.3.0",
     "vite-imagetools": "^12.0.1",
     "vite-plugin-font": "^5.1.2",
+    "vitest": "^5.0.3",
     "wrangler": "4.143.0"
   }
 }
