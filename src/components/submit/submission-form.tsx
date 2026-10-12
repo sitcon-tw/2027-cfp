@@ -67,7 +67,10 @@ export function SubmissionForm({ type }: { type: SessionTypeId }) {
               </FieldsetLegend>
               <div className="flex w-full flex-col gap-2.5 md:w-2/3">
                 {section.description.map((paragraph) => (
-                  <p key={paragraph} className="text-body text-light">
+                  <p
+                    key={paragraph}
+                    className="text-body text-light [&_a]:text-foreground [&_strong]:text-foreground"
+                  >
                     <LinkedText text={paragraph} />
                   </p>
                 ))}
