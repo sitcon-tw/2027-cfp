@@ -86,3 +86,30 @@ jobs:
       # means a route changed without committing the regenerated file.
       - name: Check route tree is committed
         run: git diff --exit-code -- src/routeTree.gen.ts
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run Vitest
+        run: pnpm test
+
+      # Bundles the API Worker without deploying it, so a broken import of
+      # the shared code fails here rather than on deploy.
+      - name: Bundle API Worker
+        run: pnpm --dir worker exec wrangler deploy --env="" --dry-run --outdir ../node_modules/.tmp/worker
