@@ -1,9 +1,18 @@
-import { useEffect, useRef } from 'react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import type { Picture } from 'vite-imagetools'
 
 import content from '@/content.json'
 import { ResponsiveImage } from '@/components/responsive-image'
 import { SessionSection } from '@/components/sessions/session-section'
+import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 import { ScrollArea } from '@/components/ui/scroll-area'
 
 const text = content.session_page.demoPosters
@@ -17,7 +26,14 @@ const posters = Object.entries(
   }),
 )
   .sort(([a], [b]) => b.localeCompare(a, undefined, { numeric: true }))
-  .map(([, src]) => src)
+  .map(([path, image]) => {
+    // `2026-1.webp` is SITCON 2026's first poster.
+    const [, year = '', number = ''] = /(\d{4})-(\d+)\.\w+$/.exec(path) ?? []
+    return {
+      image,
+      alt: text.poster.replace('{year}', year).replace('{number}', number),
+    }
+  })
 
 /** How many times the posters repeat in one copy of the strip, so a copy
  *  outruns even a very wide screen. */
@@ -113,10 +129,14 @@ function drift(el: HTMLDivElement) {
 /**
  * 歷年海報展示 — a full-width row of past Demo posters drifting sideways,
  * at the homepage photo wall's pace. It can be scrolled by hand too, and
- * loops either way.
+ * loops either way. Clicking a poster opens it large, where the arrows
+ * (buttons or keys) step through the others.
  */
 export function PosterStrip() {
   const viewport = useRef<HTMLDivElement>(null)
+  const [open, setOpen] = useState(false)
+  // Kept while closing, so the preview doesn't empty during its exit.
+  const [current, setCurrent] = useState(0)
   useEffect(() => (viewport.current ? drift(viewport.current) : undefined), [])
   const strip = Array.from({ length: cycles }, () => posters).flat()
   return (
@@ -124,38 +144,134 @@ export function PosterStrip() {
       title={text.title}
       description={text.description}
       bleed={
-        <ScrollArea
-          viewportRef={viewport}
-          aria-label={text.label}
-          role="region"
-          viewportClassName="py-2.5"
-          scrollbar={false}
-        >
-          <div className="flex w-max">
-            {/* Doubled so wrapping around one copy is seamless. */}
-            {[0, 1].map((copy) => (
-              <div
-                key={copy}
-                data-copy
-                aria-hidden
-                className="flex gap-12.5 pr-12.5"
-              >
-                {strip.map((poster, i) => (
-                  <ResponsiveImage
-                    key={i}
-                    image={poster}
-                    // `h-148.5` tall, in A-series proportions.
-                    sizes="20rem"
-                    alt=""
-                    draggable={false}
-                    className="h-148.5 w-auto shrink-0 rounded-sm"
-                  />
-                ))}
-              </div>
-            ))}
-          </div>
-        </ScrollArea>
+        <Dialog open={open} onOpenChange={setOpen}>
+          <ScrollArea
+            viewportRef={viewport}
+            aria-label={text.label}
+            role="region"
+            viewportClassName="py-2.5"
+            scrollbar={false}
+          >
+            <div className="flex w-max">
+              {/* Doubled so wrapping around one copy is seamless. Only the
+                  first run of posters is announced and tabbable; the
+                  repeats still open on click. */}
+              {[0, 1].map((copy) => (
+                <div key={copy} data-copy className="flex gap-12.5 pr-12.5">
+                  {strip.map((poster, i) => {
+                    const repeat = copy > 0 || i >= posters.length
+                    return (
+                      <DialogTrigger
+                        key={i}
+                        aria-hidden={repeat || undefined}
+                        tabIndex={repeat ? -1 : undefined}
+                        aria-label={text.enlarge.replace(
+                          '{poster}',
+                          poster.alt,
+                        )}
+                        onClick={() => setCurrent(i % posters.length)}
+                        className="shrink-0 cursor-zoom-in rounded-sm transition hover:brightness-110 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-blue"
+                      >
+                        <ResponsiveImage
+                          image={poster.image}
+                          // `h-148.5` tall, in A-series proportions.
+                          sizes="20rem"
+                          alt=""
+                          draggable={false}
+                          className="h-148.5 w-auto rounded-sm"
+                        />
+                      </DialogTrigger>
+                    )
+                  })}
+                </div>
+              ))}
+            </div>
+          </ScrollArea>
+          <PosterPreview
+            current={current}
+            onChange={setCurrent}
+            onClose={() => setOpen(false)}
+          />
+        </Dialog>
       }
     />
+  )
+}
+
+/**
+ * The poster at its largest: from `md` up, as tall as the screen allows
+ * over the darkened page, which closes it when clicked; a bottom sheet
+ * below `md`.
+ */
+function PosterPreview({
+  current,
+  onChange,
+  onClose,
+}: {
+  current: number
+  onChange: (index: number) => void
+  onClose: () => void
+}) {
+  const poster = posters[current]
+  if (!poster) return null
+  const step = (by: number) =>
+    onChange((current + by + posters.length) % posters.length)
+  const onKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'ArrowLeft') step(-1)
+    else if (e.key === 'ArrowRight') step(1)
+    else return
+    e.preventDefault()
+  }
+  return (
+    <DialogContent
+      onKeyDown={onKeyDown}
+      backdropClassName="bg-black/80"
+      className="flex flex-col items-center gap-5 md:h-full md:max-w-none md:rounded-none md:bg-transparent md:p-0 md:text-foreground"
+    >
+      <div className="flex w-full items-center justify-between gap-5">
+        <DialogTitle>{poster.alt}</DialogTitle>
+        <DialogClose aria-label={text.close} />
+      </div>
+      {/* Spans the screen from `md` up, so a click beside the poster lands
+          here and closes the preview, as on the backdrop. */}
+      <div
+        className="flex min-h-0 flex-1 justify-center self-stretch"
+        onClick={(e) => e.target === e.currentTarget && onClose()}
+      >
+        <ResponsiveImage
+          key={current}
+          image={poster.image}
+          sizes="(min-width: 48rem) 50rem, 100vw"
+          alt={poster.alt}
+          loading="eager"
+          className="max-h-full w-auto max-w-full rounded-sm object-contain"
+        />
+      </div>
+      {posters.length > 1 && (
+        <div className="flex items-center gap-5">
+          <Button
+            variant="dark"
+            size="icon"
+            aria-label={text.previous}
+            onClick={() => step(-1)}
+          >
+            <ChevronLeft />
+          </Button>
+          <span className="font-numeric text-body" aria-live="polite">
+            {text.position
+              .replace('{index}', String(current + 1))
+              .replace('{count}', String(posters.length))}
+          </span>
+          <Button
+            variant="dark"
+            size="icon"
+            aria-label={text.next}
+            onClick={() => step(1)}
+          >
+            <ChevronRight />
+          </Button>
+        </div>
+      )}
+    </DialogContent>
   )
 }

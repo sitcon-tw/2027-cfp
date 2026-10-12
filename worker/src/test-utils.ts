@@ -4,11 +4,18 @@ import {
   getSheetStatusLabel,
   getSubmissionFields,
   parseSheetStatus,
+  type FieldKind,
   type SubmissionValues,
 } from '@/lib/submission'
 
 import type { Cell } from './sheets'
 import type { RowRef, StatusChange, SubmissionStore } from './store'
+
+const validText: Partial<Record<FieldKind, string>> = {
+  email: 'speaker@example.com',
+  tel: '0912-345-678',
+  url: 'https://example.com/answer',
+}
 
 /** A draft answering every question of `type` with something valid. */
 export function validValues(
@@ -18,13 +25,11 @@ export function validValues(
   const values: SubmissionValues = {}
   for (const field of getSubmissionFields(type)) {
     values[field.key] =
-      field.kind === 'email'
-        ? 'speaker@example.com'
-        : field.kind === 'checkboxes'
-          ? [field.options![0]]
-          : field.options
-            ? field.options[0]
-            : `${field.key} answer`
+      field.kind === 'checkboxes'
+        ? [field.options![0]]
+        : field.options
+          ? field.options[0]
+          : (validText[field.kind] ?? `${field.key} answer`)
   }
   return { ...values, ...overrides }
 }

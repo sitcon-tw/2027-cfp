@@ -38,6 +38,8 @@ export const Route = createFileRoute('/sessions/$type')({
 
 const text = content.session_page
 
+const heroTexts = Object.values(sessionPages).map(({ hero }) => hero)
+
 /**
  * 一般議程 / 開放式議程 / Demo 展. Sections differ per type; see Figma.
  * Hero, Q&A and the closing call to action are shared; the sections in
@@ -56,7 +58,8 @@ function SessionPage() {
   }, [])
   return (
     <main className="overflow-x-clip">
-      <PageHero {...page.hero}>
+      {/* Sized for every type's intro, so switching tabs moves nothing. */}
+      <PageHero {...page.hero} reserve={heroTexts}>
         <SessionPageTabs type={type} />
       </PageHero>
       {type === 'demo' ? (

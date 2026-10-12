@@ -6,6 +6,8 @@ import {
 } from '@/lib/session-type-ids'
 import {
   createEmptyValues,
+  getSubmissionFields,
+  validateField,
   validateSubmission,
   type SubmissionErrors,
   type SubmissionValue,
@@ -257,6 +259,29 @@ export function createSubmissionStore(edit?: {
     listeners.forEach((listener) => listener())
   }
 
+  /**
+   * Shows every error of the type's draft, and whether it has none. Run on
+   * submit before Base UI's `Form`, which stops at fields already showing an
+   * error.
+   */
+  function validate(type: SessionTypeId) {
+    const current = state[type]
+    if (current.isSubmitting || isSubmitted(current)) return false
+    const errors = validateSubmission(type, current.values)
+    if (!Object.keys(errors).length) return true
+    update(type, {
+      errors,
+      result: {
+        status: 'field-error',
+        errors,
+        message: isMockSubmission
+          ? text.mock.fieldError
+          : text.result.fieldError,
+      },
+    })
+    return false
+  }
+
   return {
     getSnapshot: () => state,
     subscribe(listener: () => void) {
@@ -281,12 +306,28 @@ export function createSubmissionStore(edit?: {
         result: null,
       })
     },
+    /** Shows or clears one field's error, as when it loses focus. */
+    validateField(type: SessionTypeId, key: string) {
+      const current = state[type]
+      const field = getSubmissionFields(type).find((field) => field.key === key)
+      if (!field || current.isSubmitting || isSubmitted(current)) return
+      const error = validateField(field, current.values[key])
+      if (error === current.errors[key]) return
+      const errors = { ...current.errors }
+      if (error) errors[key] = error
+      else delete errors[key]
+      update(type, { errors })
+    },
+    validate,
     /** Sends the type's draft; `turnstileToken` is spent either way. */
     async submit(type: SessionTypeId, turnstileToken: string | null) {
       // Synchronous guard also covers a second send before React rerenders.
       const current = state[type]
       if (current.isSubmitting || isSubmitted(current)) return
-      update(type, { isSubmitting: true, errors: {}, result: null })
+      if (!validate(type)) return
+      // `errors` keeps its identity until the response replaces it, so Base
+      // UI's `Form` sees one change per send and focuses any field errors.
+      update(type, { isSubmitting: true, result: null })
 
       let result: SubmissionResult
       try {

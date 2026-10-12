@@ -14,6 +14,7 @@ const fieldKinds = [
   'text',
   'email',
   'tel',
+  'url',
   'textarea',
   'radio',
   'checkboxes',
@@ -28,6 +29,7 @@ export const textKinds: ReadonlySet<FieldKind> = new Set([
   'text',
   'email',
   'tel',
+  'url',
   'textarea',
 ])
 /** Kinds whose value is one or more of `options`. */
@@ -142,8 +144,75 @@ export function isEmailAddress(value: string) {
   return emailPattern.test(value)
 }
 
+// Digits with the usual separators, an optional leading `+` and an optional
+// extension (`#123`), e.g. `0912-345-678`, `+886 2 1234 5678 #9`.
+const phonePattern = /^\+?[\d\s().-]+(?:#\d+)?$/
+
+export function isPhoneNumber(value: string) {
+  const digits = value.replace(/\D/g, '').length
+  return phonePattern.test(value) && digits >= 7 && digits <= 20
+}
+
+/** An absolute `http(s)` link, as the `url` fields ask for. */
+export function isLink(value: string) {
+  if (/\s/.test(value)) return false
+  try {
+    const url = new URL(value)
+    return (
+      (url.protocol === 'https:' || url.protocol === 'http:') &&
+      url.hostname.includes('.')
+    )
+  } catch {
+    return false
+  }
+}
+
 /** Google Sheets holds at most 50,000 characters in a cell. */
 const maxTextLength = 50_000
+
+/**
+ * The error of one answer, or `undefined` when it is valid. Shared by the
+ * form (on blur and submit) and the API, so both reject the same answers.
+ */
+export function validateField(
+  field: SubmissionField,
+  value: SubmissionValue | undefined,
+): string | undefined {
+  const messages = content.submit_page.validation
+  let error: string | undefined
+
+  if (choiceKinds.has(field.kind)) {
+    const choices = Array.isArray(value) ? value : value ? [value] : []
+    if (!choices.length) {
+      if (field.required) {
+        error =
+          field.kind === 'consent' ? messages.consent : messages.requiredChoice
+      }
+    } else if (
+      choices.some(
+        (choice) =>
+          typeof choice !== 'string' || !field.options?.includes(choice),
+      )
+    ) {
+      error = messages.invalidChoice
+    }
+  } else {
+    const input = typeof value === 'string' ? value.trim() : ''
+    if (!input) {
+      if (field.required) error = messages.requiredText
+    } else if (field.kind === 'email' && !isEmailAddress(input)) {
+      error = messages.email
+    } else if (field.kind === 'tel' && !isPhoneNumber(input)) {
+      error = messages.tel
+    } else if (field.kind === 'url' && !isLink(input)) {
+      error = messages.url
+    } else if (input.length > maxTextLength) {
+      error = messages.tooLong.replace('{max}', String(maxTextLength))
+    }
+  }
+
+  return error?.replace('{label}', field.label)
+}
 
 /** Validation driven by the field definitions in forms.json. */
 export function validateSubmission(
@@ -151,42 +220,10 @@ export function validateSubmission(
   values: SubmissionValues,
 ): SubmissionErrors {
   const errors: SubmissionErrors = {}
-  const messages = content.submit_page.validation
-
   for (const field of fieldsByType[type]) {
     if (!isFieldVisible(field, values)) continue
-    const value = values[field.key]
-    let error: string | undefined
-
-    if (choiceKinds.has(field.kind)) {
-      const choices = Array.isArray(value) ? value : value ? [value] : []
-      if (!choices.length) {
-        if (field.required) {
-          error =
-            field.kind === 'consent'
-              ? messages.consent
-              : messages.requiredChoice
-        }
-      } else if (
-        choices.some(
-          (choice) =>
-            typeof choice !== 'string' || !field.options?.includes(choice),
-        )
-      ) {
-        error = messages.invalidChoice
-      }
-    } else {
-      const input = typeof value === 'string' ? value.trim() : ''
-      if (!input) {
-        if (field.required) error = messages.requiredText
-      } else if (field.kind === 'email' && !isEmailAddress(input)) {
-        error = messages.email
-      } else if (input.length > maxTextLength) {
-        error = messages.tooLong.replace('{max}', String(maxTextLength))
-      }
-    }
-
-    if (error) errors[field.key] = error.replace('{label}', field.label)
+    const error = validateField(field, values[field.key])
+    if (error) errors[field.key] = error
   }
   return errors
 }

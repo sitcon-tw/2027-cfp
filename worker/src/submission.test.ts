@@ -7,6 +7,8 @@ import {
   getSubmissionFields,
   isEmailAddress,
   isFieldVisible,
+  isLink,
+  isPhoneNumber,
   normalizeValues,
   toSheetRow,
   validateSubmission,
@@ -59,6 +61,43 @@ describe('validation', () => {
     expect(isEmailAddress('a@example.com,b@example.com')).toBe(false)
     expect(isEmailAddress('<a@example.com>')).toBe(false)
     expect(isEmailAddress('a@localhost')).toBe(false)
+  })
+
+  it('accepts phone numbers with the usual separators', () => {
+    for (const number of [
+      '0912345678',
+      '0912-345-678',
+      '+886 912 345 678',
+      '(02) 2345-6789 #123',
+    ]) {
+      expect(isPhoneNumber(number)).toBe(true)
+    }
+    for (const number of ['12345', 'not a number', '0912-345-678 or email']) {
+      expect(isPhoneNumber(number)).toBe(false)
+    }
+  })
+
+  it('accepts only absolute web links', () => {
+    expect(isLink('https://drive.google.com/file/d/abc/view')).toBe(true)
+    expect(isLink('http://example.com')).toBe(true)
+    expect(isLink('drive.google.com/file/d/abc')).toBe(false)
+    expect(isLink('javascript:alert(1)')).toBe(false)
+    expect(isLink('https://localhost')).toBe(false)
+    expect(isLink('https://example.com/a b')).toBe(false)
+  })
+
+  it('reports format errors of email, tel and url fields', () => {
+    const errors = validateSubmission(
+      'general',
+      validValues('general', {
+        contactEmail: 'speaker@',
+        phone: 'call me',
+        photo: 'my photo',
+      }),
+    )
+    expect(Object.keys(errors).sort()).toEqual(
+      ['contactEmail', 'phone', 'photo'].sort(),
+    )
   })
 
   it('rejects text longer than a sheet cell holds', () => {

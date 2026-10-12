@@ -92,11 +92,15 @@ const popupClassName =
 
 export type DialogContentProps = WithClassName<
   Omit<BaseDialog.Popup.Props, 'render' | 'style'>
->
+> & {
+  /** Extra classes for the dimmed backdrop, e.g. a darker one. */
+  backdropClassName?: string
+}
 
 /** The cream surface: a centered card on desktop, a bottom sheet on mobile. */
 export function DialogContent({
   className,
+  backdropClassName: backdropClass,
   children,
   ...props
 }: DialogContentProps) {
@@ -105,7 +109,7 @@ export function DialogContent({
   if (isDesktop) {
     return (
       <BaseDialog.Portal>
-        <BaseDialog.Backdrop className={backdropClassName} />
+        <BaseDialog.Backdrop className={cn(backdropClassName, backdropClass)} />
         <BaseDialog.Viewport className="fixed inset-0 z-30 flex items-center justify-center p-5">
           <BaseDialog.Popup
             className={cn(
@@ -124,7 +128,7 @@ export function DialogContent({
 
   return (
     <Drawer.Portal>
-      <Drawer.Backdrop className={backdropClassName} />
+      <Drawer.Backdrop className={cn(backdropClassName, backdropClass)} />
       <Drawer.Viewport className="fixed inset-0 z-30 flex items-end pt-10">
         <Drawer.Popup
           className={cn(
