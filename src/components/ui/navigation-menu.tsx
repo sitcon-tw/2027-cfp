@@ -90,11 +90,14 @@ export function NavigationMenuContent({
 
 /**
  * Renders an `<a>`. By default it is a row inside `NavigationMenuContent`;
- * set `topLevel` for links in the bar itself (e.g. 支持 SITCON).
+ * set `topLevel` for links in the bar itself (e.g. 支持 SITCON). Links close
+ * the menu when clicked, since client-side navigation keeps the header
+ * mounted and the popup would otherwise stay over the new page.
  */
 export function NavigationMenuLink({
   className,
   topLevel = false,
+  closeOnClick = true,
   ...props
 }: WithClassName<BaseNavigationMenu.Link.Props> & { topLevel?: boolean }) {
   return (
@@ -105,6 +108,7 @@ export function NavigationMenuLink({
           : 'block rounded-xs px-2.5 py-2 text-body font-bold text-foreground hover:bg-foreground/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue',
         className,
       )}
+      closeOnClick={closeOnClick}
       {...props}
     />
   )
