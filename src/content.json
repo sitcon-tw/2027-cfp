@@ -1685,13 +1685,10 @@
   "sessions": {
     "generalTitle": "一般議程",
     "generalSummary": "40 分鐘 / 10 分鐘深度分享",
-    "generalLink": "查看一般議程徵稿說明",
     "openTitle": "開放式議程",
     "openSummary": "40 分鐘 / 90 分鐘互動",
-    "openLink": "查看開放式議程徵稿說明",
     "demoTitle": "Demo 展",
-    "demoSummary": "現場展示你的作品",
-    "demoLink": "查看 Demo 展徵稿說明"
+    "demoSummary": "現場展示你的作品"
   },
   "social": {
     "facebook": "Facebook",

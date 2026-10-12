@@ -4,8 +4,9 @@ import content from '@/content.json'
 import bottomIcon from '@/assets/sitcon-icon-backdrop-bottom.svg'
 import { ScheduleCard } from '@/components/home/schedule-card'
 import { SessionQuiz } from '@/components/home/session-quiz'
-import { SessionTypeTabs } from '@/components/home/session-type-tabs'
 import { SectionHeading } from '@/components/section-heading'
+import { SessionTypeLinks } from '@/components/session-type-links'
+import { sessionTypes } from '@/lib/session-types'
 
 /**
  * 想要成為舞臺上的講者？ — session types, the session-type quiz and the
@@ -31,7 +32,7 @@ export function SpeakerSection() {
           {content.speaker_section.title}
         </SectionHeading>
         <div className="w-full pt-5 pb-2.5">
-          <SessionTypeTabs />
+          <SessionTypeLinks types={sessionTypes} />
         </div>
         <div className="w-full pt-7.5">
           <SessionQuiz />

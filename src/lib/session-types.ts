@@ -14,9 +14,7 @@ export interface SessionType {
   /** Format and length, shown under the title. */
   summary: string
   icon: LucideIcon
-  /** Label of the homepage link to the type's session page. */
-  link: string
-  /** Homepage detail panel and mobile card. */
+  /** Photo behind the type's link cards (homepage, 參考更多稿件). */
   intro: { image: Picture }
 }
 
@@ -25,7 +23,6 @@ export const sessionTypes: SessionType[] = [
     id: 'general',
     title: content.sessions.generalTitle,
     summary: content.sessions.generalSummary,
-    link: content.sessions.generalLink,
     icon: Mic,
     intro: {
       image: generalPhoto,
@@ -35,7 +32,6 @@ export const sessionTypes: SessionType[] = [
     id: 'open',
     title: content.sessions.openTitle,
     summary: content.sessions.openSummary,
-    link: content.sessions.openLink,
     icon: Users,
     intro: {
       image: sessionPages.open.hero.image,
@@ -45,7 +41,6 @@ export const sessionTypes: SessionType[] = [
     id: 'demo',
     title: content.sessions.demoTitle,
     summary: content.sessions.demoSummary,
-    link: content.sessions.demoLink,
     icon: TvMinimalPlay,
     intro: {
       image: sessionPages.demo.hero.image,
