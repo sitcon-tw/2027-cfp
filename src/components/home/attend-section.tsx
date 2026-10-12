@@ -9,7 +9,7 @@ import {
 } from 'lucide-react'
 
 import content from '@/content.json'
-import { ScheduleCard } from '@/components/home/schedule-card'
+import { ScheduleCard } from '@/components/schedule-card'
 import { SectionHeading } from '@/components/section-heading'
 import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'

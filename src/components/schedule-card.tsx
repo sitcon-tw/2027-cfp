@@ -32,7 +32,8 @@ export interface ScheduleCardProps {
 }
 
 /**
- * Teaser card for a schedule (ticketing or submission). The full timeline
+ * Teaser card for a schedule (ticketing, submission, a session type's
+ * 重要時程). The full timeline
  * opens in a dialog (a bottom sheet on mobile), like the session quiz.
  */
 export function ScheduleCard({
@@ -112,12 +113,14 @@ function ScheduleTimeline({ items }: { items: ScheduleItem[] }) {
                   </Badge>
                 )}
               </div>
-              {status !== 'unannounced' && (
+              {(item.label || status !== 'unannounced') && (
                 <p className="font-numeric text-body font-medium text-gray">
-                  {formatScheduleDate(item)}
+                  {item.label ?? formatScheduleDate(item)}
                 </p>
               )}
-              <p className="text-paragraph font-bold">{item.summary}</p>
+              {item.summary && (
+                <p className="text-paragraph font-bold">{item.summary}</p>
+              )}
               {item.description && (
                 <p className="text-paragraph text-gray">{item.description}</p>
               )}

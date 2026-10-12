@@ -41,7 +41,10 @@ the [表單文案](https://docs.google.com/document/d/16AHAPm7jvjMdqDR4sVJiNp4wh
 `checkboxes`, `select`, `consent`), `required`, `options`, `public` (adds 【公開】),
 `showIf` and the Google Sheet `column` it is written to. `forms.<type>.sections`
 lists each session type's questions in order, as keys or as
-`{ "key": …, …overrides }` for a per-type difference. Option labels are also
+`{ "key": …, …overrides }` for a per-type difference. A section marked
+`"shared": true` (基本資料) is answered once: the store keeps its answers in
+step across the types' drafts, so its fields must be identical in every form
+(checked on load). Option labels are also
 the values stored in the sheet, as in Google Forms; a `consent` question is
 a single-option confirmation. Field and section descriptions support only
 `**strong**` emphasis, `[label](https://…)` links and
@@ -71,8 +74,13 @@ the verify page's in `content.submit_verify`. `/submit/verify` confirms an
 address, and `/submit/$type?edit=…` opens an edit link. Without
 `VITE_SUBMISSION_API`, the form stays a labelled mock; with it, sends also
 need the Turnstile widget (`VITE_TURNSTILE_SITE_KEY`, `turnstile.tsx`), a
-Cloudflare iframe that is the one control not built on Base UI. Run `pnpm test` after
-changing the flow.
+Cloudflare iframe that is the one control not built on Base UI. New submissions
+save their drafts to `localStorage` (`localDraftStorage` in
+`submission-client.ts`: shared answers once, each type's others separately;
+a sent type keeps only the shared ones). They are restored on load, dropping
+answers that no longer fit; edits save nothing. The notice above the form
+(`content.submit_page.draft`) says so and can clear them. Run `pnpm test`
+after changing the flow.
 
 Homepage schedules live in `content.attend_section.tickets` and
 `content.speaker_section.schedule`. Each item's `start` / `end` is an ISO

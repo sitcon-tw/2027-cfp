@@ -7,6 +7,7 @@ import {
 import {
   createEmptyValues,
   getSubmissionFields,
+  isSharedField,
   validateField,
   validateSubmission,
   type SubmissionErrors,
@@ -224,6 +225,101 @@ async function verify(token: string): Promise<VerifyResult> {
   }
 }
 
+/**
+ * Unsent drafts as kept between visits: the shared answers (基本資料) once,
+ * and each type's other answers. Sent types keep only the shared answers, so
+ * a reload can't send the same submission twice.
+ */
+export interface StoredDrafts {
+  shared: SubmissionValues
+  types: Partial<Record<SessionTypeId, SubmissionValues>>
+}
+
+export interface DraftStorage {
+  load(): StoredDrafts | null
+  save(drafts: StoredDrafts): void
+  clear(): void
+}
+
+const draftKey = 'sitcon-2027-cfp-drafts'
+const draftVersion = 1
+
+/**
+ * Drafts in this browser's localStorage, so a reload or a closed tab keeps
+ * them. Where storage is unavailable (blocked site data, some private
+ * windows), drafts last only while the page is open.
+ */
+export const localDraftStorage: DraftStorage = {
+  load() {
+    try {
+      const raw = localStorage.getItem(draftKey)
+      const stored: unknown = raw ? JSON.parse(raw) : null
+      if (
+        stored &&
+        typeof stored === 'object' &&
+        'version' in stored &&
+        stored.version === draftVersion &&
+        'drafts' in stored &&
+        stored.drafts &&
+        typeof stored.drafts === 'object'
+      ) {
+        return stored.drafts as StoredDrafts
+      }
+    } catch {
+      // Unreadable or unavailable: start blank.
+    }
+    return null
+  },
+  save(drafts) {
+    try {
+      localStorage.setItem(
+        draftKey,
+        JSON.stringify({ version: draftVersion, drafts }),
+      )
+    } catch {
+      // Full or unavailable: the draft stays in the open page only.
+    }
+  },
+  clear() {
+    try {
+      localStorage.removeItem(draftKey)
+    } catch {
+      // Unavailable: nothing was stored.
+    }
+  },
+}
+
+/**
+ * A type's draft from stored answers. Answers that no longer fit their
+ * question (removed fields, renamed options) are dropped.
+ */
+function restoreValues(
+  type: SessionTypeId,
+  stored: StoredDrafts | null,
+): SubmissionValues {
+  const values = createEmptyValues(type)
+  if (!stored) return values
+  for (const field of getSubmissionFields(type)) {
+    const source = isSharedField(field.key)
+      ? stored.shared
+      : stored.types?.[type]
+    const value: unknown = source?.[field.key]
+    if (field.kind === 'checkboxes') {
+      if (Array.isArray(value)) {
+        values[field.key] = value.filter(
+          (choice): choice is string =>
+            typeof choice === 'string' && !!field.options?.includes(choice),
+        )
+      }
+    } else if (typeof value === 'string') {
+      if (!field.options || field.options.includes(value)) {
+        values[field.key] = value
+      }
+    }
+  }
+  return values
+}
+
 export interface SubmissionState {
   values: SubmissionValues
   errors: SubmissionErrors
@@ -242,29 +338,66 @@ function byType<T>(build: (type: SessionTypeId) => T) {
   ) as Record<SessionTypeId, T>
 }
 
+/** Whether a type's draft can still change. */
+function isEditable(state: SubmissionState) {
+  return !state.isSubmitting && !isSubmitted(state)
+}
+
 /**
- * One store per mounted form, holding a fresh draft of each type; responses
- * always update the sending type. An edit starts its type from the loaded
- * draft and sends new versions of it.
+ * One store per mounted form, holding a draft of each type; responses always
+ * update the sending type. Answers to shared questions (基本資料) are kept in
+ * step across the drafts. With `storage`, drafts start from and are saved to
+ * it. An edit starts its type from the loaded draft and sends new versions of
+ * it.
  */
-export function createSubmissionStore(edit?: {
-  token: string
-  draft: EditDraft
-}) {
+export function createSubmissionStore({
+  edit,
+  storage,
+}: {
+  edit?: { token: string; draft: EditDraft }
+  storage?: DraftStorage
+} = {}) {
+  const stored = storage?.load() ?? null
   let state = byType((type): SubmissionState => ({
     values:
       edit?.draft.type === type
         ? { ...createEmptyValues(type), ...edit.draft.values }
-        : createEmptyValues(type),
+        : restoreValues(type, stored),
     errors: {},
     isSubmitting: false,
     result: null,
   }))
+  // The latest shared answers, which outlive a sent type's draft.
+  let shared: SubmissionValues = {}
+  for (const type of sessionTypeIds) {
+    for (const [key, value] of Object.entries(state[type].values)) {
+      if (isSharedField(key) && !(key in shared)) shared[key] = value
+    }
+  }
   const listeners = new Set<() => void>()
 
-  function update(type: SessionTypeId, patch: Partial<SubmissionState>) {
-    state = { ...state, [type]: { ...state[type], ...patch } }
+  function save() {
+    if (!storage) return
+    const types: StoredDrafts['types'] = {}
+    for (const type of sessionTypeIds) {
+      if (isSubmitted(state[type])) continue
+      types[type] = Object.fromEntries(
+        Object.entries(state[type].values).filter(
+          ([key]) => !isSharedField(key),
+        ),
+      )
+    }
+    storage.save({ shared, types })
+  }
+
+  function update(patch: Partial<Record<SessionTypeId, SubmissionState>>) {
+    state = { ...state, ...patch }
+    save()
     listeners.forEach((listener) => listener())
+  }
+
+  function updateType(type: SessionTypeId, patch: Partial<SubmissionState>) {
+    update({ [type]: { ...state[type], ...patch } })
   }
 
   /**
@@ -277,7 +410,7 @@ export function createSubmissionStore(edit?: {
     if (current.isSubmitting || isSubmitted(current)) return false
     const errors = validateSubmission(type, current.values)
     if (!Object.keys(errors).length) return true
-    update(type, {
+    updateType(type, {
       errors,
       result: {
         status: 'field-error',
@@ -299,20 +432,52 @@ export function createSubmissionStore(edit?: {
       }
     },
     setValue(type: SessionTypeId, key: string, value: SubmissionValue) {
-      const current = state[type]
-      if (current.isSubmitting || isSubmitted(current)) return
-      // Keep `errors` unchanged unless this field had one, so Base UI's `Form`
-      // does not re-render every field on each keystroke.
-      let errors = current.errors
-      if (key in errors) {
-        errors = { ...errors }
-        delete errors[key]
+      if (!isEditable(state[type])) return
+      // A shared answer also goes to every other draft that can still change.
+      const types = isSharedField(key)
+        ? sessionTypeIds.filter(
+            (other) => key in state[other].values && isEditable(state[other]),
+          )
+        : [type]
+      if (isSharedField(key)) shared = { ...shared, [key]: value }
+      const patch: Partial<Record<SessionTypeId, SubmissionState>> = {}
+      for (const target of types) {
+        const current = state[target]
+        // Keep `errors` unchanged unless this field had one, so Base UI's
+        // `Form` does not re-render every field on each keystroke.
+        let errors = current.errors
+        if (key in errors) {
+          errors = { ...errors }
+          delete errors[key]
+        }
+        patch[target] = {
+          ...current,
+          values: { ...current.values, [key]: value },
+          errors,
+          result: target === type ? null : current.result,
+        }
       }
-      update(type, {
-        values: { ...current.values, [key]: value },
-        errors,
-        result: null,
-      })
+      update(patch)
+    },
+    /**
+     * Empties every draft that can still change and forgets the saved ones,
+     * for a shared computer.
+     */
+    clearDrafts() {
+      shared = {}
+      const patch: Partial<Record<SessionTypeId, SubmissionState>> = {}
+      for (const type of sessionTypeIds) {
+        if (!isEditable(state[type])) continue
+        patch[type] = {
+          ...state[type],
+          values: createEmptyValues(type),
+          errors: {},
+          result: null,
+        }
+      }
+      storage?.clear()
+      state = { ...state, ...patch }
+      listeners.forEach((listener) => listener())
     },
     /** Shows or clears one field's error, as when it loses focus. */
     validateField(type: SessionTypeId, key: string) {
@@ -324,7 +489,7 @@ export function createSubmissionStore(edit?: {
       const errors = { ...current.errors }
       if (error) errors[key] = error
       else delete errors[key]
-      update(type, { errors })
+      updateType(type, { errors })
     },
     validate,
     /** Sends the type's draft; `turnstileToken` is spent either way. */
@@ -335,7 +500,7 @@ export function createSubmissionStore(edit?: {
       if (!validate(type)) return
       // `errors` keeps its identity until the response replaces it, so Base
       // UI's `Form` sees one change per send and focuses any field errors.
-      update(type, { isSubmitting: true, result: null })
+      updateType(type, { isSubmitting: true, result: null })
 
       let result: SubmissionResult
       try {
@@ -351,7 +516,7 @@ export function createSubmissionStore(edit?: {
             : text.result.serverError,
         }
       }
-      update(type, {
+      updateType(type, {
         isSubmitting: false,
         errors: result.status === 'field-error' ? result.errors : {},
         result,

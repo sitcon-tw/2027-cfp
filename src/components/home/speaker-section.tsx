@@ -2,7 +2,7 @@ import { CalendarDays } from 'lucide-react'
 
 import content from '@/content.json'
 import bottomIcon from '@/assets/sitcon-icon-backdrop-bottom.svg'
-import { ScheduleCard } from '@/components/home/schedule-card'
+import { ScheduleCard } from '@/components/schedule-card'
 import { SessionQuiz } from '@/components/home/session-quiz'
 import { SectionHeading } from '@/components/section-heading'
 import { SessionTypeLinks } from '@/components/session-type-links'

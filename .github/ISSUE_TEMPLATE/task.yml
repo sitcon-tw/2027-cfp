@@ -10,8 +10,8 @@ body:
     attributes:
       value: |
         ⚠️ 注意：這個模板原則上只有 Nathan 能使用。
-        請勿用此模板回報 Bug 或功能建議，
-        請使用專門的 Bug 回報或功能建議模板。
+        請勿用此模板回報問題或建議功能，
+        請使用「問題回報與功能建議」模板。
 
   - type: checkboxes
     id: issue-scope

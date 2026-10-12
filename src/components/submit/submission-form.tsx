@@ -4,6 +4,7 @@ import { flushSync } from 'react-dom'
 
 import content from '@/content.json'
 import { LinkedText } from '@/components/linked-text'
+import { SubmissionDraftNotice } from '@/components/submit/submission-draft-notice'
 import { SubmissionFieldControl } from '@/components/submit/submission-field'
 import { SubmissionSentDialog } from '@/components/submit/submission-sent-dialog'
 import { Turnstile } from '@/components/submit/turnstile'
@@ -22,6 +23,7 @@ import {
   createSubmissionStore,
   isMockSubmission,
   isSubmitted,
+  localDraftStorage,
   turnstileSiteKey,
 } from '@/lib/submission-client'
 import { cn, pad } from '@/lib/utils'
@@ -29,8 +31,9 @@ import { cn, pad } from '@/lib/utils'
 const text = content.submit_page
 
 /**
- * The form of one session type, laid out from forms.json. With `edit`, it
- * starts from that draft and sends a new version of it.
+ * The form of one session type, laid out from forms.json. New submissions
+ * keep their drafts in this browser. With `edit`, it starts from that draft
+ * and sends a new version of it, saving nothing.
  */
 export function SubmissionForm({
   type,
@@ -39,7 +42,9 @@ export function SubmissionForm({
   type: SessionTypeId
   edit?: { token: string; draft: EditDraft }
 }) {
-  const [store] = useState(() => createSubmissionStore(edit))
+  const [store] = useState(() =>
+    createSubmissionStore(edit ? { edit } : { storage: localDraftStorage }),
+  )
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
   // A token is spent on every send, so each send gets a fresh widget.
   const [turnstileRound, setTurnstileRound] = useState(0)
@@ -68,6 +73,7 @@ export function SubmissionForm({
   return (
     <section className="px-2.5">
       <div className="mx-auto max-w-content">
+        {!edit && <SubmissionDraftNotice onClear={store.clearDrafts} />}
         <Form
           key={type}
           aria-busy={isSubmitting}

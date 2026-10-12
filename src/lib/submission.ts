@@ -60,6 +60,11 @@ export interface SubmissionSection {
   id: keyof typeof forms.sections
   title: string
   description: readonly string[]
+  /**
+   * Answered once for every type (基本資料): the form keeps its answers in
+   * step across the types' drafts.
+   */
+  shared: boolean
   fields: readonly SubmissionField[]
 }
 
@@ -91,6 +96,7 @@ function resolveForm(type: SessionTypeId): SubmissionSection[] {
       title: shared.title,
       description:
         ('description' in section && section.description) || shared.description,
+      shared: 'shared' in shared && shared.shared === true,
       fields: (section.fields as FieldEntry[]).map(resolveField),
     }
   })
@@ -107,6 +113,30 @@ const sectionsByType = byType(resolveForm)
 const fieldsByType = byType((type) =>
   sectionsByType[type].flatMap((section) => section.fields),
 )
+
+/**
+ * The fields of `shared` sections, by key. Each must be the same question in
+ * every form that asks it, so one answer fits them all.
+ */
+const sharedFields = new Map<string, SubmissionField>()
+for (const type of sessionTypeIds) {
+  for (const section of sectionsByType[type]) {
+    if (!section.shared) continue
+    for (const field of section.fields) {
+      const known = sharedFields.get(field.key)
+      if (known && JSON.stringify(known) !== JSON.stringify(field)) {
+        throw new Error(
+          `forms.json: shared field "${field.key}" differs between forms`,
+        )
+      }
+      sharedFields.set(field.key, field)
+    }
+  }
+}
+
+export function isSharedField(key: string) {
+  return sharedFields.has(key)
+}
 
 export function getSubmissionSections(type: SessionTypeId) {
   return sectionsByType[type]
