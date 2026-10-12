@@ -17,7 +17,7 @@ export interface SessionType {
   /** Label of the homepage link to the type's session page. */
   link: string
   /** Homepage detail panel and mobile card. */
-  intro: { description: string; image: Picture }
+  intro: { image: Picture }
 }
 
 export const sessionTypes: SessionType[] = [
@@ -28,7 +28,6 @@ export const sessionTypes: SessionType[] = [
     link: content.sessions.generalLink,
     icon: Mic,
     intro: {
-      description: content.sessions.generalDescription,
       image: generalPhoto,
     },
   },
@@ -39,7 +38,6 @@ export const sessionTypes: SessionType[] = [
     link: content.sessions.openLink,
     icon: Users,
     intro: {
-      description: content.session_page.open.introDescription,
       image: sessionPages.open.hero.image,
     },
   },
@@ -50,7 +48,6 @@ export const sessionTypes: SessionType[] = [
     link: content.sessions.demoLink,
     icon: TvMinimalPlay,
     intro: {
-      description: content.sessions.demoDescription,
       image: sessionPages.demo.hero.image,
     },
   },

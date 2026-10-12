@@ -2,7 +2,6 @@ import type { ReactNode } from 'react'
 import { Link } from '@tanstack/react-router'
 import { ArrowRight } from 'lucide-react'
 
-import { LinkedText } from '@/components/linked-text'
 import { SessionTypePhoto } from '@/components/session-type-photo'
 import { buttonVariants } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
@@ -12,8 +11,8 @@ import { cn } from '@/lib/utils'
 
 /**
  * Session types. From `md` up, a stack of tabs with a detail panel that
- * follows the selection; below it, one card per type with everything shown,
- * so phones don't have to tap through tabs to read the descriptions.
+ * follows the selection; below it, one card per type, so phones don't have
+ * to tap through tabs.
  */
 export function SessionTypeTabs() {
   return (
@@ -71,8 +70,8 @@ function SessionTypeTabList() {
         ))}
       </TabsList>
       {/* Every panel stays laid out in the same grid cell (closed ones are
-          invisible and inert, not `hidden`), so the panel keeps the tallest
-          intro's height and switching tabs doesn't resize it. */}
+          invisible and inert, not `hidden`), so switching tabs doesn't
+          resize it. */}
       <div className="grid grow basis-121.25">
         {sessionTypes.map((type) => (
           <TabsPanel
@@ -91,11 +90,11 @@ function SessionTypeTabList() {
 }
 
 /**
- * Dimmed session photo behind the type's description, ending in a link to
- * the type's session page, so a visitor sent here by 我要投稿 can go on to
- * submit. The link sits at the bottom, so it lines up across the
- * equal-height panels. Stacked tiles read as one shape: callers round only
- * the outer corners to `xl`.
+ * Dimmed session photo behind the type's title and a link to its session
+ * page, where the description and the submission CTA live, so a visitor
+ * sent here by 我要投稿 can go on to submit. The link sits at the bottom,
+ * so it lines up across the equal-height panels. Stacked tiles read as one
+ * shape: callers round only the outer corners to `xl`.
  */
 function SessionTypeIntro({
   type,
@@ -117,9 +116,6 @@ function SessionTypeIntro({
       <SessionTypePhoto image={type.intro.image} />
       <div className="flex grow flex-col gap-2.5 px-5 py-2.5">
         {heading}
-        <p className="text-paragraph">
-          <LinkedText text={type.intro.description} />
-        </p>
         <div className="mt-auto pt-2.5">
           <Link
             to="/sessions/$type"
