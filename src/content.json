@@ -1615,6 +1615,28 @@
       "serverError": "投稿系統暫時無法使用，請稍後再試；已填寫的內容仍保留。若問題持續發生，請寄信至 [session@sitcon.org](mailto:session@sitcon.org)。",
       "fieldError": "部分欄位需要修正，請檢查標示的欄位。"
     },
+    "sent": {
+      "pending": {
+        "title": "還差一步：請到信箱完成驗證",
+        "description": "我們已將驗證信寄至 {email}。投稿內容已暫存，但要完成信箱驗證才算投稿成功。",
+        "stepsTitle": "接下來",
+        "steps": [
+          "打開主旨為「{subject}」的驗證信，點擊信中的連結。連結在 {hours} 小時內有效。",
+          "若沒有看到信件，請檢查垃圾郵件匣；仍找不到的話，請寄信至 [session@sitcon.org](mailto:session@sitcon.org)。",
+          "驗證完成後，我們會寄一份投稿副本給您，信中附有修改連結，在投稿截止前都可以修改稿件。"
+        ]
+      },
+      "updated": {
+        "title": "修改已送出！",
+        "description": "新版本的投稿副本已寄至 {email}，議程組以最新版本為準。"
+      },
+      "mock": {
+        "title": "模擬送出完成",
+        "description": "尚未設定投稿 API，這次只模擬了送出流程，沒有實際送出投稿或寄出驗證信。"
+      },
+      "confirm": "我知道了",
+      "close": "關閉"
+    },
     "edit": {
       "notice": "您正在修改投稿 {id}。送出後會成為最新版本，議程組以最新版本為準。",
       "submit": "送出修改",

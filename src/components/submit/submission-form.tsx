@@ -1,8 +1,10 @@
+import { LoaderCircle } from 'lucide-react'
 import { useCallback, useState, useSyncExternalStore } from 'react'
 
 import content from '@/content.json'
 import { LinkedText } from '@/components/linked-text'
 import { SubmissionFieldControl } from '@/components/submit/submission-field'
+import { SubmissionSentDialog } from '@/components/submit/submission-sent-dialog'
 import { Turnstile } from '@/components/submit/turnstile'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -40,6 +42,8 @@ export function SubmissionForm({
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
   // A token is spent on every send, so each send gets a fresh widget.
   const [turnstileRound, setTurnstileRound] = useState(0)
+  // The type whose send just succeeded; its dialog stays with it.
+  const [sentType, setSentType] = useState<SessionTypeId | null>(null)
   const states = useSyncExternalStore(
     store.subscribe,
     store.getSnapshot,
@@ -70,6 +74,9 @@ export function SubmissionForm({
             void store.submit(type, turnstileToken).then(() => {
               setTurnstileToken(null)
               setTurnstileRound((round) => round + 1)
+              if (isSubmitted(store.getSnapshot()[type])) {
+                setSentType(type)
+              }
             })
           }}
         >
@@ -124,6 +131,12 @@ export function SubmissionForm({
               />
             )}
             <Button disabled={locked} type="submit" shape="pill">
+              {isSubmitting && (
+                <LoaderCircle
+                  aria-hidden
+                  className="size-6 motion-safe:animate-spin"
+                />
+              )}
               {isSubmitting ? loading : edit ? text.edit.submit : text.submit}
             </Button>
             <p
@@ -134,6 +147,11 @@ export function SubmissionForm({
             </p>
           </div>
         </Form>
+        <SubmissionSentDialog
+          result={result?.status === 'success' ? result : null}
+          open={sentType === type}
+          onOpenChange={(open) => setSentType(open ? type : null)}
+        />
       </div>
     </section>
   )

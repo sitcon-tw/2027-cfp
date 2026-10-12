@@ -34,11 +34,17 @@ export const turnstileSiteKey = apiBase
 
 const text = content.submit_page
 
-export type SubmissionResult = { message: string } & (
-  | { status: 'success' }
-  | { status: 'field-error'; errors: SubmissionErrors }
-  | { status: 'server-error' }
-)
+export type SubmissionResult = { message: string } &
+  /**
+   * `sent`: a new submission awaiting its verification email (`pending`), a
+   * new version of a verified one (`updated`), or the mock (`mock`).
+   */
+  (
+    | { status: 'success'; sent: 'pending' | 'updated'; email: string }
+    | { status: 'success'; sent: 'mock' }
+    | { status: 'field-error'; errors: SubmissionErrors }
+    | { status: 'server-error' }
+  )
 
 type ApiResponse<T> =
   | { ok: true; body: T }
@@ -86,7 +92,7 @@ async function mockSubmit(
     return { status: 'field-error', errors, message: mock.fieldError }
   }
   await new Promise<void>((resolve) => setTimeout(resolve, 600))
-  return { status: 'success', message: mock.success }
+  return { status: 'success', sent: 'mock', message: mock.success }
 }
 
 /**
@@ -123,11 +129,13 @@ export async function sendSubmission(
       })
 
   if (response.ok) {
-    const message =
-      response.body.status === 'updated' ? results.updated : results.pending
+    const { status, email } = response.body
+    const message = status === 'updated' ? results.updated : results.pending
     return {
       status: 'success',
-      message: message.replace('{email}', response.body.email),
+      sent: status,
+      email,
+      message: message.replace('{email}', email),
     }
   }
   if (response.network) {
