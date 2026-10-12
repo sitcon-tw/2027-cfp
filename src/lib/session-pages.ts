@@ -22,8 +22,8 @@ import type { FaqItem } from '@/components/sessions/faq'
 import type { InfoCardStackProps } from '@/components/sessions/info-card-stack'
 import type { SessionTypeId } from '@/lib/session-types'
 
-// Per-page data of /sessions/$type. Copy lives in `content.session_page`;
-// this file pairs it with images, icons and links.
+// Per-page data of the session pages (/$type). Copy lives in
+// `content.session_page`; this file pairs it with images, icons and links.
 
 const text = content.session_page
 

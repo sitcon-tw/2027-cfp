@@ -24,7 +24,7 @@ export function SessionTypeLinks({
       {types.map(({ id, title, summary, icon: Icon, intro }, i) => (
         <li key={id} className="flex flex-1">
           <Link
-            to="/sessions/$type"
+            to="/$type"
             params={{ type: id }}
             className={cn(
               'group relative isolate flex-1 overflow-clip rounded-sm bg-background px-5 py-4 text-foreground',

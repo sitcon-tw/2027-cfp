@@ -7,7 +7,7 @@ import viteFont from 'vite-plugin-font'
 import { imagetools } from 'vite-imagetools'
 
 import content from './src/content.json' with { type: 'json' }
-import { sessionTypeIds } from './src/lib/session-type-ids.ts'
+import { sessionPageSlugs, sessionTypeIds } from './src/lib/session-type-ids.ts'
 
 // The package's CJS entry replaces `module.exports` with the plugin, so the
 // default import is the plugin itself rather than the module its types describe.
@@ -18,7 +18,12 @@ const fontPlugin = viteFont as unknown as typeof viteFont.default
 const routeShells = [
   'about',
   'submit/verify',
-  ...sessionTypeIds.flatMap((type) => [`sessions/${type}`, `submit/${type}`]),
+  ...sessionTypeIds.flatMap((type) => [
+    sessionPageSlugs[type],
+    `submit/${type}`,
+    // Old session page paths, redirected by src/routes/sessions.$type.tsx.
+    `sessions/${type}`,
+  ]),
 ]
 
 // Image presets, applied by import query (typed in `src/images.d.ts`):

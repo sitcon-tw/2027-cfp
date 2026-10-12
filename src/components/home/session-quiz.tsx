@@ -109,7 +109,7 @@ export function SessionQuiz() {
                     {text.restart}
                   </Button>
                   <Link
-                    to="/sessions/$type"
+                    to="/$type"
                     params={{ type: resultSessionType[result] }}
                     onClick={() => setOpen(false)}
                     className={buttonVariants({ variant: 'dark' })}
@@ -187,7 +187,7 @@ function OtherResults({
         {ids.map((id) => (
           <li key={id}>
             <Link
-              to="/sessions/$type"
+              to="/$type"
               params={{ type: resultSessionType[id] }}
               onClick={onNavigate}
               className="group flex items-center gap-2.5 py-2.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"

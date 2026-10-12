@@ -22,7 +22,7 @@ export function SessionPageTabs({ type }: SessionPageTabsProps) {
             key={id}
             value={id}
             nativeButton={false}
-            render={<Link to="/sessions/$type" params={{ type: id }} />}
+            render={<Link to="/$type" params={{ type: id }} />}
             className="px-2.5 py-5 md:px-5"
           >
             {title}

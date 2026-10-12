@@ -110,7 +110,8 @@ python3 -m http.server -d /tmp/site   # open http://localhost:8000/2027/cfp/
 `BASE_PATH` sets Vite's `base` and the router's `basepath`; without it the site
 builds for `/` (development, `pnpm preview` and preview deployments). GitHub
 Pages has no single-page-app fallback, so the build also writes a copy of
-`index.html` for every route (`about/`, `sessions/<type>/`, `submit/<type>/`;
+`index.html` for every route (`about/`, the session pages `normal/`,
+`undefined/` and `demo/`, `submit/<type>/`;
 see `routeShells` in [`vite.config.ts`](vite.config.ts)). That lets direct
 links and page refreshes work.
 

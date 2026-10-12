@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TypeRouteImport } from './routes/$type'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as SessionsTypeRouteImport } from './routes/sessions.$type'
 import { Route as SubmitTypeRouteImport } from './routes/submit.$type'
@@ -18,6 +19,11 @@ import { Route as SubmitVerifyRouteImport } from './routes/submit.verify'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TypeRoute = TypeRouteImport.update({
+  id: '/$type',
+  path: '/$type',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -43,6 +49,7 @@ const SubmitVerifyRoute = SubmitVerifyRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$type': typeof TypeRoute
   '/about': typeof AboutRoute
   '/sessions/$type': typeof SessionsTypeRoute
   '/submit/$type': typeof SubmitTypeRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/$type': typeof TypeRoute
   '/about': typeof AboutRoute
   '/sessions/$type': typeof SessionsTypeRoute
   '/submit/$type': typeof SubmitTypeRoute
@@ -58,6 +66,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/$type': typeof TypeRoute
   '/about': typeof AboutRoute
   '/sessions/$type': typeof SessionsTypeRoute
   '/submit/$type': typeof SubmitTypeRoute
@@ -66,12 +75,24 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/about' | '/sessions/$type' | '/submit/$type' | '/submit/verify'
+    | '/'
+    | '/$type'
+    | '/about'
+    | '/sessions/$type'
+    | '/submit/$type'
+    | '/submit/verify'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/sessions/$type' | '/submit/$type' | '/submit/verify'
+  to:
+    | '/'
+    | '/$type'
+    | '/about'
+    | '/sessions/$type'
+    | '/submit/$type'
+    | '/submit/verify'
   id:
     | '__root__'
     | '/'
+    | '/$type'
     | '/about'
     | '/sessions/$type'
     | '/submit/$type'
@@ -80,6 +101,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  TypeRoute: typeof TypeRoute
   AboutRoute: typeof AboutRoute
   SessionsTypeRoute: typeof SessionsTypeRoute
   SubmitTypeRoute: typeof SubmitTypeRoute
@@ -93,6 +115,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$type': {
+      id: '/$type'
+      path: '/$type'
+      fullPath: '/$type'
+      preLoaderRoute: typeof TypeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -128,6 +157,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  TypeRoute: TypeRoute,
   AboutRoute: AboutRoute,
   SessionsTypeRoute: SessionsTypeRoute,
   SubmitTypeRoute: SubmitTypeRoute,
