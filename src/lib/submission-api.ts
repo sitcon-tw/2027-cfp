@@ -5,10 +5,11 @@ import type { SubmissionErrors, SubmissionValues } from '@/lib/submission'
  * The contract between the form and the submission API (`worker/`). Every
  * body is JSON; field errors carry the messages from `content.json`.
  *
- * - `POST /submissions` `{ type, values }` → `202 SubmitPending`
+ * - `POST /submissions` `{ type, values, turnstileToken }` → `202 SubmitPending`
  * - `POST /verify` `{ token }` → `200 VerifyResponse`
  * - `GET /edit` (edit token as `Authorization: Bearer …`) → `200 EditDraft`
- * - `PUT /edit` `{ values }` (same header) → `200 SubmitPending | SubmitUpdated`
+ * - `PUT /edit` `{ values, turnstileToken }` (same header) →
+ *   `200 SubmitPending | SubmitUpdated`
  *
  * Failures answer with `ApiError` and a 4xx/5xx status.
  */
@@ -16,6 +17,8 @@ import type { SubmissionErrors, SubmissionValues } from '@/lib/submission'
 export interface SubmitRequest {
   type: SessionTypeId
   values: SubmissionValues
+  /** From the Cloudflare Turnstile widget; single use. */
+  turnstileToken: string
 }
 
 /** Saved, waiting for the address to be verified through the emailed link. */
@@ -49,6 +52,7 @@ export interface EditDraft {
 
 export interface EditRequest {
   values: SubmissionValues
+  turnstileToken: string
 }
 
 export type ApiErrorCode =
@@ -58,7 +62,12 @@ export type ApiErrorCode =
   | 'bad-request'
   /** The submission deadline has passed. */
   | 'closed'
+  /** The Turnstile check is missing, expired or failed. */
+  | 'captcha'
+  /** Too many requests from this client, or emails to this address, a minute. */
   | 'rate-limited'
+  /** This address has had its verification emails for the day. */
+  | 'mail-limit'
   /** The verification or edit link is malformed or tampered with. */
   | 'invalid-token'
   /** The verification link has expired. */

@@ -1,6 +1,7 @@
 import content from '@/content.json'
 import type { ApiError } from '@/lib/submission-api'
 
+import { mailQuota, verifyTurnstile } from './abuse'
 import type { Env } from './env'
 import { buildMime, sendGmail } from './gmail'
 import {
@@ -61,11 +62,12 @@ async function readJson(request: Request): Promise<unknown> {
   }
 }
 
-function createDeps(env: Env): Deps {
+function createDeps(env: Env, ip: string | null): Deps {
   for (const name of [
     'SHEET_ID',
     'GOOGLE_SERVICE_ACCOUNT_KEY',
     'TOKEN_SECRET',
+    'TURNSTILE_SECRET',
   ] as const) {
     if (!env[name]) throw new Error(`${name} is not set`)
   }
@@ -98,9 +100,14 @@ function createDeps(env: Env): Deps {
       )
       await sendGmail(token, mime)
     },
-    async allowMail(address) {
-      return (await env.MAIL_LIMITER.limit({ key: address })).success
-    },
+    mailQuota: (address) =>
+      mailQuota(
+        { minute: env.MAIL_LIMITER, counts: env.MAIL_COUNTS },
+        address,
+        Number(env.MAIL_DAILY_LIMIT) || 3,
+        Date.now(),
+      ),
+    isHuman: (token) => verifyTurnstile(env.TURNSTILE_SECRET, token, ip),
     secret: env.TOKEN_SECRET,
     siteUrl: env.SITE_URL,
     now: Date.now(),
@@ -115,12 +122,19 @@ async function route(request: Request, env: Env): Promise<Response> {
     throw new HttpError(404, { error: 'not-found' })
   }
 
-  const ip = request.headers.get('CF-Connecting-IP') ?? 'unknown'
-  if (!(await env.REQUEST_LIMITER.limit({ key: ip })).success) {
-    throw new HttpError(429, { error: 'rate-limited' })
+  const ip = request.headers.get('CF-Connecting-IP')
+  const limiters = [env.REQUEST_LIMITER]
+  // Only these can send a verification email.
+  if (endpoint === 'POST /submissions' || endpoint === 'PUT /edit') {
+    limiters.push(env.SUBMIT_LIMITER)
+  }
+  for (const limiter of limiters) {
+    if (!(await limiter.limit({ key: ip ?? 'unknown' })).success) {
+      throw new HttpError(429, { error: 'rate-limited' })
+    }
   }
 
-  const deps = createDeps(env)
+  const deps = createDeps(env, ip)
   const authorization = request.headers.get('Authorization')
   switch (endpoint) {
     case 'POST /submissions':

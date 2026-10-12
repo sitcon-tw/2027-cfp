@@ -46,12 +46,16 @@ export class HttpError extends Error {
   }
 }
 
+export type MailQuota = 'ok' | 'rate-limited' | 'mail-limit'
+
 /** What the handlers need from the outside, so tests can stand in for it. */
 export interface Deps {
   store(type: SessionTypeId): Promise<SubmissionStore>
   send(message: EmailMessage): Promise<void>
-  /** `false` once the recipient has had too many verification emails. */
-  allowMail(address: string): Promise<boolean>
+  /** Counts a verification email to `address`, if it is within the limits. */
+  mailQuota(address: string): Promise<MailQuota>
+  /** Whether a Turnstile token from the form is valid (and spends it). */
+  isHuman(token: unknown): Promise<boolean>
   secret: string
   /** The CFP site, with a trailing slash. */
   siteUrl: string
@@ -68,6 +72,16 @@ export interface Deps {
 function assertOpen(deps: Deps) {
   if (isSubmissionClosed(deps.now)) {
     throw new HttpError(403, { error: 'closed' })
+  }
+}
+
+/**
+ * Every send that can email a verification link must come from the form:
+ * otherwise a script could mail anyone's address from our domain.
+ */
+async function assertHuman(deps: Deps, token: unknown) {
+  if (!(await deps.isHuman(token))) {
+    throw new HttpError(403, { error: 'captcha' })
   }
 }
 
@@ -113,13 +127,16 @@ function latestVerified(rows: RowRef[]) {
 const sameAddress = (a: string, b: string) =>
   a.toLowerCase() === b.toLowerCase()
 
+/** Takes one verification email from `email`'s quota, before anything is saved. */
+async function reserveVerification(deps: Deps, email: string) {
+  const quota = await deps.mailQuota(email.toLowerCase())
+  if (quota !== 'ok') throw new HttpError(429, { error: quota })
+}
+
 async function sendVerification(
   deps: Deps,
   { id, version, email }: { id: string; version: number; email: string },
 ) {
-  if (!(await deps.allowMail(email.toLowerCase()))) {
-    throw new HttpError(429, { error: 'rate-limited' })
-  }
   const token = await createVerifyToken(
     deps.secret,
     id,
@@ -161,13 +178,19 @@ export async function createSubmission(
   deps: Deps,
 ): Promise<SubmitPending> {
   assertOpen(deps)
-  const input = (body ?? {}) as { type?: unknown; values?: unknown }
+  const input = (body ?? {}) as {
+    type?: unknown
+    values?: unknown
+    turnstileToken?: unknown
+  }
   if (!isSessionTypeId(input.type)) {
     throw new HttpError(400, { error: 'bad-request' })
   }
   const type = input.type
   const values = parseValues(type, input.values)
+  await assertHuman(deps, input.turnstileToken)
   const email = getContactEmail(type, values)
+  await reserveVerification(deps, email)
 
   const store = await deps.store(type)
   const id = newSubmissionId(type)
@@ -272,15 +295,15 @@ export async function saveEdit(
 ): Promise<SubmitPending | SubmitUpdated> {
   const edit = await openEdit(authorization, deps)
   const { id, type, store, rows } = edit
-  const values = parseValues(
-    type,
-    (body as { values?: unknown } | null)?.values,
-  )
+  const input = (body ?? {}) as { values?: unknown; turnstileToken?: unknown }
+  const values = parseValues(type, input.values)
+  await assertHuman(deps, input.turnstileToken)
   const email = getContactEmail(type, values)
   const version = Math.max(...rows.map((row) => row.version)) + 1
   const now = sheetTimestamp(new Date(deps.now))
 
   if (!sameAddress(email, getContactEmail(type, edit.values))) {
+    await reserveVerification(deps, email)
     await store.append(
       rowCells(type, values, {
         id,

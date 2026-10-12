@@ -6,3 +6,6 @@ SHEET_ID=""
 GOOGLE_SERVICE_ACCOUNT_KEY='{"type":"service_account","client_email":"…","private_key":"-----BEGIN PRIVATE KEY-----\n…\n-----END PRIVATE KEY-----\n"}'
 # Any long random string, e.g. `openssl rand -base64 32`.
 TOKEN_SECRET=""
+# Cloudflare's always-pass test key; pair it with the site key
+# 1x00000000000000000000AA (VITE_TURNSTILE_SITE_KEY) when running locally.
+TURNSTILE_SECRET="1x0000000000000000000000000000000AA"

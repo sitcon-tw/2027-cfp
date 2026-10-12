@@ -22,6 +22,7 @@ function setup(now = open) {
   const stores = new Map<SessionTypeId, MemoryStore>()
   const sent: EmailMessage[] = []
   const mailed = new Map<string, number>()
+  const tokens: unknown[] = []
   const deps: Deps = {
     async store(type) {
       if (!stores.has(type)) stores.set(type, new MemoryStore())
@@ -30,17 +31,26 @@ function setup(now = open) {
     async send(message) {
       sent.push(message)
     },
-    async allowMail(address) {
-      mailed.set(address, (mailed.get(address) ?? 0) + 1)
-      return mailed.get(address)! <= 3
+    async mailQuota(address) {
+      const count = (mailed.get(address) ?? 0) + 1
+      if (count > 3) return 'mail-limit'
+      mailed.set(address, count)
+      return 'ok'
+    },
+    // Each test passes the check unless it swaps this out.
+    async isHuman(token) {
+      tokens.push(token)
+      return true
     },
     secret: 'test-secret',
     siteUrl: 'https://sitcon.org/2027/cfp/',
     now,
   }
   const store = (type: SessionTypeId) => stores.get(type)!
-  return { deps, sent, store }
+  return { deps, sent, store, tokens }
 }
+
+const robot: Partial<Deps> = { isHuman: async () => false }
 
 /** The token in the last email's button link. */
 function lastToken(sent: EmailMessage[], param: 'token' | 'edit') {
@@ -112,11 +122,32 @@ describe('submitting', () => {
     )
   })
 
-  it('limits verification emails per address', async () => {
-    const { deps } = setup()
+  it('limits verification emails per address, before saving', async () => {
+    const { deps, sent, store } = setup()
     const body = { type: 'general', values: validValues('general') }
     for (let i = 0; i < 3; i++) await createSubmission(body, deps)
-    await rejects(createSubmission(body, deps), 429)
+    const error = await rejects(createSubmission(body, deps), 429)
+    expect(error.body.error).toBe('mail-limit')
+    expect(store('general').rows).toHaveLength(3)
+    expect(sent).toHaveLength(3)
+  })
+
+  it('needs a passed Turnstile check, before saving or mailing', async () => {
+    const { deps, sent, store, tokens } = setup()
+    const values = validValues('general')
+    await createSubmission(
+      { type: 'general', values, turnstileToken: 't' },
+      deps,
+    )
+    expect(tokens).toEqual(['t'])
+
+    const error = await rejects(
+      createSubmission({ type: 'general', values }, { ...deps, ...robot }),
+      403,
+    )
+    expect(error.body.error).toBe('captcha')
+    expect(store('general').rows).toHaveLength(1)
+    expect(sent).toHaveLength(1)
   })
 })
 
@@ -253,6 +284,20 @@ describe('editing', () => {
       [3, '已驗證'],
     ])
     expect(sent).toHaveLength(before)
+  })
+
+  it('needs a passed Turnstile check to save an edit', async () => {
+    const { deps, sent, store } = setup()
+    const auth = await submitAndVerify(deps, sent)
+    const values = validValues('general', { contactEmail: 'other@example.com' })
+    const error = await rejects(
+      saveEdit(auth, { values }, { ...deps, ...robot }),
+      403,
+    )
+    expect(error.body.error).toBe('captcha')
+    expect(store('general').rows).toHaveLength(1)
+    // Loading the draft needs no check: it sends nothing.
+    await expect(loadEdit(auth, { ...deps, ...robot })).resolves.toBeTruthy()
   })
 
   it('rejects bad tokens and closes at the deadline', async () => {
