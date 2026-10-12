@@ -784,7 +784,9 @@
         },
         {
           "question": "還有疑問怎麼辦？",
-          "answer": ["歡迎寄信至 session@sitcon.org 詢問，我們會儘速回應。"]
+          "answer": [
+            "歡迎寄信至 [session@sitcon.org](mailto:session@sitcon.org) 詢問，我們會儘速回應。"
+          ]
         }
       ]
     },
@@ -976,7 +978,9 @@
         },
         {
           "question": "還有疑問怎麼辦？",
-          "answer": ["歡迎寄信至 session@sitcon.org 詢問，我們會儘速回應。"]
+          "answer": [
+            "歡迎寄信至 [session@sitcon.org](mailto:session@sitcon.org) 詢問，我們會儘速回應。"
+          ]
         }
       ]
     },
@@ -1137,7 +1141,9 @@
         },
         {
           "question": "還有疑問怎麼辦？",
-          "answer": ["歡迎寄信至 session@sitcon.org 詢問，我們會儘速回應。"]
+          "answer": [
+            "歡迎寄信至 [session@sitcon.org](mailto:session@sitcon.org) 詢問，我們會儘速回應。"
+          ]
         }
       ]
     },
