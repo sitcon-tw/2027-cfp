@@ -10,7 +10,7 @@ const markupPattern =
  * into links that open in a new tab. Both inherit the surrounding text color,
  * so they read on cream and dark surfaces alike; a muted paragraph that wants
  * them brighter sets `[&_strong]:text-foreground [&_a]:text-foreground`.
- * Inline link styling is our own; Figma has none.
+ * Inline link and emphasis styling is our own; Figma has none.
  */
 export function LinkedText({ text }: { text: string }) {
   const parts: ReactNode[] = []
@@ -19,7 +19,7 @@ export function LinkedText({ text }: { text: string }) {
     parts.push(text.slice(last, match.index))
     parts.push(
       match[1] != null ? (
-        <strong key={match.index} className="font-bold">
+        <strong key={match.index} className="font-extrabold">
           {match[1]}
         </strong>
       ) : (

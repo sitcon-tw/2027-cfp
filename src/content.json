@@ -1366,12 +1366,19 @@
       "empty": "範例整理中，敬請期待。",
       "previous": "上一頁",
       "next": "下一頁",
-      "page": "第 {page} 頁"
+      "page": "第 {page} 頁",
+      "pages": "範例頁面"
     },
     "demoPosters": {
       "title": "歷年海報展示",
       "description": "您可以從 SITCON [2026](https://sitcon.org/2026/agenda/#gallery)、[2025](https://sitcon.org/2025/poster/) 網站瀏覽過往的海報範例，了解格式與內容的呈現方式。",
-      "label": "歷年 Demo 展海報"
+      "label": "歷年 Demo 展海報",
+      "poster": "SITCON {year} Demo 展海報 {number}",
+      "enlarge": "放大檢視 {poster}",
+      "previous": "上一張海報",
+      "next": "下一張海報",
+      "position": "{index} / {count}",
+      "close": "關閉"
     },
     "faq": {
       "title": "Q&A",
@@ -1537,7 +1544,7 @@
         }
       ],
       "count": "{count} 人",
-      "source": "資料來源：SITCON 2026 報名資料，2026/03/03 第二波索票後統計，n=1,315。",
+      "source": "資料來源：SITCON 2026 報名資料，2026/03/03 第二波索票後統計，共 1,315 份。",
       "chartLabel": "{title}圓餅圖，數值列於圖例"
     },
     "activities": {
@@ -1599,6 +1606,8 @@
       "requiredChoice": "請選擇{label}。",
       "invalidChoice": "請選擇有效的選項。",
       "email": "請輸入有效的電子郵件。",
+      "tel": "請輸入有效的電話號碼，例如 0912-345-678。",
+      "url": "請輸入以 https:// 開頭的完整連結。",
       "consent": "請勾選「{label}」。",
       "tooLong": "{label}的內容過長，請精簡至 {max} 字以內。"
     },
@@ -1620,6 +1629,28 @@
       "serverError": "投稿系統暫時無法使用，請稍後再試；已填寫的內容仍保留。若問題持續發生，請寄信至 [session@sitcon.org](mailto:session@sitcon.org)。",
       "fieldError": "部分欄位需要修正，請檢查標示的欄位。"
     },
+    "sent": {
+      "pending": {
+        "title": "還差一步：請到信箱完成驗證",
+        "description": "我們已將驗證信寄至 {email}。投稿內容已暫存，但要完成信箱驗證才算投稿成功。",
+        "stepsTitle": "接下來",
+        "steps": [
+          "打開主旨為「{subject}」的驗證信，點擊信中的連結。連結在 {hours} 小時內有效。",
+          "若沒有看到信件，請檢查垃圾郵件匣；仍找不到的話，請寄信至 [session@sitcon.org](mailto:session@sitcon.org)。",
+          "驗證完成後，我們會寄一份投稿副本給您，信中附有修改連結，在投稿截止前都可以修改稿件。"
+        ]
+      },
+      "updated": {
+        "title": "修改已送出！",
+        "description": "新版本的投稿副本已寄至 {email}，議程組以最新版本為準。"
+      },
+      "mock": {
+        "title": "模擬送出完成",
+        "description": "尚未設定投稿 API，這次只模擬了送出流程，沒有實際送出投稿或寄出驗證信。"
+      },
+      "confirm": "我知道了",
+      "close": "關閉"
+    },
     "edit": {
       "notice": "您正在修改投稿 {id}。送出後會成為最新版本，議程組以最新版本為準。",
       "submit": "送出修改",
@@ -1638,10 +1669,22 @@
     "moreSubmissions": "參考更多稿件"
   },
   "submit_verify": {
-    "verifyingTitle": "正在驗證……",
-    "verifyingDescription": "請稍候，我們正在確認您的電子信箱。",
-    "successTitle": "投稿完成！",
-    "successDescription": "您的信箱已通過驗證，我們也寄了一份投稿副本到您的信箱，信中附有修改連結。在 {deadline} 投稿截止前，您都可以透過該連結修改稿件。感謝您投稿 SITCON 2027！",
+    "hero": {
+      "verifying": {
+        "title": "正在驗證投稿",
+        "description": "確認您的電子信箱後，投稿就完成了。"
+      },
+      "success": {
+        "title": "投稿完成！",
+        "description": "感謝您投稿 SITCON 2027！"
+      },
+      "failure": {
+        "title": "投稿尚未完成",
+        "description": "信箱驗證沒有成功，請依下方說明處理。"
+      }
+    },
+    "successTitle": "信箱已通過驗證",
+    "successDescription": "我們已寄了一份投稿副本到您的信箱，信中附有修改連結。在 {deadline} 投稿截止前，您都可以透過該連結修改稿件。",
     "expiredTitle": "驗證連結已過期",
     "expiredDescription": "驗證連結的有效期限為 {hours} 小時，請重新送出投稿以取得新的驗證信。",
     "invalidTitle": "驗證連結無效",

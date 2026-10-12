@@ -28,47 +28,60 @@ const text = content.submit_verify
 
 /**
  * Where the verification email links: confirms the address, which completes
- * the submission and has the API email its copy and edit link.
+ * the submission and has the API email its copy and edit link. The hero is
+ * the page's own (not 我要投稿！) and follows the outcome: verifying,
+ * success or failure; the message under it gives the details.
  */
 function VerifyPage() {
   const { token } = Route.useSearch()
+  const result = useVerification(token)
+  const hero =
+    result === null
+      ? text.hero.verifying
+      : result.status === 'verified'
+        ? text.hero.success
+        : text.hero.failure
   return (
     <main className="overflow-x-clip">
       <PageHero
-        title={content.submit_page.hero.title}
-        description={content.submit_page.hero.description}
+        title={hero.title}
+        description={hero.description}
         image={heroPhoto}
         placeholder={heroPhotoPlaceholder}
       />
-      {token ? (
-        <Verification key={token} token={token} />
-      ) : (
-        <SubmissionNotice
-          title={text.invalidTitle}
-          description={text.invalidDescription}
-        />
-      )}
+      {/* Stays mounted, so the outcome is announced when it arrives. */}
+      <div aria-live="polite">
+        {result && <VerificationNotice result={result} />}
+      </div>
     </main>
   )
 }
 
-function Verification({ token }: { token: string }) {
-  const [result, setResult] = useState<VerifyResult | null>(null)
+/** The outcome for `token`; `null` while verifying. No token is invalid. */
+function useVerification(token: string | undefined): VerifyResult | null {
+  const [verified, setVerified] = useState<{
+    token: string
+    result: VerifyResult
+  } | null>(null)
 
   useEffect(() => {
+    if (!token) return
     let active = true
-    void verifySubmission(token).then((verified) => {
-      if (active) setResult(verified)
+    void verifySubmission(token).then((result) => {
+      if (active) setVerified({ token, result })
     })
     return () => {
       active = false
     }
   }, [token])
 
+  if (!token) return { status: 'invalid' }
+  return verified?.token === token ? verified.result : null
+}
+
+function VerificationNotice({ result }: { result: VerifyResult }) {
   const [title, description] = (() => {
-    switch (result?.status) {
-      case undefined:
-        return [text.verifyingTitle, text.verifyingDescription]
+    switch (result.status) {
       case 'verified':
         return [
           text.successTitle,
@@ -94,5 +107,5 @@ function Verification({ token }: { token: string }) {
     }
   })()
 
-  return <SubmissionNotice live title={title} description={description} />
+  return <SubmissionNotice title={title} description={description} />
 }

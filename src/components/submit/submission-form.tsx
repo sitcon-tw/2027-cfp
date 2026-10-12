@@ -1,8 +1,11 @@
+import { LoaderCircle } from 'lucide-react'
 import { useCallback, useState, useSyncExternalStore } from 'react'
+import { flushSync } from 'react-dom'
 
 import content from '@/content.json'
 import { LinkedText } from '@/components/linked-text'
 import { SubmissionFieldControl } from '@/components/submit/submission-field'
+import { SubmissionSentDialog } from '@/components/submit/submission-sent-dialog'
 import { Turnstile } from '@/components/submit/turnstile'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -40,6 +43,8 @@ export function SubmissionForm({
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
   // A token is spent on every send, so each send gets a fresh widget.
   const [turnstileRound, setTurnstileRound] = useState(0)
+  // The type whose send just succeeded; its dialog stays with it.
+  const [sentType, setSentType] = useState<SessionTypeId | null>(null)
   const states = useSyncExternalStore(
     store.subscribe,
     store.getSnapshot,
@@ -53,6 +58,10 @@ export function SubmissionForm({
     (key: string, value: SubmissionValue) => store.setValue(type, key, value),
     [store, type],
   )
+  const validateField = useCallback(
+    (key: string) => store.validateField(type, key),
+    [store, type],
+  )
   const failed = result != null && result.status !== 'success'
   const loading = isMockSubmission ? text.mock.loading : text.loading
 
@@ -62,14 +71,20 @@ export function SubmissionForm({
         <Form
           key={type}
           aria-busy={isSubmitting}
-          // Keep no-errors stable while awaiting a response, so Base UI focuses
-          // the first invalid control when asynchronous field errors arrive.
-          errors={Object.keys(errors).length ? errors : undefined}
+          // Changes once per send (see `submit` in submission-client.ts), so
+          // Base UI focuses the first invalid control when errors arrive.
+          errors={errors}
+          // Runs before Base UI's own check, which would stop at a field
+          // already showing an error; committed at once so it sees them all.
+          onSubmitCapture={() => flushSync(() => store.validate(type))}
           onSubmit={(event) => {
             event.preventDefault()
             void store.submit(type, turnstileToken).then(() => {
               setTurnstileToken(null)
               setTurnstileRound((round) => round + 1)
+              if (isSubmitted(store.getSnapshot()[type])) {
+                setSentType(type)
+              }
             })
           }}
         >
@@ -110,6 +125,7 @@ export function SubmissionForm({
                     error={errors[field.key]}
                     disabled={locked}
                     onValueChange={setValue}
+                    onValidate={validateField}
                   />
                 ))}
             </Fieldset>
@@ -124,6 +140,12 @@ export function SubmissionForm({
               />
             )}
             <Button disabled={locked} type="submit" shape="pill">
+              {isSubmitting && (
+                <LoaderCircle
+                  aria-hidden
+                  className="size-6 motion-safe:animate-spin"
+                />
+              )}
               {isSubmitting ? loading : edit ? text.edit.submit : text.submit}
             </Button>
             <p
@@ -134,6 +156,11 @@ export function SubmissionForm({
             </p>
           </div>
         </Form>
+        <SubmissionSentDialog
+          result={result?.status === 'success' ? result : null}
+          open={sentType === type}
+          onOpenChange={(open) => setSentType(open ? type : null)}
+        />
       </div>
     </section>
   )
