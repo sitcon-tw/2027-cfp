@@ -56,3 +56,49 @@ export function formatScheduleDate({ start, end }: ScheduleItem) {
   const only = start ?? end
   return only ? formatDateTime(new Date(only)) : labels.unannounced
 }
+
+/** Long date as in the CFP copy, e.g. 2026 年 11 月 29 日（日）23:59. */
+export function formatLongDate(date: Date) {
+  const labels = content.schedule
+  const day = labels.date
+    .replace('{year}', String(date.getFullYear()))
+    .replace('{month}', String(date.getMonth() + 1))
+    .replace('{day}', String(date.getDate()))
+    .replace('{weekday}', labels.weekdays[date.getDay()])
+  const hasTime = date.getHours() !== 0 || date.getMinutes() !== 0
+  return hasTime
+    ? labels.dateTime
+        .replace('{date}', day)
+        .replace('{time}', `${pad(date.getHours())}:${pad(date.getMinutes())}`)
+    : day
+}
+
+/**
+ * One row of a session page's 重要時程, as written in `content.json`. Its
+ * date is the `at` end (`start` / `end`) of a homepage speaker-schedule item
+ * picked by id with `from`, so the two never drift; or its own ISO `date`;
+ * or, for an approximate period (2027 年一月下旬), a display `label`.
+ */
+export interface Milestone {
+  event: string
+  from?: string
+  at?: string
+  date?: string
+  label?: string
+}
+
+/** The date column of a 重要時程 row. */
+export function formatMilestoneDate({ from, at, date, label }: Milestone) {
+  if (label) return label
+  let value = date
+  if (from) {
+    const item = content.speaker_section.schedule.find(
+      (item) => item.id === from,
+    )
+    if (!item || (at !== 'start' && at !== 'end')) {
+      throw new Error(`Unknown speaker schedule date: ${from} ${at}`)
+    }
+    value = item[at] ?? undefined
+  }
+  return value ? formatLongDate(new Date(value)) : content.schedule.unannounced
+}

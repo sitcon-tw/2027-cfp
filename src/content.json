@@ -633,6 +633,42 @@
           "description": "挑戰用最濃縮且輕量的新知與技術分享，快速衝擊與會者的認知，激發他們對新領域的想像與好奇。"
         }
       ],
+      "schedule": {
+        "title": "重要時程",
+        "items": [
+          {
+            "from": "submission",
+            "at": "start",
+            "event": "開始徵稿"
+          },
+          {
+            "from": "early",
+            "at": "end",
+            "event": "早鳥投稿截止"
+          },
+          {
+            "from": "submission",
+            "at": "end",
+            "event": "投稿及稿件修改截止"
+          },
+          {
+            "label": "2027 年一月下旬",
+            "event": "議程錄取通知"
+          },
+          {
+            "label": "2027 年二月中旬至三月上旬",
+            "event": "試講"
+          },
+          {
+            "date": "2027-03-12T00:00:00+08:00",
+            "event": "彩排"
+          },
+          {
+            "date": "2027-03-13T00:00:00+08:00",
+            "event": "年會"
+          }
+        ]
+      },
       "reviewCriteria": {
         "title": "審稿標準",
         "description": "審稿委員將依據以下項目進行評分：",
@@ -831,6 +867,42 @@
           "無論是主持一場圓桌會議，一起腦力激盪，甚至舉辦一場小競賽，任何你想得到的非傳統議程形式都可以在開放式議程中進行！"
         ]
       },
+      "schedule": {
+        "title": "重要時程",
+        "items": [
+          {
+            "from": "submission",
+            "at": "start",
+            "event": "開始徵稿"
+          },
+          {
+            "from": "early",
+            "at": "end",
+            "event": "早鳥投稿截止"
+          },
+          {
+            "from": "submission",
+            "at": "end",
+            "event": "投稿及稿件修改截止"
+          },
+          {
+            "label": "2027 年一月下旬",
+            "event": "議程錄取通知"
+          },
+          {
+            "label": "2027 年二月中旬至三月上旬",
+            "event": "試講"
+          },
+          {
+            "date": "2027-03-12T00:00:00+08:00",
+            "event": "彩排"
+          },
+          {
+            "date": "2027-03-13T00:00:00+08:00",
+            "event": "年會"
+          }
+        ]
+      },
       "reviewCriteria": {
         "title": "審稿方式",
         "description": [
@@ -1006,6 +1078,42 @@
           "description": "作品以資訊相關領域為主，不限語言。從基礎專案研究至進階應用實作，包括但不限於學生專題展示、遊戲團隊試玩等形式，都歡迎投稿。"
         }
       ],
+      "schedule": {
+        "title": "重要時程",
+        "items": [
+          {
+            "from": "submission",
+            "at": "start",
+            "event": "開始徵稿"
+          },
+          {
+            "from": "early",
+            "at": "end",
+            "event": "早鳥投稿截止"
+          },
+          {
+            "from": "submission",
+            "at": "end",
+            "event": "投稿及稿件修改截止"
+          },
+          {
+            "label": "2027 年一月下旬",
+            "event": "DEMO 展錄取通知"
+          },
+          {
+            "date": "2027-02-28T00:00:00+08:00",
+            "event": "錄取海報檔案及短影音上傳截止"
+          },
+          {
+            "date": "2027-03-12T00:00:00+08:00",
+            "event": "佈展"
+          },
+          {
+            "date": "2027-03-13T00:00:00+08:00",
+            "event": "年會"
+          }
+        ]
+      },
       "requirements": {
         "title": "投稿格式",
         "description": "除標示為公開之資訊會對外公布外，其餘僅供審稿委員於審稿時閱讀。",
@@ -1469,7 +1577,7 @@
             {
               "label": "大學生",
               "count": 749,
-              "percent": 57.0
+              "percent": 57
             },
             {
               "label": "高中 / 職生",
@@ -1510,7 +1618,7 @@
             {
               "label": "初學",
               "count": 303,
-              "percent": 23.0
+              "percent": 23
             },
             {
               "label": "中等",
@@ -1717,6 +1825,9 @@
   "schedule": {
     "range": "{start} — {end}",
     "unannounced": "日期未定",
+    "date": "{year} 年 {month} 月 {day} 日（{weekday}）",
+    "dateTime": "{date}{time}",
+    "weekdays": ["日", "一", "二", "三", "四", "五", "六"],
     "close": "關閉",
     "status": {
       "upcoming": "即將開始",

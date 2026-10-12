@@ -20,6 +20,7 @@ import heroOpen from '@/assets/session-hero-open.webp?responsive'
 import type { CriteriaTableProps } from '@/components/sessions/criteria-table'
 import type { FaqItem } from '@/components/sessions/faq'
 import type { InfoCardStackProps } from '@/components/sessions/info-card-stack'
+import { formatMilestoneDate, type Milestone } from '@/lib/schedule'
 import type { SessionTypeId } from '@/lib/session-types'
 
 // Per-page data of /sessions/$type. Copy lives in `content.session_page`;
@@ -71,6 +72,8 @@ export interface SessionPage {
   intro: IntroCard[]
   /** Closing invitation after the formats; 開放式議程 only. */
   introMore?: { title: string; description: string[] }
+  /** 重要時程: date and event rows, in the 投稿格式 table's style. */
+  schedule: CriteriaTableProps
   /** 投稿主題範例; not on Demo 展, which shows its gallery instead. */
   examples?: ExamplesSection
   reviewCriteria: CriteriaTableProps
@@ -125,6 +128,23 @@ function withImages({
   }
 }
 
+/** Formats each 重要時程 row's date, from its own or the homepage's dates. */
+function withDates({
+  title,
+  items,
+}: {
+  title: string
+  items: Milestone[]
+}): CriteriaTableProps {
+  return {
+    title,
+    items: items.map((item) => ({
+      term: formatMilestoneDate(item),
+      description: item.event,
+    })),
+  }
+}
+
 function withIcons(
   cards: { title: string; description: string; examples?: string[] }[],
   icons: LucideIcon[],
@@ -144,6 +164,7 @@ export const sessionPages: Record<SessionTypeId, SessionPage> = {
     introDescription: text.general.introDescription,
     introLead: text.general.introLead,
     intro: withIcons(text.general.intro, [Presentation, Coffee]),
+    schedule: withDates(text.general.schedule),
     examples: withImages(text.examples.general),
     reviewCriteria: text.general.reviewCriteria,
     beforeSubmission: text.general.beforeSubmission,
@@ -162,6 +183,7 @@ export const sessionPages: Record<SessionTypeId, SessionPage> = {
     introDescription: text.open.introDescription,
     introLead: text.open.introLead,
     intro: withIcons(text.open.intro, [Toolbox, Coffee, UserRoundGroup]),
+    schedule: withDates(text.open.schedule),
     introMore: text.open.introMore,
     examples: withImages(text.examples.open),
     reviewCriteria: text.open.reviewCriteria,
@@ -181,6 +203,7 @@ export const sessionPages: Record<SessionTypeId, SessionPage> = {
     introDescription: text.demo.introDescription,
     introLead: text.demo.introLead,
     intro: withIcons(text.demo.intro, [Gamepad2, Presentation, Sprout]),
+    schedule: withDates(text.demo.schedule),
     reviewCriteria: text.demo.reviewCriteria,
     requirements: text.demo.requirements,
     beforeSubmission: text.demo.beforeSubmission,

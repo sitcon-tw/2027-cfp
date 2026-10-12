@@ -40,8 +40,8 @@ const text = content.session_page
 
 /**
  * 一般議程 / 開放式議程 / Demo 展. Sections differ per type; see Figma.
- * Hero, Q&A and the closing call to action are shared; the sections in
- * between come in the order of each type's CFP copy.
+ * Hero, 重要時程, Q&A and the closing call to action are shared; the
+ * sections in between come in the order of each type's CFP copy.
  */
 function SessionPage() {
   const { type } = Route.useParams()
@@ -59,6 +59,7 @@ function SessionPage() {
       <PageHero {...page.hero}>
         <SessionPageTabs type={type} />
       </PageHero>
+      <CriteriaTable {...page.schedule} />
       {type === 'demo' ? (
         <DemoSections page={page} />
       ) : (
