@@ -383,4 +383,7 @@ The 歷年海報展示 strip on `/sessions/demo` shows every image in
 `src/assets/demo-posters/`, newest file name first (`2026-1.webp` before
 `2025-1.webp`). They are past posters from the 2026 and 2025 sites
 (`sitcon-tw/2026` `public/img/poster/`, `sitcon-tw/2025` `public/poster/`),
-exported at 1000px tall.
+exported at 1000px tall. Clicking a poster opens it in a lightbox
+(`Dialog`) that steps through the others; its alt text is
+`demoPosters.poster`, filled with the year and number from the file name,
+so keep the `<year>-<n>` naming.
