@@ -26,7 +26,7 @@ export function StatGrid({ stats, className }: StatGridProps) {
           className="flex flex-col gap-1 rounded-lg p-5"
         >
           <dt className="text-h3 font-bold">{label}</dt>
-          <dd className="flex items-baseline gap-1.5 text-paragraph">
+          <dd className="flex items-baseline gap-1.5 text-paragraph leading-none">
             <span className="font-numeric text-h2 font-medium">{value}</span>
             <span>{unit}</span>
           </dd>
