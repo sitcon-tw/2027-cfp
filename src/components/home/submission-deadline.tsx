@@ -1,6 +1,14 @@
 import content from '@/content.json'
-import { Button, buttonVariants } from '@/components/ui/button'
+import { ChevronDown } from 'lucide-react'
+
+import { buttonVariants } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
+import {
+  Menu,
+  MenuContent,
+  MenuLinkItem,
+  MenuTrigger,
+} from '@/components/ui/menu'
 import { deadlines, useCountdown, type Countdown } from '@/lib/countdown'
 import { formatDate } from '@/lib/schedule'
 import { fillPlaceholders, pad } from '@/lib/utils'
@@ -35,20 +43,7 @@ export function SubmissionDeadline() {
               {DEADLINE ? <LiveCountdown to={DEADLINE} /> : <CountdownText />}
             </p>
           </div>
-          {DEADLINE ? (
-            <a
-              href={calendarUrl(DEADLINE)}
-              target="_blank"
-              rel="noreferrer"
-              className={buttonVariants({ variant: 'muted', size: 'lg' })}
-            >
-              {content.submission_deadline.addCalendar}
-            </a>
-          ) : (
-            <Button variant="muted" size="lg" disabled>
-              {content.submission_deadline.addCalendar}
-            </Button>
-          )}
+          <CalendarMenu />
         </Card>
       </div>
     </section>
@@ -77,13 +72,40 @@ function CountdownText({ parts }: { parts?: Record<CountdownPart, number> }) {
   )
 }
 
-/** Google Calendar "add event" link for the deadline. */
-function calendarUrl(deadline: Date) {
-  const stamp = deadline.toISOString().replace(/[-:]|\.\d{3}/g, '')
-  const params = new URLSearchParams({
-    action: 'TEMPLATE',
-    text: content.submission_deadline.calendarTitle,
-    dates: `${stamp}/${stamp}`,
-  })
-  return `${content.links.calendar}?${params}`
+// The 投稿重要時程 calendar, served from `public/`. Google and Apple
+// Calendar subscribe to it, so they pick up later changes to the file.
+const CALENDAR_FILE = content.links.calendarFile
+const CALENDAR_WEBCAL = CALENDAR_FILE.replace(/^https?:/, 'webcal:')
+
+function CalendarMenu() {
+  const labels = content.submission_deadline
+  return (
+    <Menu>
+      <MenuTrigger className={buttonVariants({ variant: 'muted', size: 'lg' })}>
+        {labels.addCalendar}
+        <ChevronDown
+          aria-hidden
+          className="size-6 transition-transform duration-200 in-data-popup-open:rotate-180"
+        />
+      </MenuTrigger>
+      <MenuContent>
+        <MenuLinkItem
+          href={content.links.googleCalendarSubscribe.replace(
+            '{url}',
+            encodeURIComponent(CALENDAR_WEBCAL),
+          )}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {labels.calendarGoogle}
+        </MenuLinkItem>
+        <MenuLinkItem href={CALENDAR_WEBCAL}>
+          {labels.calendarApple}
+        </MenuLinkItem>
+        <MenuLinkItem href={CALENDAR_FILE} download>
+          {labels.calendarDownload}
+        </MenuLinkItem>
+      </MenuContent>
+    </Menu>
+  )
 }

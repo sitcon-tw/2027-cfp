@@ -229,7 +229,9 @@
     "countdown": "倒數",
     "addCalendar": "加入行事曆",
     "unknownDate": "2027 / ?? / ??",
-    "calendarTitle": "SITCON 2027 投稿截止",
+    "calendarGoogle": "Google Calendar",
+    "calendarApple": "Apple Calendar",
+    "calendarDownload": "下載 .ics 檔",
     "countdownFormat": "{days} 天 {hours} 小時 {minutes} 分鐘",
     "unknownCountdownValue": "??"
   },
@@ -1698,7 +1700,8 @@
     "flickr": "https://www.flickr.com/photos/sitcon",
     "youtube": "https://www.youtube.com/@SITCONtw",
     "pastSite": "https://sitcon.org/{year}/",
-    "calendar": "https://calendar.google.com/calendar/render"
+    "calendarFile": "https://sitcon.org/2027/cfp/SITCON_2027_投稿重要時程.ics",
+    "googleCalendarSubscribe": "https://calendar.google.com/calendar/r?cid={url}"
   },
   "not_found_page": {
     "eyebrow": "404",
