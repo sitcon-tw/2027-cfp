@@ -1,12 +1,25 @@
-import { Coffee } from 'lucide-react'
+import { ArrowUpRight, Coffee } from 'lucide-react'
 
 import content from '@/content.json'
+import { LinkedText } from '@/components/linked-text'
 import { buttonVariants } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { SectionHeading } from '@/components/section-heading'
 import { links } from '@/lib/links'
 
-/** 想要支持？ — the cream section that closes the homepage. */
+const sponsor = content.sponsor_section
+
+/** The two ways to support, in the order the paragraphs introduce them. */
+const actions = [
+  { href: links.sponsorIndividual, label: sponsor.individual },
+  { href: links.sponsorProspectus, label: sponsor.prospectus },
+]
+
+/**
+ * 想要支持？ — the cream section that closes the homepage. Says why SITCON
+ * needs support, then invites individuals and companies, linking the
+ * donation page and the sponsorship prospectus like sitcon.org's 支持我們.
+ */
 export function SponsorSection() {
   return (
     <section
@@ -16,26 +29,33 @@ export function SponsorSection() {
     >
       <SlantedEdge />
       <div className="relative mx-auto flex max-w-content flex-col gap-2.5 p-2.5">
-        <SectionHeading id="sponsor-title">
-          {content.sponsor_section.title}
-        </SectionHeading>
+        <SectionHeading id="sponsor-title">{sponsor.title}</SectionHeading>
         <div className="py-2.5">
           <Card tone="ink" className="relative rounded-xl p-2.5">
+            {/* Anchored to the bottom so it sits beside the buttons, clear of the text. */}
             <Coffee
               aria-hidden
-              className="absolute top-34.5 -right-25.25 size-56 rotate-20 text-foreground/30"
+              className="absolute -right-25.25 -bottom-10 size-56 rotate-20 text-foreground/30"
             />
             <div className="relative flex flex-col gap-2.5 p-5">
-              <p className="text-paragraph">
-                {content.sponsor_section.description}
-              </p>
+              {sponsor.description.map((paragraph) => (
+                <p key={paragraph} className="text-paragraph">
+                  <LinkedText text={paragraph} />
+                </p>
+              ))}
               <div className="flex flex-wrap justify-end gap-5 py-2.5">
-                <a
-                  href={links.sponsorIndividual}
-                  className={buttonVariants({ variant: 'cream' })}
-                >
-                  {content.sponsor_section.individual}
-                </a>
+                {actions.map(({ href, label }) => (
+                  <a
+                    key={href}
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={buttonVariants({ variant: 'cream' })}
+                  >
+                    {label}
+                    <ArrowUpRight aria-hidden className="size-5 shrink-0" />
+                  </a>
+                ))}
               </div>
             </div>
           </Card>

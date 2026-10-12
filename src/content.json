@@ -40,8 +40,13 @@
   },
   "sponsor_section": {
     "title": "想要支持？",
-    "description": "支持 SITCON，能直接接觸由學生組成、對程式設計、開源軟體、資訊安全、硬體與社群經營充滿熱情的技術社群，提升品牌在年輕科技人才與開發者中的曝光與好感度，同時支持學生交流、分享作品與探索創新的平台；簡單來說，現在投資 SITCON，未來可能少一個凌晨三點才發現伺服器壞掉的人。",
-    "individual": "個人支持"
+    "description": [
+      "SITCON 秉持著不向與會者收費的原則，十多年來致力於推廣學生資訊教育，創造學生交流、教學相長的機會。",
+      "如果您也認同 SITCON 的理念，歡迎以行動支持 SITCON 的運作，點擊「[個人贊助方案](https://sitcon.org/donate)」，您的支持將會成為我們的動力，讓更多學生能在舞台上展現自我、讓資訊教育遍及臺灣的每個角落！",
+      "若您有興趣成為我們的贊助夥伴，歡迎前往「[贊助徵求網頁](https://sitcon.org/2027/cfs)」了解詳細合作方案，或是來信 [contact@sitcon.org](mailto:contact@sitcon.org) 聯絡我們，我們將有專人與您商討更多的合作方式！"
+    ],
+    "individual": "個人贊助支持",
+    "prospectus": "了解贊助方案"
   },
   "session_quiz": {
     "title": "不知道你適合哪一種議程？",
@@ -224,9 +229,9 @@
     "countdown": "倒數",
     "addCalendar": "加入行事曆",
     "unknownDate": "2027 / ?? / ??",
-    "unknownCountdown": "XX D XX h XX min",
     "calendarTitle": "SITCON 2027 投稿截止",
-    "countdownFormat": "{days} D {hours} h {minutes} min"
+    "countdownFormat": "{days} 天 {hours} 小時 {minutes} 分鐘",
+    "unknownCountdownValue": "??"
   },
   "about_section": {
     "title": "甚麼是 SITCON ?",
@@ -699,7 +704,7 @@
           },
           {
             "term": "目標受眾",
-            "description": "**必填**。請說明您期待該議程的目標受眾是哪些類型的與會者。例如：「嚮往成為前端開發者的初學者」、「欲精進某技能的後端工程師」等。SITCON 2025 的會眾比例為：大學生 55%、高中/職生 24%、社會人士 7%、研究生 10%、國中生 2%、其他 2%。"
+            "description": "**必填**。請說明您期待該議程的目標受眾是哪些類型的與會者。例如：「嚮往成為前端開發者的初學者」、「欲精進某技能的後端工程師」等。SITCON 2026 的會眾比例為：大學生 57%、高中/職生 24%、社會人士 8%、研究生 7%、國中生 1%、其他 3%。"
           },
           {
             "term": "先備知識",
@@ -779,7 +784,9 @@
         },
         {
           "question": "還有疑問怎麼辦？",
-          "answer": ["歡迎寄信至 session@sitcon.org 詢問，我們會儘速回應。"]
+          "answer": [
+            "歡迎寄信至 [session@sitcon.org](mailto:session@sitcon.org) 詢問，我們會儘速回應。"
+          ]
         }
       ]
     },
@@ -971,7 +978,9 @@
         },
         {
           "question": "還有疑問怎麼辦？",
-          "answer": ["歡迎寄信至 session@sitcon.org 詢問，我們會儘速回應。"]
+          "answer": [
+            "歡迎寄信至 [session@sitcon.org](mailto:session@sitcon.org) 詢問，我們會儘速回應。"
+          ]
         }
       ]
     },
@@ -1132,7 +1141,9 @@
         },
         {
           "question": "還有疑問怎麼辦？",
-          "answer": ["歡迎寄信至 session@sitcon.org 詢問，我們會儘速回應。"]
+          "answer": [
+            "歡迎寄信至 [session@sitcon.org](mailto:session@sitcon.org) 詢問，我們會儘速回應。"
+          ]
         }
       ]
     },
@@ -1526,30 +1537,35 @@
       "title": "我們舉辦的活動",
       "items": [
         {
+          "id": "conference",
           "title": "SITCON 年會",
           "body": "每年由學生自主籌辦的大型資訊年會，聚集來自各地的學生、社群與講者，分享技術、經驗與觀點。除了議程之外，也希望打造一個能自在交流、認識夥伴，並激發更多可能性的舞台。",
           "image": "conference.webp",
           "alt": "SITCON 年會參與者在「Jam the Chaos」主視覺前的舞台大合照"
         },
         {
+          "id": "camp",
           "title": "SITCON 夏令營",
           "body": "為學生打造的資訊營隊，結合技術課程、實作活動與團隊合作，帶領參與者從不同角度探索資訊領域。除了學習新知，也希望大家能在營隊中找到興趣、建立連結，帶著新的想法繼續前進。",
           "image": "camp.webp",
           "alt": "SITCON 夏令營 2026 學員舉旗大合照"
         },
         {
+          "id": "hour-of-code",
           "title": "SITCON Hour Of Code",
           "body": "透過容易上手、充滿互動的程式活動，陪伴更多人跨出接觸資訊與程式設計的第一步。希望降低學習門檻，讓參與者從實際操作中感受到創作、解題與探索技術的樂趣。",
           "image": "hour-of-code.webp",
           "alt": "Hour of Code 宜蘭場孩子與志工舉旗合照"
         },
         {
+          "id": "hackathon",
           "title": "SITCON 黑客松",
           "body": "我們在 2014、2015 年舉辦 HackGen，並在 2024 年將活動規模全面升級，舉辦 SITCON 黑客松，期待參與者們能於黑客松中學習發想、規劃並最終實作，讓社會與企業看見具有潛能的學生團隊。",
           "image": "hackathon.webp",
           "alt": "黑客松隊員圍著筆電討論，笑容滿面"
         },
         {
+          "id": "meetup",
           "title": "SITCON 北中南聚會",
           "body": "把交流帶到不同城市，透過短講、分享與輕鬆的聚會形式，讓各地學生都有機會認識彼此。無論是交流技術、分享近況，或單純來聽聽大家最近在做什麼，都能在這裡找到屬於自己的交流方式。",
           "image": "meetup.webp",
@@ -1674,6 +1690,7 @@
   },
   "links": {
     "donate": "https://sitcon.org/donate",
+    "prospectus": "https://sitcon.org/2027/cfs",
     "contactEmail": "mailto:contact@sitcon.org",
     "facebook": "https://www.facebook.com/SITCONtw/",
     "instagram": "https://www.instagram.com/sitcon.tw",

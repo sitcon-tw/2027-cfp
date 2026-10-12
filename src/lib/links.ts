@@ -4,6 +4,7 @@ import content from '@/content.json'
 export const links = {
   about: '/about',
   sponsorIndividual: content.links.donate,
+  sponsorProspectus: content.links.prospectus,
   contactEmail: content.links.contactEmail,
   pastSite: (year: number) =>
     content.links.pastSite.replace('{year}', String(year)),
