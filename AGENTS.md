@@ -20,7 +20,7 @@ Run `pnpm check` (typecheck, lint, format check) before finishing a task.
 ## Development and verification
 
 - Use the Node version selected by `.nvmrc` (22); `package.json` requires Node
-  >=22.12 and pins `pnpm@12.11.2` (pnpm >=12). Use pnpm only.
+  `>=22.12` and pins `pnpm@12.11.2` (pnpm `>=12`). Use pnpm only.
 - Run `pnpm install`, then `pnpm dev` from the repository root. No environment
   variables or backend are needed for frontend development: without
   `VITE_SUBMISSION_API`, the form is a labelled mock and sends nothing.
