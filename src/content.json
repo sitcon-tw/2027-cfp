@@ -1878,7 +1878,9 @@
   "metadata": {
     "lang": "zh-Hant-TW",
     "title": "SITCON 2027 Call For Papers",
-    "description": "SITCON 2027 徵稿開跑！各式議程全面徵稿，早鳥截止 2026/11/29，最終截止 2027/01/15 23:59。現在投稿，站上屬於你的舞台！"
+    "description": "SITCON 2027 徵稿開跑！各式議程全面徵稿，早鳥截止 2026/11/29，最終截止 2027/01/15 23:59。現在投稿，站上屬於你的舞台！",
+    "image": "https://sitcon.org/2027/cfp/og-image.jpg",
+    "imageAlt": "SITCON 2027 Call For Papers：2027/03/13 於中央研究院人文社會科學館舉行，投稿截止 2027/01/15"
   },
   "schedule": {
     "range": "{start} — {end}",

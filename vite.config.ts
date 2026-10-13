@@ -66,6 +66,8 @@ export default defineConfig({
           .replace('%CFP_LANG%', escape(content.metadata.lang))
           .replaceAll('%CFP_TITLE%', escape(content.metadata.title))
           .replaceAll('%CFP_DESCRIPTION%', escape(content.metadata.description))
+          .replaceAll('%CFP_IMAGE%', escape(content.metadata.image))
+          .replaceAll('%CFP_IMAGE_ALT%', escape(content.metadata.imageAlt))
       },
     },
     {
