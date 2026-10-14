@@ -53,7 +53,7 @@ export function SiteFooter() {
   const submissionClosed = useSubmissionClosed()
   return (
     <footer className="border-t border-gray bg-foreground px-2.5 py-16.25 text-background">
-      <div className="mx-auto flex max-w-content flex-col gap-10">
+      <div className="mx-auto flex max-w-content flex-col gap-10 px-2.5">
         <div className="grid grid-cols-2 gap-10 md:grid-cols-4 md:gap-0">
           <FooterColumn title={content.site_footer.linksTitle}>
             <Link to="/" className={footerLinkClassName}>

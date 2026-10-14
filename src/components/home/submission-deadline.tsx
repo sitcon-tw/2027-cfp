@@ -38,7 +38,7 @@ export function SubmissionDeadline() {
   const { title, date } = useUpcomingDeadline(DEADLINES)
   return (
     <section className="px-2.5 pt-10 pb-2.5">
-      <div className="mx-auto grid max-w-content gap-2.5 md:grid-cols-5">
+      <div className="mx-auto grid max-w-content gap-2.5 px-2.5 md:grid-cols-5">
         <Card className="rounded-t-xl px-5 py-4 md:col-span-2 md:rounded-l-xl md:rounded-tr-sm">
           <div className="px-5 py-3.75">
             <h2 className="text-h3 font-bold">{title}</h2>
