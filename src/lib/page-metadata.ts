@@ -19,6 +19,7 @@ export function pageMetadata(pathname: string, basepath = '/') {
   return {
     title: page?.title ?? content.metadata.title,
     description: page?.description ?? content.metadata.description,
+    noindex: path.startsWith('/submit/'),
     canonical:
       path === '/' || page
         ? new URL(path === '/' ? '' : `${path.slice(1)}/`, content.metadata.url)

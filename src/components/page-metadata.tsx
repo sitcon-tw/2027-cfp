@@ -1,7 +1,7 @@
 import { pageMetadata } from '@/lib/page-metadata'
 
 export function PageMetadata({ pathname }: { pathname: string }) {
-  const { title, description, canonical } = pageMetadata(
+  const { title, description, canonical, noindex } = pageMetadata(
     pathname,
     import.meta.env.BASE_URL,
   )
@@ -10,6 +10,7 @@ export function PageMetadata({ pathname }: { pathname: string }) {
     <>
       <title data-page-metadata>{title}</title>
       <meta data-page-metadata name="description" content={description} />
+      {noindex && <meta data-page-metadata name="robots" content="noindex" />}
       <meta data-page-metadata property="og:title" content={title} />
       <meta
         data-page-metadata

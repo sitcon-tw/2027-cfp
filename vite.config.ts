@@ -83,7 +83,15 @@ export default defineConfig({
           '404.html',
         ]
         for (const fileName of fileNames) {
-          this.emitFile({ type: 'asset', fileName, source: index.source })
+          const source = fileName.startsWith('submit/')
+            ? index.source
+                .toString()
+                .replace(
+                  '<!-- page-metadata:end -->',
+                  '<meta data-page-metadata name="robots" content="noindex" /><!-- page-metadata:end -->',
+                )
+            : index.source
+          this.emitFile({ type: 'asset', fileName, source })
         }
       },
     },

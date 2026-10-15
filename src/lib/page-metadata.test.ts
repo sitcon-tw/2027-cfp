@@ -40,11 +40,32 @@ describe('public page metadata', () => {
       '/missing',
       '/2027/cfpx/normal',
     ]) {
-      expect(pageMetadata(path, '/2027/cfp/')).toEqual({
+      expect(pageMetadata(path, '/2027/cfp/')).toMatchObject({
         title: content.metadata.title,
         description: content.metadata.description,
         canonical: undefined,
       })
+    }
+  })
+
+  it('noindexes submission pages under either base without affecting public pages', () => {
+    for (const path of [
+      '/submit/normal',
+      '/submit/undefined',
+      '/submit/demo',
+      '/submit/verify',
+      '/submit/general',
+      '/submit/open',
+    ]) {
+      expect(pageMetadata(path).noindex).toBe(true)
+      expect(pageMetadata(`/2027/cfp${path}/`, '/2027/cfp/').noindex).toBe(true)
+    }
+    for (const path of [
+      ...publicPagePaths,
+      '/sessions/general',
+      '/submit-example',
+    ]) {
+      expect(pageMetadata(path).noindex).toBe(false)
     }
   })
 })
