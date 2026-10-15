@@ -31,7 +31,7 @@ Useful commands:
 
 - `pnpm check` — run typecheck, lint, and formatting checks.
 - `pnpm test` — run automated tests.
-- `pnpm build` — build the site into `dist/`.
+- `pnpm build` — build the site into `dist/`, including complete HTML for the five public content pages.
 - `pnpm preview` — preview the built site locally.
 
 ## Working on the site

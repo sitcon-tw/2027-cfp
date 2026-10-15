@@ -19,9 +19,8 @@ const fontPlugin = viteFont as unknown as typeof viteFont.default
 // Client routes that get a copy of index.html, so static hosts without an SPA
 // fallback (GitHub Pages) serve them on direct visits and refreshes.
 const routeShells = [
-  'about',
   'submit/verify',
-  ...sessionTypeIds.flatMap((type) => [type, `submit/${type}`]),
+  ...sessionTypeIds.map((type) => `submit/${type}`),
   // Paths before #53, redirected by their routes.
   ...Object.keys(previousSessionTypeIds).flatMap((id) => [
     `sessions/${id}`,
@@ -73,7 +72,7 @@ export default defineConfig({
     {
       name: 'route-shells',
       enforce: 'post',
-      apply: 'build',
+      apply: (_, { command, isSsrBuild }) => command === 'build' && !isSsrBuild,
       generateBundle(_, bundle) {
         const index = bundle['index.html']
         if (index?.type !== 'asset') this.error('index.html was not emitted')

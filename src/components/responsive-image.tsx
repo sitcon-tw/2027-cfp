@@ -43,7 +43,8 @@ export function ResponsiveImage({
         />
       ))}
       <img
-        // `src` is set once the <img> is inside the <picture>: React sets
+        src={import.meta.env.SSR ? src : undefined}
+        // On the client, set `src` once the <img> is inside the <picture>: React sets
         // attributes before attaching an element, and Safari would start
         // downloading the fallback right away, then the <source> pick too.
         ref={(img) => {

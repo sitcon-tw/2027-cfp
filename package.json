@@ -21,7 +21,7 @@
     "preinstall": "node scripts/only-allow-pnpm.js",
     "postinstall": "cn-font-split i default@7.6.8",
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && vite build --ssr src/entry-server.tsx --outDir node_modules/.tmp/prerender && node scripts/prerender.mjs",
     "preview": "vite preview",
     "typecheck": "tsc -b",
     "lint": "oxlint",

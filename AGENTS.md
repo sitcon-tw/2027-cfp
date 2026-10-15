@@ -27,8 +27,7 @@ Run `pnpm check` (typecheck, lint, format check) before finishing a task.
 - `pnpm check` runs typecheck, lint, and formatting checks; run it before finishing.
   `pnpm test` runs Vitest against frontend and Worker code without Google access;
   run it after changing submission behavior.
-- `pnpm build` typechecks and writes the static site to `dist/`; `pnpm preview`
-  serves that build. Route generation happens during `pnpm dev` or `pnpm build`.
+- `pnpm build` typechecks, builds the browser bundle and a temporary server bundle, then prerenders the five public content pages into `dist/`. `pnpm preview` serves that build. Route generation happens during `pnpm dev` or `pnpm build`.
 - `pnpm api:dev` runs the Worker with staging configuration; `pnpm api:deploy`
   deploys the production API. See [Submission API](#submission-api) for setup.
 - For Worker changes, bundle without deploying, as CI does:
@@ -72,7 +71,7 @@ Run `pnpm check` (typecheck, lint, format check) before finishing a task.
 
 For content updates, find the relevant section in `src/content.json`, preserve
 its JSON structure and named placeholders, run `pnpm check`, and review with
-`pnpm dev`. Vite supplies default metadata for the HTML shell; `PageMetadata` supplies each public page's metadata during client navigation.
+`pnpm dev`. Vite supplies default metadata for the HTML shell; `PageMetadata` supplies each public page's metadata during prerendering and client navigation.
 For the event date, `hero.dateTime` uses `YYYY-MM-DD`; `hero.date` is its displayed
 label. Submission countdowns use the speaker schedule described below, not a
 separate hardcoded deadline.
@@ -160,8 +159,7 @@ mapping is in `src/lib/session-quiz.ts`.
 - Production lives under `/2027/cfp/` (see
   [Production deployment](#production-deployment)). Never write a root-relative `href="/…"` or `src="/…"`:
   route through `<Link>` (or a primitive's `render={<Link … />}`) and import
-  assets, so the base path is applied. A new route must also be added to
-  `routeShells` in `vite.config.ts`, or direct visits to it 404 in production.
+  assets, so the base path is applied. Add new public content routes to `metadata.pages` in `src/content.json` so they are prerendered; add client-only routes to `routeShells` in `vite.config.ts`. Otherwise direct visits 404 in production.
 - The session type ids are `normal` (一般議程), `undefined` (開放議程) and
   `demo` (`src/lib/session-type-ids.ts`), and each is also its pages' path:
   `/normal` (`src/routes/$type.tsx`) and `/submit/normal`. The ids before
@@ -171,7 +169,7 @@ mapping is in `src/lib/session-quiz.ts`.
   letters.
 - In-page jumps to a section use `<Link to="/" hash="attend">`, never a raw
   `<a href="#attend">`. The router smooth-scrolls hash links
-  (`defaultHashScrollIntoView` in `src/main.tsx`, instant under
+  (`defaultHashScrollIntoView` in `src/router.ts`, instant under
   `prefers-reduced-motion`), and `scroll-pt-header` on `html` keeps the
   target clear of the header. Do not add `scroll-behavior: smooth` in CSS
   (it would also animate the router's scroll to top on page changes) or a
@@ -481,12 +479,11 @@ mkdir -p /tmp/site/2027 && rm -rf /tmp/site/2027/cfp && cp -r dist /tmp/site/202
 python3 -m http.server -d /tmp/site   # open http://localhost:8000/2027/cfp/
 ```
 
-`BASE_PATH` sets Vite's `base` and the router's `basepath`; without it the site
-builds for `/` (development, `pnpm preview` and preview deployments). GitHub
-Pages has no single-page-app fallback, so the build also writes a copy of
-`index.html` for every route (`about/`, `<type>/`, `submit/<type>/`, and the
-paths before #53 that redirect; see `routeShells` in
-[`vite.config.ts`](vite.config.ts)). That lets direct links and page refreshes work.
+`BASE_PATH` sets Vite's `base` and the router's `basepath`; without it the site builds for `/` (development, `pnpm preview` and preview deployments). Canonical URLs always use the production base in `metadata.url`.
+
+GitHub Pages has no single-page-app fallback. `scripts/prerender.mjs` renders `/`, `/about`, `/normal`, `/undefined`, and `/demo` from the existing React routes through `src/entry-server.tsx`, using Taiwan time for schedule dates. The temporary server bundle stays in `node_modules/.tmp/prerender`; deployment still publishes only `dist/`. Public pages contain their headings, copy, links, and distinct metadata before JavaScript runs. The client waits for its lazy route to load, then mounts React with the current clock and takes ownership of the page metadata. The build asserts that every public route produced a heading and main content. Keep the rendering code free of browser-only calls outside effects.
+
+Submission pages and the paths before #53 that redirect retain HTML shells (see `routeShells` in [`vite.config.ts`](vite.config.ts)). This keeps direct links and page refreshes working for those client-only routes.
 
 Paths that match no route render the site's 404 page. The build writes
 `404.html` as another copy of `index.html` for hosts that look for one, but

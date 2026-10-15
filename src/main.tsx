@@ -1,4 +1,4 @@
-import { createRouter, RouterProvider } from '@tanstack/react-router'
+import { RouterProvider } from '@tanstack/react-router'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 
@@ -6,31 +6,18 @@ import '../fonts/line-seed-tw/400.ttf?subsets'
 import '../fonts/line-seed-tw/700.ttf?subsets'
 import '../fonts/line-seed-tw/800.ttf?subsets'
 import './index.css'
-import { routeTree } from './routeTree.gen'
+import { createAppRouter } from './router'
 
-const reduceMotion = window.matchMedia(
-  '(prefers-reduced-motion: reduce)',
-).matches
+const router = createAppRouter()
 
-const router = createRouter({
-  routeTree,
-  // Vite's `base`: `/2027/cfp/` in production, `/` elsewhere.
-  basepath: import.meta.env.BASE_URL,
-  defaultHashScrollIntoView: { behavior: reduceMotion ? 'auto' : 'smooth' },
+// Keep the static page visible until its lazy route is ready to mount.
+void router.load().then(() => {
+  document.head.querySelectorAll('[data-page-metadata]').forEach((tag) => {
+    tag.remove()
+  })
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <RouterProvider router={router} />
+    </StrictMode>,
+  )
 })
-
-declare module '@tanstack/react-router' {
-  interface Register {
-    router: typeof router
-  }
-}
-
-document.head.querySelectorAll('[data-page-metadata]').forEach((tag) => {
-  tag.remove()
-})
-
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <RouterProvider router={router} />
-  </StrictMode>,
-)

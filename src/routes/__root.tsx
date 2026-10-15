@@ -23,7 +23,7 @@ function RootLayout() {
   const pathname = useLocation({ select: (location) => location.pathname })
   return (
     <div className="relative flex min-h-svh flex-col">
-      <PageMetadata pathname={pathname} />
+      {!import.meta.env.SSR && <PageMetadata pathname={pathname} />}
       <SiteHeader className="fixed inset-x-0 top-0 z-10" />
       <div className="flex-1">
         <Outlet />
