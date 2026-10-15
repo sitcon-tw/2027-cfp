@@ -485,6 +485,8 @@ GitHub Pages has no single-page-app fallback. `scripts/prerender.mjs` renders `/
 
 Submission pages and the paths before #53 that redirect retain HTML shells (see `routeShells` in [`vite.config.ts`](vite.config.ts)). This keeps direct links and page refreshes working for those client-only routes.
 
+`scripts/prerender.mjs` also generates `dist/sitemap.xml` from the same public page list and production canonicals used by page metadata. Adding a public route to `metadata.pages` updates both prerendering and the sitemap; do not maintain a separate XML file in `public/`. The sitemap is served at `/2027/cfp/sitemap.xml` and declared in the root site's `robots.txt`. Submission forms, verification pages, and legacy redirects stay excluded.
+
 Paths that match no route render the site's 404 page. The build writes
 `404.html` as another copy of `index.html` for hosts that look for one, but
 GitHub Pages only serves the `404.html` at the root of the `sitcon-tw/2027`

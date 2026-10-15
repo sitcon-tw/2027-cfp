@@ -5,7 +5,7 @@ import { renderToStaticMarkup, renderToString } from 'react-dom/server'
 import { PageMetadata } from '@/components/page-metadata'
 import { createAppRouter } from './router'
 
-export { publicPagePaths } from '@/lib/page-metadata'
+export { pageMetadata, publicPagePaths } from '@/lib/page-metadata'
 
 export async function render(pathname: string) {
   const router = createAppRouter(
