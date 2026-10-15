@@ -68,13 +68,11 @@ Run `pnpm check` (typecheck, lint, format check) before finishing a task.
 - Technical identifiers (route paths, anchors, CSS classes, state values),
   calculated numbers, date-format separators, and empty decorative `alt=""`
   attributes may stay in code. Display labels for technical values belong in JSON.
-- Do not create another copy file or hardcode new copy in TS/TSX/HTML. The HTML
-  title is injected from this JSON by Vite for both development and builds.
-  The one exception is the submission form's questions (below).
+- Do not create another copy file or hardcode new copy in TS/TSX/HTML. Default browser metadata lives in `metadata`; public page titles and descriptions live in `metadata.pages`, and `metadata.url` is the production canonical base. The one exception is the submission form's questions (below).
 
 For content updates, find the relevant section in `src/content.json`, preserve
 its JSON structure and named placeholders, run `pnpm check`, and review with
-`pnpm dev`. Vite injects `metadata.title` into the HTML in development and builds.
+`pnpm dev`. Vite supplies default metadata for the HTML shell; `PageMetadata` supplies each public page's metadata during client navigation.
 For the event date, `hero.dateTime` uses `YYYY-MM-DD`; `hero.date` is its displayed
 label. Submission countdowns use the speaker schedule described below, not a
 separate hardcoded deadline.

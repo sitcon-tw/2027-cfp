@@ -1877,10 +1877,29 @@
   },
   "metadata": {
     "lang": "zh-Hant-TW",
+    "url": "https://sitcon.org/2027/cfp/",
     "title": "SITCON 2027 Call For Papers",
     "description": "SITCON 2027 徵稿開跑！各式議程全面徵稿，早鳥截止 2026/11/29，最終截止 2027/01/15 23:59。現在投稿，站上屬於你的舞台！",
     "image": "https://sitcon.org/2027/cfp/og-image.jpg",
-    "imageAlt": "SITCON 2027 Call For Papers：2027/03/13 於中央研究院人文社會科學館舉行，投稿截止 2027/01/15"
+    "imageAlt": "SITCON 2027 Call For Papers：2027/03/13 於中央研究院人文社會科學館舉行，投稿截止 2027/01/15",
+    "pages": {
+      "/about": {
+        "title": "關於 SITCON 學生計算機年會｜SITCON 2027",
+        "description": "認識由學生自主籌辦的 SITCON 學生計算機年會，了解社群活動、歷年成果與年會回顧，探索學生分享技術與交流想法的舞台。"
+      },
+      "/normal": {
+        "title": "一般議程投稿：Presentation 與 Espresso｜SITCON 2027",
+        "description": "了解 SITCON 2027 一般議程的 Presentation 與 Espresso 形式、投稿格式、重要時程與審稿標準，分享你的技術、專案與學習經驗。"
+      },
+      "/undefined": {
+        "title": "開放式議程投稿｜SITCON 2027",
+        "description": "了解 SITCON 2027 開放式議程的活動形式、投稿要求、重要時程與審稿方式，以不同於演講的方式帶領參與者交流與探索。"
+      },
+      "/demo": {
+        "title": "Demo 展投稿｜SITCON 2027",
+        "description": "了解 SITCON 2027 Demo 展的展示形式、投稿格式、重要時程與注意事項，帶著你的作品與專案，和與會者面對面交流。"
+      }
+    }
   },
   "schedule": {
     "range": "{start} — {end}",

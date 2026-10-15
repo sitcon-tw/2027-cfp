@@ -25,6 +25,10 @@ declare module '@tanstack/react-router' {
   }
 }
 
+document.head.querySelectorAll('[data-page-metadata]').forEach((tag) => {
+  tag.remove()
+})
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <RouterProvider router={router} />
