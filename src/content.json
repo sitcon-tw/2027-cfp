@@ -521,6 +521,30 @@
           "href": "https://www.flickr.com/photos/sitcon/53898881581",
           "license": "CC BY-SA 2.0",
           "licenseHref": "https://creativecommons.org/licenses/by-sa/2.0/"
+        },
+        {
+          "file": "01-2026-booths.webp",
+          "label": "SITCON 2026 Demo 展區的作品介紹",
+          "title": "夏川DSC_7870",
+          "href": "https://www.flickr.com/photos/sitcon/55246094316",
+          "license": "CC BY 4.0",
+          "licenseHref": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "file": "02-2026-poster-talk.webp",
+          "label": "SITCON 2026 Demo 展出者在海報旁交流",
+          "title": "月太-1978",
+          "href": "https://www.flickr.com/photos/sitcon/55245194077",
+          "license": "CC BY 4.0",
+          "licenseHref": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "file": "03-2026-hands-on.webp",
+          "label": "SITCON 2026 會眾試玩 Demo 展作品",
+          "title": "月太-2210",
+          "href": "https://www.flickr.com/photos/sitcon/55246094941",
+          "license": "CC BY 4.0",
+          "licenseHref": "https://creativecommons.org/licenses/by/4.0/"
         }
       ]
     },
@@ -1480,6 +1504,14 @@
       "next": "下一頁",
       "page": "第 {page} 頁",
       "pages": "範例頁面"
+    },
+    "demoVenue": {
+      "title": "歷年展區照片",
+      "photos": {
+        "01-2026-booths.webp": "SITCON 2026 Demo 展區，展出者在海報前向會眾介紹作品",
+        "02-2026-poster-talk.webp": "SITCON 2026 Demo 展出者站在海報旁與會眾交流",
+        "03-2026-hands-on.webp": "SITCON 2026 會眾圍著螢幕試玩 Demo 展作品"
+      }
     },
     "demoPosters": {
       "title": "歷年海報展示",

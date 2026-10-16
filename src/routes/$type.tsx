@@ -16,6 +16,7 @@ import { PosterStrip } from '@/components/sessions/poster-strip'
 import { ScheduleSection } from '@/components/sessions/schedule-section'
 import { SessionIntroCards } from '@/components/sessions/session-intro-cards'
 import { SessionPageTabs } from '@/components/sessions/session-page-tabs'
+import { VenuePhotos } from '@/components/sessions/venue-photos'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { useSubmissionClosed } from '@/lib/countdown'
 import { preloadImage } from '@/lib/preload-image'
@@ -135,7 +136,7 @@ function CfpSections({
 }
 
 /**
- * Demo 展: what it is, past posters, 投稿格式, 審稿方式, then the notes
+ * Demo 展: what it is, past exhibits and posters, 投稿格式, 審稿方式, then the notes
  * before and after submitting.
  */
 function DemoSections({ page }: { page: SessionPageData }) {
@@ -147,6 +148,7 @@ function DemoSections({ page }: { page: SessionPageData }) {
         lead={page.introLead}
         cards={page.intro}
       />
+      <VenuePhotos />
       <PosterStrip />
       <CriteriaTable {...page.requirements} />
       <CriteriaTable {...page.reviewCriteria} />

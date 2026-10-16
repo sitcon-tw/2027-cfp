@@ -455,6 +455,15 @@ exported at 1000px tall. Clicking a poster opens it in a lightbox
 `demoPosters.poster`, filled with the year and number from the file name,
 so keep the `<year>-<n>` naming.
 
+### Demo venue photos
+
+The 歷年展區照片 section on `/demo` (`venue-photos.tsx`) shows every image
+in `src/assets/demo-venue/`, in filename order: the first spans the top and
+the rest follow in pairs, uncropped at 3:2 and joined by the corner rule.
+Each photo's alt text is `demoVenue.photos.<file name>` in `content.json`,
+and its Flickr credit goes in `about_section.photoCredits` like the other
+photos.
+
 ## Production deployment
 
 The site is served at <https://sitcon.org/2027/cfp/> as part of the
