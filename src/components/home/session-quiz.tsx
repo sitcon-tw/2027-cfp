@@ -200,7 +200,7 @@ function OtherResults({
                   {text.results[id].summary}
                 </span>
               </span>
-              <ArrowRight className="size-5 shrink-0 transition-transform duration-300 ease-smooth group-hover:translate-x-1" />
+              <ArrowRight className="size-5 shrink-0 transition-opacity duration-300 ease-smooth group-hover:opacity-60 motion-reduce:transition-none" />
             </Link>
           </li>
         ))}

@@ -4,6 +4,7 @@ import { Link } from '@tanstack/react-router'
 
 import content from '@/content.json'
 import sitconWordmark from '@/assets/sitcon-wordmark.svg'
+import { NavbarGlass } from '@/components/navbar-glass'
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -29,6 +30,10 @@ import { cn } from '@/lib/utils'
  */
 export function SiteHeader({ className }: { className?: string }) {
   const anchor = useRef<HTMLDivElement>(null)
+  const submissionTrigger = useRef<HTMLButtonElement>(null)
+  const dropdownPositioner = useRef<HTMLDivElement>(null)
+  const dropdownPopup = useRef<HTMLDivElement>(null)
+  const [dropdownOpen, setDropdownOpen] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const submissionClosed = useSubmissionClosed()
 
@@ -47,8 +52,15 @@ export function SiteHeader({ className }: { className?: string }) {
     >
       <div
         ref={anchor}
-        className="pointer-events-auto mx-auto flex h-control-lg max-w-content items-center justify-between px-5 md:rounded-full md:bg-black/35 md:px-10 md:backdrop-blur-lg"
+        className="pointer-events-auto relative isolate mx-auto flex h-control-lg max-w-content items-center justify-between px-5 md:px-10"
       >
+        <NavbarGlass
+          barRef={anchor}
+          triggerRef={submissionTrigger}
+          positionerRef={dropdownPositioner}
+          popupRef={dropdownPopup}
+          open={dropdownOpen}
+        />
         <Link
           to="/"
           className="-translate-y-1/8 rounded-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
@@ -60,11 +72,31 @@ export function SiteHeader({ className }: { className?: string }) {
           />
         </Link>
         <div className="flex items-center gap-2.5">
-          {/* Portaled menus use the fixed header's viewport coordinate system. */}
-          <NavigationMenu positionMethod="fixed" className="hidden md:block">
+          {/*
+            Position the dropdown at the pill's bottom, rather than at the
+            trigger's bottom. NavbarGlass draws its surface as one shape with
+            the bar, so the popup drops its own.
+          */}
+          <NavigationMenu
+            positionMethod="fixed"
+            positionerRef={dropdownPositioner}
+            popupRef={dropdownPopup}
+            popupClassName="overflow-visible rounded-none bg-transparent backdrop-blur-none"
+            viewportClassName="rounded-b-xl"
+            onValueChange={(value) => setDropdownOpen(value !== null)}
+            sideOffset={() => {
+              const pill = anchor.current
+              const trigger = submissionTrigger.current
+              return pill && trigger
+                ? pill.getBoundingClientRect().bottom -
+                    trigger.getBoundingClientRect().bottom
+                : 0
+            }}
+            className="hidden md:block"
+          >
             <NavigationMenuList className="p-2.5">
               <NavigationMenuItem>
-                <NavigationMenuTrigger>
+                <NavigationMenuTrigger ref={submissionTrigger}>
                   {content.site_header.submission}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
@@ -163,7 +195,7 @@ export function SiteHeader({ className }: { className?: string }) {
                       <Link
                         {...destination}
                         onClick={() => setMobileOpen(false)}
-                        className="flex min-h-control-lg items-center justify-between gap-5 rounded-xs px-5 py-7.5 text-h3 hover:bg-foreground/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+                        className="flex min-h-control-lg items-center justify-between gap-5 rounded-xs px-5 py-7.5 text-h3 transition-colors duration-300 ease-smooth hover:bg-foreground/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue motion-reduce:transition-none"
                       >
                         {label}
                         <ArrowRight

@@ -47,7 +47,7 @@ export function TabsTab({
   return (
     <BaseTabs.Tab
       className={cn(
-        'flex min-h-control flex-1 cursor-pointer items-center justify-center rounded-sm bg-gray px-5 py-2.5 text-center text-paragraph leading-normal font-bold text-foreground transition select-none hover:brightness-125 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue data-active:bg-foreground data-active:text-background data-active:hover:brightness-100 data-disabled:cursor-not-allowed data-disabled:opacity-50',
+        'flex min-h-control flex-1 cursor-pointer items-center justify-center rounded-sm bg-gray px-5 py-2.5 text-center text-paragraph leading-normal font-bold text-foreground transition-[filter,background-color,color,opacity] duration-300 ease-smooth select-none hover:brightness-125 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue data-active:bg-foreground data-active:text-background data-active:hover:brightness-90 data-disabled:cursor-not-allowed data-disabled:opacity-50 data-disabled:hover:brightness-100 motion-reduce:transition-none',
         'data-[orientation=horizontal]:first:rounded-l-xl data-[orientation=horizontal]:last:rounded-r-xl',
         'data-[orientation=vertical]:first:rounded-t-xl data-[orientation=vertical]:last:rounded-b-xl',
         className,

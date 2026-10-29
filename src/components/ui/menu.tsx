@@ -6,24 +6,27 @@ export const Menu = BaseMenu.Root
 export const MenuTrigger = BaseMenu.Trigger
 
 /**
- * The dropdown of a `Menu`. Not in Figma yet: it reuses `Select`'s glass
- * popup.
+ * The dropdown of a `Menu`. Not in Figma yet: it defaults to `Select`'s glass
+ * popup; restyle it with `className` and place it with `align`.
  */
 export function MenuContent({
   className,
   children,
+  align,
   ...props
-}: WithClassName<BaseMenu.Popup.Props>) {
+}: WithClassName<BaseMenu.Popup.Props> &
+  Pick<BaseMenu.Positioner.Props, 'align'>) {
   return (
     <BaseMenu.Portal>
       <BaseMenu.Positioner
         sideOffset={6}
+        align={align}
         collisionPadding={20}
         className="z-20 outline-none"
       >
         <BaseMenu.Popup
           className={cn(
-            'min-w-(--anchor-width) origin-(--transform-origin) rounded-sm border border-gray bg-linear-to-br from-gray/95 to-black/95 p-2.5 text-foreground backdrop-blur-lg transition-[opacity,scale] duration-150 ease-out outline-none data-ending-style:scale-95 data-ending-style:opacity-0 data-starting-style:scale-95 data-starting-style:opacity-0',
+            'min-w-(--anchor-width) origin-(--transform-origin) rounded-sm border border-gray bg-linear-to-br from-gray/95 to-black/95 p-2.5 text-foreground backdrop-blur-lg transition-[opacity,scale] duration-150 ease-out outline-none data-ending-style:scale-95 data-ending-style:opacity-0 data-starting-style:scale-95 data-starting-style:opacity-0 motion-reduce:transition-none',
             className,
           )}
           {...props}
@@ -43,7 +46,7 @@ export function MenuLinkItem({
     <BaseMenu.LinkItem
       closeOnClick
       className={cn(
-        'flex cursor-pointer items-center gap-2.5 rounded-xs px-5 py-2 text-paragraph outline-none select-none data-highlighted:bg-foreground/10',
+        'flex cursor-pointer items-center gap-2.5 rounded-xs px-5 py-2 text-paragraph transition-colors duration-300 ease-smooth select-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-blue data-highlighted:bg-foreground/10 motion-reduce:transition-none',
         className,
       )}
       {...props}

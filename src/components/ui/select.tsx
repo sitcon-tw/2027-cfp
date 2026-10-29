@@ -46,7 +46,7 @@ export function Select<Value>({
         aria-required={required}
         className={cn(
           inputClassName,
-          'flex h-20 cursor-pointer items-center justify-between gap-2.5 text-left select-none focus-visible:border-light data-popup-open:border-light',
+          'flex h-20 cursor-pointer items-center justify-between gap-2.5 text-left select-none hover:border-light focus-visible:border-light data-disabled:hover:border-gray data-popup-open:border-light',
           className,
         )}
       >
@@ -88,7 +88,7 @@ function SelectItem({
   return (
     <BaseSelect.Item
       className={cn(
-        'flex cursor-pointer items-center justify-between gap-5 rounded-xs px-5 py-2 text-paragraph outline-none data-disabled:cursor-not-allowed data-disabled:opacity-50 data-highlighted:bg-foreground/10',
+        'flex cursor-pointer items-center justify-between gap-5 rounded-xs px-5 py-2 text-paragraph transition-colors duration-300 ease-smooth outline-none data-disabled:cursor-not-allowed data-disabled:opacity-50 data-highlighted:bg-foreground/10 motion-reduce:transition-none',
         className,
       )}
       {...props}

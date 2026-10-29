@@ -43,7 +43,7 @@ export function buttonVariants({
   className?: string
 } = {}) {
   return cn(
-    'inline-flex shrink-0 cursor-pointer items-center justify-center gap-2.5 font-extrabold whitespace-nowrap transition select-none hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue data-disabled:cursor-not-allowed data-disabled:opacity-50',
+    'inline-flex shrink-0 cursor-pointer items-center justify-center gap-2.5 font-extrabold whitespace-nowrap transition-[filter,background-color,color,opacity] duration-300 ease-smooth select-none hover:brightness-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue data-disabled:cursor-not-allowed data-disabled:opacity-50 data-disabled:hover:brightness-100 motion-reduce:transition-none',
     variants[variant],
     sizes[size],
     shape === 'pill' && 'rounded-full',

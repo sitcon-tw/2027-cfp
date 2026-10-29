@@ -11,7 +11,7 @@ export function PopoverTrigger({
   return (
     <BasePopover.Trigger
       className={cn(
-        'flex size-control-lg cursor-pointer items-center justify-center rounded-xs text-foreground hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue',
+        'flex size-control-lg cursor-pointer items-center justify-center rounded-xs text-foreground transition-opacity duration-300 ease-smooth hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue motion-reduce:transition-none',
         className,
       )}
       {...props}

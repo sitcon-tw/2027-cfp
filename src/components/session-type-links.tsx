@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils'
 
 /**
  * One card per session type, linking to its session page: icon, title and
- * summary over the type's dimmed photo, with an arrow that nudges on hover.
+ * summary over the type's dimmed photo, with an arrow that fades on hover.
  * The tiles are joined into one shape by the corner rule: stacked by
  * default (the homepage's 想要成為舞臺上的講者？), or side by side from `md`
  * up with `row` (參考更多稿件).
@@ -49,7 +49,7 @@ export function SessionTypeLinks({
               </div>
               <ArrowRight
                 aria-hidden
-                className="mx-2.5 size-10 shrink-0 group-hover:translate-x-1.25 motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-smooth"
+                className="mx-2.5 size-10 shrink-0 transition-opacity duration-300 ease-smooth group-hover:opacity-60 motion-reduce:transition-none"
               />
             </div>
           </Link>

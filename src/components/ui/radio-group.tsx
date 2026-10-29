@@ -32,7 +32,7 @@ export function RadioGroupItem({
   return (
     <Radio.Root
       className={cn(
-        'flex w-full cursor-pointer items-center rounded-lg bg-foreground px-8 pt-5.5 pb-5 text-left text-paragraph text-black transition select-none hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue data-checked:bg-background data-checked:text-foreground data-disabled:cursor-not-allowed data-disabled:opacity-50',
+        'flex w-full cursor-pointer items-center rounded-lg bg-foreground px-8 pt-5.5 pb-5 text-left text-paragraph text-black transition-[filter,background-color,color,opacity] duration-300 ease-smooth select-none hover:brightness-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue data-checked:bg-background data-checked:text-foreground data-checked:hover:brightness-125 data-disabled:cursor-not-allowed data-disabled:opacity-50 data-disabled:hover:brightness-100 motion-reduce:transition-none',
         className,
       )}
       {...props}

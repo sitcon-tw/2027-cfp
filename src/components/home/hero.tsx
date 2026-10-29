@@ -2,6 +2,7 @@ import { Link } from '@tanstack/react-router'
 
 import content from '@/content.json'
 import { buttonVariants } from '@/components/ui/button'
+import { fillPlaceholders } from '@/lib/utils'
 
 /**
  * Sized to match the 甚麼是 SITCON ? section below it: the title uses
@@ -13,7 +14,13 @@ export function Hero() {
       <div className="mx-auto flex max-w-content flex-col gap-10 p-2.5">
         <h1 className="flex flex-col gap-5 font-extrabold">
           <span className="text-eyebrow">{content.hero.eventName}</span>
-          <span className="text-mega tracking-tight">{content.hero.title}</span>
+          <span className="text-mega tracking-tight">
+            {fillPlaceholders(content.hero.title, (name) => (
+              <span key={name} className="text-headline">
+                {content.hero.titleLead}
+              </span>
+            ))}
+          </span>
         </h1>
         <p className="flex flex-col gap-x-7.5 gap-y-5 text-h1 font-bold md:flex-row md:items-center">
           <time dateTime={content.hero.dateTime} className="font-numeric">

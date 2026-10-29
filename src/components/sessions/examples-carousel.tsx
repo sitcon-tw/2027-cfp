@@ -5,7 +5,6 @@ import {
   useLayoutEffect,
   useRef,
   useState,
-  useSyncExternalStore,
   type ReactNode,
   type RefObject,
 } from 'react'
@@ -19,6 +18,7 @@ import type {
   ExamplesSection,
   SessionExample,
 } from '@/lib/session-pages'
+import { useMediaQuery, useReducedMotion } from '@/lib/use-media-query'
 import { cn } from '@/lib/utils'
 
 const text = content.session_page.examples
@@ -77,7 +77,7 @@ const AUTOPLAY_MS = 6000
  */
 function Carousel({ items }: Pick<ExampleGroup, 'items'>) {
   const desktop = useMediaQuery('(min-width: 48rem)')
-  const reduceMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
+  const reduceMotion = useReducedMotion()
   const pageSize = desktop ? PAGE_SIZE.desktop : PAGE_SIZE.mobile
   const pageCount = Math.ceil(items.length / pageSize)
   const root = useRef<HTMLDivElement>(null)
@@ -325,17 +325,5 @@ function ExampleCard({
       <div className="absolute inset-0 -z-10 bg-linear-to-b from-black/0 to-background/75 to-85%" />
       <span className="text-paragraph">{title}</span>
     </a>
-  )
-}
-
-function useMediaQuery(query: string) {
-  return useSyncExternalStore(
-    (onChange) => {
-      const media = window.matchMedia(query)
-      media.addEventListener('change', onChange)
-      return () => media.removeEventListener('change', onChange)
-    },
-    () => window.matchMedia(query).matches,
-    () => true,
   )
 }

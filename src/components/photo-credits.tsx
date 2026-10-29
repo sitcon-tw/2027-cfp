@@ -16,7 +16,7 @@ export function PhotoCredits() {
 
   return (
     <Dialog>
-      <DialogTrigger className="self-start rounded-xs text-body hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue">
+      <DialogTrigger className="self-start rounded-xs text-body transition-opacity duration-300 ease-smooth hover:underline hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue motion-reduce:transition-none">
         {credits.trigger}
       </DialogTrigger>
       <DialogContent className="flex flex-col gap-5">

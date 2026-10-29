@@ -19,7 +19,7 @@ export function HeroBackdrop() {
       <img
         src={heroIcon}
         alt=""
-        className="absolute top-22.5 left-1/2 ml-69.5"
+        className="absolute top-45 left-1/2 ml-92.5 origin-top-left scale-125"
       />
     </div>
   )

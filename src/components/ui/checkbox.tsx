@@ -11,7 +11,7 @@ import { cn, type WithClassName } from '@/lib/utils'
  * has none.
  */
 export const choiceCardClassName =
-  'group flex min-h-20 w-full cursor-pointer items-center gap-2.5 rounded-sm border-2 border-gray px-5 py-2.5 text-left text-paragraph text-foreground transition select-none hover:brightness-125 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue data-checked:bg-foreground data-checked:text-background data-checked:hover:brightness-95 data-disabled:cursor-not-allowed data-disabled:opacity-50 data-invalid:border-red'
+  'group flex min-h-20 w-full cursor-pointer items-center gap-2.5 rounded-sm border-2 border-gray px-5 py-2.5 text-left text-paragraph text-foreground transition-[filter,background-color,color,border-color,opacity] duration-300 ease-smooth select-none hover:brightness-125 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue data-checked:bg-foreground data-checked:text-background data-checked:hover:brightness-90 data-disabled:cursor-not-allowed data-disabled:opacity-50 data-disabled:hover:brightness-100 data-invalid:border-red motion-reduce:transition-none'
 
 /** Enter selects a choice, like Space, instead of submitting the form. */
 export function confirmOnEnter(event: KeyboardEvent<HTMLElement>) {

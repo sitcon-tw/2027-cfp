@@ -4,11 +4,13 @@ import { extendTailwindMerge } from 'tailwind-merge'
 // Register the custom tokens from `src/index.css` so tailwind-merge resolves
 // conflicts correctly: `--text-*` sizes (otherwise `text-paragraph` and
 // `text-foreground` look like a conflict) and named `--spacing-*` sizes
-// (otherwise `h-control` and `h-12` both survive).
+// (otherwise `h-control` and `h-12` both survive) and `--ease-*` curves
+// (otherwise `ease-smooth` doesn't replace `ease-out`).
 const twMerge = extendTailwindMerge({
   extend: {
     theme: {
       spacing: ['control', 'control-lg', 'control-icon', 'header'],
+      ease: ['smooth'],
     },
     classGroups: {
       'font-size': [
