@@ -1,1 +1,0 @@
-import{a as e,t}from"./utils-Lnpy3tgx.js";var n=e(),r={cream:`bg-foreground text-background`,light:`bg-light text-background`,gray:`bg-gray text-foreground`,ink:`bg-background text-foreground`};function i({tone:e=`cream`,className:i,...a}){return(0,n.jsx)(`div`,{className:t(`overflow-clip rounded-sm`,r[e],i),...a})}export{i as t};
