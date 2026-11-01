@@ -88,5 +88,5 @@ export function Turnstile({
     }
   }, [siteKey])
 
-  return <div ref={container} className="w-full max-w-183.5" />
+  return <div ref={container} className="w-full" />
 }

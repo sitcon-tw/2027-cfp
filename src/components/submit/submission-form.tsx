@@ -111,7 +111,7 @@ export function SubmissionForm({
               >
                 <h2>{section.title}</h2>
               </FieldsetLegend>
-              <div className="flex w-full flex-col gap-2.5 md:w-2/3">
+              <div className="flex flex-col gap-2.5">
                 {section.description.map((paragraph) => (
                   <p
                     key={paragraph}
