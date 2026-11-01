@@ -21,7 +21,7 @@ export function SubmissionDraftNotice({ onClear }: { onClear: () => void }) {
   const [open, setOpen] = useState(false)
   return (
     <div className="flex flex-col items-start gap-5 p-2.5 md:flex-row md:items-center md:justify-between">
-      <p className="text-body text-light md:w-2/3">{text.notice}</p>
+      <p className="text-body text-light">{text.notice}</p>
       <Button variant="muted" shape="pill" onClick={() => setOpen(true)}>
         {text.clear}
       </Button>

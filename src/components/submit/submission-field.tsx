@@ -58,7 +58,7 @@ export const SubmissionFieldControl = memo(function SubmissionFieldControl({
   const isText = textKinds.has(field.kind)
 
   return (
-    <Field name={field.key} invalid={Boolean(error)} className="max-w-183.5">
+    <Field name={field.key} invalid={Boolean(error)}>
       <div className="flex flex-wrap items-center gap-2.5">
         <FieldLabel
           id={`${id}-label`}
