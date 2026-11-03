@@ -1,4 +1,5 @@
 import content from '@/content.json'
+import { trackSubmissionSent, trackSubmissionVerified } from '@/lib/analytics'
 import {
   isSessionTypeId,
   previousSessionTypeIds,
@@ -134,6 +135,7 @@ export async function sendSubmission(
 
   if (response.ok) {
     const { status, email } = response.body
+    if (status === 'pending' && !editToken) trackSubmissionSent(type)
     const message = status === 'updated' ? results.updated : results.pending
     return {
       status: 'success',
@@ -212,7 +214,11 @@ async function verify(token: string): Promise<VerifyResult> {
   const response = await request<VerifyResponse>('POST', '/verify', {
     body: { token },
   })
-  if (response.ok) return { status: 'verified', type: response.body.type }
+  if (response.ok) {
+    const { type, id, newSubmission } = response.body
+    if (newSubmission) trackSubmissionVerified(type, id)
+    return { status: 'verified', type }
+  }
   switch (response.error?.error) {
     case 'expired':
       return { status: 'expired' }

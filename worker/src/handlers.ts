@@ -233,7 +233,12 @@ export async function verify(
   const rows = (await store.index()).filter((row) => row.id === id)
   const target = rows.find((row) => row.version === version)
   if (!target) throw new HttpError(404, { error: 'not-found' })
-  const result: VerifyResponse = { status: 'verified', type, id }
+  const result: VerifyResponse = {
+    status: 'verified',
+    type,
+    id,
+    newSubmission: false,
+  }
   if (target.status !== 'unverified') return result
 
   const verifiedAt = sheetTimestamp(new Date(deps.now))
@@ -255,7 +260,7 @@ export async function verify(
   ])
   const values = fromSheetRow(type, await store.read(target.row))
   await sendCopy(deps, { type, id, values })
-  return result
+  return { ...result, newSubmission: version === 1 }
 }
 
 async function openEdit(authorization: string | null, deps: Deps) {

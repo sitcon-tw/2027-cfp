@@ -41,6 +41,12 @@ export interface VerifyResponse {
   status: 'verified'
   type: SessionTypeId
   id: string
+  /**
+   * Whether this request verified a new submission (version 1) for the first
+   * time. Opening the link again and verifying an edit both answer `false`,
+   * so each submission is counted once (`trackSubmissionVerified`).
+   */
+  newSubmission: boolean
 }
 
 /** The latest verified version of a submission, to prefill the edit form. */

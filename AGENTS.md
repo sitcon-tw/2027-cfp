@@ -553,6 +553,22 @@ In the sheet, filter 狀態 = `已驗證` for the current version of every
 submission (投稿編號). Links are HMAC-signed with `TOKEN_SECRET`, so the sheet
 holds no secrets; changing that secret voids every link already sent.
 
+### Conversion tracking
+
+`src/lib/analytics.ts` pushes two events to `window.dataLayer` for the
+sitcon.org Google Tag Manager container, which maps them to its tags (the
+Meta Pixel among them); the site loads no ad scripts itself:
+
+- `cfp_submission_sent` (`submission_type`): a new submission was sent and
+  awaits verification. Edits send nothing.
+- `cfp_submission_verified` (`submission_type`, `submission_id`): a new
+  submission was verified, which completes it. The Worker's `POST /verify`
+  answers `newSubmission: true` only the first time version 1 is verified,
+  so reopening the link or verifying an edit is not counted again.
+
+Events carry no personal data. Keep the event names stable: GTM triggers
+match them.
+
 ### Abuse protection
 
 The verification email goes to whatever address is typed in, so the API

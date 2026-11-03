@@ -159,7 +159,11 @@ describe('verifying', () => {
     const token = lastToken(sent, 'token')
 
     const result = await verify({ token }, deps)
-    expect(result).toMatchObject({ status: 'verified', type: 'normal' })
+    expect(result).toMatchObject({
+      status: 'verified',
+      type: 'normal',
+      newSubmission: true,
+    })
     expect(store('normal').summary()).toEqual([[1, '已驗證']])
     expect(sent).toHaveLength(2)
     expect(sent[1].subject).toContain('My <talk>')
@@ -169,8 +173,11 @@ describe('verifying', () => {
       'https://sitcon.org/2027/cfp/submit/normal?edit=',
     )
 
-    // Opening the link again (or a mail scanner) sends nothing more.
-    await verify({ token }, deps)
+    // Opening the link again (or a mail scanner) sends nothing more, and
+    // is not counted as another new submission.
+    expect(await verify({ token }, deps)).toMatchObject({
+      newSubmission: false,
+    })
     expect(sent).toHaveLength(2)
   })
 
@@ -253,7 +260,10 @@ describe('editing', () => {
     // Until then, the edit link still opens the verified version.
     expect((await loadEdit(auth, deps)).values.title).not.toBe('Moved')
 
-    await verify({ token: lastToken(sent, 'token') }, deps)
+    // Verifying an edit is not a new submission.
+    expect(
+      await verify({ token: lastToken(sent, 'token') }, deps),
+    ).toMatchObject({ newSubmission: false })
     expect(store('normal').summary()).toEqual([
       [1, '已取代'],
       [2, '已驗證'],
