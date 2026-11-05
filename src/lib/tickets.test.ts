@@ -90,7 +90,7 @@ describe('ticketAction', () => {
   it('offers a reminder before it opens', () => {
     expect(
       ticketAction(ticket({}), at('2026-12-01T00:00:00+08:00'), []),
-    ).toEqual({ kind: 'remind', at: new Date('2027-01-01T00:00:00+08:00') })
+    ).toEqual({ kind: 'remind' })
   })
 
   it('points to an open ticket once closed, else to the rules', () => {
@@ -119,6 +119,16 @@ describe('ticketAction', () => {
         [],
       ),
     ).toMatchObject({ kind: 'info' })
+  })
+
+  it('falls back to the calendar with neither form nor rules', () => {
+    expect(
+      ticketAction(
+        ticket({ details: {} }),
+        at('2027-01-15T00:00:00+08:00'),
+        [],
+      ),
+    ).toEqual({ kind: 'remind' })
   })
 })
 

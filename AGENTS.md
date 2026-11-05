@@ -157,7 +157,8 @@ one choice. Dialog chrome lives in
 page (`info`); keep the details in step with it. Every dialog must offer a
 next step, picked by `ticketAction()` (`src/lib/tickets.ts`): the `apply`
 form while open, 加入行事曆 before then, another open ticket
-once closed, else the `info` page (or the form). `pnpm test` fails if a
+once closed, else the `info` page (or the form), else 加入行事曆
+again (一般票, which has neither until its 索票 link is announced). `pnpm test` fails if a
 ticket is left without one at any time. The open dialog is in the URL as
 `/?ticket=<id>`, so posts can link straight to a ticket.
 

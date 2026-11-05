@@ -89,10 +89,12 @@ export function findTicket(id: string): Ticket | undefined {
  * - `switch`: closed; look at a ticket that is still open instead.
  * - `info`: anything else (no dates yet, no form yet, every ticket closed);
  *   the full rules or the page that will have them, else the form.
+ * - `remind` again when it has neither but has dates: the calendar still
+ *   has them (一般票 before its 索票 link is announced).
  */
 export type TicketAction =
   | { kind: 'apply'; href: string; label: string }
-  | { kind: 'remind'; at: Date }
+  | { kind: 'remind' }
   | { kind: 'switch'; ticket: Ticket }
   | { kind: 'info'; href: string; label: string }
 
@@ -111,7 +113,7 @@ export function ticketAction(
     }
   }
   if (status === 'upcoming' && ticket.start) {
-    return { kind: 'remind', at: new Date(ticket.start) }
+    return { kind: 'remind' }
   }
   if (status === 'closed') {
     const open = all.find(
@@ -130,6 +132,7 @@ export function ticketAction(
       label: applyLabel ?? content.attend_section.ticketDialog.apply,
     }
   }
+  if (ticket.start || ticket.details.dates?.length) return { kind: 'remind' }
   return null
 }
 

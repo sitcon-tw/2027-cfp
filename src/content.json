@@ -969,8 +969,6 @@
         "end": "2027-02-28T23:59:00+08:00",
         "details": {
           "applyLabel": "前往索票",
-          "info": "https://sitcon.org/2027/",
-          "infoLabel": "前往年會官網",
           "titles": {
             "steps": "怎麼索票"
           },
