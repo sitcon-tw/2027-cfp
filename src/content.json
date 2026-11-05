@@ -832,7 +832,8 @@
             {
               "icon": "plane",
               "title": "港澳學生機票與住宿",
-              "text": "由 SITCON x HK 提供，不需要經濟弱勢身分；相關資訊會和邀請碼一起寄出。"
+              "text": "由 SITCON x HK 提供，不需要經濟弱勢身分；相關資訊會和邀請碼一起寄出。",
+              "regions": ["港澳"]
             },
             {
               "icon": "sprout",

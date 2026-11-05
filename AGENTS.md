@@ -147,10 +147,12 @@ Each ticket card in 想要參與？ opens a dialog (`ticket-dialog.tsx`) built
 from the ticket's `details` in `content.attend_section.tickets`. Its
 sections are all optional and shown in a fixed order: `eligibility`
 (several `groups` become tabs, e.g. 遠道而來票's regions), `benefits`
-(`icon` is a key of `benefitIcons`), `tiers` and `tiersNote`, `steps`,
+(`icon` is a key of `benefitIcons`; `regions` lists the `eligibility`
+group labels it shows for, e.g. 港澳's 機票與住宿), `tiers` and `tiersNote`, `steps`,
 `dates` (重要日期; each a single `start` or `end`, or a range), `documents`,
 `notes` and `faq`. Body text supports the `LinkedText` markup; `titles`
-renames a section for one ticket (怎麼贊助). Dialog chrome lives in
+renames a section for one ticket (怎麼贊助). The region tabs in every section share
+one choice. Dialog chrome lives in
 `attend_section.ticketDialog`. The source of truth is each ticket's HackMD
 page (`info`); keep the details in step with it. Every dialog must offer a
 next step, picked by `ticketAction()` (`src/lib/tickets.ts`): the `apply`

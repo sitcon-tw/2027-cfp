@@ -32,6 +32,17 @@ describe('ticket content', () => {
     }
   })
 
+  it('limits benefits only to regions it has', () => {
+    for (const { details } of tickets) {
+      const regions = details.eligibility?.groups.map(({ label }) => label)
+      for (const benefit of details.benefits ?? []) {
+        for (const region of benefit.regions ?? []) {
+          expect(regions).toContain(region)
+        }
+      }
+    }
+  })
+
   // SITCON has been free since 2012: tickets are claimed, never sold.
   it('never speaks of buying a ticket', () => {
     expect(JSON.stringify(content.attend_section)).not.toMatch(

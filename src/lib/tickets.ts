@@ -50,7 +50,13 @@ export interface TicketDetails {
     lead?: string
     groups: TicketGroup<{ title: string; text: string }>[]
   }
-  benefits?: { icon: string; title: string; text: string }[]
+  benefits?: {
+    icon: string
+    title: string
+    text: string
+    /** Shown only while one of these eligibility groups is picked. */
+    regions?: string[]
+  }[]
   tiers?: { amount: string; rewards: string; ticket?: string }[]
   tiersNote?: string
   steps?: { title: string; text: string }[]

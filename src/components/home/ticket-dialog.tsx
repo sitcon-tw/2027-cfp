@@ -19,7 +19,7 @@ import {
   UserCheck,
   type LucideIcon,
 } from 'lucide-react'
-import type { ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 
 import content from '@/content.json'
 import { CalendarMenu } from '@/components/calendar-menu'
@@ -125,6 +125,15 @@ export function TicketDialogContent({
   const { details } = ticket
   const title = (section: TicketSection) =>
     details.titles?.[section] ?? labels.sections[section]
+  // 遠道而來票's regions: one choice for every tabbed section, which also
+  // picks the benefits shown.
+  const [region, setRegion] = useState(0)
+  const regionLabel = details.eligibility?.groups[region]?.label
+  const benefits = details.benefits?.filter(
+    (benefit) =>
+      !benefit.regions ||
+      (regionLabel !== undefined && benefit.regions.includes(regionLabel)),
+  )
 
   return (
     <DialogContent className="flex flex-col gap-7.5">
@@ -151,6 +160,8 @@ export function TicketDialogContent({
           )}
           <Variants
             groups={details.eligibility.groups}
+            value={region}
+            onValueChange={setRegion}
             render={(items) => (
               <Tiles>
                 {items.map((item, index) => (
@@ -167,10 +178,10 @@ export function TicketDialogContent({
         </Section>
       )}
 
-      {details.benefits && (
+      {benefits && benefits.length > 0 && (
         <Section section="benefits" title={title('benefits')}>
           <Tiles>
-            {details.benefits.map((benefit, index, all) => {
+            {benefits.map((benefit, index, all) => {
               const BenefitIcon = benefitIcons[benefit.icon] ?? Gift
               return (
                 <Tile key={benefit.title} index={index} count={all.length}>
@@ -254,6 +265,8 @@ export function TicketDialogContent({
         <Section section="documents" title={title('documents')}>
           <Variants
             groups={details.documents.groups}
+            value={region}
+            onValueChange={setRegion}
             render={(items) => (
               <ul className="flex flex-col gap-2.5">
                 {items.map((item) => (
@@ -412,17 +425,24 @@ function Section({
   )
 }
 
-/** One group as is; several (遠道而來票's regions) as tabs. */
+/**
+ * One group as is; several (遠道而來票's regions) as tabs, whose choice the
+ * dialog shares across sections.
+ */
 function Variants<T>({
   groups,
+  value,
+  onValueChange,
   render,
 }: {
   groups: { label?: string; items: T[] }[]
+  value: number
+  onValueChange: (value: number) => void
   render: (items: T[]) => ReactNode
 }) {
   if (groups.length === 1) return render(groups[0].items)
   return (
-    <Tabs defaultValue={0}>
+    <Tabs value={value} onValueChange={(next) => onValueChange(next as number)}>
       <TabsList>
         {groups.map((group, index) => (
           <TabsTab
