@@ -202,6 +202,7 @@ export function TicketDialogContent({
       {details.tiers && (
         <Section section="tiers" title={title('tiers')}>
           <ul className="flex flex-col gap-2.5">
+            {/* Mobile: amount and badge on one line, rewards under them. */}
             {details.tiers.map((tier, index, all) => (
               <li
                 key={tier.amount}
@@ -214,11 +215,14 @@ export function TicketDialogContent({
                 <span className="shrink-0 font-numeric text-paragraph font-bold whitespace-nowrap md:basis-60">
                   {tier.amount}
                 </span>
-                <span className="grow basis-60 text-body text-gray">
+                <span className="text-body text-gray max-md:order-last max-md:basis-full md:flex-1">
                   {tier.rewards}
                 </span>
                 {tier.ticket && (
-                  <Badge tone="green" className="flex items-center gap-1.25">
+                  <Badge
+                    tone="green"
+                    className="flex items-center gap-1.25 max-md:ml-auto"
+                  >
                     <TicketIcon aria-hidden className="size-4" />
                     {tier.ticket}
                   </Badge>
