@@ -142,19 +142,19 @@ describe('ticketDateStates', () => {
 
 describe('reminders', () => {
   const general = tickets.find((ticket) => ticket.id === 'general')!
-  const opens = new Date('2027-01-30T20:00:00+08:00')
+  const opens = new Date('2027-01-30T00:00:00+08:00')
 
   it('prefills a Google Calendar event at the opening', () => {
     const url = new URL(googleCalendarUrl(general, opens))
     expect(url.searchParams.get('dates')).toBe(
-      '20270130T120000Z/20270130T123000Z',
+      '20270129T160000Z/20270129T163000Z',
     )
     expect(url.searchParams.get('text')).toContain(general.name)
   })
 
   it('builds a one-event .ics file', () => {
     const ics = decodeURIComponent(icsDataUrl(general, opens).split(',')[1])
-    expect(ics).toContain('DTSTART:20270130T120000Z')
+    expect(ics).toContain('DTSTART:20270129T160000Z')
     expect(ics).toContain('\r\nEND:VCALENDAR')
   })
 })
