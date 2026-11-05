@@ -67,6 +67,10 @@ Run `pnpm check` (typecheck, lint, format check) before finishing a task.
 - Technical identifiers (route paths, anchors, CSS classes, state values),
   calculated numbers, date-format separators, and empty decorative `alt=""`
   attributes may stay in code. Display labels for technical values belong in JSON.
+- SITCON has been free since 2012: tickets are claimed (索票), applied for
+  (申請) or registered for (報名), never sold. Never write 購買, 購票, 買票,
+  售票 or 票價; 個人支持票 is a donation that comes with a 贈票 at some
+  tiers. `src/lib/tickets.test.ts` checks `attend_section` for these words.
 - Do not create another copy file or hardcode new copy in TS/TSX/HTML. Default browser metadata lives in `metadata`; public page titles and descriptions live in `metadata.pages`, and `metadata.url` is the production canonical base. The one exception is the submission form's questions (below).
 
 For content updates, find the relevant section in `src/content.json`, preserve
@@ -138,6 +142,22 @@ once both have. Only `submission`'s `end` closes submissions:
 CTA into a disabled 投稿已截止 `Button` (footer links into dimmed text) and
 replaces the form with the `content.submit_closed` message, live when the
 deadline passes; a `null` end keeps submissions open.
+
+Each ticket card in 想要參與？ opens a dialog (`ticket-dialog.tsx`) built
+from the ticket's `details` in `content.attend_section.tickets`. Its
+sections are all optional and shown in a fixed order: `eligibility`
+(several `groups` become tabs, e.g. 遠道而來票's regions), `benefits`
+(`icon` is a key of `benefitIcons`), `tiers` and `tiersNote`, `steps`,
+`dates` (重要日期; each a single `start` or `end`, or a range), `documents`,
+`notes` and `faq`. Body text supports the `LinkedText` markup; `titles`
+renames a section for one ticket (怎麼贊助). Dialog chrome lives in
+`attend_section.ticketDialog`. The source of truth is each ticket's HackMD
+page (`info`); keep the details in step with it. Every dialog must offer a
+next step, picked by `ticketAction()` (`src/lib/tickets.ts`): the `apply`
+form while open, 加入行事曆 for its opening before then, another open ticket
+once closed, else the `info` page (or the form). `pnpm test` fails if a
+ticket is left without one at any time. The open dialog is in the URL as
+`/?ticket=<id>`, so posts can link straight to a ticket.
 
 The session-type quiz lives in `content.session_quiz.questions`. Each answer
 carries `scores` for the four results (`espresso`, `presentation`, `open`,
