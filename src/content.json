@@ -913,11 +913,11 @@
         "id": "contributor",
         "name": "開源貢獻票",
         "summary": "給已經在為開源付出的你",
-        "description": "曾經替開源專案寫程式、寫文件、翻譯、設計或經營社群？我們正在和開放文化基金會的 OSCVPass 確認合作方式。",
+        "description": "曾經替開源專案寫程式、寫文件、翻譯、設計或經營社群？詳細辦法敬請期待。",
         "start": null,
         "end": null,
         "details": {
-          "info": "https://oscvpass.ocf.tw/v2/",
+          "info": "https://oscvpass.ocf.tw/",
           "infoLabel": "了解 OSCVPass",
           "eligibility": {
             "lead": "OSCVPass 認可的開源貢獻大致分為三種：",
