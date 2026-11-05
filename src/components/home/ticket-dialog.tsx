@@ -557,33 +557,42 @@ const dateDotClassNames: Record<TicketDateState, string> = {
 function DateList({ dates }: { dates: TicketDate[] }) {
   const states = ticketDateStates(dates)
   return (
-    <ol className="flex flex-col">
+    <ol className="flex flex-col rounded-xl bg-light p-5 md:px-7.5">
       {dates.map((date, index) => (
         <li
           key={date.name}
           className={cn(
-            'flex flex-wrap items-center justify-between gap-x-5 gap-y-1.25 border-b border-gray/20 py-2.5 last:border-0',
+            'group flex gap-5',
             states[index] === 'passed' && 'opacity-60',
           )}
         >
-          <span className="flex items-center gap-2.5 text-paragraph font-bold">
-            <span
-              aria-hidden
-              className={cn(
-                'size-3 shrink-0 rounded-full',
-                dateDotClassNames[states[index]],
-              )}
-            />
-            {date.name}
-          </span>
-          <span className="font-numeric text-body font-medium text-gray">
-            {formatScheduleDate({
-              id: date.name,
-              name: date.name,
-              start: date.start ?? null,
-              end: date.end ?? null,
-            })}
-          </span>
+          {/* Rail: a dot centered on the name's first line, joined to the
+              next date by a line. */}
+          <div
+            aria-hidden
+            className="flex flex-col items-center text-paragraph"
+          >
+            <span className="flex h-lh items-center">
+              <span
+                className={cn(
+                  'size-3 rounded-full',
+                  dateDotClassNames[states[index]],
+                )}
+              />
+            </span>
+            <span className="w-0.5 grow rounded-full bg-gray/20 group-last:hidden" />
+          </div>
+          <div className="flex flex-col pb-5 group-last:pb-0">
+            <span className="text-paragraph font-bold">{date.name}</span>
+            <span className="font-numeric text-body font-medium text-gray">
+              {formatScheduleDate({
+                id: date.name,
+                name: date.name,
+                start: date.start ?? null,
+                end: date.end ?? null,
+              })}
+            </span>
+          </div>
         </li>
       ))}
     </ol>
