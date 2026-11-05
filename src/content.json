@@ -598,9 +598,9 @@
         "start": "2026-09-25T00:00:00+08:00",
         "end": "2027-01-03T23:59:00+08:00",
         "details": {
-          "apply": "https://forms.gle/mKzSQzrf1gpxmYPP9",
+          "apply": "https://i.sitcon.org/dream-form",
           "applyLabel": "前往申請",
-          "info": "https://hackmd.io/@SITCON/dream-2027",
+          "info": "https://i.sitcon.org/dream",
           "eligibility": {
             "lead": "以下兩項需同時符合：",
             "groups": [
@@ -776,9 +776,9 @@
         "start": "2026-09-25T00:00:00+08:00",
         "end": "2027-01-17T23:59:00+08:00",
         "details": {
-          "apply": "https://forms.gle/eYkzn7cudfgQu4CKA",
+          "apply": "https://i.sitcon.org/afar-form",
           "applyLabel": "前往申請",
-          "info": "https://hackmd.io/@SITCON/afar-2027",
+          "info": "https://i.sitcon.org/afar",
           "eligibility": {
             "lead": "依你所在的地區，以下兩項需同時符合：",
             "groups": [
@@ -838,7 +838,7 @@
             {
               "icon": "sprout",
               "title": "需要交通住宿補助？",
-              "text": "經濟上需要支持的學生，可以另外申請[開源築夢計畫](https://hackmd.io/@SITCON/dream-2027)。"
+              "text": "經濟上需要支持的學生，可以另外申請[開源築夢計畫](https://i.sitcon.org/dream)。"
             }
           ],
           "steps": [
