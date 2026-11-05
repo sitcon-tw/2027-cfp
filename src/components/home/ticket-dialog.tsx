@@ -144,7 +144,9 @@ export function TicketDialogContent({
             <DialogTitle>{ticket.name}</DialogTitle>
             <TicketStatusBadge ticket={ticket} />
           </div>
-          <DialogDescription>{ticket.description}</DialogDescription>
+          <DialogDescription className="text-pretty">
+            {ticket.description}
+          </DialogDescription>
           <p className="flex items-center gap-1.25 text-body font-bold">
             <BadgeCheck aria-hidden className="size-5 shrink-0" />
             {labels.free}
@@ -167,7 +169,9 @@ export function TicketDialogContent({
                 {items.map((item, index) => (
                   <Tile key={item.title} index={index} count={items.length}>
                     <p className="text-paragraph font-bold">{item.title}</p>
-                    <p className="text-body text-gray">{item.text}</p>
+                    <p className="text-body text-pretty text-gray">
+                      {item.text}
+                    </p>
                   </Tile>
                 ))}
               </Tiles>
@@ -185,7 +189,7 @@ export function TicketDialogContent({
                 <Tile key={benefit.title} index={index} count={all.length}>
                   <BenefitIcon aria-hidden className="mb-1.25 size-7" />
                   <p className="text-paragraph font-bold">{benefit.title}</p>
-                  <p className="text-body text-gray">
+                  <p className="text-body text-pretty text-gray">
                     <LinkedText text={benefit.text} />
                   </p>
                 </Tile>
@@ -207,7 +211,7 @@ export function TicketDialogContent({
                   index === all.length - 1 && 'rounded-b-xl',
                 )}
               >
-                <span className="font-numeric text-paragraph font-bold md:basis-45">
+                <span className="shrink-0 font-numeric text-paragraph font-bold whitespace-nowrap md:basis-60">
                   {tier.amount}
                 </span>
                 <span className="grow basis-60 text-body text-gray">
@@ -242,7 +246,7 @@ export function TicketDialogContent({
                   {index + 1}
                 </span>
                 <p className="text-paragraph font-bold">{step.title}</p>
-                <p className="text-body text-gray">{step.text}</p>
+                <p className="text-body text-pretty text-gray">{step.text}</p>
               </Tile>
             ))}
           </Tiles>
