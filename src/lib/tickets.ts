@@ -24,6 +24,8 @@ export interface TicketDate {
   name: string
   start?: string | null
   end?: string | null
+  /** Leads its 索票重要時程 events in place of the default for its kind. */
+  emoji?: string
 }
 
 /** A labelled variant (遠道而來票's regions); unlabelled when there is one. */
@@ -189,6 +191,8 @@ interface CalendarEvent {
   tickets: Ticket[]
   name: string
   at: string
+  /** Leads the title, so the kind of event shows at a glance. */
+  emoji: string
   /** The row it comes from, for the exact date or range in the details. */
   date: TicketDate
 }
@@ -203,28 +207,50 @@ interface CalendarEvent {
 function calendarEvents(all: Ticket[]): CalendarEvent[] {
   const labels = content.attend_section.calendar
   const events = new Map<string, CalendarEvent>()
-  const add = (ticket: Ticket, name: string, at: string, date: TicketDate) => {
+  const add = (
+    ticket: Ticket,
+    name: string,
+    at: string,
+    date: TicketDate,
+    emoji: string,
+  ) => {
     const key = `${name}|${Date.parse(at)}`
     const event = events.get(key)
     if (event) event.tickets.push(ticket)
-    else events.set(key, { tickets: [ticket], name, at, date })
+    else events.set(key, { tickets: [ticket], name, at, date, emoji })
   }
   const dated = all.filter((ticket) => {
     const dates = ticket.details.dates ?? []
     if (ticket.start && !dates.some((date) => date.start === ticket.start)) {
-      add(ticket, labels.opens, ticket.start, {
-        name: labels.opens,
-        start: ticket.start,
-      })
+      add(
+        ticket,
+        labels.opens,
+        ticket.start,
+        { name: labels.opens, start: ticket.start },
+        labels.emoji.opens,
+      )
     }
     for (const date of dates) {
       if (date.start && date.end) {
         const name = (template: string) => template.replace('{name}', date.name)
-        add(ticket, name(labels.rangeStart), date.start, date)
-        add(ticket, name(labels.rangeEnd), date.end, date)
+        add(
+          ticket,
+          name(labels.rangeStart),
+          date.start,
+          date,
+          date.emoji ?? labels.emoji.start,
+        )
+        add(
+          ticket,
+          name(labels.rangeEnd),
+          date.end,
+          date,
+          date.emoji ?? labels.emoji.end,
+        )
       } else {
         const at = date.start ?? date.end
-        if (at) add(ticket, date.name, at, date)
+        const emoji = date.end ? labels.emoji.end : labels.emoji.start
+        if (at) add(ticket, date.name, at, date, date.emoji ?? emoji)
       }
     }
     return ticket.start || dates.length > 0
@@ -254,17 +280,19 @@ export function ticketCalendar(now = new Date(), all: Ticket[] = tickets) {
     const id = `${ticket?.id ?? 'sitcon'}-${day}`
     const index = days.get(id) ?? 0
     days.set(id, index + 1)
-    const title = ticket
-      ? labels.title.replace(
-          '{name}',
-          labels.ticketEvent
-            .replace(
-              '{ticket}',
-              event.tickets.map(({ name }) => name).join(labels.separator),
-            )
-            .replace('{name}', event.name),
-        )
-      : event.name
+    const title = (
+      ticket
+        ? labels.title.replace(
+            '{name}',
+            labels.ticketEvent
+              .replace(
+                '{ticket}',
+                event.tickets.map(({ name }) => name).join(labels.separator),
+              )
+              .replace('{name}', event.name),
+          )
+        : labels.sharedTitle.replace('{name}', event.name)
+    ).replace('{emoji}', event.emoji)
     const url = ticket
       ? `${content.metadata.url}?ticket=${ticket.id}`
       : content.metadata.url

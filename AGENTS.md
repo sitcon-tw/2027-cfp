@@ -169,7 +169,9 @@ download all use the same file, so subscribers pick up later changes. The
 build writes it (`ticketCalendar()` in `src/lib/tickets.ts`, called from
 `scripts/prerender.mjs`) from each ticket's opening and 重要日期, so keep
 the dates in `content.json` and never add a copy to `public/`. Event titles
-live in `attend_section.calendar`. The speakers' 投稿重要時程
+live in `attend_section.calendar`; each starts with an emoji for its kind
+(`calendar.emoji`: opening, start, deadline), which a 重要日期 row can
+override with its own `emoji` (🥳 年會, 📬 results, ✍️ 心得). The speakers' 投稿重要時程
 (`links.calendarFile`) is a separate, hand-written file in `public/`.
 
 The session-type quiz lives in `content.session_quiz.questions`. Each answer

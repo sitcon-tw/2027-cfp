@@ -158,20 +158,20 @@ describe('ticketCalendar', () => {
   it('is one calendar with every ticket date', () => {
     expect(ics).toMatch(/^BEGIN:VCALENDAR\r\n/)
     expect(ics).toContain('\r\nEND:VCALENDAR\r\n')
-    expect(summaries).toContain('SITCON 2027｜一般票・第二波索票開始')
-    expect(summaries).toContain('SITCON 2027｜開源築夢計畫・申請截止')
+    expect(summaries).toContain('🔔 SITCON 2027 一般票・第二波索票開始')
+    expect(summaries).toContain('⚠️ SITCON 2027 開源築夢計畫・申請截止')
   })
 
   it('adds an opening only when no date starts then', () => {
     expect(summaries).toContain(
-      'SITCON 2027｜開源築夢計畫、遠道而來票・開放申請',
+      '📝 SITCON 2027 開源築夢計畫、遠道而來票・開放申請',
     )
     expect(summaries.join()).not.toContain('一般票・開放申請')
   })
 
   it('lists a date that tickets share once, on its day in Taiwan', () => {
     const conference = events.filter((event) =>
-      event.includes('SUMMARY:SITCON 2027 年會\r\n'),
+      event.includes('SUMMARY:🥳 SITCON 2027 年會\r\n'),
     )
     expect(conference).toHaveLength(1)
     expect(conference[0]).toContain('DTSTART;VALUE=DATE:20270313')
