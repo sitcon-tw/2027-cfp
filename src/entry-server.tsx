@@ -6,6 +6,8 @@ import { PageMetadata } from '@/components/page-metadata'
 import { createAppRouter } from './router'
 
 export { pageMetadata, publicPagePaths } from '@/lib/page-metadata'
+export { ticketCalendar } from '@/lib/tickets'
+export { default as content } from '@/content.json'
 
 export async function render(pathname: string) {
   const router = createAppRouter(

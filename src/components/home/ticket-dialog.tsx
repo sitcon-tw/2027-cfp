@@ -4,7 +4,6 @@ import {
   BedDouble,
   CalendarDays,
   Check,
-  ChevronDown,
   CircleHelp,
   FileText,
   Gift,
@@ -23,6 +22,7 @@ import {
 import type { ReactNode } from 'react'
 
 import content from '@/content.json'
+import { CalendarMenu } from '@/components/calendar-menu'
 import { LinkedText } from '@/components/linked-text'
 import { StatusBadge } from '@/components/schedule-card'
 import {
@@ -40,17 +40,9 @@ import {
   DialogDescription,
   DialogTitle,
 } from '@/components/ui/dialog'
-import {
-  Menu,
-  MenuContent,
-  MenuLinkItem,
-  MenuTrigger,
-} from '@/components/ui/menu'
 import { Tabs, TabsList, TabsPanel, TabsTab } from '@/components/ui/tabs'
 import { formatScheduleDate, scheduleStatus } from '@/lib/schedule'
 import {
-  googleCalendarUrl,
-  icsDataUrl,
   infoLabel,
   ticketAction,
   ticketDateStates,
@@ -341,9 +333,7 @@ function ActionBar({ ticket, onSwitch }: TicketDialogContentProps) {
     >
       <div className="flex grow basis-60 flex-col">{when}</div>
       <div className="flex flex-wrap items-center gap-x-7.5 gap-y-2.5">
-        {action && (
-          <PrimaryAction ticket={ticket} action={action} onSwitch={onSwitch} />
-        )}
+        {action && <PrimaryAction action={action} onSwitch={onSwitch} />}
         {info && action?.kind !== 'info' && (
           <a
             href={info}
@@ -363,10 +353,9 @@ function ActionBar({ ticket, onSwitch }: TicketDialogContentProps) {
 const primaryClassName = buttonVariants({ variant: 'green' })
 
 function PrimaryAction({
-  ticket,
   action,
   onSwitch,
-}: TicketDialogContentProps & {
+}: Pick<TicketDialogContentProps, 'onSwitch'> & {
   action: NonNullable<ReturnType<typeof ticketAction>>
 }) {
   switch (action.kind) {
@@ -391,53 +380,15 @@ function PrimaryAction({
         </Button>
       )
     case 'remind':
-      return <ReminderMenu ticket={ticket} at={action.at} />
-  }
-}
-
-// Same light items as the 投稿日程 calendar menu.
-const CALENDAR_ITEM =
-  'min-h-control rounded-xl py-2.5 font-bold data-highlighted:bg-background data-highlighted:text-foreground'
-
-/** 加入行事曆 for the moment the ticket opens. */
-function ReminderMenu({ ticket, at }: { ticket: Ticket; at: Date }) {
-  const calendar = content.submission_deadline
-  return (
-    <Menu>
-      <MenuTrigger
-        className={buttonVariants({
-          variant: 'green',
-          className: 'data-popup-open:brightness-90',
-        })}
-      >
-        {calendar.addCalendar}
-        <ChevronDown
-          aria-hidden
-          className="size-5 transition-transform duration-200 in-data-popup-open:rotate-180 motion-reduce:transition-none"
+      // The 索票重要時程 calendar, which has this ticket's opening.
+      return (
+        <CalendarMenu
+          file={content.links.ticketCalendarFile}
+          variant="green"
+          align="start"
         />
-      </MenuTrigger>
-      <MenuContent
-        align="start"
-        className="rounded-xl border-0 bg-light bg-none text-background backdrop-blur-none transition-opacity duration-300 ease-smooth data-ending-style:scale-100 data-starting-style:scale-100"
-      >
-        <MenuLinkItem
-          className={CALENDAR_ITEM}
-          href={googleCalendarUrl(ticket, at)}
-          target="_blank"
-          rel="noreferrer"
-        >
-          {calendar.calendarGoogle}
-        </MenuLinkItem>
-        <MenuLinkItem
-          className={CALENDAR_ITEM}
-          href={icsDataUrl(ticket, at)}
-          download={`sitcon-2027-${ticket.id}.ics`}
-        >
-          {calendar.calendarDownload}
-        </MenuLinkItem>
-      </MenuContent>
-    </Menu>
-  )
+      )
+  }
 }
 
 function Section({

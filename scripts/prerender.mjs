@@ -2,9 +2,11 @@ import assert from 'node:assert/strict'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import {
+  content,
   pageMetadata,
   publicPagePaths,
   render,
+  ticketCalendar,
 } from '../node_modules/.tmp/prerender/entry-server.js'
 
 // Schedule timestamps belong to the Taiwan event, regardless of the build host.
@@ -48,3 +50,10 @@ ${sitemapEntries.join('\n')}
 </urlset>
 `,
 )
+
+// The 索票重要時程 calendar, from the ticket dates in `content.json`.
+const ticketCalendarFile = decodeURIComponent(
+  new URL(content.links.ticketCalendarFile).pathname.split('/').pop(),
+)
+await writeFile(join('dist', ticketCalendarFile), ticketCalendar())
+console.log(`Wrote ${base}/${ticketCalendarFile}`)

@@ -154,10 +154,21 @@ renames a section for one ticket (怎麼贊助). Dialog chrome lives in
 `attend_section.ticketDialog`. The source of truth is each ticket's HackMD
 page (`info`); keep the details in step with it. Every dialog must offer a
 next step, picked by `ticketAction()` (`src/lib/tickets.ts`): the `apply`
-form while open, 加入行事曆 for its opening before then, another open ticket
+form while open, 加入行事曆 before then, another open ticket
 once closed, else the `info` page (or the form). `pnpm test` fails if a
 ticket is left without one at any time. The open dialog is in the URL as
 `/?ticket=<id>`, so posts can link straight to a ticket.
+
+Every 加入行事曆 for attendees (the 索票日程 card under the tickets and the
+ticket dialogs) subscribes to one calendar, 索票重要時程
+(`links.ticketCalendarFile`), through `CalendarMenu`
+(`src/components/calendar-menu.tsx`): Google Calendar, Apple Calendar or a
+download all use the same file, so subscribers pick up later changes. The
+build writes it (`ticketCalendar()` in `src/lib/tickets.ts`, called from
+`scripts/prerender.mjs`) from each ticket's opening and 重要日期, so keep
+the dates in `content.json` and never add a copy to `public/`. Event titles
+live in `attend_section.calendar`. The speakers' 投稿重要時程
+(`links.calendarFile`) is a separate, hand-written file in `public/`.
 
 The session-type quiz lives in `content.session_quiz.questions`. Each answer
 carries `scores` for the four results (`espresso`, `presentation`, `open`,

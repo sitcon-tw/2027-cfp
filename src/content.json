@@ -577,10 +577,18 @@
   "attend_section": {
     "title": "想要參與？",
     "description": "SITCON 的票不只一種：有給開源貢獻者的、給遠道而來的人的，也有給需要一點支持的同學的。先找到適合你的那一種，再對照日程，別錯過開放的時間。",
-    "viewSchedule": "查看索票日程 →",
     "scheduleTitle": "索票日程",
-    "scheduleDescription": "每種票開放的時間不同，名額也各自獨立，看看什麼時候輪到你。",
-    "dialogDescription": "同一個人只需要選一種票。日期以正式公告為準。",
+    "scheduleDescription": "每種票開放的時間不同，名額也各自獨立。把索票日程加進行事曆，開放和截止前一天都會提醒你。",
+    "calendar": {
+      "name": "SITCON 2027 索票重要時程",
+      "title": "SITCON 2027｜{name}",
+      "ticketEvent": "{ticket}・{name}",
+      "separator": "、",
+      "opens": "開放申請",
+      "rangeStart": "{name}開始",
+      "rangeEnd": "{name}截止",
+      "details": "{date}\n{url}"
+    },
     "tickets": [
       {
         "id": "dream",
@@ -1013,9 +1021,7 @@
       "pendingBadge": "確認中",
       "apply": "前往申請",
       "info": "完整辦法",
-      "switchTo": "看看{name}",
-      "reminderTitle": "SITCON 2027｜{name}開放",
-      "reminderDetails": "{name}開放了！詳情：{url}"
+      "switchTo": "看看{name}"
     }
   },
   "speaker_section": {
@@ -2315,8 +2321,8 @@
     "youtube": "https://www.youtube.com/@SITCONtw",
     "pastSite": "https://sitcon.org/{year}/",
     "calendarFile": "https://sitcon.org/2027/cfp/SITCON_2027_投稿重要時程.ics",
-    "googleCalendarSubscribe": "https://calendar.google.com/calendar/r?cid={url}",
-    "googleCalendarEvent": "https://calendar.google.com/calendar/render?action=TEMPLATE&text={title}&dates={dates}&details={details}"
+    "ticketCalendarFile": "https://sitcon.org/2027/cfp/SITCON_2027_索票重要時程.ics",
+    "googleCalendarSubscribe": "https://calendar.google.com/calendar/r?cid={url}"
   },
   "not_found_page": {
     "eyebrow": "404",

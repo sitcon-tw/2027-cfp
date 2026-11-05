@@ -2,7 +2,8 @@ import { useNavigate, useSearch } from '@tanstack/react-router'
 import { CalendarDays, ChevronRight } from 'lucide-react'
 
 import content from '@/content.json'
-import { ScheduleCard } from '@/components/schedule-card'
+import { ActionCard } from '@/components/action-card'
+import { CalendarMenu } from '@/components/calendar-menu'
 import { SectionHeading } from '@/components/section-heading'
 import {
   TicketDialogContent,
@@ -18,8 +19,8 @@ import { cn } from '@/lib/utils'
  * 想要參與？ — every ticket type with a one-line "who it's for", since the
  * names alone (開源築夢計畫, 遠道而來票) don't explain themselves. Each card
  * opens the ticket's details; the open one is in the URL (`/?ticket=far`),
- * so posts can link straight to it. The dates of all of them live in the
- * schedule dialog.
+ * so posts can link straight to it. The card under them subscribes to the
+ * 索票重要時程 calendar with all of their dates.
  */
 export function AttendSection() {
   const { ticket: openId } = useSearch({ from: '/' })
@@ -83,13 +84,16 @@ export function AttendSection() {
           ))}
         </ul>
         <div className="w-full pt-5">
-          <ScheduleCard
+          <ActionCard
             icon={CalendarDays}
             title={content.attend_section.scheduleTitle}
             description={content.attend_section.scheduleDescription}
-            action={content.attend_section.viewSchedule}
-            dialogDescription={content.attend_section.dialogDescription}
-            items={tickets}
+            action={
+              <CalendarMenu
+                file={content.links.ticketCalendarFile}
+                variant="dark"
+              />
+            }
           />
         </div>
       </div>

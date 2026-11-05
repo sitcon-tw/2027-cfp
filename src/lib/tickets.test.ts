@@ -3,9 +3,8 @@ import { describe, expect, it } from 'vitest'
 import content from '@/content.json'
 
 import {
-  googleCalendarUrl,
-  icsDataUrl,
   ticketAction,
+  ticketCalendar,
   ticketDateStates,
   tickets,
   type Ticket,
@@ -140,21 +139,40 @@ describe('ticketDateStates', () => {
   })
 })
 
-describe('reminders', () => {
-  const general = tickets.find((ticket) => ticket.id === 'general')!
-  const opens = new Date('2027-01-30T00:00:00+08:00')
+describe('ticketCalendar', () => {
+  const ics = ticketCalendar(new Date('2026-11-06T00:00:00Z'))
+  const events = ics.split('BEGIN:VEVENT').slice(1)
+  const summaries = events.map((event) => /SUMMARY:(.*)/.exec(event)![1])
 
-  it('prefills a Google Calendar event at the opening', () => {
-    const url = new URL(googleCalendarUrl(general, opens))
-    expect(url.searchParams.get('dates')).toBe(
-      '20270129T160000Z/20270129T163000Z',
-    )
-    expect(url.searchParams.get('text')).toContain(general.name)
+  it('is one calendar with every ticket date', () => {
+    expect(ics).toMatch(/^BEGIN:VCALENDAR\r\n/)
+    expect(ics).toContain('\r\nEND:VCALENDAR\r\n')
+    expect(summaries).toContain('SITCON 2027｜一般票・第二波索票開始')
+    expect(summaries).toContain('SITCON 2027｜開源築夢計畫・申請截止')
   })
 
-  it('builds a one-event .ics file', () => {
-    const ics = decodeURIComponent(icsDataUrl(general, opens).split(',')[1])
-    expect(ics).toContain('DTSTART:20270129T160000Z')
-    expect(ics).toContain('\r\nEND:VCALENDAR')
+  it('adds an opening only when no date starts then', () => {
+    expect(summaries).toContain(
+      'SITCON 2027｜開源築夢計畫、遠道而來票・開放申請',
+    )
+    expect(summaries.join()).not.toContain('一般票・開放申請')
+  })
+
+  it('lists a date that tickets share once, on its day in Taiwan', () => {
+    const conference = events.filter((event) =>
+      event.includes('SUMMARY:SITCON 2027 年會\r\n'),
+    )
+    expect(conference).toHaveLength(1)
+    expect(conference[0]).toContain('DTSTART;VALUE=DATE:20270313')
+    expect(conference[0]).toContain('DTEND;VALUE=DATE:20270314')
+  })
+
+  it('has unique ids, in date order', () => {
+    const uids = events.map((event) => /UID:(.*)/.exec(event)![1])
+    expect(new Set(uids).size).toBe(uids.length)
+    const days = events.map(
+      (event) => /DTSTART;VALUE=DATE:(\d+)/.exec(event)![1],
+    )
+    expect(days).toEqual([...days].sort())
   })
 })

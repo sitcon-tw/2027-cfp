@@ -1,5 +1,9 @@
 import content from '@/content.json'
-import { scheduleStatus, type ScheduleItem } from '@/lib/schedule'
+import {
+  formatScheduleDate,
+  scheduleStatus,
+  type ScheduleItem,
+} from '@/lib/schedule'
 
 /** The dialog sections, in the order they are shown. */
 export const ticketSections = [
@@ -155,29 +159,18 @@ function calendarTime(date: Date) {
   return date.toISOString().replace(/[-:]|\.\d{3}/g, '')
 }
 
-// A reminder is a short event at the moment the ticket opens.
-const REMINDER_MINUTES = 30
-
-function reminder(ticket: Ticket, at: Date) {
-  const labels = content.attend_section.ticketDialog
-  const url = `${content.metadata.url}?ticket=${ticket.id}`
-  return {
-    title: labels.reminderTitle.replace('{name}', ticket.name),
-    details: labels.reminderDetails
-      .replace('{name}', ticket.name)
-      .replace('{url}', url),
-    start: calendarTime(at),
-    end: calendarTime(new Date(at.getTime() + REMINDER_MINUTES * 60_000)),
-  }
+/** `20270130`: the day a moment falls on in Taiwan, for all-day events. */
+function calendarDay(iso: string) {
+  return new Date(iso)
+    .toLocaleDateString('sv', { timeZone: 'Asia/Taipei' })
+    .replaceAll('-', '')
 }
 
-/** A Google Calendar link that prefills the opening as a new event. */
-export function googleCalendarUrl(ticket: Ticket, at: Date) {
-  const event = reminder(ticket, at)
-  return content.links.googleCalendarEvent
-    .replace('{title}', encodeURIComponent(event.title))
-    .replace('{dates}', `${event.start}/${event.end}`)
-    .replace('{details}', encodeURIComponent(event.details))
+function nextDay(day: string) {
+  const date = new Date(
+    Date.UTC(+day.slice(0, 4), +day.slice(4, 6) - 1, +day.slice(6) + 1),
+  )
+  return date.toISOString().slice(0, 10).replaceAll('-', '')
 }
 
 /** Escapes text for an iCalendar property value (RFC 5545 §3.3.11). */
@@ -185,23 +178,128 @@ function icsText(text: string) {
   return text.replace(/[\\;,]/g, (char) => `\\${char}`).replace(/\n/g, '\\n')
 }
 
-/** The same event as a one-off `.ics` file, for Apple Calendar and others. */
-export function icsDataUrl(ticket: Ticket, at: Date) {
-  const event = reminder(ticket, at)
-  const ics = [
+interface CalendarEvent {
+  /** The tickets that list it; none for a date every ticket shares. */
+  tickets: Ticket[]
+  name: string
+  at: string
+  /** The row it comes from, for the exact date or range in the details. */
+  date: TicketDate
+}
+
+/**
+ * Every ticket's dates as one-day events: its opening (unless a 重要日期
+ * row already starts then), then each 重要日期 row, a range as its start
+ * and its end. A row that several tickets list on the same date is one
+ * event naming them all, or none when every ticket lists it (SITCON 2027
+ * 年會).
+ */
+function calendarEvents(all: Ticket[]): CalendarEvent[] {
+  const labels = content.attend_section.calendar
+  const events = new Map<string, CalendarEvent>()
+  const add = (ticket: Ticket, name: string, at: string, date: TicketDate) => {
+    const key = `${name}|${Date.parse(at)}`
+    const event = events.get(key)
+    if (event) event.tickets.push(ticket)
+    else events.set(key, { tickets: [ticket], name, at, date })
+  }
+  const dated = all.filter((ticket) => {
+    const dates = ticket.details.dates ?? []
+    if (ticket.start && !dates.some((date) => date.start === ticket.start)) {
+      add(ticket, labels.opens, ticket.start, {
+        name: labels.opens,
+        start: ticket.start,
+      })
+    }
+    for (const date of dates) {
+      if (date.start && date.end) {
+        const name = (template: string) => template.replace('{name}', date.name)
+        add(ticket, name(labels.rangeStart), date.start, date)
+        add(ticket, name(labels.rangeEnd), date.end, date)
+      } else {
+        const at = date.start ?? date.end
+        if (at) add(ticket, date.name, at, date)
+      }
+    }
+    return ticket.start || dates.length > 0
+  })
+  return [...events.values()]
+    .map((event) =>
+      event.tickets.length === dated.length && dated.length > 1
+        ? { ...event, tickets: [] }
+        : event,
+    )
+    .sort((a, b) => Date.parse(a.at) - Date.parse(b.at))
+}
+
+/**
+ * 索票重要時程: every ticket's dates in one `.ics` calendar, published next
+ * to the site (`content.links.ticketCalendarFile`) by the build. Every
+ * 加入行事曆 for attendees subscribes to it, so it stays in step with
+ * `content.attend_section.tickets`.
+ */
+export function ticketCalendar(now = new Date(), all: Ticket[] = tickets) {
+  const labels = content.attend_section.calendar
+  const stamp = calendarTime(now)
+  const days = new Map<string, number>()
+  const events = calendarEvents(all).flatMap((event) => {
+    const day = calendarDay(event.at)
+    const [ticket] = event.tickets
+    const id = `${ticket?.id ?? 'sitcon'}-${day}`
+    const index = days.get(id) ?? 0
+    days.set(id, index + 1)
+    const title = ticket
+      ? labels.title.replace(
+          '{name}',
+          labels.ticketEvent
+            .replace(
+              '{ticket}',
+              event.tickets.map(({ name }) => name).join(labels.separator),
+            )
+            .replace('{name}', event.name),
+        )
+      : event.name
+    const url = ticket
+      ? `${content.metadata.url}?ticket=${ticket.id}`
+      : content.metadata.url
+    const details = labels.details
+      .replace(
+        '{date}',
+        formatScheduleDate({
+          id: event.date.name,
+          name: event.date.name,
+          start: event.date.start ?? null,
+          end: event.date.end ?? null,
+        }),
+      )
+      .replace('{url}', url)
+    return [
+      'BEGIN:VEVENT',
+      `UID:sitcon-2027-ticket-${id}-${index}@sitcon.org`,
+      `DTSTAMP:${stamp}`,
+      `DTSTART;VALUE=DATE:${day}`,
+      `DTEND;VALUE=DATE:${nextDay(day)}`,
+      `SUMMARY:${icsText(title)}`,
+      `DESCRIPTION:${icsText(details)}`,
+      `URL:${url}`,
+      'BEGIN:VALARM',
+      'ACTION:DISPLAY',
+      `DESCRIPTION:${icsText(title)}`,
+      'TRIGGER:-P1D',
+      'END:VALARM',
+      'END:VEVENT',
+    ]
+  })
+  return [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
     'PRODID:-//SITCON//2027 CFP//ZH',
-    'BEGIN:VEVENT',
-    `UID:sitcon-2027-ticket-${ticket.id}@sitcon.org`,
-    `DTSTAMP:${event.start}`,
-    `DTSTART:${event.start}`,
-    `DTEND:${event.end}`,
-    `SUMMARY:${icsText(event.title)}`,
-    `DESCRIPTION:${icsText(event.details)}`,
-    'END:VEVENT',
+    'CALSCALE:GREGORIAN',
+    `X-WR-CALNAME:${icsText(labels.name)}`,
+    `NAME:${icsText(labels.name)}`,
+    'X-WR-TIMEZONE:Asia/Taipei',
+    ...events,
     'END:VCALENDAR',
     '',
   ].join('\r\n')
-  return `data:text/calendar;charset=utf-8,${encodeURIComponent(ics)}`
 }
