@@ -664,7 +664,6 @@
             }
           ],
           "documents": {
-            "note": "文件只需清楚顯示姓名與地址，其他個資（如身分證字號）建議遮蔽。文件只用於資格審查，2027/03/14 後作廢。",
             "groups": [
               {
                 "items": [
@@ -728,7 +727,7 @@
               "ticket": "贈票一張"
             }
           ],
-          "tiersNote": "累積 NT$2,500～9,999 的前 50 位贊助者會額外獲得一張年會門票，依完成時間排序、不分金額。累積 NT$500 以上，還可以把名字列在活動網站與現場的致謝名單上。",
+          "tiersNote": "累積 NT$2,500 起，前 50 位就送一張年會門票；NT$500 起還能列名致謝名單。",
           "steps": [
             {
               "title": "前往個人贊助頁面",
@@ -874,7 +873,6 @@
             }
           ],
           "documents": {
-            "note": "文件只需清楚顯示姓名與地址，其他個資（如身分證字號）建議遮蔽。文件只用於資格審查，2027/03/14 後作廢。",
             "groups": [
               {
                 "label": "偏鄉、離島",
@@ -1022,8 +1020,7 @@
       "info": "完整辦法",
       "switchTo": "看看{name}",
       "reminderTitle": "SITCON 2027｜{name}開放",
-      "reminderDetails": "{name}開放了！詳情：{url}",
-      "contact": "還有問題？寫信到 [ticket@sitcon.org](mailto:ticket@sitcon.org) 問我們。"
+      "reminderDetails": "{name}開放了！詳情：{url}"
     }
   },
   "speaker_section": {

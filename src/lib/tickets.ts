@@ -51,7 +51,7 @@ export interface TicketDetails {
   tiersNote?: string
   steps?: { title: string; text: string }[]
   dates?: TicketDate[]
-  documents?: { note?: string; groups: TicketGroup<string>[] }
+  documents?: { groups: TicketGroup<string>[] }
   notes?: string[]
   faq?: { question: string; answer: string }[]
 }

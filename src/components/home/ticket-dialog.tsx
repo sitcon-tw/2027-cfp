@@ -278,9 +278,6 @@ export function TicketDialogContent({
               </ul>
             )}
           />
-          {details.documents.note && (
-            <p className="text-body text-gray">{details.documents.note}</p>
-          )}
         </Section>
       )}
 
@@ -315,10 +312,6 @@ export function TicketDialogContent({
           </Accordion>
         </Section>
       )}
-
-      <p className="text-body text-gray">
-        <LinkedText text={labels.contact} />
-      </p>
     </DialogContent>
   )
 }
