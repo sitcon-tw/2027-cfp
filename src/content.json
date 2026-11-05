@@ -998,7 +998,6 @@
       }
     ],
     "ticketDialog": {
-      "free": "SITCON 年會免費參加，只需要索票。",
       "sections": {
         "eligibility": "適合誰",
         "benefits": "你會得到",

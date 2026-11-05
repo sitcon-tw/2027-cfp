@@ -1,7 +1,6 @@
 import {
   ArrowRight,
   ArrowUpRight,
-  BadgeCheck,
   BedDouble,
   CalendarDays,
   Check,
@@ -147,10 +146,6 @@ export function TicketDialogContent({
           <DialogDescription className="text-pretty">
             {ticket.description}
           </DialogDescription>
-          <p className="flex items-center gap-1.25 text-body font-bold">
-            <BadgeCheck aria-hidden className="size-5 shrink-0" />
-            {labels.free}
-          </p>
         </div>
         <DialogClose aria-label={content.schedule.close} />
       </div>
