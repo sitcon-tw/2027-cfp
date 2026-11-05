@@ -77,11 +77,21 @@ const dotClassNames: Record<ScheduleStatus, string> = {
   closed: 'bg-gray/40',
 }
 
-/** Unannounced items get no badge, so a missing date stays low-key. */
 const badgeTones: Record<Exclude<ScheduleStatus, 'unannounced'>, BadgeTone> = {
   upcoming: 'blue',
   open: 'green',
   closed: 'light',
+}
+
+/**
+ * 即將開始 / 進行中 / 已結束. Unannounced items get no badge, so a missing
+ * date stays low-key.
+ */
+export function StatusBadge({ status }: { status: ScheduleStatus }) {
+  if (status === 'unannounced') return null
+  return (
+    <Badge tone={badgeTones[status]}>{content.schedule.status[status]}</Badge>
+  )
 }
 
 function ScheduleTimeline({ items }: { items: ScheduleItem[] }) {
@@ -107,11 +117,7 @@ function ScheduleTimeline({ items }: { items: ScheduleItem[] }) {
             <div className="flex flex-1 flex-col gap-1.25 pb-7.5 group-last:pb-0">
               <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.25">
                 <h3 className="text-lead font-bold">{item.name}</h3>
-                {status !== 'unannounced' && (
-                  <Badge tone={badgeTones[status]}>
-                    {content.schedule.status[status]}
-                  </Badge>
-                )}
+                <StatusBadge status={status} />
               </div>
               {(item.label || status !== 'unannounced') && (
                 <p className="font-numeric text-body font-medium text-gray">
