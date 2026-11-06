@@ -1,14 +1,6 @@
 import content from '@/content.json'
-import { ChevronDown } from 'lucide-react'
-
-import { buttonVariants } from '@/components/ui/button'
+import { CalendarMenu } from '@/components/calendar-menu'
 import { Card } from '@/components/ui/card'
-import {
-  Menu,
-  MenuContent,
-  MenuLinkItem,
-  MenuTrigger,
-} from '@/components/ui/menu'
 import {
   deadlines,
   useCountdown,
@@ -58,7 +50,8 @@ export function SubmissionDeadline() {
               {date ? <LiveCountdown to={date} /> : <CountdownText />}
             </p>
           </div>
-          <CalendarMenu />
+          {/* The 投稿重要時程 calendar, served from `public/`. */}
+          <CalendarMenu file={content.links.calendarFile} size="lg" />
         </Card>
       </div>
     </section>
@@ -84,60 +77,5 @@ function CountdownText({ parts }: { parts?: Record<CountdownPart, number> }) {
           : content.submission_deadline.unknownCountdownValue}
       </span>
     ),
-  )
-}
-
-// Calendar items are taller and bold, and highlight dark so keyboard focus
-// stands out on the light popup.
-const CALENDAR_ITEM =
-  'min-h-control rounded-xl py-2.5 font-bold data-highlighted:bg-background data-highlighted:text-foreground'
-
-// The 投稿重要時程 calendar, served from `public/`. Google and Apple
-// Calendar subscribe to it, so they pick up later changes to the file.
-const CALENDAR_FILE = content.links.calendarFile
-const CALENDAR_WEBCAL = CALENDAR_FILE.replace(/^https?:/, 'webcal:')
-
-function CalendarMenu() {
-  const labels = content.submission_deadline
-  return (
-    <Menu>
-      <MenuTrigger
-        className={buttonVariants({
-          variant: 'muted',
-          size: 'lg',
-          className: 'data-popup-open:brightness-90',
-        })}
-      >
-        {labels.addCalendar}
-        <ChevronDown
-          aria-hidden
-          className="size-6 transition-transform duration-200 in-data-popup-open:rotate-180 motion-reduce:transition-none"
-        />
-      </MenuTrigger>
-      {/* A light surface, to pair with the muted trigger and the cream card
-          behind it, instead of the default glass popup. */}
-      <MenuContent
-        align="end"
-        className="rounded-xl border-0 bg-light bg-none text-background backdrop-blur-none transition-opacity duration-300 ease-smooth data-ending-style:scale-100 data-starting-style:scale-100"
-      >
-        <MenuLinkItem
-          className={CALENDAR_ITEM}
-          href={content.links.googleCalendarSubscribe.replace(
-            '{url}',
-            encodeURIComponent(CALENDAR_WEBCAL),
-          )}
-          target="_blank"
-          rel="noreferrer"
-        >
-          {labels.calendarGoogle}
-        </MenuLinkItem>
-        <MenuLinkItem className={CALENDAR_ITEM} href={CALENDAR_WEBCAL}>
-          {labels.calendarApple}
-        </MenuLinkItem>
-        <MenuLinkItem className={CALENDAR_ITEM} href={CALENDAR_FILE} download>
-          {labels.calendarDownload}
-        </MenuLinkItem>
-      </MenuContent>
-    </Menu>
   )
 }

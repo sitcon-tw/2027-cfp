@@ -18,11 +18,12 @@ export function MenuContent({
   Pick<BaseMenu.Positioner.Props, 'align'>) {
   return (
     <BaseMenu.Portal>
+      {/* Above dialogs (z-30), so a menu inside one shows over it. */}
       <BaseMenu.Positioner
         sideOffset={6}
         align={align}
         collisionPadding={20}
-        className="z-20 outline-none"
+        className="z-40 outline-none"
       >
         <BaseMenu.Popup
           className={cn(

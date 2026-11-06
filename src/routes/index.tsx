@@ -8,8 +8,15 @@ import { SpeakerSection } from '@/components/home/speaker-section'
 import { SponsorSection } from '@/components/home/sponsor-section'
 import { SubmissionDeadline } from '@/components/home/submission-deadline'
 import { ThemeSection } from '@/components/home/theme-section'
+import { findTicket } from '@/lib/tickets'
 
 export const Route = createFileRoute('/')({
+  // `ticket`: the 想要參與？ ticket whose details are open, so a post can
+  // link straight to one (`/?ticket=far`). Unknown ids are dropped.
+  validateSearch: (search: Record<string, unknown>): { ticket?: string } =>
+    typeof search.ticket === 'string' && findTicket(search.ticket)
+      ? { ticket: search.ticket }
+      : {},
   component: Home,
 })
 

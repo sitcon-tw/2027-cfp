@@ -1,35 +1,38 @@
-import {
-  CalendarDays,
-  GitPullRequest,
-  HandHeart,
-  MapPin,
-  Sprout,
-  Ticket,
-  type LucideIcon,
-} from 'lucide-react'
+import { useNavigate, useSearch } from '@tanstack/react-router'
+import { CalendarDays, ChevronRight } from 'lucide-react'
 
 import content from '@/content.json'
-import { ScheduleCard } from '@/components/schedule-card'
+import { ActionCard } from '@/components/action-card'
+import { CalendarMenu } from '@/components/calendar-menu'
 import { SectionHeading } from '@/components/section-heading'
+import {
+  TicketDialogContent,
+  TicketStatusBadge,
+  TicketTypeIcon,
+} from '@/components/home/ticket-dialog'
 import { Card } from '@/components/ui/card'
+import { Dialog, DialogTrigger } from '@/components/ui/dialog'
+import { tickets } from '@/lib/tickets'
 import { cn } from '@/lib/utils'
-
-/** Icon per ticket id in `content.attend_section.tickets`. */
-const ticketIcons: Record<string, LucideIcon> = {
-  contributor: GitPullRequest,
-  far: MapPin,
-  dream: Sprout,
-  supporter: HandHeart,
-  general: Ticket,
-}
 
 /**
  * 想要參與？ — every ticket type with a one-line "who it's for", since the
- * names alone (開源築夢計畫, 遠道而來票) don't explain themselves. The dates
- * live in the schedule dialog.
+ * names alone (開源築夢計畫, 遠道而來票) don't explain themselves. Each card
+ * opens the ticket's details; the open one is in the URL (`/?ticket=far`),
+ * so posts can link straight to it. The card under them subscribes to the
+ * 索票重要時程 calendar with all of their dates.
  */
 export function AttendSection() {
-  const { tickets } = content.attend_section
+  const { ticket: openId } = useSearch({ from: '/' })
+  const navigate = useNavigate()
+  const show = (id?: string) =>
+    void navigate({
+      to: '/',
+      search: (prev) => ({ ...prev, ticket: id }),
+      replace: true,
+      resetScroll: false,
+      hashScrollIntoView: false,
+    })
 
   return (
     <section
@@ -46,35 +49,51 @@ export function AttendSection() {
         </p>
         {/* One stack, so only its outer corners are xl. */}
         <ul className="flex w-full flex-col gap-2.5 pt-5 pb-2.5">
-          {tickets.map(({ id, name, summary }, index) => {
-            const Icon = ticketIcons[id] ?? Ticket
-            return (
-              <li key={id}>
+          {tickets.map((ticket, index) => (
+            <li key={ticket.id}>
+              <Dialog
+                open={openId === ticket.id}
+                onOpenChange={(open) => show(open ? ticket.id : undefined)}
+              >
+                {/* The trigger's ::after covers the card, so the whole
+                      card opens the dialog while the name stays the h3. */}
                 <Card
                   className={cn(
-                    'flex flex-wrap items-center gap-x-5 gap-y-1.25 px-7.5 py-5',
+                    'relative flex flex-wrap items-center gap-x-5 gap-y-1.25 px-7.5 py-5 transition-colors duration-300 ease-smooth hover:bg-light has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-blue motion-reduce:transition-none',
                     index === 0 && 'rounded-t-xl',
                     index === tickets.length - 1 && 'rounded-b-xl',
                   )}
                 >
-                  <Icon aria-hidden className="size-8 shrink-0" />
-                  <h3 className="text-h3 font-bold md:basis-55">{name}</h3>
-                  <p className="text-paragraph text-gray max-md:basis-full">
-                    {summary}
+                  <TicketTypeIcon ticket={ticket} className="size-8 shrink-0" />
+                  <h3 className="text-h3 font-bold md:basis-55">
+                    <DialogTrigger className="cursor-pointer text-left outline-none after:absolute after:inset-0">
+                      {ticket.name}
+                    </DialogTrigger>
+                  </h3>
+                  <p className="text-paragraph text-gray max-md:order-last max-md:basis-full">
+                    {ticket.summary}
                   </p>
+                  <div className="ml-auto flex items-center gap-2.5">
+                    <TicketStatusBadge ticket={ticket} />
+                    <ChevronRight aria-hidden className="size-6 shrink-0" />
+                  </div>
                 </Card>
-              </li>
-            )
-          })}
+                <TicketDialogContent ticket={ticket} onSwitch={show} />
+              </Dialog>
+            </li>
+          ))}
         </ul>
         <div className="w-full pt-5">
-          <ScheduleCard
+          <ActionCard
             icon={CalendarDays}
             title={content.attend_section.scheduleTitle}
             description={content.attend_section.scheduleDescription}
-            action={content.attend_section.viewSchedule}
-            dialogDescription={content.attend_section.dialogDescription}
-            items={tickets}
+            action={
+              <CalendarMenu
+                file={content.links.ticketCalendarFile}
+                variant="dark"
+              />
+            }
           />
         </div>
       </div>
