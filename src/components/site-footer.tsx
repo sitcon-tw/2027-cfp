@@ -83,6 +83,9 @@ export function SiteFooter() {
             <Link to="/" hash="sponsor" className={footerLinkClassName}>
               {content.site_footer.sponsor}
             </Link>
+            <FooterLink href={links.recruitForm}>
+              {content.site_footer.recruit}
+            </FooterLink>
           </FooterColumn>
           <FooterColumn title={content.site_footer.pastSitesTitle}>
             <ul className="flex flex-wrap gap-x-5.5 gap-y-1.5">
