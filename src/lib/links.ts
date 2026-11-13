@@ -5,6 +5,7 @@ export const links = {
   about: '/about',
   sponsorIndividual: content.links.donate,
   sponsorProspectus: content.links.prospectus,
+  recruitForm: content.links.recruitForm,
   contactEmail: content.links.contactEmail,
   pastSite: (year: number) =>
     content.links.pastSite.replace('{year}', String(year)),

@@ -17,6 +17,7 @@
     "submitDemo": "Demo 展投稿",
     "supportTitle": "支持我們",
     "sponsor": "我要支持",
+    "recruit": "預約跳坑",
     "pastSitesTitle": "歷年主題網站",
     "contactTitle": "聯絡我們",
     "email": "contact@sitcon.org",
@@ -2322,6 +2323,7 @@
   "links": {
     "donate": "https://sitcon.org/donate",
     "prospectus": "https://sitcon.org/2027/cfs",
+    "recruitForm": "https://i.sitcon.org/recruit-form",
     "contactEmail": "mailto:contact@sitcon.org",
     "facebook": "https://www.facebook.com/SITCONtw/",
     "instagram": "https://www.instagram.com/sitcon.tw",
