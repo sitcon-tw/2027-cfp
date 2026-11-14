@@ -50,7 +50,7 @@ function tile(i: number, count: number) {
  */
 export function VenuePhotos() {
   return (
-    <SessionSection title={text.title}>
+    <SessionSection id="venue" title={text.title}>
       <div className="grid grid-cols-2 gap-5">
         {photos.map(({ image, alt }, i) => {
           const { wide, corners } = tile(i, photos.length)

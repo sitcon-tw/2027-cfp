@@ -17,9 +17,13 @@ export interface InfoCardStackProps {
 }
 
 /** Stacked dark cards: 投稿前需確認 / 投稿後會做什麼？ */
-export function InfoCardStack({ title, items }: InfoCardStackProps) {
+export function InfoCardStack({
+  id,
+  title,
+  items,
+}: InfoCardStackProps & { id: string }) {
   return (
-    <SessionSection title={title}>
+    <SessionSection id={id} title={title}>
       <div className="flex flex-col gap-5">
         {items.map((item) => (
           <Card

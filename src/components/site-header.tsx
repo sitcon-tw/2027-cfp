@@ -33,7 +33,8 @@ export function SiteHeader({ className }: { className?: string }) {
   const submissionTrigger = useRef<HTMLButtonElement>(null)
   const dropdownPositioner = useRef<HTMLDivElement>(null)
   const dropdownPopup = useRef<HTMLDivElement>(null)
-  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [dropdownValue, setDropdownValue] = useState<string | null>(null)
+  const dropdownOpen = dropdownValue !== null
   const [mobileOpen, setMobileOpen] = useState(false)
   const submissionClosed = useSubmissionClosed()
 
@@ -46,9 +47,29 @@ export function SiteHeader({ className }: { className?: string }) {
     return () => desktop.removeEventListener('change', closeOnDesktop)
   }, [])
 
+  useEffect(() => {
+    if (!mobileOpen && !dropdownOpen) return
+    const closeOffscreen = () => {
+      if (
+        anchor.current &&
+        anchor.current.getBoundingClientRect().bottom <= 0
+      ) {
+        setMobileOpen(false)
+        setDropdownValue(null)
+      }
+    }
+    window.addEventListener('scroll', closeOffscreen, { passive: true })
+    return () => window.removeEventListener('scroll', closeOffscreen)
+  }, [mobileOpen, dropdownOpen])
+
   return (
     <header
-      className={cn('pointer-events-none px-2.5 pt-7.5 pb-2.5', className)}
+      id="page-top"
+      tabIndex={-1}
+      className={cn(
+        'site-header pointer-events-none px-2.5 pt-7.5 pb-2.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue',
+        className,
+      )}
     >
       <div
         ref={anchor}
@@ -83,7 +104,8 @@ export function SiteHeader({ className }: { className?: string }) {
             popupRef={dropdownPopup}
             popupClassName="overflow-visible rounded-none bg-transparent backdrop-blur-none"
             viewportClassName="rounded-b-xl"
-            onValueChange={(value) => setDropdownOpen(value !== null)}
+            value={dropdownValue}
+            onValueChange={setDropdownValue}
             sideOffset={() => {
               const pill = anchor.current
               const trigger = submissionTrigger.current
@@ -95,7 +117,7 @@ export function SiteHeader({ className }: { className?: string }) {
             className="hidden md:block"
           >
             <NavigationMenuList className="p-2.5">
-              <NavigationMenuItem>
+              <NavigationMenuItem value="submission">
                 <NavigationMenuTrigger ref={submissionTrigger}>
                   {content.site_header.submission}
                 </NavigationMenuTrigger>

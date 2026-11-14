@@ -23,7 +23,7 @@ const MARQUEE_REPEAT = 8
 export function EarlyBirdBanner({ type }: { type: SessionTypeId }) {
   const submissionClosed = useSubmissionClosed()
   return (
-    <section className="px-2.5 py-15">
+    <section data-reading-section className="px-2.5 py-15">
       <div className="mx-auto max-w-content px-2.5">
         <div className="relative isolate overflow-clip rounded-xl bg-blue text-foreground">
           {/* Anchored to the right edge, overflowing it as in Figma; it sits
@@ -36,7 +36,13 @@ export function EarlyBirdBanner({ type }: { type: SessionTypeId }) {
           />
           <Marquee />
           <div className="flex flex-col gap-2.5 px-7.5 pt-10 pb-8.75 md:pr-10 md:pl-12.5">
-            <h2 className="text-h3 font-bold">{text.title}</h2>
+            <h2
+              id="schedule"
+              tabIndex={-1}
+              className="text-h3 font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+            >
+              {text.title}
+            </h2>
             <p className="text-h1 font-extrabold break-keep">
               <EarlyBirdCountdown />
             </p>

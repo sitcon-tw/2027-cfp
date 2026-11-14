@@ -16,6 +16,7 @@ import { PosterStrip } from '@/components/sessions/poster-strip'
 import { ScheduleSection } from '@/components/sessions/schedule-section'
 import { SessionIntroCards } from '@/components/sessions/session-intro-cards'
 import { SessionPageTabs } from '@/components/sessions/session-page-tabs'
+import { SessionReadingLayout } from '@/components/sessions/session-reading-layout'
 import { VenuePhotos } from '@/components/sessions/venue-photos'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { useSubmissionClosed } from '@/lib/countdown'
@@ -60,36 +61,42 @@ function SessionPage() {
     }
   }, [])
   return (
-    <main className="overflow-x-clip">
+    <main className="session-reading-page overflow-x-clip">
       {/* Sized for every type's intro, so switching tabs moves nothing. */}
       <PageHero {...page.hero} reserve={heroTexts}>
         <SessionPageTabs type={type} />
       </PageHero>
-      <EarlyBirdBanner type={type} />
-      <ScheduleSection {...page.schedule} />
-      {type === 'demo' ? (
-        <DemoSections page={page} />
-      ) : (
-        <CfpSections type={type} page={page} />
-      )}
-      {/* Keyed by type, so switching type reopens the first question. */}
-      <Faq key={type} items={page.faq} />
-      <PhotoCta title={text.cta.title} className="pt-20 pb-15" image={ctaPhoto}>
-        {submissionClosed ? (
-          <Button shape="pill" disabled>
-            {content.submit_closed.button}
-          </Button>
+      <SessionReadingLayout key={type} type={type}>
+        <EarlyBirdBanner type={type} />
+        <ScheduleSection {...page.schedule} />
+        {type === 'demo' ? (
+          <DemoSections page={page} />
         ) : (
-          <Link
-            to="/submit/$type"
-            params={{ type }}
-            className={buttonVariants({ shape: 'pill' })}
-          >
-            {text.cta.submit}
-          </Link>
+          <CfpSections type={type} page={page} />
         )}
-      </PhotoCta>
-      <MoreSubmissions type={type} />
+        {/* Keyed by type, so switching type reopens the first question. */}
+        <Faq key={type} items={page.faq} />
+        <PhotoCta
+          title={text.cta.title}
+          className="pt-20 pb-15"
+          image={ctaPhoto}
+        >
+          {submissionClosed ? (
+            <Button shape="pill" disabled>
+              {content.submit_closed.button}
+            </Button>
+          ) : (
+            <Link
+              to="/submit/$type"
+              params={{ type }}
+              className={buttonVariants({ shape: 'pill' })}
+            >
+              {text.cta.submit}
+            </Link>
+          )}
+        </PhotoCta>
+        <MoreSubmissions type={type} />
+      </SessionReadingLayout>
     </main>
   )
 }
@@ -127,10 +134,10 @@ function CfpSections({
         // Keyed by type, so switching type starts on the first page.
         <ExamplesCarousel key={type} {...page.examples} />
       )}
-      <CriteriaTable {...page.requirements} />
-      <CriteriaTable {...page.reviewCriteria} />
-      <InfoCardStack {...page.beforeSubmission} />
-      <InfoCardStack {...page.afterSubmission} />
+      <CriteriaTable id="requirements" {...page.requirements} />
+      <CriteriaTable id="review" {...page.reviewCriteria} />
+      <InfoCardStack id="before-submission" {...page.beforeSubmission} />
+      <InfoCardStack id="after-submission" {...page.afterSubmission} />
     </>
   )
 }
@@ -150,10 +157,10 @@ function DemoSections({ page }: { page: SessionPageData }) {
       />
       <VenuePhotos />
       <PosterStrip />
-      <CriteriaTable {...page.requirements} />
-      <CriteriaTable {...page.reviewCriteria} />
-      <InfoCardStack {...page.beforeSubmission} />
-      <InfoCardStack {...page.afterSubmission} />
+      <CriteriaTable id="requirements" {...page.requirements} />
+      <CriteriaTable id="review" {...page.reviewCriteria} />
+      <InfoCardStack id="before-submission" {...page.beforeSubmission} />
+      <InfoCardStack id="after-submission" {...page.afterSubmission} />
     </>
   )
 }

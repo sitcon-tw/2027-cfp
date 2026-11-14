@@ -458,6 +458,26 @@ glow: the rest dims, with light spilling past the photo's edges
 between photos and fades with `ease-smooth`. Touch
 devices get the plain wall.
 
+### Session reading navigation
+
+The three session pages share a reading map in `SessionReadingLayout`.
+`sessionSectionLinks()` lists the major sections in page order, reusing
+their titles from `content.json`; keep these links and the stable heading
+ids in step. The schedule entry covers the countdown and timeline card;
+promotional CTAs and related sessions stay outside the map. A wide viewport
+(`2xl`) has room for the floating rail without narrowing the content column.
+Narrower viewports show an inline overview and a compact sticky disclosure;
+their site header scrolls away so only one bar stays over the text. Short
+viewports use normal document flow. Passive scrolling only updates the
+current section, while selecting a link updates the hash and focuses its
+heading. Keep the IntersectionObserver fallback for browsers without CSS
+scrollspy. Keep the compact current-title label on one line: changing its
+height can feed back into section detection when text is enlarged. The full
+titles remain available in the expanded map. Verify keyboard focus, deep
+links and enlarged text when changing this navigation.
+The prerender build checks that each map points to unique, focusable H2
+headings in document order and that the maps agree.
+
 ### Session examples
 
 The 投稿主題範例 section on the session pages reads its cards from

@@ -27,6 +27,7 @@ export function SessionIntroCards({
 }: SessionIntroCardsProps) {
   return (
     <SessionSection
+      id="intro"
       title={title}
       description={[description, lead].filter((text) => text !== undefined)}
     >
