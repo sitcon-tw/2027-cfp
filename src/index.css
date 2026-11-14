@@ -218,3 +218,68 @@
     @apply scroll-pt-header bg-background font-sans text-foreground antialiased;
   }
 }
+
+/* Keep the 970px content column intact; the rail needs its own side gutter. */
+.session-navigation-rail {
+  display: none;
+}
+
+.session-navigation-bar {
+  position: sticky;
+  top: calc(var(--spacing) * 2.5);
+}
+
+html:has(.session-reading-page) {
+  scroll-padding-top: calc(
+    var(--reading-bar-height, var(--spacing-control)) + var(--spacing) * 10
+  );
+}
+
+.session-navigation-panel {
+  max-height: calc(100dvh - var(--spacing-header) - var(--spacing) * 5);
+}
+
+html:has(.session-reading-page) .site-header {
+  position: absolute;
+}
+
+.session-navigation-links {
+  scroll-target-group: auto;
+}
+
+@supports (scroll-target-group: auto) {
+  .session-navigation-links[data-reading] a:target-current {
+    @apply bg-foreground font-bold text-background;
+  }
+}
+
+@supports not (scroll-target-group: auto) {
+  .session-navigation-links a[aria-current='location'] {
+    @apply bg-foreground font-bold text-background;
+  }
+}
+
+@media (width >= 96rem) and (height >= 32rem) {
+  .session-navigation-rail {
+    display: block;
+  }
+  .session-navigation-compact {
+    display: none;
+  }
+  html:has(.session-reading-page) {
+    scroll-padding-top: var(--spacing-header);
+  }
+  html:has(.session-reading-page) .site-header {
+    position: fixed;
+  }
+}
+
+/* Short viewports need the space for text and keyboard focus. */
+@media (height < 32rem) {
+  .session-navigation-bar {
+    position: static;
+  }
+  html:has(.session-reading-page) {
+    scroll-padding-top: calc(var(--spacing) * 5);
+  }
+}

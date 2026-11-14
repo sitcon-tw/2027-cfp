@@ -1,9 +1,10 @@
-import { useId, type ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
 import { LinkedText } from '@/components/linked-text'
 import { SectionHeading } from '@/components/section-heading'
 
 export interface SessionSectionProps {
+  id: string
   title: string
   /**
    * Short text between the rule and the content: one paragraph, or a list
@@ -21,17 +22,19 @@ export interface SessionSectionProps {
  * then the content column, laid out like the homepage sections.
  */
 export function SessionSection({
+  id,
   title,
   description,
   children,
   bleed,
 }: SessionSectionProps) {
-  const titleId = useId()
   return (
-    <section aria-labelledby={titleId} className="py-15">
+    <section aria-labelledby={id} data-reading-section className="py-15">
       <div className="px-2.5">
         <div className="mx-auto flex max-w-content flex-col gap-2.5 p-2.5">
-          <SectionHeading id={titleId}>{title}</SectionHeading>
+          <SectionHeading id={id} tabIndex={-1}>
+            {title}
+          </SectionHeading>
           {[description ?? []].flat().map((paragraph) => (
             <p key={paragraph} className="text-paragraph">
               <LinkedText text={paragraph} />

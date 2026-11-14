@@ -8,6 +8,7 @@ export interface SectionHeadingProps {
   id: string
   children: ReactNode
   className?: string
+  tabIndex?: -1
 }
 
 /**
@@ -18,10 +19,15 @@ export function SectionHeading({
   id,
   children,
   className,
+  tabIndex,
 }: SectionHeadingProps) {
   return (
     <div className={cn('flex w-full flex-col gap-2.5', className)}>
-      <h2 id={id} className="text-display font-extrabold text-balance">
+      <h2
+        id={id}
+        tabIndex={tabIndex}
+        className="text-display font-extrabold text-balance focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+      >
         {children}
       </h2>
       <Separator className="rounded-full bg-current opacity-50 data-[orientation=horizontal]:h-0.75" />

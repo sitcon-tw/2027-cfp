@@ -1076,6 +1076,13 @@
   },
   "session_page": {
     "tabsLabel": "議程類型",
+    "navigation": {
+      "label": "本頁內容",
+      "trigger": "本頁內容：{title}",
+      "schedule": "投稿時程",
+      "sectionCount": "{count} 個章節",
+      "backToTop": "回頁首"
+    },
     "normal": {
       "heroTitle": "一般議程投稿",
       "heroDescription": "Presentation 讓你完整分享知識與經驗，Espresso 則用一杯咖啡的時間，帶領會眾認識新事物、探索新領域。",

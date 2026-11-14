@@ -141,6 +141,7 @@ export function PosterStrip() {
   const strip = Array.from({ length: cycles }, () => posters).flat()
   return (
     <SessionSection
+      id="posters"
       title={text.title}
       description={text.description}
       bleed={

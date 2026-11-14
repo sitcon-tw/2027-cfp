@@ -20,13 +20,14 @@ export interface CriteriaTableProps {
  * each label sits right above its description.
  */
 export function CriteriaTable({
+  id,
   title,
   description,
   items,
-}: CriteriaTableProps) {
+}: CriteriaTableProps & { id: string }) {
   const last = items.length - 1
   return (
-    <SessionSection title={title} description={description}>
+    <SessionSection id={id} title={title} description={description}>
       <dl className="flex flex-col gap-2.5">
         {items.map(({ term, description }, i) => (
           <div key={term} className="grid gap-2.5 md:grid-cols-3">
