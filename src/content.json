@@ -15,11 +15,10 @@
     "submitGeneral": "一般議程投稿",
     "submitOpen": "開放式議程投稿",
     "submitDemo": "Demo 展投稿",
-    "supportTitle": "支持我們",
-    "sponsor": "我要支持",
-    "recruit": "預約跳坑",
+    "communityTitle": "參與社群",
+    "sponsor": "贊助 SITCON",
     "pastSitesTitle": "歷年主題網站",
-    "contactTitle": "聯絡我們",
+    "contactTitle": "聯絡與贊助",
     "email": "contact@sitcon.org",
     "logoAlt": "SITCON",
     "nameZh": "學生計算機年會",
@@ -49,6 +48,42 @@
     ],
     "individual": "個人贊助支持",
     "prospectus": "了解贊助方案"
+  },
+  "community": {
+    "title": "一起參與 SITCON 社群",
+    "intro": "閱讀公開資料、交流與參加籌會，都是參與 SITCON 的方式。",
+    "openParticipation": "公開聊天群組與籌備會議都歡迎任何人參與。",
+    "actions": {
+      "telegram": "前往 Telegram 群組",
+      "calendar": "查看籌會與活動時間",
+      "guide": "閱讀社群參與說明",
+      "register": "登記未來籌備意願",
+      "handbook": "閱讀新人手冊",
+      "minutes": "閱讀公開會議紀錄",
+      "board": "查看 2027 籌備進度",
+      "mailingList": "訂閱郵件群組",
+      "instagram": "前往 Instagram 官方帳號",
+      "facebook": "前往 Facebook 官方專頁"
+    },
+    "home": {
+      "nowTitle": "現在就能參與",
+      "readPrompt": "想先了解大家怎麼合作？"
+    },
+    "recruitment": {
+      "title": "參與未來活動的籌備",
+      "purpose": "填寫「預約跳坑表單」，讓未來組長參考聯繫。",
+      "notification": "2027 其他活動與 SITCON 2028 年會開始籌備時，我們會通知你。",
+      "status": "SITCON 2027 年會的工作人員招募已結束；各組需求會在後續招募時說明。"
+    },
+    "about": {
+      "nowTitle": "現在交流與參與",
+      "calendarDescription": "從公開行事曆查看籌會與活動時間，點開各場次了解地點與活動資訊。",
+      "mailDescription": "也可以訂閱郵件群組，收到籌備討論的信件，並回信參與。",
+      "learnTitle": "先了解大家怎麼合作",
+      "learnDescription": "從新人手冊認識社群與協作方式，也可以閱讀公開會議紀錄、查看籌備進度，依自己的興趣慢慢了解。",
+      "workExamples": "從文案、設計、攝影紀錄，到議程規劃與網站開發，籌備需要不同的興趣與投入。",
+      "help": "有疑問，或找不到籌會的參加方式？歡迎私訊 SITCON 官方社群詢問小編。"
+    }
   },
   "theme_section": {
     "title": "關於今年的 SITCON 主題...",
@@ -576,7 +611,7 @@
     "photos": "看更多活動照片 →"
   },
   "attend_section": {
-    "title": "想要參與？",
+    "title": "想來參加年會？",
     "description": "SITCON 的票不只一種：有給開源貢獻者的、給遠道而來的人的，也有給需要一點支持的同學的。先找到適合你的那一種，再對照日程，別錯過開放的時間。",
     "scheduleTitle": "索票日程",
     "scheduleDescription": "每種票開放的時間不同，名額也各自獨立。把索票日程加進行事曆，開放和截止前一天都會提醒你。",
@@ -2007,6 +2042,8 @@
     },
     "history": {
       "title": "SITCON 自 2012 年來……",
+      "creditsDescription": "一屆屆活動的背後，有許多人投入籌備與分享。SITCON Credits 整理了歷屆工作人員與講者的貢獻紀錄。",
+      "creditsAction": "查看歷屆貢獻紀錄",
       "stats": [
         {
           "label": "舉辦年會",
@@ -2325,6 +2362,12 @@
     "donate": "https://sitcon.org/donate",
     "prospectus": "https://sitcon.org/2027/cfs",
     "recruitForm": "https://i.sitcon.org/recruit-form",
+    "newcomerGuide": "https://sitcon.org/join",
+    "communityCalendar": "https://sitcon.org/cal",
+    "meetingMinutes": "https://hackmd.io/@SITCON/minutes",
+    "preparationBoard": "https://gitlab.com/sitcon-tw/2027/-/boards/",
+    "mailingList": "https://sitcon.org/mailing-list",
+    "credits": "https://sitcon.org/credits",
     "contactEmail": "mailto:contact@sitcon.org",
     "facebook": "https://sitcon.org/fb",
     "instagram": "https://sitcon.org/ig",

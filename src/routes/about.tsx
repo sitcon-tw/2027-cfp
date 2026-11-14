@@ -4,6 +4,7 @@ import { AboutIntro } from '@/components/about/about-intro'
 import { Activities } from '@/components/about/activities'
 import { HistoryStats } from '@/components/about/history-stats'
 import { MediaCoverage } from '@/components/about/media-coverage'
+import { ParticipationSection } from '@/components/about/participation-section'
 import { PhotoStrip } from '@/components/about/photo-strip'
 import { YearInReview } from '@/components/about/year-in-review'
 
@@ -23,6 +24,7 @@ function About() {
       <HistoryStats />
       <YearInReview />
       <Activities />
+      <ParticipationSection />
     </main>
   )
 }

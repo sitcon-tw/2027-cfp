@@ -6,6 +6,12 @@ export const links = {
   sponsorIndividual: content.links.donate,
   sponsorProspectus: content.links.prospectus,
   recruitForm: content.links.recruitForm,
+  newcomerGuide: content.links.newcomerGuide,
+  communityCalendar: content.links.communityCalendar,
+  meetingMinutes: content.links.meetingMinutes,
+  preparationBoard: content.links.preparationBoard,
+  mailingList: content.links.mailingList,
+  credits: content.links.credits,
   contactEmail: content.links.contactEmail,
   pastSite: (year: number) =>
     content.links.pastSite.replace('{year}', String(year)),

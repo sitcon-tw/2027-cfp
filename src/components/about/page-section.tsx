@@ -15,7 +15,11 @@ export function PageSection({ id, title, children }: PageSectionProps) {
   return (
     <section id={id} aria-labelledby={`${id}-title`} className="px-2.5 py-15">
       <div className="mx-auto flex max-w-content flex-col gap-2.5 p-2.5">
-        <h2 id={`${id}-title`} className="text-h1 font-extrabold text-balance">
+        <h2
+          id={`${id}-title`}
+          tabIndex={-1}
+          className="text-h1 font-extrabold text-balance focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+        >
           {title}
         </h2>
         <div className="pt-7.5">{children}</div>
