@@ -143,7 +143,7 @@ CTA into a disabled 投稿已截止 `Button` (footer links into dimmed text) and
 replaces the form with the `content.submit_closed` message, live when the
 deadline passes; a `null` end keeps submissions open.
 
-Each ticket card in 想要參與？ opens a dialog (`ticket-dialog.tsx`) built
+Each ticket card in 想來參加年會？ opens a dialog (`ticket-dialog.tsx`) built
 from the ticket's `details` in `content.attend_section.tickets`. Its
 sections are all optional and shown in a fixed order: `eligibility`
 (several `groups` become tabs, e.g. 遠道而來票's regions), `benefits`

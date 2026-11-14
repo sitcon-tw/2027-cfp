@@ -17,7 +17,7 @@ import { tickets } from '@/lib/tickets'
 import { cn } from '@/lib/utils'
 
 /**
- * 想要參與？ — every ticket type with a one-line "who it's for", since the
+ * Every ticket type with a one-line "who it's for", since the
  * names alone (開源築夢計畫, 遠道而來票) don't explain themselves. Each card
  * opens the ticket's details; the open one is in the URL (`/?ticket=far`),
  * so posts can link straight to it. The card under them subscribes to the
@@ -39,7 +39,7 @@ export function AttendSection() {
     <section
       id="attend"
       aria-labelledby="attend-title"
-      className="relative isolate px-2.5 pt-15 pb-40"
+      className="relative isolate px-2.5 py-15"
     >
       <img
         src={bottomIcon}
