@@ -35,17 +35,17 @@ export function Hero() {
         <div className="flex flex-wrap gap-5">
           <Link
             to="/"
-            hash="attend"
+            hash="speakers"
             className={buttonVariants({ variant: 'red', size: 'lg' })}
           >
-            {content.hero.attend}
+            {content.hero.submit}
           </Link>
           <Link
             to="/"
-            hash="speakers"
+            hash="attend"
             className={buttonVariants({ variant: 'blue', size: 'lg' })}
           >
-            {content.hero.submit}
+            {content.hero.attend}
           </Link>
           <Link
             to="/"
