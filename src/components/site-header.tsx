@@ -136,7 +136,7 @@ export function SiteHeader({ className }: { className?: string }) {
             </Button>
           ) : (
             <Link
-              to="/submit/$type"
+              to="/$type"
               params={{ type: 'normal' }}
               className={buttonVariants({
                 variant: 'cream',
@@ -218,7 +218,7 @@ export function SiteHeader({ className }: { className?: string }) {
                   </Button>
                 ) : (
                   <Link
-                    to="/submit/$type"
+                    to="/$type"
                     params={{ type: 'normal' }}
                     onClick={() => setMobileOpen(false)}
                     className={buttonVariants({
