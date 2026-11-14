@@ -51,6 +51,7 @@ export function OpenSessionIntro({
   const grid = cards.length === 4
   return (
     <SessionSection
+      id="intro"
       title={title}
       description={[description, lead].filter((text) => text !== undefined)}
     >

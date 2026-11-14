@@ -51,7 +51,7 @@ export function ExamplesCarousel({
   groups,
 }: ExamplesCarouselProps) {
   return (
-    <SessionSection title={title} description={description}>
+    <SessionSection id="examples" title={title} description={description}>
       <div className="flex flex-col gap-10">
         {groups.map((group, i) => (
           <div key={group.title ?? i} className="flex flex-col gap-2.5">
