@@ -1,7 +1,6 @@
 import { CalendarDays } from 'lucide-react'
 
 import content from '@/content.json'
-import bottomIcon from '@/assets/sitcon-icon-backdrop-bottom.svg'
 import { ScheduleCard } from '@/components/schedule-card'
 import { SessionQuiz } from '@/components/home/session-quiz'
 import { SectionHeading } from '@/components/section-heading'
@@ -17,16 +16,8 @@ export function SpeakerSection() {
     <section
       id="speakers"
       aria-labelledby="speakers-title"
-      className="relative isolate px-2.5 pt-15 pb-40"
+      className="px-2.5 py-15"
     >
-      <img
-        src={bottomIcon}
-        alt=""
-        aria-hidden
-        className="pointer-events-none absolute top-188 -left-24.5 -z-10 -rotate-21 blur-md"
-      />
-      {/* Darkens toward the bottom, over the icon. */}
-      <div className="absolute inset-0 -z-10 bg-linear-to-b from-black/0 via-black/36 via-24% to-black/40 to-83%" />
       <div className="mx-auto flex max-w-content flex-col gap-2.5 p-2.5">
         <SectionHeading id="speakers-title">
           {content.speaker_section.title}
@@ -37,7 +28,7 @@ export function SpeakerSection() {
         <div className="w-full pt-7.5">
           <SessionQuiz />
         </div>
-        <div className="w-full pt-7.5 pb-12.5">
+        <div className="w-full pt-7.5">
           <ScheduleCard
             icon={CalendarDays}
             title={content.speaker_section.scheduleTitle}

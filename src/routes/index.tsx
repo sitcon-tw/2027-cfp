@@ -28,8 +28,8 @@ function Home() {
         <Hero />
         <SubmissionDeadline />
         <AboutSection />
-        <AttendSection />
         <SpeakerSection />
+        <AttendSection />
       </div>
       <SponsorSection />
       <ThemeSection />

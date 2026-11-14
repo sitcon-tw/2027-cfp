@@ -2,6 +2,7 @@ import { useNavigate, useSearch } from '@tanstack/react-router'
 import { CalendarDays, ChevronRight } from 'lucide-react'
 
 import content from '@/content.json'
+import bottomIcon from '@/assets/sitcon-icon-backdrop-bottom.svg'
 import { ActionCard } from '@/components/action-card'
 import { CalendarMenu } from '@/components/calendar-menu'
 import { SectionHeading } from '@/components/section-heading'
@@ -38,8 +39,16 @@ export function AttendSection() {
     <section
       id="attend"
       aria-labelledby="attend-title"
-      className="px-2.5 py-15"
+      className="relative isolate px-2.5 pt-15 pb-40"
     >
+      <img
+        src={bottomIcon}
+        alt=""
+        aria-hidden
+        className="pointer-events-none absolute top-188 -left-24.5 -z-10 -rotate-21 blur-md"
+      />
+      {/* Darkens toward the bottom, over the icon. */}
+      <div className="absolute inset-0 -z-10 bg-linear-to-b from-black/0 via-black/36 via-24% to-black/40 to-83%" />
       <div className="mx-auto flex max-w-content flex-col gap-2.5 p-2.5">
         <SectionHeading id="attend-title">
           {content.attend_section.title}
@@ -83,7 +92,7 @@ export function AttendSection() {
             </li>
           ))}
         </ul>
-        <div className="w-full pt-5">
+        <div className="w-full pt-5 pb-12.5">
           <ActionCard
             icon={CalendarDays}
             title={content.attend_section.scheduleTitle}
