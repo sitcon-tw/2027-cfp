@@ -475,6 +475,8 @@ scrollspy. Keep the compact current-title label on one line: changing its
 height can feed back into section detection when text is enlarged. The full
 titles remain available in the expanded map. Verify keyboard focus, deep
 links and enlarged text when changing this navigation.
+The prerender build checks that each map points to unique, focusable H2
+headings in document order and that the maps agree.
 
 ### Session examples
 
