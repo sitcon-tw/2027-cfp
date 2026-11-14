@@ -12,6 +12,7 @@ export const links = {
   social: {
     facebook: content.links.facebook,
     instagram: content.links.instagram,
+    threads: content.links.threads,
     telegram: content.links.telegram,
     flickr: content.links.flickr,
     youtube: content.links.youtube,

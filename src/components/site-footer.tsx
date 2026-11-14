@@ -5,6 +5,7 @@ import {
   siFlickr,
   siInstagram,
   siTelegram,
+  siThreads,
   siYoutube,
 } from 'simple-icons'
 
@@ -27,26 +28,31 @@ const pastYears = content.site_footer.pastYears
 
 const socials = [
   {
-    name: content.social.facebook,
-    href: links.social.facebook,
-    icon: siFacebook,
-  },
-  {
     name: content.social.instagram,
     href: links.social.instagram,
     icon: siInstagram,
+  },
+  {
+    name: content.social.threads,
+    href: links.social.threads,
+    icon: siThreads,
+  },
+  {
+    name: content.social.facebook,
+    href: links.social.facebook,
+    icon: siFacebook,
   },
   {
     name: content.social.telegram,
     href: links.social.telegram,
     icon: siTelegram,
   },
-  { name: content.social.flickr, href: links.social.flickr, icon: siFlickr },
   {
     name: content.social.youtube,
     href: links.social.youtube,
     icon: siYoutube,
   },
+  { name: content.social.flickr, href: links.social.flickr, icon: siFlickr },
 ]
 
 export function SiteFooter() {
