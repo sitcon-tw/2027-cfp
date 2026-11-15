@@ -96,6 +96,8 @@ export type DialogContentProps = WithClassName<
 > & {
   /** Extra classes for the dimmed backdrop, e.g. a darker one. */
   backdropClassName?: string
+  /** Extra classes for the surface on both, e.g. a glass one. */
+  popupClassName?: string
 }
 
 /**
@@ -105,6 +107,7 @@ export type DialogContentProps = WithClassName<
 export function DialogContent({
   className,
   backdropClassName: backdropClass,
+  popupClassName: popupClass,
   children,
   ...props
 }: DialogContentProps) {
@@ -121,6 +124,7 @@ export function DialogContent({
               // Clipped here and scrolled inside, with no scrollbar: a
               // native one would run past the rounded corners.
               'flex max-h-full max-w-content flex-col overflow-hidden rounded-xl transition duration-300 data-ending-style:scale-95 data-ending-style:opacity-0 data-starting-style:scale-95 data-starting-style:opacity-0',
+              popupClass,
             )}
             {...props}
           >
@@ -145,12 +149,13 @@ export function DialogContent({
           className={cn(
             popupClassName,
             'max-h-full translate-y-(--drawer-swipe-movement-y) rounded-t-xl px-5 pt-2.5 pb-7.5 transition-transform duration-300 ease-out data-ending-style:translate-y-full data-starting-style:translate-y-full data-swiping:duration-0 data-swiping:select-none',
+            popupClass,
             className,
           )}
           {...props}
         >
           {/* Grab handle; the sheet is dismissed by swiping down. */}
-          <div className="mx-auto mb-2.5 h-1.5 w-12 shrink-0 rounded-full bg-gray/30" />
+          <div className="mx-auto mb-2.5 h-1.5 w-12 shrink-0 rounded-full bg-current/30" />
           {/* `contents` so the caller's layout classes on the popup (flex,
               gap, …) reach the children, the same as on desktop. */}
           <Drawer.Content className="contents">{children}</Drawer.Content>

@@ -12,6 +12,77 @@ import {
 // Schedule timestamps belong to the Taiwan event, regardless of the build host.
 process.env.TZ = 'Asia/Taipei'
 
+function assertReadingNavigation(body, path) {
+  const maps = [
+    ...body.matchAll(
+      /<ol\b[^>]*\sclass="(?:[^"]* )?session-navigation-links(?: [^"]*)?"[^>]*>([\s\S]*?)<\/ol>/g,
+    ),
+  ]
+  assert(maps.length, `Missing reading navigation: ${path}`)
+  const targets = [...body.matchAll(/<\w+\b[^>]*\sid="([^"]*)"[^>]*>/g)]
+  let expectedIds
+  for (const [, map] of maps) {
+    const links = [...map.matchAll(/<a\b[^>]*>/g)]
+    assert(links.length, `Empty reading navigation: ${path}`)
+    let previous = -1
+    const ids = links.map(([link]) => {
+      const href = link.match(/\shref="([^"]*)"/)?.[1]
+      assert(href?.startsWith(`${path}#`), `Invalid reading link: ${path}`)
+      const id = href.slice(path.length + 1)
+      assert(id, `Invalid reading link: ${path}`)
+      const matches = targets.filter(([, targetId]) => targetId === id)
+      assert.equal(
+        matches.length,
+        1,
+        `Missing or duplicate reading target #${id}: ${path}`,
+      )
+      const [target] = matches
+      assert(
+        /^<h2\b/.test(target[0]) && /\stabindex="-1"/.test(target[0]),
+        `Reading target #${id} is not a focusable heading: ${path}`,
+      )
+      assert(target.index > previous, `Reading targets out of order: ${path}`)
+      previous = target.index
+      return id
+    })
+    if (expectedIds)
+      assert.deepEqual(ids, expectedIds, `Reading maps differ: ${path}`)
+    expectedIds = ids
+  }
+}
+
+// Keep these failures covered without adding a browser dependency to the build.
+const readingHeadings = [
+  '<h2 id="one" tabindex="-1"></h2>',
+  '<h2 id="two" tabindex="-1"></h2>',
+]
+const readingFixture =
+  '<ol class="session-navigation-links"><li><a href="/test#one"></a></li><li><a href="/test#two"></a></li></ol>' +
+  readingHeadings.join('')
+assertReadingNavigation(readingFixture, '/test')
+for (const [body, error] of [
+  ['', /Missing reading navigation/],
+  ['<ol class="session-navigation-links"></ol>', /Empty reading navigation/],
+  [
+    readingFixture.replace('id="one"', 'id="missing"'),
+    /Missing or duplicate reading target/,
+  ],
+  [
+    readingFixture + '<div id="one"></div>',
+    /Missing or duplicate reading target/,
+  ],
+  [
+    readingFixture.replace(
+      readingHeadings.join(''),
+      [...readingHeadings].reverse().join(''),
+    ),
+    /Reading targets out of order/,
+  ],
+  [readingFixture.replace('tabindex="-1"', ''), /not a focusable heading/],
+  [readingFixture.replace('/test#one', '/test#'), /Invalid reading link/],
+])
+  assert.throws(() => assertReadingNavigation(body, '/test'), error)
+
 const template = await readFile('dist/index.html', 'utf8')
 const headPattern =
   /<!-- page-metadata:start -->[\s\S]*?<!-- page-metadata:end -->/
@@ -30,6 +101,8 @@ for (const path of publicPagePaths) {
   for (const [image] of body.matchAll(/<img\b[^>]*>/g)) {
     assert(/\ssrc="[^"]+"/.test(image), `Missing image source: ${path}`)
   }
+  if (['/normal', '/undefined', '/demo'].includes(path))
+    assertReadingNavigation(body, `${base}${path}`)
   const html = template
     .replace(headPattern, () => head)
     .replace('<div id="root"></div>', () => `<div id="root">${body}</div>`)
