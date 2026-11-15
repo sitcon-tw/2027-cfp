@@ -74,9 +74,10 @@ Run `pnpm check` (typecheck, lint, format check) before finishing a task.
 - A button's label says where it goes. 前往投稿說明
   (`site_header.submitGuide`) leads to the 徵稿說明 (`/$type`); 前往投稿表單
   (`site_header.submitForm`) opens the form (`/submit/$type`). The navbar's
-  立即投稿 (`site-header.tsx`) is a dropdown in the same glass navigation
-  menu as 徵稿說明 and offers both, for the type of the page being read
-  (一般議程 elsewhere); the mobile menu shows both as buttons.
+  submit pill (`site-header.tsx`) is one link for the type of the page
+  being read (一般議程 elsewhere): it leads to the next step, 前往投稿表單
+  on a 徵稿說明 page and 前往投稿說明 everywhere else, and hovering it opens
+  a dropdown in the same glass navigation menu as 徵稿說明 that offers both. The mobile menu shows both as buttons.
 - Do not create another copy file or hardcode new copy in TS/TSX/HTML. Default browser metadata lives in `metadata`; public page titles and descriptions live in `metadata.pages`, and `metadata.url` is the production canonical base. The one exception is the submission form's questions (below).
 
 For content updates, find the relevant section in `src/content.json`, preserve

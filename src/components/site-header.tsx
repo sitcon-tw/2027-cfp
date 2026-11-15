@@ -1,6 +1,6 @@
 import { ArrowRight, Menu } from 'lucide-react'
 import { useEffect, useRef, useState, type ReactElement } from 'react'
-import { Link, useParams } from '@tanstack/react-router'
+import { Link, useMatch, useParams } from '@tanstack/react-router'
 
 import content from '@/content.json'
 import sitconWordmark from '@/assets/sitcon-wordmark.svg'
@@ -48,6 +48,7 @@ export function SiteHeader({ className }: { className?: string }) {
   const [mobileOpen, setMobileOpen] = useState(false)
   const submissionClosed = useSubmissionClosed()
   const submitType = useSubmitType()
+  const onSubmitGuide = useMatch({ from: '/$type', shouldThrow: false })
 
   useEffect(() => {
     const desktop = window.matchMedia('(min-width: 48rem)')
@@ -135,7 +136,7 @@ export function SiteHeader({ className }: { className?: string }) {
             collisionPadding={dropInset(anchor.current)}
             className="hidden md:block"
           >
-            {/* No end padding: the 立即投稿 pill ends the bar. */}
+            {/* No end padding: the submit pill ends the bar. */}
             <NavigationMenuList className="py-2.5 pl-2.5">
               <NavigationMenuItem value="submission">
                 <NavigationMenuTrigger ref={submissionTrigger}>
@@ -172,8 +173,25 @@ export function SiteHeader({ className }: { className?: string }) {
                   </Button>
                 ) : (
                   <>
+                    {/*
+                      One pill: the whole of it opens both choices on hover,
+                      and clicking it goes to the next step (the 徵稿說明, or
+                      the form from the 徵稿說明).
+                    */}
                     <NavigationMenuTrigger
                       ref={submitTrigger}
+                      nativeButton={false}
+                      render={
+                        onSubmitGuide ? (
+                          <Link
+                            to="/submit/$type"
+                            params={{ type: submitType }}
+                          />
+                        ) : (
+                          <Link to="/$type" params={{ type: submitType }} />
+                        )
+                      }
+                      onClick={() => setDropdownValue(null)}
                       className={buttonVariants({
                         variant: 'cream',
                         shape: 'pill',
@@ -181,7 +199,9 @@ export function SiteHeader({ className }: { className?: string }) {
                           'gap-0.5 pr-5 hover:bg-foreground hover:opacity-100 hover:brightness-90 data-popup-open:brightness-90',
                       })}
                     >
-                      {content.site_header.submit}
+                      {onSubmitGuide
+                        ? content.site_header.submitForm
+                        : content.site_header.submitGuide}
                     </NavigationMenuTrigger>
                     <NavigationMenuContent className="flex-col">
                       <SubmitChoice
@@ -329,14 +349,14 @@ function dropInset(bar: HTMLElement | null) {
 
 /**
  * The session type the page is about (`/demo`, `/submit/demo`), so the
- * 立即投稿 choices stay on it; 一般議程 elsewhere.
+ * submit choices stay on it; 一般議程 elsewhere.
  */
 function useSubmitType(): SessionTypeId {
   const { type } = useParams({ strict: false })
   return isSessionTypeId(type) ? type : 'normal'
 }
 
-/** A 立即投稿 choice: where it leads, and who it is for. */
+/** A submit choice: where it leads, and who it is for. */
 function SubmitChoice({
   link,
   label,

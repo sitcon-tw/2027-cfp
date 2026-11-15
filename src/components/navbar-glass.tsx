@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils'
 
 type NavbarGlassProps = {
   barRef: RefObject<HTMLDivElement | null>
-  triggerRef: RefObject<HTMLButtonElement | null>
+  triggerRef: RefObject<HTMLElement | null>
   positionerRef: RefObject<HTMLDivElement | null>
   popupRef: RefObject<HTMLDivElement | null>
   open: boolean
