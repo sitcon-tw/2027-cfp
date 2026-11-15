@@ -91,7 +91,7 @@ function SessionPage() {
               params={{ type }}
               className={buttonVariants({ shape: 'pill' })}
             >
-              {text.cta.submit}
+              {content.site_header.submitForm}
             </Link>
           )}
         </PhotoCta>

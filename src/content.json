@@ -6,6 +6,7 @@
     "navigation": "主要導覽",
     "submission": "徵稿說明",
     "submit": "我要投稿",
+    "submitForm": "前往投稿表單",
     "sponsor": "支持 SITCON",
     "about": "關於 SITCON"
   },
@@ -1776,8 +1777,7 @@
       "countdownSubmission": "距離投稿截止還有 {days} 天 {hours} 時 {minutes} 分 {seconds} 秒",
       "unknownCountdownValue": "??",
       "deadline": "截止日期：即日起至 2027 年 1 月 15 日（五）23:59",
-      "tagline": "11/29（日）前送出稿件，議程組將於十二月中旬提供初步回饋；早鳥期間送出且成功錄取，還能獲得年會當天使用的紀念品抵用券！",
-      "submit": "我要投稿"
+      "tagline": "11/29（日）前送出稿件，議程組將於十二月中旬提供初步回饋；早鳥期間送出且成功錄取，還能獲得年會當天使用的紀念品抵用券！"
     },
     "schedule": {
       "title": "更多重要時程",
@@ -2014,8 +2014,7 @@
       "pendingAnswer": "答案整理中，敬請期待。"
     },
     "cta": {
-      "title": "想要在舞臺發光發熱？",
-      "submit": "立即投稿"
+      "title": "想要在舞臺發光發熱？"
     }
   },
   "about_page": {
