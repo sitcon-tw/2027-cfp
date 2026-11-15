@@ -5,6 +5,7 @@ import {
   useLocation,
 } from '@tanstack/react-router'
 
+import { FloatingSubmit } from '@/components/floating-submit'
 import { SiteFooter } from '@/components/site-footer'
 import { SiteHeader } from '@/components/site-header'
 import { PageMetadata } from '@/components/page-metadata'
@@ -29,6 +30,7 @@ function RootLayout() {
         <Outlet />
       </div>
       <SiteFooter />
+      <FloatingSubmit />
     </div>
   )
 }
