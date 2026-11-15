@@ -12,14 +12,14 @@ export interface SectionHeadingProps {
 }
 
 /**
- * Left-aligned section title over a rule (想要參與？, 支持我們, …). The rule
+ * Left-aligned homepage section title over a rule. The rule
  * takes the text color, so it works on the dark page and on cream.
  */
 export function SectionHeading({
   id,
   children,
   className,
-  tabIndex,
+  tabIndex = -1,
 }: SectionHeadingProps) {
   return (
     <div className={cn('flex w-full flex-col gap-2.5', className)}>

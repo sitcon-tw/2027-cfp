@@ -85,12 +85,16 @@ export function SiteFooter() {
             )}
             <PhotoCredits />
           </FooterColumn>
-          <FooterColumn title={content.site_footer.supportTitle}>
-            <Link to="/" hash="sponsor" className={footerLinkClassName}>
-              {content.site_footer.sponsor}
+          <FooterColumn title={content.site_footer.communityTitle}>
+            <Link
+              to="/about"
+              hash="participate"
+              className={footerLinkClassName}
+            >
+              {content.community.actions.guide}
             </Link>
             <FooterLink href={links.recruitForm}>
-              {content.site_footer.recruit}
+              {content.community.actions.register}
             </FooterLink>
           </FooterColumn>
           <FooterColumn title={content.site_footer.pastSitesTitle}>
@@ -103,7 +107,10 @@ export function SiteFooter() {
             </ul>
           </FooterColumn>
           <FooterColumn title={content.site_footer.contactTitle}>
-            <FooterLink href={links.contactEmail}>
+            <Link to="/" hash="sponsor" className={footerLinkClassName}>
+              {content.site_footer.sponsor}
+            </Link>
+            <FooterLink href={links.contactEmail} className="break-all">
               {content.site_footer.email}
             </FooterLink>
           </FooterColumn>
