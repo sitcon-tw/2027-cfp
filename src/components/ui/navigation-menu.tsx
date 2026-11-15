@@ -118,7 +118,7 @@ export function NavigationMenuContent({
 
 /**
  * Renders an `<a>`. By default it is a link inside `NavigationMenuContent`;
- * set `topLevel` for links in the bar itself (e.g. 支持 SITCON). Links close
+ * set `topLevel` for links in the bar itself (e.g. 關於 SITCON). Links close
  * the menu when clicked, since client-side navigation keeps the header
  * mounted and the popup would otherwise stay over the new page.
  */

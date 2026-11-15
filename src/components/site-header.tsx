@@ -34,17 +34,11 @@ import { cn } from '@/lib/utils'
  */
 export function SiteHeader({ className }: { className?: string }) {
   const anchor = useRef<HTMLDivElement>(null)
-  const submissionTrigger = useRef<HTMLButtonElement>(null)
   const submitTrigger = useRef<HTMLButtonElement>(null)
   const dropdownPositioner = useRef<HTMLDivElement>(null)
   const dropdownPopup = useRef<HTMLDivElement>(null)
   const [dropdownValue, setDropdownValue] = useState<string | null>(null)
   const dropdownOpen = dropdownValue !== null
-  // The glass drop grows from the last opened trigger, and shrinks back
-  // into it on close.
-  const [lastDropdown, setLastDropdown] = useState('submission')
-  const activeTrigger =
-    lastDropdown === 'submit' ? submitTrigger : submissionTrigger
   const [mobileOpen, setMobileOpen] = useState(false)
   const submissionClosed = useSubmissionClosed()
   const submitType = useSubmitType()
@@ -89,7 +83,7 @@ export function SiteHeader({ className }: { className?: string }) {
       >
         <NavbarGlass
           barRef={anchor}
-          triggerRef={activeTrigger}
+          triggerRef={submitTrigger}
           positionerRef={dropdownPositioner}
           popupRef={dropdownPopup}
           open={dropdownOpen}
@@ -117,13 +111,10 @@ export function SiteHeader({ className }: { className?: string }) {
             popupClassName="overflow-visible rounded-none bg-transparent backdrop-blur-none"
             viewportClassName="rounded-b-xl"
             value={dropdownValue}
-            onValueChange={(value) => {
-              setDropdownValue(value)
-              if (value !== null) setLastDropdown(value)
-            }}
+            onValueChange={setDropdownValue}
             sideOffset={() => {
               const pill = anchor.current
-              const trigger = activeTrigger.current
+              const trigger = submitTrigger.current
               return pill && trigger
                 ? pill.getBoundingClientRect().bottom -
                     trigger.getBoundingClientRect().bottom
@@ -138,29 +129,16 @@ export function SiteHeader({ className }: { className?: string }) {
           >
             {/* No end padding: the submit pill ends the bar. */}
             <NavigationMenuList className="py-2.5 pl-2.5">
-              <NavigationMenuItem value="submission">
-                <NavigationMenuTrigger ref={submissionTrigger}>
-                  {content.site_header.submission}
-                </NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  {sessionTypes.map(({ id, title }) => (
-                    <NavigationMenuLink
-                      key={id}
-                      render={<Link to="/$type" params={{ type: id }} />}
-                    >
-                      {title}
-                    </NavigationMenuLink>
-                  ))}
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  topLevel
-                  render={<Link to="/" hash="sponsor" />}
-                >
-                  {content.site_header.sponsor}
-                </NavigationMenuLink>
-              </NavigationMenuItem>
+              {sessionTypes.map(({ id, title }) => (
+                <NavigationMenuItem key={id}>
+                  <NavigationMenuLink
+                    topLevel
+                    render={<Link to="/$type" params={{ type: id }} />}
+                  >
+                    {title}
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              ))}
               <NavigationMenuItem>
                 <NavigationMenuLink topLevel render={<Link to={links.about} />}>
                   {content.site_header.about}
@@ -262,11 +240,6 @@ export function SiteHeader({ className }: { className?: string }) {
                         to: '/$type',
                         params: { type: 'demo' },
                         label: content.sessions.demoTitle,
-                      },
-                      {
-                        to: '/',
-                        hash: 'sponsor',
-                        label: content.site_header.sponsor,
                       },
                       { to: '/about', label: content.site_header.about },
                     ] as const
