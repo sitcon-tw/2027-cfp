@@ -1,6 +1,6 @@
 import { ArrowRight, Menu } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
-import { Link } from '@tanstack/react-router'
+import { useEffect, useRef, useState, type ReactElement } from 'react'
+import { Link, useParams } from '@tanstack/react-router'
 
 import content from '@/content.json'
 import sitconWordmark from '@/assets/sitcon-wordmark.svg'
@@ -21,7 +21,11 @@ import {
 import { Button, buttonVariants } from '@/components/ui/button'
 import { useSubmissionClosed } from '@/lib/countdown'
 import { links } from '@/lib/links'
-import { sessionTypes } from '@/lib/session-types'
+import {
+  isSessionTypeId,
+  sessionTypes,
+  type SessionTypeId,
+} from '@/lib/session-types'
 import { cn } from '@/lib/utils'
 
 /**
@@ -31,12 +35,19 @@ import { cn } from '@/lib/utils'
 export function SiteHeader({ className }: { className?: string }) {
   const anchor = useRef<HTMLDivElement>(null)
   const submissionTrigger = useRef<HTMLButtonElement>(null)
+  const submitTrigger = useRef<HTMLButtonElement>(null)
   const dropdownPositioner = useRef<HTMLDivElement>(null)
   const dropdownPopup = useRef<HTMLDivElement>(null)
   const [dropdownValue, setDropdownValue] = useState<string | null>(null)
   const dropdownOpen = dropdownValue !== null
+  // The glass drop grows from the last opened trigger, and shrinks back
+  // into it on close.
+  const [lastDropdown, setLastDropdown] = useState('submission')
+  const activeTrigger =
+    lastDropdown === 'submit' ? submitTrigger : submissionTrigger
   const [mobileOpen, setMobileOpen] = useState(false)
   const submissionClosed = useSubmissionClosed()
+  const submitType = useSubmitType()
 
   useEffect(() => {
     const desktop = window.matchMedia('(min-width: 48rem)')
@@ -77,7 +88,7 @@ export function SiteHeader({ className }: { className?: string }) {
       >
         <NavbarGlass
           barRef={anchor}
-          triggerRef={submissionTrigger}
+          triggerRef={activeTrigger}
           positionerRef={dropdownPositioner}
           popupRef={dropdownPopup}
           open={dropdownOpen}
@@ -105,18 +116,27 @@ export function SiteHeader({ className }: { className?: string }) {
             popupClassName="overflow-visible rounded-none bg-transparent backdrop-blur-none"
             viewportClassName="rounded-b-xl"
             value={dropdownValue}
-            onValueChange={setDropdownValue}
+            onValueChange={(value) => {
+              setDropdownValue(value)
+              if (value !== null) setLastDropdown(value)
+            }}
             sideOffset={() => {
               const pill = anchor.current
-              const trigger = submissionTrigger.current
+              const trigger = activeTrigger.current
               return pill && trigger
                 ? pill.getBoundingClientRect().bottom -
                     trigger.getBoundingClientRect().bottom
                 : 0
             }}
+            // Keep the drop under the bar's straight edge, clear of its
+            // rounded ends and the glass's shoulder curve; NavbarGlass can't
+            // reach past them, so text there would overflow the glass.
+            collisionBoundary={anchor.current ?? undefined}
+            collisionPadding={dropInset(anchor.current)}
             className="hidden md:block"
           >
-            <NavigationMenuList className="p-2.5">
+            {/* No end padding: the 立即投稿 pill ends the bar. */}
+            <NavigationMenuList className="py-2.5 pl-2.5">
               <NavigationMenuItem value="submission">
                 <NavigationMenuTrigger ref={submissionTrigger}>
                   {content.site_header.submission}
@@ -145,30 +165,48 @@ export function SiteHeader({ className }: { className?: string }) {
                   {content.site_header.about}
                 </NavigationMenuLink>
               </NavigationMenuItem>
+              <NavigationMenuItem value="submit">
+                {submissionClosed ? (
+                  <Button variant="cream" shape="pill" disabled>
+                    {content.submit_closed.button}
+                  </Button>
+                ) : (
+                  <>
+                    <NavigationMenuTrigger
+                      ref={submitTrigger}
+                      className={buttonVariants({
+                        variant: 'cream',
+                        shape: 'pill',
+                        className:
+                          'gap-0.5 pr-5 hover:bg-foreground hover:opacity-100 hover:brightness-90 data-popup-open:brightness-90',
+                      })}
+                    >
+                      {content.site_header.submit}
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent className="flex-col">
+                      <SubmitChoice
+                        link={
+                          <Link to="/$type" params={{ type: submitType }} />
+                        }
+                        label={content.site_header.submitGuide}
+                        hint={content.site_header.submitGuideHint}
+                      />
+                      <SubmitChoice
+                        link={
+                          <Link
+                            to="/submit/$type"
+                            params={{ type: submitType }}
+                          />
+                        }
+                        label={content.site_header.submitForm}
+                        hint={content.site_header.submitFormHint}
+                      />
+                    </NavigationMenuContent>
+                  </>
+                )}
+              </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
-          {submissionClosed ? (
-            <Button
-              variant="cream"
-              shape="pill"
-              className="hidden md:inline-flex"
-              disabled
-            >
-              {content.submit_closed.button}
-            </Button>
-          ) : (
-            <Link
-              to="/$type"
-              params={{ type: 'normal' }}
-              className={buttonVariants({
-                variant: 'cream',
-                shape: 'pill',
-                className: 'hidden md:inline-flex',
-              })}
-            >
-              {content.site_header.submit}
-            </Link>
-          )}
           <Popover open={mobileOpen} onOpenChange={setMobileOpen}>
             <PopoverTrigger
               className="md:hidden"
@@ -239,19 +277,32 @@ export function SiteHeader({ className }: { className?: string }) {
                     {content.submit_closed.button}
                   </Button>
                 ) : (
-                  <Link
-                    to="/$type"
-                    params={{ type: 'normal' }}
-                    onClick={() => setMobileOpen(false)}
-                    className={buttonVariants({
-                      variant: 'cream',
-                      size: 'lg',
-                      shape: 'pill',
-                      className: 'mt-5 w-full',
-                    })}
-                  >
-                    {content.site_header.submit}
-                  </Link>
+                  <div className="mt-5 flex flex-col gap-2.5">
+                    <Link
+                      to="/$type"
+                      params={{ type: submitType }}
+                      onClick={() => setMobileOpen(false)}
+                      className={buttonVariants({
+                        variant: 'cream',
+                        size: 'lg',
+                        shape: 'pill',
+                      })}
+                    >
+                      {content.site_header.submitGuide}
+                    </Link>
+                    <Link
+                      to="/submit/$type"
+                      params={{ type: submitType }}
+                      onClick={() => setMobileOpen(false)}
+                      className={buttonVariants({
+                        variant: 'cream',
+                        size: 'lg',
+                        shape: 'pill',
+                      })}
+                    >
+                      {content.site_header.submitForm}
+                    </Link>
+                  </div>
                 )}
               </nav>
             </PopoverContent>
@@ -259,5 +310,49 @@ export function SiteHeader({ className }: { className?: string }) {
         </div>
       </div>
     </header>
+  )
+}
+
+/**
+ * How far the glass drop stays from each end of the bar: the pill's rounded
+ * end plus the shoulder curve (`--radius-md`) where the drop leaves it.
+ */
+function dropInset(bar: HTMLElement | null) {
+  if (!bar) return 20
+  const rootStyle = getComputedStyle(document.documentElement)
+  const rem = Number.parseFloat(rootStyle.fontSize)
+  const shoulder =
+    Number.parseFloat(rootStyle.getPropertyValue('--radius-md')) * rem
+  const inset = bar.offsetHeight / 2 + shoulder
+  return { left: inset, right: inset }
+}
+
+/**
+ * The session type the page is about (`/demo`, `/submit/demo`), so the
+ * 立即投稿 choices stay on it; 一般議程 elsewhere.
+ */
+function useSubmitType(): SessionTypeId {
+  const { type } = useParams({ strict: false })
+  return isSessionTypeId(type) ? type : 'normal'
+}
+
+/** A 立即投稿 choice: where it leads, and who it is for. */
+function SubmitChoice({
+  link,
+  label,
+  hint,
+}: {
+  link: ReactElement
+  label: string
+  hint: string
+}) {
+  return (
+    <NavigationMenuLink
+      render={link}
+      className="flex-col items-start justify-center gap-0.5 py-2.5"
+    >
+      {label}
+      <span className="font-normal text-foreground/70">{hint}</span>
+    </NavigationMenuLink>
   )
 }

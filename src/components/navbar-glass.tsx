@@ -100,6 +100,27 @@ export function NavbarGlass({
   open,
 }: NavbarGlassProps) {
   const [size, setSize] = useState<GlassSize | null>(null)
+  // The drop grows out of the trigger being opened. Closed, it rests under
+  // the last one opened, so first move it under the new trigger without a
+  // transition (after the measure below), then open it; otherwise it slides
+  // across from the previous trigger.
+  const [shownOpen, setShownOpen] = useState(open)
+  const [snap, setSnap] = useState(false)
+
+  useEffect(() => {
+    if (!open) {
+      setShownOpen(false)
+      return
+    }
+    setSnap(true)
+    let frame = requestAnimationFrame(() => {
+      frame = requestAnimationFrame(() => {
+        setSnap(false)
+        setShownOpen(true)
+      })
+    })
+    return () => cancelAnimationFrame(frame)
+  }, [open])
 
   useEffect(() => {
     const bar = barRef.current
@@ -183,13 +204,14 @@ export function NavbarGlass({
       className={cn(
         'pointer-events-none absolute inset-x-0 top-0 -z-10 hidden bg-black/35 backdrop-blur-lg transition-[clip-path] duration-500 ease-smooth motion-reduce:transition-none md:block',
         !size && 'h-full rounded-full',
+        snap && 'transition-none',
       )}
       style={
         size
           ? {
               width: size.width,
               height: size.height + size.dropHeight,
-              clipPath: glassOutline(size, open),
+              clipPath: glassOutline(size, shownOpen),
             }
           : undefined
       }

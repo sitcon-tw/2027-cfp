@@ -14,6 +14,8 @@ export function NavigationMenu({
   children,
   positionMethod,
   sideOffset = 12,
+  collisionBoundary,
+  collisionPadding = 20,
   positionerRef,
   popupRef,
   popupClassName,
@@ -23,6 +25,8 @@ export function NavigationMenu({
   children?: ReactNode
   positionMethod?: BaseNavigationMenu.Positioner.Props['positionMethod']
   sideOffset?: BaseNavigationMenu.Positioner.Props['sideOffset']
+  collisionBoundary?: BaseNavigationMenu.Positioner.Props['collisionBoundary']
+  collisionPadding?: BaseNavigationMenu.Positioner.Props['collisionPadding']
   positionerRef?: RefObject<HTMLDivElement | null>
   popupRef?: RefObject<HTMLDivElement | null>
   popupClassName?: string
@@ -36,7 +40,8 @@ export function NavigationMenu({
           ref={positionerRef}
           positionMethod={positionMethod}
           sideOffset={sideOffset}
-          collisionPadding={20}
+          collisionBoundary={collisionBoundary}
+          collisionPadding={collisionPadding}
           className="z-20 h-(--positioner-height) w-(--positioner-width) max-w-(--available-width) transition-[top,left,right,bottom] duration-300 ease-out data-instant:transition-none motion-reduce:transition-none"
         >
           <BaseNavigationMenu.Popup
