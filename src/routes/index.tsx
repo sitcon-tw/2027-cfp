@@ -11,7 +11,7 @@ import { ThemeSection } from '@/components/home/theme-section'
 import { findTicket } from '@/lib/tickets'
 
 export const Route = createFileRoute('/')({
-  // `ticket`: the 想要參與？ ticket whose details are open, so a post can
+  // `ticket`: the 立即參與 ticket whose details are open, so a post can
   // link straight to one (`/?ticket=far`). Unknown ids are dropped.
   validateSearch: (search: Record<string, unknown>): { ticket?: string } =>
     typeof search.ticket === 'string' && findTicket(search.ticket)

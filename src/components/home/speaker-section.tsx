@@ -8,7 +8,7 @@ import { SessionTypeLinks } from '@/components/session-type-links'
 import { sessionTypes } from '@/lib/session-types'
 
 /**
- * 想要成為舞臺上的講者？ — session types, the session-type quiz and the
+ * 成為舞台上的講者 — session types, the session-type quiz and the
  * submission schedule.
  */
 export function SpeakerSection() {

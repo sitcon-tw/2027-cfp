@@ -17,7 +17,7 @@ import { tickets } from '@/lib/tickets'
 import { cn } from '@/lib/utils'
 
 /**
- * 想要參與？ — every ticket type with a one-line "who it's for", since the
+ * 立即參與 — every ticket type with a one-line "who it's for", since the
  * names alone (開源築夢計畫, 遠道而來票) don't explain themselves. Each card
  * opens the ticket's details; the open one is in the URL (`/?ticket=far`),
  * so posts can link straight to it. The card under them subscribes to the
