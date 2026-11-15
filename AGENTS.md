@@ -468,12 +468,13 @@ glow: the rest dims, with light spilling past the photo's edges
 between photos and fades with `ease-smooth`. Touch
 devices get the plain wall.
 
-### Session reading navigation
+### Reading navigation
 
-The three session pages share a reading map in `SessionReadingLayout`.
-`sessionSectionLinks()` lists the major sections in page order, reusing
-their titles from `content.json`; keep these links and the stable heading
-ids in step. The schedule entry covers the countdown and timeline card;
+The three session pages share `ReadingLayout`.
+`sessionSectionLinks()` in `src/lib/reading-navigation.ts` lists the major
+sections in page order, reusing their titles from `content.json`; keep these
+links and the stable heading ids in step. `SessionReadingLayout` supplies the
+session-specific submit action and deadline behavior. The schedule entry covers the countdown and timeline card;
 promotional CTAs and related sessions stay outside the map. A wide viewport
 (`2xl`) has room for the floating rail without narrowing the content column.
 Narrower viewports show an inline overview, then a bar at the bottom of the

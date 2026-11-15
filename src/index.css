@@ -239,55 +239,55 @@
 }
 
 /* Keep the 970px content column intact; the rail needs its own side gutter. */
-.session-navigation-rail {
+.reading-navigation-rail {
   display: none;
 }
 
-.session-navigation-bar {
+.reading-navigation-bar {
   position: fixed;
   bottom: calc(env(safe-area-inset-bottom) + var(--spacing) * 2.5);
 }
 
 /* The site header scrolls away and the bar sits at the bottom. */
-html:has(.session-reading-page) {
+html:has(.reading-page) {
   scroll-padding-top: calc(var(--spacing) * 5);
 }
 
-.session-navigation-panel {
+.reading-navigation-panel {
   max-height: calc(100dvh - var(--spacing-header) - var(--spacing) * 5);
 }
 
-html:has(.session-reading-page) .site-header {
+html:has(.reading-page) .site-header {
   position: absolute;
 }
 
-.session-navigation-links {
+.reading-navigation-links {
   scroll-target-group: auto;
 }
 
 @supports (scroll-target-group: auto) {
-  .session-navigation-links[data-reading] a:target-current {
+  .reading-navigation-links[data-reading] a:target-current {
     @apply bg-foreground font-bold text-background;
   }
 }
 
 @supports not (scroll-target-group: auto) {
-  .session-navigation-links a[aria-current='location'] {
+  .reading-navigation-links a[aria-current='location'] {
     @apply bg-foreground font-bold text-background;
   }
 }
 
 @media (width >= 96rem) and (height >= 32rem) {
-  .session-navigation-rail {
+  .reading-navigation-rail {
     display: block;
   }
-  .session-navigation-compact {
+  .reading-navigation-compact {
     display: none;
   }
-  html:has(.session-reading-page) {
+  html:has(.reading-page) {
     scroll-padding-top: var(--spacing-header);
   }
-  html:has(.session-reading-page) .site-header {
+  html:has(.reading-page) .site-header {
     position: fixed;
   }
 }

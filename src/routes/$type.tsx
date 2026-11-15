@@ -61,7 +61,7 @@ function SessionPage() {
     }
   }, [])
   return (
-    <main className="session-reading-page overflow-x-clip">
+    <main className="overflow-x-clip">
       {/* Sized for every type's intro, so switching tabs moves nothing. */}
       <PageHero {...page.hero} reserve={heroTexts}>
         <SessionPageTabs type={type} />

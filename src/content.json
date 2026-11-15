@@ -1121,14 +1121,16 @@
       }
     ]
   },
+  "reading_navigation": {
+    "label": "本頁內容",
+    "trigger": "本頁內容：{title}",
+    "sectionCount": "{count} 個章節",
+    "backToTop": "回頁首"
+  },
   "session_page": {
     "tabsLabel": "議程類型",
     "navigation": {
-      "label": "本頁內容",
-      "trigger": "本頁內容：{title}",
-      "schedule": "投稿時程",
-      "sectionCount": "{count} 個章節",
-      "backToTop": "回頁首"
+      "schedule": "投稿時程"
     },
     "normal": {
       "heroTitle": "一般議程投稿",
