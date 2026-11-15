@@ -101,7 +101,7 @@ for (const path of publicPagePaths) {
   for (const [image] of body.matchAll(/<img\b[^>]*>/g)) {
     assert(/\ssrc="[^"]+"/.test(image), `Missing image source: ${path}`)
   }
-  if (['/normal', '/undefined', '/demo'].includes(path))
+  if (['/about', '/normal', '/undefined', '/demo'].includes(path))
     assertReadingNavigation(body, `${base}${path}`)
   const html = template
     .replace(headPattern, () => head)

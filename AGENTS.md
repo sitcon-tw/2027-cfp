@@ -470,15 +470,17 @@ devices get the plain wall.
 
 ### Reading navigation
 
-The three session pages share `ReadingLayout`.
-`sessionSectionLinks()` in `src/lib/reading-navigation.ts` lists the major
-sections in page order, reusing their titles from `content.json`; keep these
-links and the stable heading ids in step. `SessionReadingLayout` supplies the
-session-specific submit action and deadline behavior. The schedule entry covers the countdown and timeline card;
+The three session pages and `/about` share `ReadingLayout`.
+`sessionSectionLinks()` and `aboutSectionLinks` in `src/lib/reading-navigation.ts`
+list the major sections in page order; keep these links and the stable heading
+ids in step. About uses shorter labels from `about_page.navigation` while keeping
+the full body headings and existing section anchors. Its five-entry map has no
+separate CTA. `SessionReadingLayout` supplies the session-specific submit action
+and deadline behavior. The schedule entry covers the countdown and timeline card;
 promotional CTAs and related sessions stay outside the map. A wide viewport
 (`2xl`) has room for the floating rail without narrowing the content column.
 Narrower viewports show an inline overview, then a bar at the bottom of the
-screen (between the overview and the end of the map) that opens the map in a
+screen (after the overview, until the map ends or the footer enters view) that opens the map in a
 `Dialog`: a bottom sheet on mobile. Their site header scrolls away, so
 nothing is pinned over the top of the text. Passive scrolling only updates the
 current section, while selecting a link updates the hash and focuses its

@@ -2020,6 +2020,12 @@
     }
   },
   "about_page": {
+    "navigation": {
+      "history": "歷年累積",
+      "review": "2026 回顧",
+      "activities": "活動介紹",
+      "participate": "參與方式"
+    },
     "intro": {
       "title": "關於 SITCON",
       "subtitle": "關於學生計算機年會",

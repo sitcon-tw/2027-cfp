@@ -26,3 +26,13 @@ export function sessionSectionLinks(type: SessionTypeId): ReadingSectionLink[] {
     { id: 'faq', title: text.faq.title },
   ]
 }
+
+const about = content.about_page
+
+export const aboutSectionLinks: ReadingSectionLink[] = [
+  { id: 'media-title', title: about.media.title },
+  { id: 'history-title', title: about.navigation.history },
+  { id: 'review-2026-title', title: about.navigation.review },
+  { id: 'activities-title', title: about.navigation.activities },
+  { id: 'participate-title', title: about.navigation.participate },
+]

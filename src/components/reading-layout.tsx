@@ -56,6 +56,7 @@ export function ReadingLayout({
     const root = body.current!
     const targets = sections.map(({ id }) => document.getElementById(id)!)
     const lastSection = targets.at(-1)!.closest('section')!
+    const footer = document.querySelector('footer')
     const nativeScrollspy = CSS.supports('scroll-target-group: auto')
     const sync = () => {
       const line =
@@ -69,7 +70,9 @@ export function ReadingLayout({
       // Between the overview and the end of the map, so the bar stays off
       // the overview it repeats and the CTAs and footer after it.
       setBarShown(
-        overview.current!.getBoundingClientRect().bottom <= line && reading,
+        overview.current!.getBoundingClientRect().bottom <= line &&
+          reading &&
+          (!footer || footer.getBoundingClientRect().top >= window.innerHeight),
       )
       const native = nativeScrollspy
         ? document.querySelector<HTMLAnchorElement>(
@@ -97,6 +100,7 @@ export function ReadingLayout({
         .forEach((section) => observer.observe(section))
       targets.forEach((target) => observer.observe(target))
       observer.observe(overview.current!)
+      if (footer) observer.observe(footer)
       sync()
     }
     // Track heading crossings as well as jumps past entire sections.
