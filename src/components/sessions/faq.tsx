@@ -22,7 +22,7 @@ export interface FaqItem {
  */
 export function Faq({ items }: { items: FaqItem[] }) {
   return (
-    <SessionSection title={text.title}>
+    <SessionSection id="faq" title={text.title}>
       <Accordion defaultValue={[items[0]?.question]}>
         {items.map(({ question, answer }) => (
           <AccordionItem key={question} value={question}>
