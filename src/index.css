@@ -95,6 +95,25 @@
       transform: translateX(-50%);
     }
   }
+
+  /* Navbar submit pill: when its label changes, the old label rolls up
+     out of it and the new one rolls in from below. */
+  --animate-label-out: label-out 0.5s 0.2s var(--ease-smooth) both;
+  --animate-label-in: label-in 0.5s 0.35s var(--ease-smooth) both;
+
+  @keyframes label-out {
+    to {
+      opacity: 0;
+      transform: translateY(-110%);
+    }
+  }
+
+  @keyframes label-in {
+    from {
+      opacity: 0;
+      transform: translateY(110%);
+    }
+  }
 }
 
 /*

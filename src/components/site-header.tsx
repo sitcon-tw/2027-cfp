@@ -43,6 +43,12 @@ export function SiteHeader({ className }: { className?: string }) {
   const submissionClosed = useSubmissionClosed()
   const submitType = useSubmitType()
   const onSubmitGuide = useMatch({ from: '/$type', shouldThrow: false })
+  const submitLabel = onSubmitGuide
+    ? content.site_header.submitForm
+    : content.site_header.submitGuide
+  const submitLabelChange = useChange(submitLabel)
+  // The last change whose old label has rolled out.
+  const [swappedChange, setSwappedChange] = useState(0)
 
   useEffect(() => {
     const desktop = window.matchMedia('(min-width: 48rem)')
@@ -177,9 +183,34 @@ export function SiteHeader({ className }: { className?: string }) {
                           'gap-0.5 pr-5 hover:bg-foreground hover:opacity-100 hover:brightness-90 data-popup-open:brightness-90',
                       })}
                     >
-                      {onSubmitGuide
-                        ? content.site_header.submitForm
-                        : content.site_header.submitGuide}
+                      {/*
+                        Its label and destination change between pages, which
+                        few expect from a navbar, so the labels roll to mark
+                        the change. Both share one cell while they swap.
+                      */}
+                      <span className="inline-grid overflow-hidden *:col-start-1 *:row-start-1">
+                        {submitLabelChange.count > swappedChange && (
+                          <span
+                            key={`out-${submitLabelChange.count}`}
+                            aria-hidden="true"
+                            className="animate-label-out motion-reduce:hidden"
+                            onAnimationEnd={() =>
+                              setSwappedChange(submitLabelChange.count)
+                            }
+                          >
+                            {submitLabelChange.previous}
+                          </span>
+                        )}
+                        <span
+                          key={submitLabelChange.count}
+                          className={cn(
+                            submitLabelChange.count > 0 &&
+                              'animate-label-in motion-reduce:animate-none',
+                          )}
+                        >
+                          {submitLabel}
+                        </span>
+                      </span>
                     </NavigationMenuTrigger>
                     <NavigationMenuContent className="flex-col">
                       <SubmitChoice
@@ -327,6 +358,22 @@ function dropInset(bar: HTMLElement | null) {
 function useSubmitType(): SessionTypeId {
   const { type } = useParams({ strict: false })
   return isSessionTypeId(type) ? type : 'normal'
+}
+
+/**
+ * How many times `value` has changed since mount, and what it was before
+ * the last change, to animate each change but not the first render.
+ */
+function useChange<T>(value: T) {
+  const [seen, setSeen] = useState<{
+    value: T
+    previous?: T
+    count: number
+  }>({ value, count: 0 })
+  if (seen.value === value) return seen
+  const next = { value, previous: seen.value, count: seen.count + 1 }
+  setSeen(next)
+  return next
 }
 
 /** A submit choice: where it leads, and who it is for. */
