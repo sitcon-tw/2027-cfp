@@ -1,6 +1,6 @@
 import { ArrowRight, Menu } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
-import { Link } from '@tanstack/react-router'
+import { Link, useMatch } from '@tanstack/react-router'
 
 import content from '@/content.json'
 import sitconWordmark from '@/assets/sitcon-wordmark.svg'
@@ -37,6 +37,16 @@ export function SiteHeader({ className }: { className?: string }) {
   const dropdownOpen = dropdownValue !== null
   const [mobileOpen, setMobileOpen] = useState(false)
   const submissionClosed = useSubmissionClosed()
+  const sessionType = useMatch({
+    from: '/$type',
+    shouldThrow: false,
+    select: (match) =>
+      match.status === 'success' ? match.params.type : undefined,
+  })
+  const submitLink = {
+    to: sessionType ? '/submit/$type' : '/$type',
+    params: { type: sessionType ?? 'normal' },
+  } as const
 
   useEffect(() => {
     const desktop = window.matchMedia('(min-width: 48rem)')
@@ -158,8 +168,7 @@ export function SiteHeader({ className }: { className?: string }) {
             </Button>
           ) : (
             <Link
-              to="/$type"
-              params={{ type: 'normal' }}
+              {...submitLink}
               className={buttonVariants({
                 variant: 'cream',
                 shape: 'pill',
@@ -240,8 +249,7 @@ export function SiteHeader({ className }: { className?: string }) {
                   </Button>
                 ) : (
                   <Link
-                    to="/$type"
-                    params={{ type: 'normal' }}
+                    {...submitLink}
                     onClick={() => setMobileOpen(false)}
                     className={buttonVariants({
                       variant: 'cream',

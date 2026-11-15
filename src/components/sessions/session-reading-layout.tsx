@@ -1,4 +1,4 @@
-import { createLink } from '@tanstack/react-router'
+import { createLink, Link } from '@tanstack/react-router'
 import { ChevronUp, TableOfContents } from 'lucide-react'
 import {
   useEffect,
@@ -11,12 +11,14 @@ import {
 } from 'react'
 
 import content from '@/content.json'
+import { Button, buttonVariants } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { useSubmissionClosed } from '@/lib/countdown'
 import {
   sessionSectionLinks,
   type SessionSectionLink,
@@ -227,6 +229,7 @@ function SectionLinks({
   onSelect: (id: string) => void
   variant: keyof typeof variantLinkClassName
 }) {
+  const submissionClosed = useSubmissionClosed()
   const select = (event: MouseEvent<HTMLAnchorElement>, id: string) => {
     if (
       !event.metaKey &&
@@ -277,6 +280,23 @@ function SectionLinks({
           >
             {text.backToTop}
           </ReadingLink>
+        </div>
+      )}
+      {variant !== 'overview' && (
+        <div className="pt-5">
+          {submissionClosed ? (
+            <Button className="w-full" disabled>
+              {content.submit_closed.button}
+            </Button>
+          ) : (
+            <Link
+              to="/submit/$type"
+              params={{ type }}
+              className={buttonVariants({ className: 'w-full' })}
+            >
+              {content.session_page.cta.submit}
+            </Link>
+          )}
         </div>
       )}
     </nav>
