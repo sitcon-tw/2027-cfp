@@ -1,4 +1,4 @@
-import { createLink } from '@tanstack/react-router'
+import { createLink, Link } from '@tanstack/react-router'
 import { ChevronUp, TableOfContents } from 'lucide-react'
 import {
   useEffect,
@@ -11,12 +11,14 @@ import {
 } from 'react'
 
 import content from '@/content.json'
+import { Button, buttonVariants } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { useSubmissionClosed } from '@/lib/countdown'
 import {
   sessionSectionLinks,
   type SessionSectionLink,
@@ -266,6 +268,7 @@ function SectionLinks({
           </li>
         ))}
       </ol>
+      {variant !== 'overview' && <SubmitLink type={type} />}
       {variant === 'sheet' && (
         <div className="pt-5">
           <ReadingLink
@@ -280,6 +283,24 @@ function SectionLinks({
         </div>
       )}
     </nav>
+  )
+}
+
+/** The map ends at the next step: this type's form. */
+function SubmitLink({ type }: { type: SessionTypeId }) {
+  const className = buttonVariants({ shape: 'pill', className: 'w-full' })
+  return (
+    <div className="pt-5">
+      {useSubmissionClosed() ? (
+        <Button shape="pill" disabled className="w-full">
+          {content.submit_closed.button}
+        </Button>
+      ) : (
+        <Link to="/submit/$type" params={{ type }} className={className}>
+          {content.site_header.submitForm}
+        </Link>
+      )}
+    </div>
   )
 }
 
