@@ -65,7 +65,7 @@ export function SubmissionSentDialog({
           )}
           <Button
             variant="dark"
-            shape="pill"
+
             className="self-end"
             onClick={() => onOpenChange(false)}
           >

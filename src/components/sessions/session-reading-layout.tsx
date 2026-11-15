@@ -288,11 +288,11 @@ function SectionLinks({
 
 /** The map ends at the next step: this type's form. */
 function SubmitLink({ type }: { type: SessionTypeId }) {
-  const className = buttonVariants({ shape: 'pill', className: 'w-full' })
+  const className = buttonVariants({ className: 'w-full' })
   return (
     <div className="pt-5">
       {useSubmissionClosed() ? (
-        <Button shape="pill" disabled className="w-full">
+        <Button disabled className="w-full">
           {content.submit_closed.button}
         </Button>
       ) : (

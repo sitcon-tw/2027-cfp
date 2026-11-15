@@ -54,7 +54,7 @@ export function MediaCoverage() {
                     .replace('{title}', title)
                     .replace('{source}', source)}
                   className={buttonVariants({
-                    className: 'mt-auto self-end rounded-br-xs',
+                    className: 'mt-auto self-end',
                   })}
                 >
                   {media.action}

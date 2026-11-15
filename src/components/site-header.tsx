@@ -152,7 +152,7 @@ export function SiteHeader({ className }: { className?: string }) {
               </NavigationMenuItem>
               <NavigationMenuItem value="submit">
                 {submissionClosed ? (
-                  <Button variant="cream" shape="pill" disabled>
+                  <Button variant="cream" disabled>
                     {content.submit_closed.button}
                   </Button>
                 ) : (
@@ -178,7 +178,6 @@ export function SiteHeader({ className }: { className?: string }) {
                       onClick={() => setDropdownValue(null)}
                       className={buttonVariants({
                         variant: 'cream',
-                        shape: 'pill',
                         className:
                           'gap-0.5 pr-5 hover:bg-foreground hover:opacity-100 hover:brightness-90 data-popup-open:brightness-90',
                       })}
@@ -294,7 +293,7 @@ export function SiteHeader({ className }: { className?: string }) {
                   <Button
                     variant="cream"
                     size="lg"
-                    shape="pill"
+
                     className="mt-5 w-full"
                     disabled
                   >
@@ -309,7 +308,6 @@ export function SiteHeader({ className }: { className?: string }) {
                       className={buttonVariants({
                         variant: 'cream',
                         size: 'lg',
-                        shape: 'pill',
                       })}
                     >
                       {content.site_header.submitGuide}
@@ -321,7 +319,6 @@ export function SiteHeader({ className }: { className?: string }) {
                       className={buttonVariants({
                         variant: 'cream',
                         size: 'lg',
-                        shape: 'pill',
                       })}
                     >
                       {content.site_header.submitForm}

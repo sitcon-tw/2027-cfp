@@ -82,14 +82,12 @@ function SessionPage() {
           image={ctaPhoto}
         >
           {submissionClosed ? (
-            <Button shape="pill" disabled>
-              {content.submit_closed.button}
-            </Button>
+            <Button disabled>{content.submit_closed.button}</Button>
           ) : (
             <Link
               to="/submit/$type"
               params={{ type }}
-              className={buttonVariants({ shape: 'pill' })}
+              className={buttonVariants()}
             >
               {content.site_header.submitForm}
             </Link>
