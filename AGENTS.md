@@ -71,12 +71,12 @@ Run `pnpm check` (typecheck, lint, format check) before finishing a task.
   (申請) or registered for (報名), never sold. Never write 購買, 購票, 買票,
   售票 or 票價; 個人支持票 is a donation that comes with a 贈票 at some
   tiers. `src/lib/tickets.test.ts` checks `attend_section` for these words.
-- A button's label says where it goes. 前往投稿說明
+- A button's label says where it goes. 投稿說明
   (`site_header.submitGuide`) leads to the 徵稿說明 (`/$type`); 立即投稿
   (`site_header.submitForm`) opens the form (`/submit/$type`). The navbar's
   submit pill (`site-header.tsx`) is one link for the type of the page
   being read (一般議程 elsewhere): it leads to the next step, 立即投稿
-  on a 徵稿說明 page and 前往投稿說明 everywhere else, and hovering it opens
+  on a 徵稿說明 page and 投稿說明 everywhere else, and hovering it opens
   a dropdown in the same glass navigation menu as 徵稿說明 that offers both. The mobile menu shows both as buttons.
 - Do not create another copy file or hardcode new copy in TS/TSX/HTML. Default browser metadata lives in `metadata`; public page titles and descriptions live in `metadata.pages`, and `metadata.url` is the production canonical base. The one exception is the submission form's questions (below).
 
