@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils'
  * One card per session type, linking to its session page: icon, title and
  * summary over the type's dimmed photo, with an arrow that fades on hover.
  * The tiles are joined into one shape by the corner rule: stacked by
- * default (the homepage's 想要成為舞臺上的講者？), or side by side from `md`
+ * default (the homepage's 成為舞台上的講者), or side by side from `md`
  * up with `row` (參考更多稿件).
  */
 export function SessionTypeLinks({
@@ -27,7 +27,7 @@ export function SessionTypeLinks({
             to="/$type"
             params={{ type: id }}
             className={cn(
-              'group relative isolate flex-1 overflow-clip rounded-sm bg-background px-5 py-4 text-foreground',
+              'group relative isolate flex-1 overflow-clip rounded-sm bg-background px-5 py-7.5 text-foreground',
               'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue',
               i === 0 && 'rounded-t-xl',
               i === types.length - 1 && 'rounded-b-xl',

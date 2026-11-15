@@ -27,7 +27,7 @@ export function SessionTypePhoto({
           className,
         )}
       />
-      <div className="absolute inset-0 -z-10 bg-black/70 bg-linear-136 from-black/40 from-18% to-foreground/5 to-91%" />
+      <div className="absolute inset-0 -z-10 bg-black/50 bg-linear-136 from-black/30 from-18% to-foreground/5 to-91%" />
     </>
   )
 }
