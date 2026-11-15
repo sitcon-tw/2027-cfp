@@ -66,8 +66,19 @@
       "facebook": "前往 Facebook 官方專頁"
     },
     "home": {
-      "nowTitle": "現在就能參與",
-      "readPrompt": "想先了解大家怎麼合作？"
+      "telegram": {
+        "title": "加入聊天群組",
+        "summary": "公開的 Telegram 群組，任何人都能加入、提問與交流。"
+      },
+      "meetings": {
+        "title": "參加籌備會議",
+        "summary": "籌會公開，任何人都能參加；從行事曆查看時間與地點。"
+      },
+      "guide": {
+        "title": "了解大家怎麼合作",
+        "summary": "新人手冊、公開會議紀錄與籌備進度，都整理在社群參與說明。"
+      },
+      "recruit": "SITCON 2027 年會的工作人員招募已結束。登記籌備意願，2027 其他活動與 SITCON 2028 年會開始籌備時，我們會通知你。"
     },
     "recruitment": {
       "title": "參與未來活動的籌備",

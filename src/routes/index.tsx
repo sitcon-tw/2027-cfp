@@ -31,8 +31,8 @@ function Home() {
         <AboutSection />
         <SpeakerSection />
         <AttendSection />
+        <ParticipationSection />
       </div>
-      <ParticipationSection />
       <SponsorSection />
       <ThemeSection />
     </main>
