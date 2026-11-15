@@ -46,6 +46,7 @@ export function ReadingLayout({
 }) {
   const body = useRef<HTMLDivElement>(null)
   const overview = useRef<HTMLDivElement>(null)
+  const trigger = useRef<HTMLButtonElement>(null)
   const destination = useRef<HTMLElement | null>(null)
   const [current, setCurrent] = useState<string>()
   const [open, setOpen] = useState(false)
@@ -168,6 +169,7 @@ export function ReadingLayout({
           >
             <div className="mx-auto max-w-content px-2.5">
               <DialogTrigger
+                ref={trigger}
                 aria-label={text.trigger.replace(
                   '{title}',
                   currentTitle ?? sectionCount,
@@ -191,7 +193,16 @@ export function ReadingLayout({
             popupClassName={glassClassName}
             finalFocus={() => {
               const target = destination.current
-              if (!target) return true
+              if (!target) {
+                const button = trigger.current
+                if (
+                  button?.getClientRects().length &&
+                  !button.closest('[inert]')
+                )
+                  return true
+                // Resizing can hide the trigger while the map is open.
+                return document.getElementById(current ?? sections[0].id)
+              }
               // The sheet locks page scrolling, so move to the section once
               // it has closed instead of relying on the link's own scroll.
               target.scrollIntoView({

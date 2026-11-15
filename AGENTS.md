@@ -482,7 +482,9 @@ screen (between the overview and the end of the map) that opens the map in a
 `Dialog`: a bottom sheet on mobile. Their site header scrolls away, so
 nothing is pinned over the top of the text. Passive scrolling only updates the
 current section, while selecting a link updates the hash and focuses its
-heading. Keep the IntersectionObserver fallback for browsers without CSS
+heading. Closing the map returns focus to its trigger; if a layout change has
+hidden or disabled that trigger, focus returns to the current heading (or the
+first heading when no section is current). Keep the IntersectionObserver fallback for browsers without CSS
 scrollspy. Keep the bar's current-title label on one line. The full
 titles remain available in the expanded map. Verify keyboard focus, deep
 links and enlarged text when changing this navigation.
