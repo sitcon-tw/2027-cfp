@@ -225,14 +225,13 @@
 }
 
 .session-navigation-bar {
-  position: sticky;
-  top: calc(var(--spacing) * 2.5);
+  position: fixed;
+  bottom: calc(env(safe-area-inset-bottom) + var(--spacing) * 2.5);
 }
 
+/* The site header scrolls away and the bar sits at the bottom. */
 html:has(.session-reading-page) {
-  scroll-padding-top: calc(
-    var(--reading-bar-height, var(--spacing-control)) + var(--spacing) * 10
-  );
+  scroll-padding-top: calc(var(--spacing) * 5);
 }
 
 .session-navigation-panel {
@@ -271,15 +270,5 @@ html:has(.session-reading-page) .site-header {
   }
   html:has(.session-reading-page) .site-header {
     position: fixed;
-  }
-}
-
-/* Short viewports need the space for text and keyboard focus. */
-@media (height < 32rem) {
-  .session-navigation-bar {
-    position: static;
-  }
-  html:has(.session-reading-page) {
-    scroll-padding-top: calc(var(--spacing) * 5);
   }
 }
