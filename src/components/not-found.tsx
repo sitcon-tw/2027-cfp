@@ -38,7 +38,7 @@ export function NotFound() {
                 params={{ type: 'normal' }}
                 className={buttonVariants({ variant: 'blue', size: 'lg' })}
               >
-                {content.site_header.submit}
+                {content.site_header.submitForm}
               </Link>
             )}
           </div>

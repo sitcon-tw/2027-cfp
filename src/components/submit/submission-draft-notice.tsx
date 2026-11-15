@@ -22,7 +22,7 @@ export function SubmissionDraftNotice({ onClear }: { onClear: () => void }) {
   return (
     <div className="flex flex-col items-start gap-5 p-2.5 md:flex-row md:items-center md:justify-between">
       <p className="text-body text-light">{text.notice}</p>
-      <Button variant="muted" shape="pill" onClick={() => setOpen(true)}>
+      <Button variant="muted" onClick={() => setOpen(true)}>
         {text.clear}
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
@@ -37,14 +37,14 @@ export function SubmissionDraftNotice({ onClear }: { onClear: () => void }) {
           <div className="flex flex-wrap justify-end gap-2.5">
             <Button
               variant="outline"
-              shape="pill"
+
               onClick={() => setOpen(false)}
             >
               {text.cancel}
             </Button>
             <Button
               variant="dark"
-              shape="pill"
+
               onClick={() => {
                 onClear()
                 setOpen(false)

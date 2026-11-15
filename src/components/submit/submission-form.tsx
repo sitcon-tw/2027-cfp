@@ -145,7 +145,7 @@ export function SubmissionForm({
                 onToken={setTurnstileToken}
               />
             )}
-            <Button disabled={locked} type="submit" shape="pill">
+            <Button disabled={locked} type="submit">
               {isSubmitting && (
                 <LoaderCircle
                   aria-hidden

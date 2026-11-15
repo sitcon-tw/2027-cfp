@@ -59,7 +59,7 @@ export function EarlyBirdBanner({ type }: { type: SessionTypeId }) {
                   params={{ type }}
                   className={buttonVariants({ variant: 'cream' })}
                 >
-                  {text.submit}
+                  {content.site_header.submitForm}
                 </Link>
               )}
             </div>

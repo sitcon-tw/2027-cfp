@@ -14,6 +14,8 @@ export function NavigationMenu({
   children,
   positionMethod,
   sideOffset = 12,
+  collisionBoundary,
+  collisionPadding = 20,
   positionerRef,
   popupRef,
   popupClassName,
@@ -23,6 +25,8 @@ export function NavigationMenu({
   children?: ReactNode
   positionMethod?: BaseNavigationMenu.Positioner.Props['positionMethod']
   sideOffset?: BaseNavigationMenu.Positioner.Props['sideOffset']
+  collisionBoundary?: BaseNavigationMenu.Positioner.Props['collisionBoundary']
+  collisionPadding?: BaseNavigationMenu.Positioner.Props['collisionPadding']
   positionerRef?: RefObject<HTMLDivElement | null>
   popupRef?: RefObject<HTMLDivElement | null>
   popupClassName?: string
@@ -36,7 +40,8 @@ export function NavigationMenu({
           ref={positionerRef}
           positionMethod={positionMethod}
           sideOffset={sideOffset}
-          collisionPadding={20}
+          collisionBoundary={collisionBoundary}
+          collisionPadding={collisionPadding}
           className="z-20 h-(--positioner-height) w-(--positioner-width) max-w-(--available-width) transition-[top,left,right,bottom] duration-300 ease-out data-instant:transition-none motion-reduce:transition-none"
         >
           <BaseNavigationMenu.Popup
@@ -113,7 +118,7 @@ export function NavigationMenuContent({
 
 /**
  * Renders an `<a>`. By default it is a link inside `NavigationMenuContent`;
- * set `topLevel` for links in the bar itself (e.g. 支持 SITCON). Links close
+ * set `topLevel` for links in the bar itself (e.g. 關於 SITCON). Links close
  * the menu when clicked, since client-side navigation keeps the header
  * mounted and the popup would otherwise stay over the new page.
  */

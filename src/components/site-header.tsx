@@ -1,6 +1,6 @@
 import { ArrowRight, Menu } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
-import { Link } from '@tanstack/react-router'
+import { useEffect, useRef, useState, type ReactElement } from 'react'
+import { Link, useMatch, useParams } from '@tanstack/react-router'
 
 import content from '@/content.json'
 import sitconWordmark from '@/assets/sitcon-wordmark.svg'
@@ -21,7 +21,11 @@ import {
 import { Button, buttonVariants } from '@/components/ui/button'
 import { useSubmissionClosed } from '@/lib/countdown'
 import { links } from '@/lib/links'
-import { sessionTypes } from '@/lib/session-types'
+import {
+  isSessionTypeId,
+  sessionTypes,
+  type SessionTypeId,
+} from '@/lib/session-types'
 import { cn } from '@/lib/utils'
 
 /**
@@ -30,13 +34,21 @@ import { cn } from '@/lib/utils'
  */
 export function SiteHeader({ className }: { className?: string }) {
   const anchor = useRef<HTMLDivElement>(null)
-  const submissionTrigger = useRef<HTMLButtonElement>(null)
+  const submitTrigger = useRef<HTMLButtonElement>(null)
   const dropdownPositioner = useRef<HTMLDivElement>(null)
   const dropdownPopup = useRef<HTMLDivElement>(null)
   const [dropdownValue, setDropdownValue] = useState<string | null>(null)
   const dropdownOpen = dropdownValue !== null
   const [mobileOpen, setMobileOpen] = useState(false)
   const submissionClosed = useSubmissionClosed()
+  const submitType = useSubmitType()
+  const onSubmitGuide = useMatch({ from: '/$type', shouldThrow: false })
+  const submitLabel = onSubmitGuide
+    ? content.site_header.submitForm
+    : content.site_header.submitGuide
+  const submitLabelChange = useChange(submitLabel)
+  // The last change whose old label has rolled out.
+  const [swappedChange, setSwappedChange] = useState(0)
 
   useEffect(() => {
     const desktop = window.matchMedia('(min-width: 48rem)')
@@ -77,7 +89,7 @@ export function SiteHeader({ className }: { className?: string }) {
       >
         <NavbarGlass
           barRef={anchor}
-          triggerRef={submissionTrigger}
+          triggerRef={submitTrigger}
           positionerRef={dropdownPositioner}
           popupRef={dropdownPopup}
           open={dropdownOpen}
@@ -108,67 +120,121 @@ export function SiteHeader({ className }: { className?: string }) {
             onValueChange={setDropdownValue}
             sideOffset={() => {
               const pill = anchor.current
-              const trigger = submissionTrigger.current
+              const trigger = submitTrigger.current
               return pill && trigger
                 ? pill.getBoundingClientRect().bottom -
                     trigger.getBoundingClientRect().bottom
                 : 0
             }}
+            // Keep the drop under the bar's straight edge, clear of its
+            // rounded ends and the glass's shoulder curve; NavbarGlass can't
+            // reach past them, so text there would overflow the glass.
+            collisionBoundary={anchor.current ?? undefined}
+            collisionPadding={dropInset(anchor.current)}
             className="hidden md:block"
           >
-            <NavigationMenuList className="p-2.5">
-              <NavigationMenuItem value="submission">
-                <NavigationMenuTrigger ref={submissionTrigger}>
-                  {content.site_header.submission}
-                </NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  {sessionTypes.map(({ id, title }) => (
-                    <NavigationMenuLink
-                      key={id}
-                      render={<Link to="/$type" params={{ type: id }} />}
-                    >
-                      {title}
-                    </NavigationMenuLink>
-                  ))}
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  topLevel
-                  render={<Link to="/" hash="sponsor" />}
-                >
-                  {content.site_header.sponsor}
-                </NavigationMenuLink>
-              </NavigationMenuItem>
+            {/* No end padding: the submit pill ends the bar. */}
+            <NavigationMenuList className="py-2.5 pl-2.5">
+              {sessionTypes.map(({ id, title }) => (
+                <NavigationMenuItem key={id}>
+                  <NavigationMenuLink
+                    topLevel
+                    render={<Link to="/$type" params={{ type: id }} />}
+                  >
+                    {title}
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              ))}
               <NavigationMenuItem>
                 <NavigationMenuLink topLevel render={<Link to={links.about} />}>
                   {content.site_header.about}
                 </NavigationMenuLink>
               </NavigationMenuItem>
+              <NavigationMenuItem value="submit">
+                {submissionClosed ? (
+                  <Button variant="cream" disabled>
+                    {content.submit_closed.button}
+                  </Button>
+                ) : (
+                  <>
+                    {/*
+                      One pill: the whole of it opens both choices on hover,
+                      and clicking it goes to the next step (the 徵稿說明, or
+                      the form from the 徵稿說明).
+                    */}
+                    <NavigationMenuTrigger
+                      ref={submitTrigger}
+                      nativeButton={false}
+                      render={
+                        onSubmitGuide ? (
+                          <Link
+                            to="/submit/$type"
+                            params={{ type: submitType }}
+                          />
+                        ) : (
+                          <Link to="/$type" params={{ type: submitType }} />
+                        )
+                      }
+                      onClick={() => setDropdownValue(null)}
+                      className={buttonVariants({
+                        variant: 'cream',
+                        className:
+                          'gap-0.5 pr-5 hover:bg-foreground hover:opacity-100 hover:brightness-90 data-popup-open:brightness-90',
+                      })}
+                    >
+                      {/*
+                        Its label and destination change between pages, which
+                        few expect from a navbar, so the labels roll to mark
+                        the change. Both share one cell while they swap.
+                      */}
+                      <span className="inline-grid overflow-hidden *:col-start-1 *:row-start-1">
+                        {submitLabelChange.count > swappedChange && (
+                          <span
+                            key={`out-${submitLabelChange.count}`}
+                            aria-hidden="true"
+                            className="animate-label-out motion-reduce:hidden"
+                            onAnimationEnd={() =>
+                              setSwappedChange(submitLabelChange.count)
+                            }
+                          >
+                            {submitLabelChange.previous}
+                          </span>
+                        )}
+                        <span
+                          key={submitLabelChange.count}
+                          className={cn(
+                            submitLabelChange.count > 0 &&
+                              'animate-label-in motion-reduce:animate-none',
+                          )}
+                        >
+                          {submitLabel}
+                        </span>
+                      </span>
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent className="flex-col">
+                      <SubmitChoice
+                        link={
+                          <Link to="/$type" params={{ type: submitType }} />
+                        }
+                        label={content.site_header.submitGuide}
+                        hint={content.site_header.submitGuideHint}
+                      />
+                      <SubmitChoice
+                        link={
+                          <Link
+                            to="/submit/$type"
+                            params={{ type: submitType }}
+                          />
+                        }
+                        label={content.site_header.submitForm}
+                        hint={content.site_header.submitFormHint}
+                      />
+                    </NavigationMenuContent>
+                  </>
+                )}
+              </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
-          {submissionClosed ? (
-            <Button
-              variant="cream"
-              shape="pill"
-              className="hidden md:inline-flex"
-              disabled
-            >
-              {content.submit_closed.button}
-            </Button>
-          ) : (
-            <Link
-              to="/$type"
-              params={{ type: 'normal' }}
-              className={buttonVariants({
-                variant: 'cream',
-                shape: 'pill',
-                className: 'hidden md:inline-flex',
-              })}
-            >
-              {content.site_header.submit}
-            </Link>
-          )}
           <Popover open={mobileOpen} onOpenChange={setMobileOpen}>
             <PopoverTrigger
               className="md:hidden"
@@ -205,11 +271,6 @@ export function SiteHeader({ className }: { className?: string }) {
                         params: { type: 'demo' },
                         label: content.sessions.demoTitle,
                       },
-                      {
-                        to: '/',
-                        hash: 'sponsor',
-                        label: content.site_header.sponsor,
-                      },
                       { to: '/about', label: content.site_header.about },
                     ] as const
                   ).map(({ label, ...destination }) => (
@@ -232,26 +293,37 @@ export function SiteHeader({ className }: { className?: string }) {
                   <Button
                     variant="cream"
                     size="lg"
-                    shape="pill"
+
                     className="mt-5 w-full"
                     disabled
                   >
                     {content.submit_closed.button}
                   </Button>
                 ) : (
-                  <Link
-                    to="/$type"
-                    params={{ type: 'normal' }}
-                    onClick={() => setMobileOpen(false)}
-                    className={buttonVariants({
-                      variant: 'cream',
-                      size: 'lg',
-                      shape: 'pill',
-                      className: 'mt-5 w-full',
-                    })}
-                  >
-                    {content.site_header.submit}
-                  </Link>
+                  <div className="mt-5 flex flex-col gap-2.5">
+                    <Link
+                      to="/$type"
+                      params={{ type: submitType }}
+                      onClick={() => setMobileOpen(false)}
+                      className={buttonVariants({
+                        variant: 'cream',
+                        size: 'lg',
+                      })}
+                    >
+                      {content.site_header.submitGuide}
+                    </Link>
+                    <Link
+                      to="/submit/$type"
+                      params={{ type: submitType }}
+                      onClick={() => setMobileOpen(false)}
+                      className={buttonVariants({
+                        variant: 'cream',
+                        size: 'lg',
+                      })}
+                    >
+                      {content.site_header.submitForm}
+                    </Link>
+                  </div>
                 )}
               </nav>
             </PopoverContent>
@@ -259,5 +331,65 @@ export function SiteHeader({ className }: { className?: string }) {
         </div>
       </div>
     </header>
+  )
+}
+
+/**
+ * How far the glass drop stays from each end of the bar: the pill's rounded
+ * end plus the shoulder curve (`--radius-md`) where the drop leaves it.
+ */
+function dropInset(bar: HTMLElement | null) {
+  if (!bar) return 20
+  const rootStyle = getComputedStyle(document.documentElement)
+  const rem = Number.parseFloat(rootStyle.fontSize)
+  const shoulder =
+    Number.parseFloat(rootStyle.getPropertyValue('--radius-md')) * rem
+  const inset = bar.offsetHeight / 2 + shoulder
+  return { left: inset, right: inset }
+}
+
+/**
+ * The session type the page is about (`/demo`, `/submit/demo`), so the
+ * submit choices stay on it; 一般議程 elsewhere.
+ */
+function useSubmitType(): SessionTypeId {
+  const { type } = useParams({ strict: false })
+  return isSessionTypeId(type) ? type : 'normal'
+}
+
+/**
+ * How many times `value` has changed since mount, and what it was before
+ * the last change, to animate each change but not the first render.
+ */
+function useChange<T>(value: T) {
+  const [seen, setSeen] = useState<{
+    value: T
+    previous?: T
+    count: number
+  }>({ value, count: 0 })
+  if (seen.value === value) return seen
+  const next = { value, previous: seen.value, count: seen.count + 1 }
+  setSeen(next)
+  return next
+}
+
+/** A submit choice: where it leads, and who it is for. */
+function SubmitChoice({
+  link,
+  label,
+  hint,
+}: {
+  link: ReactElement
+  label: string
+  hint: string
+}) {
+  return (
+    <NavigationMenuLink
+      render={link}
+      className="flex-col items-start justify-center gap-0.5 py-2.5"
+    >
+      {label}
+      <span className="font-normal text-foreground/70">{hint}</span>
+    </NavigationMenuLink>
   )
 }
