@@ -15,7 +15,7 @@ process.env.TZ = 'Asia/Taipei'
 function assertReadingNavigation(body, path) {
   const maps = [
     ...body.matchAll(
-      /<ol\b[^>]*\sclass="(?:[^"]* )?session-navigation-links(?: [^"]*)?"[^>]*>([\s\S]*?)<\/ol>/g,
+      /<ol\b[^>]*\sclass="(?:[^"]* )?reading-navigation-links(?: [^"]*)?"[^>]*>([\s\S]*?)<\/ol>/g,
     ),
   ]
   assert(maps.length, `Missing reading navigation: ${path}`)
@@ -57,12 +57,12 @@ const readingHeadings = [
   '<h2 id="two" tabindex="-1"></h2>',
 ]
 const readingFixture =
-  '<ol class="session-navigation-links"><li><a href="/test#one"></a></li><li><a href="/test#two"></a></li></ol>' +
+  '<ol class="reading-navigation-links"><li><a href="/test#one"></a></li><li><a href="/test#two"></a></li></ol>' +
   readingHeadings.join('')
 assertReadingNavigation(readingFixture, '/test')
 for (const [body, error] of [
   ['', /Missing reading navigation/],
-  ['<ol class="session-navigation-links"></ol>', /Empty reading navigation/],
+  ['<ol class="reading-navigation-links"></ol>', /Empty reading navigation/],
   [
     readingFixture.replace('id="one"', 'id="missing"'),
     /Missing or duplicate reading target/,
@@ -101,7 +101,7 @@ for (const path of publicPagePaths) {
   for (const [image] of body.matchAll(/<img\b[^>]*>/g)) {
     assert(/\ssrc="[^"]+"/.test(image), `Missing image source: ${path}`)
   }
-  if (['/normal', '/undefined', '/demo'].includes(path))
+  if (['/about', '/normal', '/undefined', '/demo'].includes(path))
     assertReadingNavigation(body, `${base}${path}`)
   const html = template
     .replace(headPattern, () => head)

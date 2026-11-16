@@ -7,6 +7,8 @@ import { MediaCoverage } from '@/components/about/media-coverage'
 import { ParticipationSection } from '@/components/about/participation-section'
 import { PhotoStrip } from '@/components/about/photo-strip'
 import { YearInReview } from '@/components/about/year-in-review'
+import { ReadingLayout } from '@/components/reading-layout'
+import { aboutSectionLinks } from '@/lib/reading-navigation'
 
 export const Route = createFileRoute('/about')({
   component: About,
@@ -20,11 +22,13 @@ function About() {
         <AboutIntro />
         <PhotoStrip />
       </div>
-      <MediaCoverage />
-      <HistoryStats />
-      <YearInReview />
-      <Activities />
-      <ParticipationSection />
+      <ReadingLayout page={{ to: '/about' }} sections={aboutSectionLinks}>
+        <MediaCoverage />
+        <HistoryStats />
+        <YearInReview />
+        <Activities />
+        <ParticipationSection />
+      </ReadingLayout>
     </main>
   )
 }
