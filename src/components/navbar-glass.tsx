@@ -202,7 +202,7 @@ export function NavbarGlass({
     <div
       aria-hidden="true"
       className={cn(
-        'pointer-events-none absolute inset-x-0 top-0 -z-10 hidden bg-black/35 backdrop-blur-lg transition-[clip-path] duration-500 ease-smooth motion-reduce:transition-none md:block',
+        'pointer-events-none absolute inset-x-0 top-0 -z-10 bg-black/35 backdrop-blur-lg transition-[clip-path] duration-500 ease-smooth motion-reduce:transition-none',
         !size && 'h-full rounded-full',
         snap && 'transition-none',
       )}
