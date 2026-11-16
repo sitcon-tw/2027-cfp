@@ -13,7 +13,7 @@ edit submissions.
 ## Getting started
 
 Use Node.js 22 ([`.nvmrc`](.nvmrc), minimum 22.12) and pnpm
-([`package.json`](package.json) pins `pnpm@12.11.2`).
+([`package.json`](package.json) pins `pnpm@12.21.0`).
 
 ```sh
 # Optional, if you use nvm:
