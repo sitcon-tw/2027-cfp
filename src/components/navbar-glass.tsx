@@ -1,5 +1,6 @@
 import { useEffect, useState, type RefObject } from 'react'
 
+import { darkSurfaceClassName } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
 
 type NavbarGlassProps = {
@@ -202,8 +203,13 @@ export function NavbarGlass({
     <div
       aria-hidden="true"
       className={cn(
-        'pointer-events-none absolute inset-x-0 top-0 -z-10 bg-black/35 backdrop-blur-lg transition-[clip-path] duration-500 ease-smooth motion-reduce:transition-none',
-        !size && 'h-full rounded-full',
+        'pointer-events-none absolute inset-x-0 top-0 -z-10 transition-[clip-path] duration-500 ease-smooth motion-reduce:transition-none',
+        // Mobile wears the menu's surface, so the bar and the menu it opens
+        // read as one set on any page. Desktop keeps the lighter glass its
+        // dropdown grows out of.
+        darkSurfaceClassName,
+        'rounded-full md:rounded-none md:border-0 md:bg-black/35 md:bg-none',
+        !size && 'h-full md:rounded-full',
         snap && 'transition-none',
       )}
       style={
