@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { ArrowUpRight } from 'lucide-react'
 
 import content from '@/content.json'
@@ -9,95 +10,132 @@ const community = content.community
 const textLinkClassName =
   'inline-flex min-h-control items-center gap-2.5 self-start rounded-xs text-paragraph underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue'
 
+type Action = { href: string; label: string }
+
+function ActionLink({
+  action,
+  className,
+}: {
+  action: Action
+  className: string
+}) {
+  return (
+    <a href={action.href} className={className}>
+      {action.label}
+      <ArrowUpRight aria-hidden className="size-5 shrink-0" />
+    </a>
+  )
+}
+
+// Every row ends the same way: one primary button, then any alternatives
+// as text links on the same wrapping line.
+function ActionBar({
+  primary,
+  secondary = [],
+}: {
+  primary?: Action
+  secondary?: Action[]
+}) {
+  return (
+    <div className="flex flex-wrap items-center gap-x-7.5 gap-y-2.5">
+      {primary && <ActionLink action={primary} className={buttonVariants()} />}
+      {secondary.map((action) => (
+        <ActionLink
+          key={action.href}
+          action={action}
+          className={textLinkClassName}
+        />
+      ))}
+    </div>
+  )
+}
+
+function ParticipationRow({
+  title,
+  children,
+  primary,
+  secondary,
+}: {
+  title: string
+  children: ReactNode
+  primary: Action
+  secondary?: Action[]
+}) {
+  return (
+    <div className="grid gap-5 border-t border-foreground/20 pt-7.5 md:grid-cols-3">
+      <h3 className="text-h3 font-bold">{title}</h3>
+      <div className="flex flex-col gap-5 md:col-span-2">
+        {children}
+        <ActionBar primary={primary} secondary={secondary} />
+      </div>
+    </div>
+  )
+}
+
 export function ParticipationSection() {
   return (
     <PageSection id="participate" title={community.title}>
       <div className="flex flex-col gap-10">
         <p className="text-paragraph">{community.intro}</p>
-        <div className="grid gap-5 border-t border-foreground/20 pt-7.5 md:grid-cols-3">
-          <h3 className="text-h3 font-bold">{community.about.nowTitle}</h3>
-          <div className="flex flex-col gap-5 md:col-span-2">
-            <p className="text-paragraph">{community.openParticipation}</p>
-            <p className="text-paragraph">
-              {community.about.calendarDescription}
-            </p>
-            <div className="flex flex-wrap items-center gap-x-7.5 gap-y-2.5">
-              <a
-                href={links.social.telegram}
-                className={buttonVariants({ variant: 'green' })}
-              >
-                {community.actions.telegram}
-                <ArrowUpRight aria-hidden className="size-5 shrink-0" />
-              </a>
-              <a href={links.communityCalendar} className={textLinkClassName}>
-                {community.actions.calendar}
-                <ArrowUpRight aria-hidden className="size-5 shrink-0" />
-              </a>
-            </div>
-            <div className="flex flex-col gap-2.5">
-              <p className="text-paragraph">
-                {community.about.mailDescription}
-              </p>
-              <a href={links.mailingList} className={textLinkClassName}>
-                {community.actions.mailingList}
-                <ArrowUpRight aria-hidden className="size-5 shrink-0" />
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="grid gap-5 border-t border-foreground/20 pt-7.5 md:grid-cols-3">
-          <h3 className="text-h3 font-bold">{community.about.learnTitle}</h3>
-          <div className="flex flex-col gap-5 md:col-span-2">
-            <p className="text-paragraph">{community.about.learnDescription}</p>
-            <a
-              href={links.newcomerGuide}
-              className={buttonVariants({ className: 'self-start' })}
-            >
-              {community.actions.handbook}
-              <ArrowUpRight aria-hidden className="size-5 shrink-0" />
-            </a>
-            <div className="flex flex-wrap gap-x-7.5 gap-y-2.5">
-              <a href={links.meetingMinutes} className={textLinkClassName}>
-                {community.actions.minutes}
-                <ArrowUpRight aria-hidden className="size-5 shrink-0" />
-              </a>
-              <a href={links.preparationBoard} className={textLinkClassName}>
-                {community.actions.board}
-                <ArrowUpRight aria-hidden className="size-5 shrink-0" />
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="grid gap-5 border-t border-foreground/20 pt-7.5 md:grid-cols-3">
-          <h3 className="text-h3 font-bold">{community.recruitment.title}</h3>
-          <div className="flex flex-col gap-5 md:col-span-2">
-            <p className="text-paragraph">{community.about.workExamples}</p>
-            <p className="text-paragraph">{community.recruitment.purpose}</p>
-            <p className="text-paragraph">
-              {community.recruitment.notification}
-            </p>
-            <p className="text-body">{community.recruitment.status}</p>
-            <a
-              href={links.recruitForm}
-              className={buttonVariants({ className: 'self-start' })}
-            >
-              {community.actions.register}
-              <ArrowUpRight aria-hidden className="size-5 shrink-0" />
-            </a>
-          </div>
-        </div>
+        <ParticipationRow
+          title={community.about.nowTitle}
+          primary={{
+            href: links.social.telegram,
+            label: community.actions.telegram,
+          }}
+          secondary={[
+            {
+              href: links.communityCalendar,
+              label: community.actions.calendar,
+            },
+            { href: links.mailingList, label: community.actions.mailingList },
+          ]}
+        >
+          <p className="text-paragraph">{community.openParticipation}</p>
+          <p className="text-paragraph">
+            {community.about.calendarDescription}
+          </p>
+          <p className="text-paragraph">{community.about.mailDescription}</p>
+        </ParticipationRow>
+        <ParticipationRow
+          title={community.about.learnTitle}
+          primary={{
+            href: links.newcomerGuide,
+            label: community.actions.handbook,
+          }}
+          secondary={[
+            { href: links.meetingMinutes, label: community.actions.minutes },
+            { href: links.preparationBoard, label: community.actions.board },
+          ]}
+        >
+          <p className="text-paragraph">{community.about.learnDescription}</p>
+        </ParticipationRow>
+        <ParticipationRow
+          title={community.recruitment.title}
+          primary={{
+            href: links.recruitForm,
+            label: community.actions.register,
+          }}
+        >
+          <p className="text-paragraph">{community.about.workExamples}</p>
+          <p className="text-paragraph">{community.recruitment.purpose}</p>
+          <p className="text-paragraph">{community.recruitment.notification}</p>
+          <p className="text-body">{community.recruitment.status}</p>
+        </ParticipationRow>
         <div className="flex flex-col gap-2.5 border-t border-foreground/20 pt-7.5">
           <p className="text-paragraph">{community.about.help}</p>
-          <div className="flex flex-wrap gap-x-7.5 gap-y-2.5">
-            <a href={links.social.instagram} className={textLinkClassName}>
-              {community.actions.instagram}
-              <ArrowUpRight aria-hidden className="size-5 shrink-0" />
-            </a>
-            <a href={links.social.facebook} className={textLinkClassName}>
-              {community.actions.facebook}
-              <ArrowUpRight aria-hidden className="size-5 shrink-0" />
-            </a>
-          </div>
+          <ActionBar
+            secondary={[
+              {
+                href: links.social.instagram,
+                label: community.actions.instagram,
+              },
+              {
+                href: links.social.facebook,
+                label: community.actions.facebook,
+              },
+            ]}
+          />
         </div>
       </div>
     </PageSection>
