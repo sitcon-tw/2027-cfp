@@ -277,7 +277,8 @@ html:has(.reading-page) .site-header {
   }
 }
 
-@media (width >= 96rem) and (height >= 32rem) {
+/* 970px content + two 195px gutters, with room for a classic scrollbar. */
+@media (width >= 85rem) and (height >= 32rem) {
   .reading-navigation-rail {
     display: block;
   }

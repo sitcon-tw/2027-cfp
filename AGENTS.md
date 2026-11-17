@@ -477,8 +477,11 @@ ids in step. About uses shorter labels from `about_page.navigation` while keepin
 the full body headings and existing section anchors. Its five-entry map has no
 separate CTA. `SessionReadingLayout` supplies the session-specific submit action
 and deadline behavior. The schedule entry covers the countdown and timeline card;
-promotional CTAs and related sessions stay outside the map. A wide viewport
-(`2xl`) has room for the floating rail without narrowing the content column.
+promotional CTAs and related sessions stay outside the map. From `85rem` wide
+and `32rem` tall, the floating rail fits beside the centered 970px content
+column: a 172.5px rail, 7.5px gap and 15px edge allowance on each side,
+including room for a classic scrollbar. At `2xl` it returns to the roomier
+225px rail and padding. Full titles may wrap.
 Narrower viewports show an inline overview, then a bar at the bottom of the
 screen (after the overview, until the map ends or the footer enters view) that opens the map in a
 `Dialog`: a bottom sheet on mobile. Their site header scrolls away, so
