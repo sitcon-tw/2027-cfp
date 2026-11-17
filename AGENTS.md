@@ -468,6 +468,14 @@ glow: the rest dims, with light spilling past the photo's edges
 between photos and fades with `ease-smooth`. Touch
 devices get the plain wall.
 
+### Responsive layout
+
+The site header measures its logo and full navigation row with
+`ResizeObserver` and shows the full row only when both its width and height
+fit the bar. Keep the hidden row measurable, inert and outside the visual
+layout. The glass surface follows the same state; switching layouts closes
+the outgoing menu.
+
 ### Reading navigation
 
 The three session pages and `/about` share `ReadingLayout`.

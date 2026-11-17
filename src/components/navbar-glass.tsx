@@ -9,6 +9,7 @@ type NavbarGlassProps = {
   positionerRef: RefObject<HTMLDivElement | null>
   popupRef: RefObject<HTMLDivElement | null>
   open: boolean
+  wide: boolean
 }
 
 type GlassSize = {
@@ -99,6 +100,7 @@ export function NavbarGlass({
   positionerRef,
   popupRef,
   open,
+  wide,
 }: NavbarGlassProps) {
   const [size, setSize] = useState<GlassSize | null>(null)
   // The drop grows out of the trigger being opened. Closed, it rests under
@@ -207,9 +209,10 @@ export function NavbarGlass({
         // Mobile wears the menu's surface, so the bar and the menu it opens
         // read as one set on any page. Desktop keeps the lighter glass its
         // dropdown grows out of.
-        darkSurfaceClassName,
-        'rounded-full md:rounded-none md:border-0 md:bg-black/35 md:bg-none',
-        !size && 'h-full md:rounded-full',
+        wide
+          ? 'bg-black/35 backdrop-blur-lg'
+          : cn(darkSurfaceClassName, 'rounded-full'),
+        !size && 'h-full rounded-full',
         snap && 'transition-none',
       )}
       style={
