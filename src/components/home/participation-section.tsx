@@ -40,9 +40,8 @@ const ways: {
 ]
 
 /**
- * 一起參與 SITCON 社群 — the ways to join in now as one row of tiles, then
- * future preparation as an ActionCard, the same rhythm as 想來參加年會？ above.
- * The guide tile leads to the full write-up on About.
+ * 一起參與 SITCON 社群 — start with following updates, then offer direct
+ * ways to take part. The guide tile leads to the full write-up on About.
  */
 export function ParticipationSection() {
   return (
@@ -55,7 +54,36 @@ export function ParticipationSection() {
       <div aria-hidden className="absolute inset-0 -z-10 bg-black/40" />
       <div className="mx-auto flex max-w-content flex-col gap-2.5 p-2.5">
         <SectionHeading id="community-title">{community.title}</SectionHeading>
-        <p className="pt-2.5 text-paragraph">{community.intro}</p>
+        <div className="flex flex-col gap-5 pt-5">
+          <div className="flex flex-col gap-2.5">
+            <h3 className="text-h3 font-bold">{community.follow.title}</h3>
+            <p className="text-paragraph">{community.follow.description}</p>
+          </div>
+          <div className="flex flex-wrap items-center gap-x-7.5 gap-y-2.5">
+            <a
+              href={links.social.instagram}
+              className={buttonVariants({
+                className:
+                  'h-auto min-h-control max-w-full py-2.5 text-center whitespace-normal',
+              })}
+            >
+              {community.actions.instagram}
+              <ArrowUpRight aria-hidden className="size-5 shrink-0" />
+            </a>
+            <div className="flex flex-wrap items-center gap-x-7.5 gap-y-2.5">
+              {(['threads', 'facebook'] as const).map((platform) => (
+                <a
+                  key={platform}
+                  href={links.social[platform]}
+                  className="inline-flex min-h-control items-center gap-2.5 rounded-xs text-paragraph underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+                >
+                  {content.social[platform]}
+                  <ArrowUpRight aria-hidden className="size-5 shrink-0" />
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
         {/* One shape: stacked on mobile, a row from md up. */}
         <ul className="flex w-full flex-col gap-2.5 pt-5 pb-2.5 md:flex-row">
           {ways.map(({ icon: Icon, title, summary, href }, i) => {
@@ -104,7 +132,11 @@ export function ParticipationSection() {
             action={
               <a
                 href={links.recruitForm}
-                className={buttonVariants({ variant: 'dark' })}
+                className={buttonVariants({
+                  variant: 'dark',
+                  className:
+                    'h-auto min-h-control max-w-full py-2.5 text-center whitespace-normal',
+                })}
               >
                 {community.actions.register}
                 <ArrowUpRight aria-hidden className="size-5 shrink-0" />
