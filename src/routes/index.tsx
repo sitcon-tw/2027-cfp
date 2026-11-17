@@ -5,6 +5,7 @@ import { AboutSection } from '@/components/home/about-section'
 import { AttendSection } from '@/components/home/attend-section'
 import { Hero } from '@/components/home/hero'
 import { ParticipationSection } from '@/components/home/participation-section'
+import { SocialKitBand } from '@/components/home/social-kit-band'
 import { SpeakerSection } from '@/components/home/speaker-section'
 import { SponsorSection } from '@/components/home/sponsor-section'
 import { SubmissionDeadline } from '@/components/home/submission-deadline'
@@ -35,6 +36,7 @@ function Home() {
       </div>
       <SponsorSection />
       <ThemeSection />
+      <SocialKitBand />
     </main>
   )
 }

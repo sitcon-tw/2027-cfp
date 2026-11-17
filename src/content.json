@@ -103,20 +103,7 @@
     "description": "製作今年的頭貼，或選用 Facebook 封面、LINE 主頁背景，讓更多朋友看見 SITCON 2027。",
     "action": "選用 2027 社群媒體素材",
     "linkLabel": "2027 社群媒體素材",
-    "previews": {
-      "avatar": {
-        "label": "頭貼示意",
-        "alt": "SITCON 2027 頭貼框套用於示意頭像"
-      },
-      "facebook": {
-        "label": "Facebook 封面",
-        "alt": "SITCON 2027 Facebook 封面，宇宙圖像中呈現主題 42"
-      },
-      "line": {
-        "label": "LINE 背景",
-        "alt": "SITCON 2027 LINE 主頁背景，宇宙圖像中呈現主題 42"
-      }
-    }
+    "avatarAlt": "SITCON 2027 頭貼框套用於示意頭像"
   },
   "theme_section": {
     "title": "關於今年的 SITCON 主題...",
@@ -137,8 +124,7 @@
     "finale": {
       "lead": "如果 42 是我們今年留給你的答案 ——",
       "emphasis": "那麼，就由你帶著問題來吧。"
-    },
-    "socialKitTitle": "把今年的主題，帶進日常"
+    }
   },
   "session_quiz": {
     "title": "不知道你適合哪一種議程？",

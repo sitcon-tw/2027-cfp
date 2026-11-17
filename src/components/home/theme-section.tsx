@@ -1,8 +1,5 @@
-import { ArrowUpRight } from 'lucide-react'
-
 import content from '@/content.json'
 import { SectionHeading } from '@/components/section-heading'
-import { links } from '@/lib/links'
 
 const theme = content.theme_section
 
@@ -44,17 +41,6 @@ export function ThemeSection() {
               {theme.finale.emphasis}
             </strong>
           </p>
-        </div>
-        <div className="flex flex-col gap-5 border-t border-background/20 pt-7.5">
-          <h3 className="text-h3 font-bold">{theme.socialKitTitle}</h3>
-          <p className="text-paragraph">{content.social_kit.description}</p>
-          <a
-            href={links.socialKit}
-            className="inline-flex min-h-control items-center gap-2.5 self-start rounded-xs text-paragraph underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
-          >
-            {content.social_kit.action}
-            <ArrowUpRight aria-hidden className="size-5 shrink-0" />
-          </a>
         </div>
       </div>
     </section>
