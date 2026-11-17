@@ -11,6 +11,7 @@ export const links = {
   meetingMinutes: content.links.meetingMinutes,
   preparationBoard: content.links.preparationBoard,
   mailingList: content.links.mailingList,
+  socialKit: content.links.socialKit,
   credits: content.links.credits,
   contactEmail: content.links.contactEmail,
   pastSite: (year: number) =>

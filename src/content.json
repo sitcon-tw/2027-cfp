@@ -94,8 +94,16 @@
       "learnTitle": "先了解大家怎麼合作",
       "learnDescription": "從新人手冊認識社群與協作方式，也可以閱讀公開會議紀錄、查看籌備進度，依自己的興趣慢慢了解。",
       "workExamples": "從文案、設計、攝影紀錄，到議程規劃與網站開發，籌備需要不同的興趣與投入。",
+      "socialKit": "也歡迎選用 [2027 社群媒體素材]({url})，用頭貼、封面或背景讓更多朋友看見 SITCON。",
       "help": "有疑問，或找不到籌會的參加方式？歡迎私訊 SITCON 官方社群詢問小編。"
     }
+  },
+  "social_kit": {
+    "title": "換上 SITCON 2027",
+    "description": "製作今年的頭貼，或選用 Facebook 封面、LINE 主頁背景，讓更多朋友看見 SITCON 2027。",
+    "action": "選用 2027 社群媒體素材",
+    "linkLabel": "2027 社群媒體素材",
+    "avatarAlt": "SITCON 2027 頭貼框套用於示意頭像"
   },
   "theme_section": {
     "title": "關於今年的 SITCON 主題...",
@@ -2392,6 +2400,7 @@
     "meetingMinutes": "https://hackmd.io/@SITCON/minutes",
     "preparationBoard": "https://gitlab.com/sitcon-tw/2027/-/boards/",
     "mailingList": "https://sitcon.org/mailing-list",
+    "socialKit": "https://sitcon.org/social-kit/2027/",
     "credits": "https://sitcon.org/credits",
     "contactEmail": "mailto:contact@sitcon.org",
     "facebook": "https://sitcon.org/fb",
