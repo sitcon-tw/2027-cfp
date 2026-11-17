@@ -42,14 +42,17 @@ export function CalendarMenu({
         className={buttonVariants({
           variant,
           size,
-          className: 'data-popup-open:brightness-90',
+          className: cn(
+            'h-auto max-w-full py-2.5 whitespace-normal data-popup-open:brightness-90',
+            size === 'lg' ? 'min-h-control-lg' : 'min-h-control',
+          ),
         })}
       >
         {labels.addCalendar}
         <ChevronDown
           aria-hidden
           className={cn(
-            'transition-transform duration-200 in-data-popup-open:rotate-180 motion-reduce:transition-none',
+            'shrink-0 transition-transform duration-200 in-data-popup-open:rotate-180 motion-reduce:transition-none',
             size === 'lg' ? 'size-6' : 'size-5',
           )}
         />
@@ -58,7 +61,7 @@ export function CalendarMenu({
           it, instead of the default glass popup. */}
       <MenuContent
         align={align}
-        className="rounded-xl border-0 bg-light bg-none text-background backdrop-blur-none transition-opacity duration-300 ease-smooth data-ending-style:scale-100 data-starting-style:scale-100"
+        className="max-h-(--available-height) max-w-(--available-width) overflow-y-auto rounded-xl border-0 bg-light bg-none text-background backdrop-blur-none transition-opacity duration-300 ease-smooth data-ending-style:scale-100 data-starting-style:scale-100"
       >
         <MenuLinkItem
           className={CALENDAR_ITEM}

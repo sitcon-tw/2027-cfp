@@ -484,7 +484,9 @@ The site header measures its logo and full navigation row with
 `ResizeObserver` and shows the full row only when both its width and height
 fit the bar. Keep the hidden row measurable, inert and outside the visual
 layout. The glass surface follows the same state; switching layouts closes
-the outgoing menu. On the homepage, the date and venue wrap naturally.
+the outgoing menu. On the homepage, the date and venue wrap naturally, and
+the deadline cards use their section's `@2xl` container query for both their
+columns and joined corners.
 
 ### Reading navigation
 
