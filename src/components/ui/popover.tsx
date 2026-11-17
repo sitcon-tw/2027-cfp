@@ -4,8 +4,14 @@ import { cn, type WithClassName } from '@/lib/utils'
 
 export const Popover = BasePopover.Root
 
-export const popoverSurfaceClassName =
-  'scroll-py-7.5 rounded-xl border border-gray bg-linear-to-br from-gray/95 to-black/95 p-7.5 text-foreground backdrop-blur-lg'
+/** The dark surface of popovers, also worn by the mobile navbar to match its menu. */
+export const darkSurfaceClassName =
+  'border border-gray bg-linear-to-br from-gray/95 to-black/95 backdrop-blur-lg'
+
+export const popoverSurfaceClassName = cn(
+  'scroll-py-7.5 rounded-xl p-7.5 text-foreground',
+  darkSurfaceClassName,
+)
 
 export function PopoverTrigger({
   className,
