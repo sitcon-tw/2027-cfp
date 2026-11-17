@@ -11,6 +11,7 @@ import type { LucideIcon } from 'lucide-react'
 
 import content from '@/content.json'
 import { ActionCard } from '@/components/action-card'
+import { SocialKitInvitation } from '@/components/home/social-kit-invitation'
 import { SectionHeading } from '@/components/section-heading'
 import { buttonVariants } from '@/components/ui/button'
 import { links } from '@/lib/links'
@@ -92,6 +93,9 @@ export function ParticipationSection() {
             )
           })}
         </ul>
+        <div className="w-full pt-5">
+          <SocialKitInvitation />
+        </div>
         <div className="w-full pt-5 pb-12.5">
           <ActionCard
             icon={Sprout}

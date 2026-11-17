@@ -86,6 +86,9 @@ export function SiteFooter() {
             <PhotoCredits />
           </FooterColumn>
           <FooterColumn title={content.site_footer.communityTitle}>
+            <FooterLink href={links.socialKit}>
+              {content.social_kit.linkLabel}
+            </FooterLink>
             <Link
               to="/about"
               hash="participate"

@@ -3,6 +3,7 @@ import { ArrowUpRight } from 'lucide-react'
 
 import content from '@/content.json'
 import { PageSection } from '@/components/about/page-section'
+import { LinkedText } from '@/components/linked-text'
 import { buttonVariants } from '@/components/ui/button'
 import { links } from '@/lib/links'
 
@@ -76,7 +77,14 @@ export function ParticipationSection() {
   return (
     <PageSection id="participate" title={community.title}>
       <div className="flex flex-col gap-10">
-        <p className="text-paragraph">{community.intro}</p>
+        <div className="flex flex-col gap-5 text-paragraph">
+          <p>{community.intro}</p>
+          <p>
+            <LinkedText
+              text={community.about.socialKit.replace('{url}', links.socialKit)}
+            />
+          </p>
+        </div>
         <ParticipationRow
           title={community.about.nowTitle}
           primary={{
