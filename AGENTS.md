@@ -279,9 +279,11 @@ colors, type scale and radii are **reset**, so `bg-white`, `text-sm`,
   `12.5`. The base is actually 3px, so these render at ×0.75 (see below).
   Changing `--spacing` rescales all padding, gaps and spacing-based sizes at
   once.
-- **All size tokens are in `rem`** (px ÷ 16; the px value is in a comment
-  next to each one), so the site follows the browser's font-size setting.
-  Write new size tokens in rem too.
+- **Size tokens use `rem` by default** (px ÷ 16; the px value is in a comment
+  next to each token), so they follow the browser's font-size setting.
+  Only `mega`, `headline` and `stat` combine a viewport contribution with
+  rem inside `clamp()`; their bounds and font-relative contribution stay in
+  rem. Keep new size tokens in rem too.
 - **Reuse before adding.** If a value is already a token, use it, even if
   the name doesn't mention your component (tabs use `h-control` and
   `text-paragraph`, just like buttons). Snap values within a few px of an
@@ -335,21 +337,29 @@ When implementing from Figma:
   `src/index.css` instead.
 - Responsive sizes live in the tokens. Components don't need `md:text-*`
   just to resize text for mobile; use breakpoints only for layout.
+- The three fluid type tokens above scale continuously with the viewport.
+  Their rem contribution limits how much narrowing the viewport offsets
+  page zoom. Verify that the rendered text can reach at least twice its
+  default size by 400% page zoom without clipping, including across layout
+  breakpoints; using rem alone is not proof. Check increased browser default
+  font sizes separately. These tokens also affect page heroes, the not-found
+  page and the theme answer; review those alongside the homepage. Other type
+  tokens keep the mobile overrides below `md`.
 - Images rendered at their intrinsic size (SVG logos, backdrop icons, the
   quiz mascot) don't follow the scale.
 
 ### Typography
 
-Sizes in px (tokens are rem). Line heights are the same at every size
-unless a mobile value is given.
+Reference sizes in px at a 16px root font size; fluid entries show their
+bounds. Line heights are the same at every size unless a mobile value is given.
 
 | Token             | Figma                | Desktop              | Mobile    | Use                                 |
 | ----------------- | -------------------- | -------------------- | --------- | ----------------------------------- |
 | `font-sans`       | —                    | LINE Seed TW → Inter |           | Everything (default)                |
 | `font-numeric`    | Inter Medium         | Inter                |           | Dates and countdown digits          |
-| `text-mega`       | — (not in Figma)     | 136 / 1.05           | 52        | Homepage "Call For Papers"          |
-| `text-headline`   | — (not in Figma)     | 96 / 1.1             | 40        | 甚麼是 SITCON ? headline            |
-| `text-stat`       | — (not in Figma)     | 96 / 1               | 56        | 甚麼是 SITCON ? numbers             |
+| `text-mega`       | — (not in Figma)     | up to 136 / 1.05     | from 56   | Homepage "Call For Papers"          |
+| `text-headline`   | — (not in Figma)     | up to 96 / 1.1       | from 40   | 甚麼是 SITCON ? headline            |
+| `text-stat`       | — (not in Figma)     | up to 96 / 1         | from 56   | 甚麼是 SITCON ? numbers             |
 | `text-display`    | 80 / 1.25            | 60                   | 40        | Section titles (`SectionHeading`)   |
 | `text-h1`         | 48 / 1 (`h2`)        | 36                   | 28        | Sub-headings (到現在，我們累積了……) |
 | `text-eyebrow`    | 40 / 1               | 30                   | 22        | "SITCON 2027"                       |
@@ -474,7 +484,7 @@ The site header measures its logo and full navigation row with
 `ResizeObserver` and shows the full row only when both its width and height
 fit the bar. Keep the hidden row measurable, inert and outside the visual
 layout. The glass surface follows the same state; switching layouts closes
-the outgoing menu.
+the outgoing menu. On the homepage, the date and venue wrap naturally.
 
 ### Reading navigation
 

@@ -26,13 +26,13 @@
   --font-numeric: 'Inter Variable', sans-serif;
 
   --text-*: initial;
-  /* Homepage hero title (mega), 甚麼是 SITCON ? headline and stats. Not
-     in Figma: sized past the type scale on purpose for impact. */
-  --text-mega: 8.5rem; /* 136px */
+  /* Keep the rem contribution at least one third of the cap so 400% page
+     zoom can double these fluid titles, even as the viewport narrows. */
+  --text-mega: clamp(3.5rem, 3rem + 6dvw, 8.5rem); /* 56–136px */
   --text-mega--line-height: 1.05;
-  --text-headline: 6rem; /* 96px */
+  --text-headline: clamp(2.5rem, 2rem + 5dvw, 6rem); /* 40–96px */
   --text-headline--line-height: 1.1;
-  --text-stat: 6rem; /* 96px */
+  --text-stat: clamp(3.5rem, 2rem + 5dvw, 6rem); /* 56–96px */
   --text-stat--line-height: 1;
   --text-display: 3.75rem; /* 60px */
   --text-display--line-height: 1.25;
@@ -122,9 +122,6 @@
  */
 @media (width < 48rem) {
   :root {
-    --text-mega: 3.25rem; /* 52px */
-    --text-headline: 2.5rem; /* 40px */
-    --text-stat: 3.5rem; /* 56px */
     --text-display: 2.5rem; /* 40px */
     --text-h1: 1.75rem; /* 28px */
     --text-eyebrow: 1.375rem; /* 22px */

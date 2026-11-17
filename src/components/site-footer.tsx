@@ -122,15 +122,15 @@ export function SiteFooter() {
         <Separator className="bg-background" />
 
         <div className="flex flex-wrap items-center justify-between gap-5">
-          <div className="flex items-center gap-5.75">
+          <div className="flex max-w-full flex-wrap items-center gap-5.75">
             <img src={sitconLogo} alt={content.site_footer.logoAlt} />
-            <p className="w-66.25 text-caption">
+            <p className="w-66.25 max-w-full text-caption">
               {content.site_footer.nameZh}
               <br />
               {content.site_footer.nameEn}
             </p>
           </div>
-          <ul className="flex gap-5">
+          <ul className="flex flex-wrap gap-5">
             {socials.map(({ name, href, icon }) => (
               <li key={name}>
                 <a
