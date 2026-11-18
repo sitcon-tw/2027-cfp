@@ -34,12 +34,15 @@ import { cn } from '@/lib/utils'
  */
 export function SiteHeader({ className }: { className?: string }) {
   const anchor = useRef<HTMLDivElement>(null)
+  const home = useRef<HTMLAnchorElement>(null)
+  const navigation = useRef<HTMLElement>(null)
   const submitTrigger = useRef<HTMLButtonElement>(null)
   const dropdownPositioner = useRef<HTMLDivElement>(null)
   const dropdownPopup = useRef<HTMLDivElement>(null)
   const [dropdownValue, setDropdownValue] = useState<string | null>(null)
   const dropdownOpen = dropdownValue !== null
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [wide, setWide] = useState(false)
   const submissionClosed = useSubmissionClosed()
   const submitType = useSubmitType()
   const onSubmitGuide = useMatch({ from: '/$type', shouldThrow: false })
@@ -51,12 +54,25 @@ export function SiteHeader({ className }: { className?: string }) {
   const [swappedChange, setSwappedChange] = useState(0)
 
   useEffect(() => {
-    const desktop = window.matchMedia('(min-width: 48rem)')
-    const closeOnDesktop = () => {
-      if (desktop.matches) setMobileOpen(false)
+    const bar = anchor.current!
+    const logo = home.current!
+    const menu = navigation.current!
+    const measure = () => {
+      const style = getComputedStyle(bar)
+      const available =
+        bar.clientWidth -
+        parseFloat(style.paddingLeft) -
+        parseFloat(style.paddingRight)
+      const fits =
+        logo.offsetWidth + menu.offsetWidth + parseFloat(style.columnGap) <=
+          available && menu.offsetHeight <= bar.clientHeight
+      setWide(fits)
+      if (fits) setMobileOpen(false)
+      else setDropdownValue(null)
     }
-    desktop.addEventListener('change', closeOnDesktop)
-    return () => desktop.removeEventListener('change', closeOnDesktop)
+    const observer = new ResizeObserver(measure)
+    for (const element of [bar, logo, menu]) observer.observe(element)
+    return () => observer.disconnect()
   }, [])
 
   useEffect(() => {
@@ -85,7 +101,7 @@ export function SiteHeader({ className }: { className?: string }) {
     >
       <div
         ref={anchor}
-        className="pointer-events-auto relative isolate mx-auto flex h-control-lg max-w-content items-center justify-between px-5 md:px-10"
+        className="pointer-events-auto relative isolate mx-auto flex h-control-lg max-w-content items-center justify-between gap-5 px-5 md:px-10"
       >
         <NavbarGlass
           barRef={anchor}
@@ -93,10 +109,12 @@ export function SiteHeader({ className }: { className?: string }) {
           positionerRef={dropdownPositioner}
           popupRef={dropdownPopup}
           open={dropdownOpen}
+          wide={wide}
         />
         <Link
+          ref={home}
           to="/"
-          className="-translate-y-1/8 rounded-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+          className="shrink-0 -translate-y-1/8 rounded-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
         >
           <img
             className="block"
@@ -111,6 +129,9 @@ export function SiteHeader({ className }: { className?: string }) {
             the bar, so the popup drops its own.
           */}
           <NavigationMenu
+            ref={navigation}
+            inert={!wide}
+            aria-hidden={!wide}
             positionMethod="fixed"
             positionerRef={dropdownPositioner}
             popupRef={dropdownPopup}
@@ -131,7 +152,11 @@ export function SiteHeader({ className }: { className?: string }) {
             // reach past them, so text there would overflow the glass.
             collisionBoundary={anchor.current ?? undefined}
             collisionPadding={dropInset(anchor.current)}
-            className="hidden md:block"
+            // Keep its natural size measurable while the collapsed menu is shown.
+            className={cn(
+              'w-max shrink-0 whitespace-nowrap',
+              !wide && 'invisible absolute top-0 right-0',
+            )}
           >
             {/* No end padding: the submit pill ends the bar. */}
             <NavigationMenuList className="py-2.5 pl-2.5">
@@ -237,7 +262,7 @@ export function SiteHeader({ className }: { className?: string }) {
           </NavigationMenu>
           <Popover open={mobileOpen} onOpenChange={setMobileOpen}>
             <PopoverTrigger
-              className="md:hidden"
+              className={wide ? 'hidden' : undefined}
               aria-label={
                 mobileOpen
                   ? content.site_header.closeMenu
@@ -250,7 +275,8 @@ export function SiteHeader({ className }: { className?: string }) {
               anchor={anchor}
               positionMethod="fixed"
               aria-label={content.site_header.navigation}
-              className="md:hidden"
+              className={wide ? 'hidden' : undefined}
+              finalFocus={() => (wide ? home.current : true)}
             >
               <nav aria-label={content.site_header.navigation}>
                 <ul>

@@ -13,7 +13,7 @@ export function AboutIntro() {
       <div className="mx-auto flex max-w-content flex-col gap-2.5 p-2.5">
         <h1
           id="introduction-title"
-          className="text-display font-extrabold text-balance"
+          className="text-display font-extrabold text-balance wrap-anywhere"
         >
           {intro.title}
         </h1>

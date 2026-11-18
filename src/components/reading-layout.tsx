@@ -27,7 +27,7 @@ const readingLinkClassName =
 const menuLinkClassName = 'justify-center p-2.5 text-center font-bold'
 const glassClassName = 'bg-black/35 text-foreground backdrop-blur-lg'
 const variantLinkClassName = {
-  rail: menuLinkClassName,
+  rail: cn(menuLinkClassName, 'text-balance'),
   overview: '',
   sheet: menuLinkClassName,
 }
@@ -139,7 +139,7 @@ export function ReadingLayout({
         <div className="sticky top-header mx-auto max-w-content">
           <div
             className={cn(
-              'reading-navigation-panel pointer-events-auto relative left-5 ml-auto w-75 translate-x-full scroll-py-10 overflow-y-auto overscroll-contain rounded-xl p-10',
+              'reading-navigation-panel pointer-events-auto relative left-2.5 ml-auto w-57.5 translate-x-full scroll-py-10 overflow-y-auto overscroll-contain rounded-xl px-3.75 py-10 2xl:left-5 2xl:w-75 2xl:px-10',
               glassClassName,
             )}
           >

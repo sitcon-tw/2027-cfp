@@ -29,9 +29,9 @@ type CountdownPart = Exclude<keyof Countdown, 'expired'>
 export function SubmissionDeadline() {
   const { title, date } = useUpcomingDeadline(DEADLINES)
   return (
-    <section className="px-2.5 pt-10 pb-2.5">
-      <div className="mx-auto grid max-w-content gap-2.5 px-2.5 md:grid-cols-5">
-        <Card className="rounded-t-xl px-5 py-4 md:col-span-2 md:rounded-l-xl md:rounded-tr-sm">
+    <section className="@container px-2.5 pt-10 pb-2.5">
+      <div className="mx-auto grid max-w-content grid-cols-1 gap-2.5 px-2.5 @2xl:grid-cols-5">
+        <Card className="rounded-t-xl px-5 py-4 @2xl:col-span-2 @2xl:rounded-l-xl @2xl:rounded-tr-sm">
           <div className="px-5 py-3.75">
             <h2 className="text-h3 font-bold">{title}</h2>
             <p className="font-numeric text-paragraph font-medium">
@@ -41,7 +41,7 @@ export function SubmissionDeadline() {
             </p>
           </div>
         </Card>
-        <Card className="flex flex-wrap items-center gap-2.5 rounded-b-xl py-4 pr-10 pl-5 md:col-span-3 md:rounded-r-xl md:rounded-bl-sm">
+        <Card className="flex flex-wrap items-center gap-2.5 rounded-b-xl py-4 pr-10 pl-5 @2xl:col-span-3 @2xl:rounded-r-xl @2xl:rounded-bl-sm">
           <div className="grow px-5 py-3.75">
             <h2 className="text-h3 font-bold">
               {content.submission_deadline.countdown}

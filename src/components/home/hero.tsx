@@ -12,7 +12,7 @@ export function Hero() {
   return (
     <section className="px-2.5 pt-20 pb-25">
       <div className="mx-auto flex max-w-content flex-col gap-10 p-2.5">
-        <h1 className="flex flex-col gap-5 font-extrabold">
+        <h1 className="flex flex-col gap-5 font-extrabold wrap-anywhere">
           <span className="text-eyebrow">{content.hero.eventName}</span>
           <span className="text-mega tracking-tight">
             {fillPlaceholders(content.hero.title, (name) => (
@@ -22,14 +22,10 @@ export function Hero() {
             ))}
           </span>
         </h1>
-        <p className="flex flex-col gap-x-7.5 gap-y-5 text-h1 font-bold md:flex-row md:items-center">
+        <p className="flex flex-wrap items-center gap-x-7.5 gap-y-5 text-h1 font-bold">
           <time dateTime={content.hero.dateTime} className="font-numeric">
             {content.hero.date}
           </time>
-          <span
-            aria-hidden
-            className="hidden w-0.5 self-stretch bg-foreground/40 md:block"
-          />
           <span>{content.hero.venue}</span>
         </p>
         <div className="flex flex-wrap gap-5">

@@ -26,7 +26,7 @@ export function SectionHeading({
       <h2
         id={id}
         tabIndex={tabIndex}
-        className="text-display font-extrabold text-balance focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+        className="text-display font-extrabold text-balance wrap-anywhere focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
       >
         {children}
       </h2>

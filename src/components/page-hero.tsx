@@ -91,7 +91,7 @@ export function PageHero({
   )
 }
 
-const titleClass = 'text-headline font-extrabold text-balance'
+const titleClass = 'text-headline font-extrabold text-balance wrap-anywhere'
 
 function HeroPhoto({ image }: { image: Picture }) {
   const [loaded, setLoaded] = useState(import.meta.env.SSR)
