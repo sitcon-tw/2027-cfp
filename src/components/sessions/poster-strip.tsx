@@ -227,7 +227,8 @@ function PosterPreview({
     <DialogContent
       onKeyDown={onKeyDown}
       backdropClassName="bg-black/80"
-      className="flex flex-col items-center gap-5 md:h-full md:max-w-none md:rounded-none md:bg-transparent md:p-0 md:text-foreground"
+      popupClassName="md:h-full md:max-w-none md:rounded-none md:bg-transparent md:text-foreground"
+      className="flex flex-col items-center gap-5 md:h-full"
     >
       <div className="flex w-full items-center justify-between gap-5">
         <DialogTitle>{poster.alt}</DialogTitle>
