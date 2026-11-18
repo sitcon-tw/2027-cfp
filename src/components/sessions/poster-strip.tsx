@@ -253,6 +253,7 @@ function PosterPreview({
         <div className="flex items-center gap-5">
           <Button
             variant="dark"
+            className="md:bg-foreground md:text-background md:hover:brightness-90"
             size="icon"
             aria-label={text.previous}
             onClick={() => step(-1)}
@@ -266,6 +267,7 @@ function PosterPreview({
           </span>
           <Button
             variant="dark"
+            className="md:bg-foreground md:text-background md:hover:brightness-90"
             size="icon"
             aria-label={text.next}
             onClick={() => step(1)}
