@@ -89,7 +89,7 @@ export function ParticipationSection() {
       <div className="flex flex-col gap-10">
         <p className="text-paragraph">{community.intro}</p>
         <FollowCard>
-          <p className="text-body text-gray">{community.about.help}</p>
+          <p className="pt-2.5 text-body text-gray">{community.about.help}</p>
         </FollowCard>
         <ParticipationRow
           title={community.about.nowTitle}

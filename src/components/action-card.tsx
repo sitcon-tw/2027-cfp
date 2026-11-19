@@ -11,10 +11,12 @@ export interface ActionCardProps {
   media?: ReactNode
   title: string
   description: string
-  /** Extra content under the description, in the text column. */
+  /** Extra lines under the description; the icon centers on them too. */
   children?: ReactNode
   /** The button on the right, usually a dialog trigger. */
   action?: ReactNode
+  /** Overrides for the action's wrapper, e.g. to fill a wrapped row. */
+  actionClassName?: string
   /** Surface overrides, e.g. another background. */
   className?: string
   /** Description color; gray suits the cream surface. */
@@ -40,6 +42,7 @@ export function ActionCard({
   description,
   children,
   action,
+  actionClassName,
   className,
   descriptionClassName = 'text-gray',
 }: ActionCardProps) {
@@ -47,7 +50,7 @@ export function ActionCard({
     <Card className={cn('rounded-xl', cardPaddingClassName, className)}>
       <div className="flex flex-wrap items-center gap-x-5 gap-y-2.5">
         <div className="flex grow basis-60 flex-col">
-          {/* The icon centers on the title and description, like the action. */}
+          {/* The icon centers on the text, like the action. */}
           <div className="flex items-center gap-5">
             {media ??
               (Icon && <Icon aria-hidden className={cardMediaClassName} />)}
@@ -56,13 +59,14 @@ export function ActionCard({
               <p className={cn('text-paragraph', descriptionClassName)}>
                 {description}
               </p>
+              {children}
             </div>
           </div>
-          {/* Indented past the icon (size-12 + gap-5) to stay in the text column. */}
-          {children && <div className="pl-17">{children}</div>}
         </div>
         {/* ml-auto keeps it right-aligned when it wraps onto its own row. */}
-        {action && <div className="ml-auto">{action}</div>}
+        {action && (
+          <div className={cn('ml-auto', actionClassName)}>{action}</div>
+        )}
       </div>
     </Card>
   )
