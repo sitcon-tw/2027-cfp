@@ -77,20 +77,17 @@ export function ParticipationSection() {
             )
             const Arrow = href ? ArrowUpRight : ArrowRight
             // The ActionCard layout, so the icons, titles and descriptions
-            // line up with the cards above and below; the arrow ends the
-            // title's first line.
+            // line up with the cards above and below; the icon and the arrow
+            // both center on the text, as the icon and action do there.
             const body = (
-              <div className="flex gap-5">
+              <div className="flex items-center gap-5">
                 <Icon aria-hidden className={cardMediaClassName} />
-                <div className="flex min-w-0 flex-1 flex-col">
-                  <div className="flex items-start gap-1.25">
+                <div className="flex min-w-0 flex-1 items-center gap-2.5">
+                  <div className="flex min-w-0 flex-1 flex-col">
                     <h3 className="text-h3 font-bold">{title}</h3>
-                    {/* Centered on the title's first line if it wraps. */}
-                    <span className="ml-auto flex h-lh shrink-0 items-center text-h3">
-                      <Arrow aria-hidden className="size-5" />
-                    </span>
+                    <p className="text-paragraph text-gray">{summary}</p>
                   </div>
-                  <p className="text-paragraph text-gray">{summary}</p>
+                  <Arrow aria-hidden className="size-5 shrink-0" />
                 </div>
               </div>
             )
