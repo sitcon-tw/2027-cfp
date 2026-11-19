@@ -45,8 +45,8 @@ const ways: {
 ]
 
 /**
- * 一起參與 SITCON 社群 — start with following updates, then offer direct
- * ways to take part. The guide tile leads to the full write-up on About.
+ * 一起參與 SITCON 社群 — start with following updates and the social kit,
+ * then offer direct ways to take part. The guide tile leads to About.
  */
 export function ParticipationSection() {
   return (
@@ -61,6 +61,9 @@ export function ParticipationSection() {
         <SectionHeading id="community-title">{community.title}</SectionHeading>
         <div className="w-full pt-5">
           <FollowCard />
+        </div>
+        <div className="w-full pt-5">
+          <SocialKitCard />
         </div>
         {/* One shape: stacked, a row from lg up where each tile is wide enough. */}
         <ul className="flex w-full flex-col gap-2.5 pt-5 pb-2.5 lg:flex-row">
@@ -106,9 +109,6 @@ export function ParticipationSection() {
             )
           })}
         </ul>
-        <div className="w-full pt-5">
-          <SocialKitCard />
-        </div>
         <div className="w-full pt-5 pb-12.5">
           <ActionCard
             icon={Sprout}
