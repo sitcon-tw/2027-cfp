@@ -128,8 +128,8 @@ export function DialogContent({
             )}
             {...props}
           >
-            <ScrollArea.Root className="flex min-h-0 flex-col">
-              <ScrollArea.Viewport className="min-h-0 overscroll-contain">
+            <ScrollArea.Root className="flex min-h-0 flex-1 flex-col">
+              <ScrollArea.Viewport className="min-h-0 flex-1 overscroll-contain">
                 <ScrollArea.Content className={cn('p-7.5', className)}>
                   {children}
                 </ScrollArea.Content>
