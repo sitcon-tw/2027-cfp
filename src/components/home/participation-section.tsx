@@ -10,7 +10,12 @@ import {
 import type { LucideIcon } from 'lucide-react'
 
 import content from '@/content.json'
-import { ActionCard } from '@/components/action-card'
+import {
+  ActionCard,
+  cardMediaClassName,
+  cardPaddingClassName,
+} from '@/components/action-card'
+import { FollowCard } from '@/components/follow-card'
 import { SocialKitCard } from '@/components/home/social-kit-card'
 import { SectionHeading } from '@/components/section-heading'
 import { buttonVariants } from '@/components/ui/button'
@@ -40,9 +45,8 @@ const ways: {
 ]
 
 /**
- * 一起參與 SITCON 社群 — the ways to join in now as one row of tiles, then
- * future preparation as an ActionCard, the same rhythm as 想來參加年會？ above.
- * The guide tile leads to the full write-up on About.
+ * 一起參與 SITCON 社群 — start with following updates and the social kit,
+ * then offer direct ways to take part. The guide tile leads to About.
  */
 export function ParticipationSection() {
   return (
@@ -55,27 +59,36 @@ export function ParticipationSection() {
       <div aria-hidden className="absolute inset-0 -z-10 bg-black/40" />
       <div className="mx-auto flex max-w-content flex-col gap-2.5 p-2.5">
         <SectionHeading id="community-title">{community.title}</SectionHeading>
-        <p className="pt-2.5 text-paragraph">{community.intro}</p>
-        {/* One shape: stacked on mobile, a row from md up. */}
-        <ul className="flex w-full flex-col gap-2.5 pt-5 pb-2.5 md:flex-row">
+        <div className="w-full pt-5">
+          <FollowCard />
+        </div>
+        <div className="w-full pt-5">
+          <SocialKitCard />
+        </div>
+        {/* One shape: stacked, a row from lg up where each tile is wide enough. */}
+        <ul className="flex w-full flex-col gap-2.5 pt-5 pb-2.5 lg:flex-row">
           {ways.map(({ icon: Icon, title, summary, href }, i) => {
             const className = cn(
-              'flex-1 rounded-sm bg-foreground px-5 py-4 text-background transition-colors duration-300 ease-smooth hover:bg-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue motion-reduce:transition-none',
-              i === 0 && 'rounded-t-xl md:rounded-l-xl md:rounded-tr-sm',
+              'flex-1 rounded-sm bg-foreground text-background transition-colors duration-300 ease-smooth hover:bg-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue motion-reduce:transition-none',
+              cardPaddingClassName,
+              i === 0 && 'rounded-t-xl lg:rounded-l-xl lg:rounded-tr-sm',
               i === ways.length - 1 &&
-                'rounded-b-xl md:rounded-r-xl md:rounded-bl-sm',
+                'rounded-b-xl lg:rounded-r-xl lg:rounded-bl-sm',
             )
             const Arrow = href ? ArrowUpRight : ArrowRight
-            // Icon, title and arrow on one line like the ticket cards, padded
-            // like the session-type tiles and the ActionCard below.
+            // The ActionCard layout, so the icons, titles and descriptions
+            // line up with the cards above and below; the icon and the arrow
+            // both center on the text, as the icon and action do there.
             const body = (
-              <div className="flex flex-col p-2.5">
-                <div className="flex items-center gap-5">
-                  <Icon aria-hidden className="size-8 shrink-0" />
-                  <h3 className="text-h3 font-bold">{title}</h3>
-                  <Arrow aria-hidden className="ml-auto size-6 shrink-0" />
+              <div className="flex items-center gap-5">
+                <Icon aria-hidden className={cardMediaClassName} />
+                <div className="flex min-w-0 flex-1 items-center gap-2.5">
+                  <div className="flex min-w-0 flex-1 flex-col">
+                    <h3 className="text-h3 font-bold">{title}</h3>
+                    <p className="text-paragraph text-gray">{summary}</p>
+                  </div>
+                  <Arrow aria-hidden className="size-5 shrink-0" />
                 </div>
-                <p className="text-paragraph text-gray">{summary}</p>
               </div>
             )
             return (
@@ -93,9 +106,6 @@ export function ParticipationSection() {
             )
           })}
         </ul>
-        <div className="w-full pt-5">
-          <SocialKitCard />
-        </div>
         <div className="w-full pt-5 pb-12.5">
           <ActionCard
             icon={Sprout}
@@ -104,7 +114,11 @@ export function ParticipationSection() {
             action={
               <a
                 href={links.recruitForm}
-                className={buttonVariants({ variant: 'dark' })}
+                className={buttonVariants({
+                  variant: 'dark',
+                  className:
+                    'h-auto min-h-control max-w-full py-2.5 text-center whitespace-normal',
+                })}
               >
                 {community.actions.register}
                 <ArrowUpRight aria-hidden className="size-5 shrink-0" />

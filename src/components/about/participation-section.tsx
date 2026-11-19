@@ -3,6 +3,7 @@ import { ArrowUpRight } from 'lucide-react'
 
 import content from '@/content.json'
 import { PageSection } from '@/components/about/page-section'
+import { FollowCard } from '@/components/follow-card'
 import { LinkedText } from '@/components/linked-text'
 import { buttonVariants } from '@/components/ui/button'
 import { links } from '@/lib/links'
@@ -28,25 +29,34 @@ function ActionLink({
   )
 }
 
-// Every row ends the same way: one primary button, then any alternatives
-// as text links on the same wrapping line.
+// Keep alternatives together when they wrap below the primary action.
 function ActionBar({
   primary,
   secondary = [],
 }: {
-  primary?: Action
+  primary: Action
   secondary?: Action[]
 }) {
   return (
     <div className="flex flex-wrap items-center gap-x-7.5 gap-y-2.5">
-      {primary && <ActionLink action={primary} className={buttonVariants()} />}
-      {secondary.map((action) => (
-        <ActionLink
-          key={action.href}
-          action={action}
-          className={textLinkClassName}
-        />
-      ))}
+      <ActionLink
+        action={primary}
+        className={buttonVariants({
+          className:
+            'h-auto min-h-control max-w-full py-2.5 text-center whitespace-normal',
+        })}
+      />
+      {secondary.length > 0 && (
+        <div className="flex flex-wrap items-center gap-x-7.5 gap-y-2.5">
+          {secondary.map((action) => (
+            <ActionLink
+              key={action.href}
+              action={action}
+              className={textLinkClassName}
+            />
+          ))}
+        </div>
+      )}
     </div>
   )
 }
@@ -77,14 +87,10 @@ export function ParticipationSection() {
   return (
     <PageSection id="participate" title={community.title}>
       <div className="flex flex-col gap-10">
-        <div className="flex flex-col gap-5 text-paragraph">
-          <p>{community.intro}</p>
-          <p>
-            <LinkedText
-              text={community.about.socialKit.replace('{url}', links.socialKit)}
-            />
-          </p>
-        </div>
+        <p className="text-paragraph">{community.intro}</p>
+        <FollowCard>
+          <p className="pt-2.5 text-body text-gray">{community.about.help}</p>
+        </FollowCard>
         <ParticipationRow
           title={community.about.nowTitle}
           primary={{
@@ -130,21 +136,11 @@ export function ParticipationSection() {
           <p className="text-paragraph">{community.recruitment.notification}</p>
           <p className="text-body">{community.recruitment.status}</p>
         </ParticipationRow>
-        <div className="flex flex-col gap-2.5 border-t border-foreground/20 pt-7.5">
-          <p className="text-paragraph">{community.about.help}</p>
-          <ActionBar
-            secondary={[
-              {
-                href: links.social.instagram,
-                label: community.actions.instagram,
-              },
-              {
-                href: links.social.facebook,
-                label: community.actions.facebook,
-              },
-            ]}
+        <p className="border-t border-foreground/20 pt-7.5 text-paragraph">
+          <LinkedText
+            text={community.about.socialKit.replace('{url}', links.socialKit)}
           />
-        </div>
+        </p>
       </div>
     </PageSection>
   )

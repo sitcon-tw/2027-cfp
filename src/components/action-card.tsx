@@ -2,39 +2,71 @@ import type { LucideIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
 
 import { Card } from '@/components/ui/card'
+import { cn } from '@/lib/utils'
 
 export interface ActionCardProps {
-  icon: LucideIcon
+  /** The leading icon; pass `media` instead for an image. */
+  icon?: LucideIcon
+  /** A leading image in place of `icon`, sized to `cardMediaClassName`. */
+  media?: ReactNode
   title: string
   description: string
-  /** Extra lines under the description. */
+  /** Extra lines under the description; the icon centers on them too. */
   children?: ReactNode
   /** The button on the right, usually a dialog trigger. */
-  action: ReactNode
+  action?: ReactNode
+  /** Overrides for the action's wrapper, e.g. to fill a wrapped row. */
+  actionClassName?: string
+  /** Surface overrides, e.g. another background. */
+  className?: string
+  /** Description color; gray suits the cream surface. */
+  descriptionClassName?: string
 }
 
+/** The leading icon or image of every card built on this layout. */
+export const cardMediaClassName = 'size-12 shrink-0'
+
+/** Padding shared by the cards that line up with ActionCard. */
+export const cardPaddingClassName = 'px-7.5 py-5'
+
 /**
- * Cream card with an icon, a title and description, and one action on the
- * right (不知道你適合哪一種議程？, 索票日程, 投稿日程, …).
+ * Cream card with an icon, a title and description, and an optional action
+ * on the right (不知道你適合哪一種議程？, 索票日程, 投稿日程, …). The icon
+ * and the action both center on the title and description, and everything
+ * after the icon starts at the same x on every card built from this layout.
  */
 export function ActionCard({
   icon: Icon,
+  media,
   title,
   description,
   children,
   action,
+  actionClassName,
+  className,
+  descriptionClassName = 'text-gray',
 }: ActionCardProps) {
   return (
-    <Card className="rounded-xl py-4 pr-7.5 pl-5">
-      <div className="flex flex-wrap items-center gap-2.5 pl-1.25">
-        <Icon aria-hidden className="mx-2.5 size-12 shrink-0" />
-        <div className="grow basis-60 p-2.5">
-          <h3 className="text-h3 font-bold">{title}</h3>
-          <p className="text-paragraph text-gray">{description}</p>
-          {children}
+    <Card className={cn('rounded-xl', cardPaddingClassName, className)}>
+      <div className="flex flex-wrap items-center gap-x-5 gap-y-2.5">
+        <div className="flex grow basis-60 flex-col">
+          {/* The icon centers on the text, like the action. */}
+          <div className="flex items-center gap-5">
+            {media ??
+              (Icon && <Icon aria-hidden className={cardMediaClassName} />)}
+            <div className="flex min-w-0 flex-1 flex-col">
+              <h3 className="text-h3 font-bold">{title}</h3>
+              <p className={cn('text-paragraph', descriptionClassName)}>
+                {description}
+              </p>
+              {children}
+            </div>
+          </div>
         </div>
         {/* ml-auto keeps it right-aligned when it wraps onto its own row. */}
-        <div className="ml-auto">{action}</div>
+        {action && (
+          <div className={cn('ml-auto', actionClassName)}>{action}</div>
+        )}
       </div>
     </Card>
   )
