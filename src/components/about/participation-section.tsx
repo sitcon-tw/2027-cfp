@@ -3,6 +3,7 @@ import { ArrowUpRight } from 'lucide-react'
 
 import content from '@/content.json'
 import { PageSection } from '@/components/about/page-section'
+import { FollowCard } from '@/components/follow-card'
 import { LinkedText } from '@/components/linked-text'
 import { buttonVariants } from '@/components/ui/button'
 import { links } from '@/lib/links'
@@ -87,20 +88,9 @@ export function ParticipationSection() {
     <PageSection id="participate" title={community.title}>
       <div className="flex flex-col gap-10">
         <p className="text-paragraph">{community.intro}</p>
-        <ParticipationRow
-          title={community.follow.title}
-          primary={{
-            href: links.social.instagram,
-            label: community.actions.instagram,
-          }}
-          secondary={[
-            { href: links.social.threads, label: content.social.threads },
-            { href: links.social.facebook, label: content.social.facebook },
-          ]}
-        >
-          <p className="text-paragraph">{community.follow.description}</p>
-          <p className="text-body">{community.about.help}</p>
-        </ParticipationRow>
+        <FollowCard>
+          <p className="text-body text-gray">{community.about.help}</p>
+        </FollowCard>
         <ParticipationRow
           title={community.about.nowTitle}
           primary={{

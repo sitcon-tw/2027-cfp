@@ -11,6 +11,7 @@ import type { LucideIcon } from 'lucide-react'
 
 import content from '@/content.json'
 import { ActionCard } from '@/components/action-card'
+import { FollowCard } from '@/components/follow-card'
 import { SocialKitCard } from '@/components/home/social-kit-card'
 import { SectionHeading } from '@/components/section-heading'
 import { buttonVariants } from '@/components/ui/button'
@@ -54,35 +55,8 @@ export function ParticipationSection() {
       <div aria-hidden className="absolute inset-0 -z-10 bg-black/40" />
       <div className="mx-auto flex max-w-content flex-col gap-2.5 p-2.5">
         <SectionHeading id="community-title">{community.title}</SectionHeading>
-        <div className="flex flex-col gap-5 pt-5">
-          <div className="flex flex-col gap-2.5">
-            <h3 className="text-h3 font-bold">{community.follow.title}</h3>
-            <p className="text-paragraph">{community.follow.description}</p>
-          </div>
-          <div className="flex flex-wrap items-center gap-x-7.5 gap-y-2.5">
-            <a
-              href={links.social.instagram}
-              className={buttonVariants({
-                className:
-                  'h-auto min-h-control max-w-full py-2.5 text-center whitespace-normal',
-              })}
-            >
-              {community.actions.instagram}
-              <ArrowUpRight aria-hidden className="size-5 shrink-0" />
-            </a>
-            <div className="flex flex-wrap items-center gap-x-7.5 gap-y-2.5">
-              {(['threads', 'facebook'] as const).map((platform) => (
-                <a
-                  key={platform}
-                  href={links.social[platform]}
-                  className="inline-flex min-h-control items-center gap-2.5 rounded-xs text-paragraph underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
-                >
-                  {content.social[platform]}
-                  <ArrowUpRight aria-hidden className="size-5 shrink-0" />
-                </a>
-              ))}
-            </div>
-          </div>
+        <div className="w-full pt-5">
+          <FollowCard />
         </div>
         {/* One shape: stacked on mobile, a row from md up. */}
         <ul className="flex w-full flex-col gap-2.5 pt-5 pb-2.5 md:flex-row">
