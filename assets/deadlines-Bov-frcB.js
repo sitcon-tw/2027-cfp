@@ -1,1 +1,0 @@
-import{i as e}from"./utils-CLceNpUu.js";function t(e){if(!e)return null;let t=new Date(e);return Number.isNaN(t.getTime())?null:t}function n(n){return t(e.speaker_section.schedule.find(e=>e.id===n)?.end)}var r={submission:n(`submission`),earlyBird:n(`early`)};export{r as t};
