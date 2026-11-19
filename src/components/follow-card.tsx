@@ -3,7 +3,7 @@ import { ArrowUpRight, Megaphone } from 'lucide-react'
 import { siFacebook, siInstagram, siThreads } from 'simple-icons'
 
 import content from '@/content.json'
-import { Card } from '@/components/ui/card'
+import { ActionCard } from '@/components/action-card'
 import { links } from '@/lib/links'
 import { cn } from '@/lib/utils'
 
@@ -30,23 +30,20 @@ export interface FollowCardProps {
 }
 
 /**
- * 持續關注 SITCON — the low-commitment way in, as a cream card whose
- * platforms are joined tiles (the corner rule): Instagram dark as the
- * primary choice, Threads and Facebook light beside it. Not in Figma; it
- * borrows the ActionCard header and the 一起參與 tiles.
+ * 持續關注 SITCON — the low-commitment way in, an ActionCard whose
+ * platforms are joined tiles (the corner rule) in its text column:
+ * Instagram dark as the primary choice, Threads and Facebook light beside
+ * it. Not in Figma.
  */
 export function FollowCard({ children }: FollowCardProps) {
   return (
-    <Card className="flex flex-col gap-5 rounded-xl p-7.5">
-      <div className="flex items-start gap-5">
-        <Megaphone aria-hidden className="size-12 shrink-0" />
-        <div className="flex min-w-0 flex-col">
-          <h3 className="text-h3 font-bold">{follow.title}</h3>
-          <p className="text-paragraph text-gray">{follow.description}</p>
-        </div>
-      </div>
+    <ActionCard
+      icon={Megaphone}
+      title={follow.title}
+      description={follow.description}
+    >
       {/* One shape: stacked on mobile, a row from sm up. */}
-      <ul className="flex flex-col gap-2.5 sm:flex-row">
+      <ul className="flex flex-col gap-2.5 pt-5 sm:flex-row">
         {platforms.map(({ name, href, icon }, i) => (
           <li key={name} className="flex flex-1">
             <a
@@ -75,6 +72,6 @@ export function FollowCard({ children }: FollowCardProps) {
         ))}
       </ul>
       {children}
-    </Card>
+    </ActionCard>
   )
 }
