@@ -20,7 +20,11 @@
     "sponsor": "贊助 SITCON",
     "pastSitesTitle": "歷年主題網站",
     "contactTitle": "聯絡與贊助",
-    "email": "contact@sitcon.org",
+    "contacts": {
+      "general": { "label": "聯絡窗口", "email": "contact@sitcon.org" },
+      "session": { "label": "議程問題", "email": "session@sitcon.org" },
+      "ticket": { "label": "票務窗口", "email": "ticket@sitcon.org" }
+    },
     "logoAlt": "SITCON",
     "nameZh": "學生計算機年會",
     "nameEn": "Students' Information Technology Conference",
@@ -2405,6 +2409,8 @@
     "socialKit": "https://sitcon.org/social-kit/2027/",
     "credits": "https://sitcon.org/credits",
     "contactEmail": "mailto:contact@sitcon.org",
+    "sessionEmail": "mailto:session@sitcon.org",
+    "ticketEmail": "mailto:ticket@sitcon.org",
     "facebook": "https://sitcon.org/fb",
     "instagram": "https://sitcon.org/ig",
     "threads": "https://sitcon.org/threads",

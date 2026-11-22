@@ -24,6 +24,12 @@ const submitLinks = [
   { type: 'demo', label: content.site_footer.submitDemo },
 ] as const
 
+const contacts = [
+  { ...content.site_footer.contacts.general, href: links.contactEmail },
+  { ...content.site_footer.contacts.session, href: links.sessionEmail },
+  { ...content.site_footer.contacts.ticket, href: links.ticketEmail },
+]
+
 const pastYears = content.site_footer.pastYears
 
 const socials = [
@@ -113,9 +119,18 @@ export function SiteFooter() {
             <Link to="/" hash="sponsor" className={footerLinkClassName}>
               {content.site_footer.sponsor}
             </Link>
-            <FooterLink href={links.contactEmail} className="break-all">
-              {content.site_footer.email}
-            </FooterLink>
+            <dl className="flex flex-col gap-2.5">
+              {contacts.map(({ label, email, href }) => (
+                <div key={email} className="flex flex-col">
+                  <dt className="text-caption opacity-70">{label}</dt>
+                  <dd className="flex flex-col">
+                    <FooterLink href={href} className="break-all">
+                      {email}
+                    </FooterLink>
+                  </dd>
+                </div>
+              ))}
+            </dl>
           </FooterColumn>
         </div>
 
