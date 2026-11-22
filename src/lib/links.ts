@@ -14,6 +14,8 @@ export const links = {
   socialKit: content.links.socialKit,
   credits: content.links.credits,
   contactEmail: content.links.contactEmail,
+  sessionEmail: content.links.sessionEmail,
+  ticketEmail: content.links.ticketEmail,
   pastSite: (year: number) =>
     content.links.pastSite.replace('{year}', String(year)),
   social: {
