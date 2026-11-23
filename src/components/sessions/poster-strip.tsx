@@ -227,7 +227,8 @@ function PosterPreview({
     <DialogContent
       onKeyDown={onKeyDown}
       backdropClassName="bg-black/80"
-      className="flex flex-col items-center gap-5 md:h-full md:max-w-none md:rounded-none md:bg-transparent md:p-0 md:text-foreground"
+      popupClassName="md:h-full md:max-w-none md:rounded-none md:bg-transparent md:text-foreground"
+      className="flex flex-col items-center gap-5 md:h-full"
     >
       <div className="flex w-full items-center justify-between gap-5">
         <DialogTitle>{poster.alt}</DialogTitle>
@@ -252,6 +253,7 @@ function PosterPreview({
         <div className="flex items-center gap-5">
           <Button
             variant="dark"
+            className="md:bg-foreground md:text-background md:hover:brightness-90"
             size="icon"
             aria-label={text.previous}
             onClick={() => step(-1)}
@@ -265,6 +267,7 @@ function PosterPreview({
           </span>
           <Button
             variant="dark"
+            className="md:bg-foreground md:text-background md:hover:brightness-90"
             size="icon"
             aria-label={text.next}
             onClick={() => step(1)}
